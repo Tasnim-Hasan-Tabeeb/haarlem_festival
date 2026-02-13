@@ -1,0 +1,5 @@
+<footer>
+        <p>© 2026 My App</p>
+    </footer>
+</body>
+</html>
