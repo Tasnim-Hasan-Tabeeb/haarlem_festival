@@ -27,29 +27,31 @@ class Router{
   private static function process($pattern, $callback){
     $pattern = "~^{$pattern}/?$~";
     $params = self::getMatches($pattern);
+
     if($params){
       self::$nomatch = false;
-      $functionArguments = array_slice($params,1);
-      if(is_callable($callback)){
-       
-        if(is_array($callback)){
-          $className = $callback[0];
-          $methodName = $callback[1];
-          $instance = $className::getInstance();
-          $instance->$methodName(...$functionArguments);
-
-        }else{
-          $callback(...$functionArguments);
-        }
-      }else{
-        $parts = explode('@', $callback);
-        $className = $parts[0];
-        $methodName = $parts[1];
+      $functionArguments = array_slice($params, 1);
+      if (is_array($callback) && count($callback) === 2) {
+        $className = $callback[0];
+        $methodName = $callback[1];
         $instance = $className::getInstance();
         $instance->$methodName(...$functionArguments);
+        return;
+      }
+
+      if (is_callable($callback)) {
+        $callback(...$functionArguments);
+        return;
+      }
+      if (is_string($callback) && strpos($callback, '@') !== false) {
+        [$className, $methodName] = explode('@', $callback, 2);
+        $instance = $className::getInstance();
+        $instance->$methodName(...$functionArguments);
+        return;
       }
     }
   }
+
 
   static function get($pattern, $callback){
 

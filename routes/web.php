@@ -1,6 +1,7 @@
 <?php
 use Core\Router;
 use Core\Controllers\App;
+use Core\Controllers\RestaurantController;
 
 
 //Layout page
@@ -26,8 +27,10 @@ Router::get('/hello/world', function () {
     ]);
 });
 
-//Also supports
-//Router::get('/price',[Controllername::class,'showPrice']);
-//Router::get('/price',"Controllername@showPrice");
+Router::get('/restaurant', [RestaurantController::class, 'pageView']);
+
+
+
+
 
 Router::cleanUp();
