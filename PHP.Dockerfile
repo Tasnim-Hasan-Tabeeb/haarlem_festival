@@ -1,18 +1,49 @@
+# FROM php:fpm
+
+# RUN docker-php-ext-install pdo pdo_mysql
+# COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+
+#FROM php:fpm
+#
+## Install required PHP extensions and tools
+#RUN apt-get update && apt-get install -y \
+#    unzip \
+#    libzip-dev \
+#    && docker-php-ext-install zip pdo pdo_mysql \
+#    && apt-get clean \
+#RUN apt-get update -y && apt-get install -y zlib1g-dev libpng-dev libfreetype6-dev
+#RUN docker-php-ext-configure gd --enable-gd --with-freetype
+#RUN docker-php-ext-install gd
+#
+## Copy Composer from the Composer image
+#COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+#
+## Set working directory
+#WORKDIR /app
+# Dockerfile
+
 FROM php:fpm
 
-# Install system dependencies and Composer
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends git unzip libzip-dev \
-    && docker-php-ext-install pdo pdo_mysql \
-    && curl -sS https://getcomposer.org/installer -o composer-setup.php \
-    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
-    && rm composer-setup.php \
+# Install required PHP extensions and tools
+RUN apt-get update && apt-get install -y \
+    unzip \
+    libzip-dev \
+    zlib1g-dev \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    unixodbc-dev \
+    && docker-php-ext-install zip pdo pdo_mysql \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd \
+    && pecl install sqlsrv pdo_sqlsrv \
+    && docker-php-ext-enable sqlsrv pdo_sqlsrv \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Copy Composer from the Composer image
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Set working directory
 WORKDIR /app
-
-# Allow running Composer as root within the container
-ENV COMPOSER_ALLOW_SUPERUSER=1
-
-# On container start, install dependencies if vendor is missing, then start php-fpm
-CMD ["sh", "-lc", "[ -f vendor/autoload.php ] || composer install --no-interaction --no-progress; exec php-fpm"]
