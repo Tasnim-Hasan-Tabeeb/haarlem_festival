@@ -87,8 +87,6 @@ class HomeController
 
     public function dashboard()
     {
-        if (isset($_SESSION['role']) && $_SESSION['role'] == "Admin") {
-
             $users = $this->userService->getAllUsers();
             $userCount = count($users);
 
@@ -120,9 +118,7 @@ class HomeController
             $orderCount = count($orders);
 
             require __DIR__ . '/../views/backend/home.php';
-        } else {
-            require __DIR__ . '/../views/frontend/home.php';
-        }
+
     }
 
     public function overview()

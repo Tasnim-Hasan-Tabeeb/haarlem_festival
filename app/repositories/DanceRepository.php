@@ -13,9 +13,9 @@ class DanceRepository extends Repository
     {
         try {
             $stmt = $this->connection->prepare("
-            SELECT 
+                SELECT 
                 mp.music_performance_id,
-                mp.music_event_id,
+                me.music_event_id,
                 me.event_name,
                 me.event_price,
                 me.event_date,
@@ -23,25 +23,32 @@ class DanceRepository extends Repository
                 me.event_start_time,
                 me.event_duration,
                 me.music_event_image,
-                GROUP_CONCAT(a.artist_name SEPARATOR ', ') AS artist_names,
+                STRING_AGG(a.artist_name, ', ') AS artist_names,
                 a.genre,
                 a.about,
                 e.event_id,              
-                dv.venue_name,
-                dv.venue_location,
+                dv.name,
                 dv.capacity
-            FROM 
-                music_performance AS mp
-            JOIN 
-                music_events AS me ON mp.music_event_id = me.music_event_id
-            JOIN 
-                artists AS a ON mp.artist_id = a.artist_id
-            JOIN 
-                events AS e ON me.event_id = e.event_id
-            JOIN 
-                dance_venues AS dv ON me.venue_id = dv.venue_id
+            FROM music_performance AS mp
+            JOIN music_events AS me ON mp.music_event_id = me.music_event_id
+            JOIN artists AS a ON mp.artist_id = a.artist_id
+            JOIN events AS e ON me.event_id = e.event_id
+            JOIN dance_venues AS dv ON me.venue_id = dv.venue_id
             GROUP BY
-                me.music_event_id
+                mp.music_performance_id,
+                me.music_event_id,
+                me.event_name,
+                me.event_price,
+                me.event_date,
+                me.session_type,
+                me.event_start_time,
+                me.event_duration,
+                me.music_event_image,
+                a.genre,
+                a.about,
+                e.event_id,              
+                dv.name,
+                dv.capacity;
         ");
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -66,8 +73,8 @@ class DanceRepository extends Repository
                 me.event_start_time,
                 me.event_duration,
                 me.music_event_image,
-                GROUP_CONCAT(a.artist_name SEPARATOR ', ') AS artist_names,
-                GROUP_CONCAT(mp.artist_id SEPARATOR ', ') AS artist_id,
+                STRING_AGG(a.artist_name, ', ') AS artist_names,
+                STRING_AGG(mp.artist_id, ', ') AS artist_id,
                 a.genre,
                 a.about,
                 e.event_id,
@@ -87,8 +94,7 @@ class DanceRepository extends Repository
                 dance_venues AS dv ON me.venue_id = dv.venue_id
             WHERE 
                 mp.music_performance_id = :music_performance_id
-            GROUP BY
-                me.music_event_id
+
         ");
             $stmt->bindParam(':music_performance_id', $music_performance_id);
             $stmt->execute();
@@ -103,7 +109,7 @@ class DanceRepository extends Repository
         try {
             $stmt = $this->connection->prepare("
             SELECT 
-                MIN(mp.music_performance_id) AS music_performance_id,
+                mp.music_performance_id,
                 mp.music_event_id,
                 me.event_name,
                 me.event_price,
@@ -114,7 +120,7 @@ class DanceRepository extends Repository
                 me.music_event_image,
                 STRING_AGG(a.artist_name, ', ') AS artist_names,
                 e.event_id,              
-                dv.name
+                dv.venue_name
             FROM 
                 music_performance AS mp
             JOIN 
@@ -127,17 +133,7 @@ class DanceRepository extends Repository
                 dance_venues AS dv ON me.venue_id = dv.venue_id
             WHERE 
                 me.event_date = '2024-07-27'
-            GROUP BY
-                mp.music_event_id,
-                me.event_name,
-                me.event_price,
-                me.event_date,
-                me.session_type,
-                me.event_start_time,
-                me.event_duration,
-                me.music_event_image,
-                e.event_id,
-                dv.name
+
         ");
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -174,8 +170,7 @@ class DanceRepository extends Repository
                 dance_venues AS dv ON me.venue_id = dv.venue_id
             WHERE 
                 me.event_date = '2024-07-28'
-            GROUP BY
-                me.music_event_id
+
         ");
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -212,8 +207,6 @@ class DanceRepository extends Repository
                 dance_venues AS dv ON me.venue_id = dv.venue_id
             WHERE 
                 me.event_date = '2024-07-29'
-            GROUP BY
-                me.music_event_id
         ");
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
