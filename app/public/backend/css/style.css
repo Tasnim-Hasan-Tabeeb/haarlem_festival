@@ -1,0 +1,207 @@
+:root{
+    --nav-h: 64px;
+    --sidebar-w: 280px;
+
+    --bg: #f6f7fb;
+    --sidebar-bg: #0b2d2a;
+    --sidebar-link: rgba(255,255,255,0.86);
+    --sidebar-muted: rgba(255,255,255,0.55);
+    --border: rgba(15, 23, 42, 0.08);
+}
+
+body{
+    background: var(--bg);
+    margin: 0;
+}
+
+/* Navbar */
+.navbar.sticky-top{
+    min-height: var(--nav-h);
+}
+
+/* User pill + avatar */
+.user-pill{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8f9fa;
+    padding: 4px 10px;
+    border-radius: 50px;
+    border: 1px solid rgba(0,0,0,0.08);
+}
+
+.user-avatar{
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-avatar-icon{
+    background: #6c757d;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+/* Sidebar */
+.sidebar-bs{
+    position: fixed;
+    top: var(--nav-h);
+    left: 0;
+    width: var(--sidebar-w);
+    height: calc(100vh - var(--nav-h));
+    overflow-y: auto;
+    background: var(--sidebar-bg);
+    border-right: 1px solid rgba(255,255,255,0.08);
+    padding-bottom: 20px;
+    z-index: 1100;
+}
+
+.sidebar-bs::-webkit-scrollbar{
+    width: 8px;
+}
+
+.sidebar-bs::-webkit-scrollbar-thumb{
+    background: rgba(255,255,255,0.25);
+    border-radius: 10px;
+}
+
+.sidebar-bs .text-muted{
+    color: var(--sidebar-muted) !important;
+}
+
+.sidebar-link{
+    color: var(--sidebar-link) !important;
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    margin: 4px 0;
+    transition: background-color .2s ease, transform .2s ease;
+}
+
+.sidebar-link i{
+    width: 18px;
+    text-align: center;
+}
+
+.sidebar-link:hover{
+    background: rgba(255,255,255,0.10);
+    color: #fff !important;
+    transform: translateX(2px);
+}
+
+.sidebar-link.active{
+    background: #ffffff;
+    color: var(--sidebar-bg) !important;
+}
+
+.sidebar-link.active i{
+    color: var(--sidebar-bg);
+}
+
+/* Main Content */
+.main-content{
+    margin-left: var(--sidebar-w);
+    padding: 22px;
+    padding-bottom: 90px;
+    min-height: calc(100vh - var(--nav-h));
+}
+
+/* Footer */
+.footer{
+    margin-left: var(--sidebar-w);
+    background: #ffffff;
+    border-top: 1px solid var(--border);
+    color: #334155;
+    padding: 14px 22px;
+}
+
+/* Dashboard cards (new style, no gradients) */
+.dashboard-card{
+    border: 1px solid rgba(15,23,42,0.08);
+    border-radius: 14px;
+    background: #ffffff;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.dashboard-card:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(15,23,42,0.10);
+}
+
+.card-header-row{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.card-icon{
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.card-value{
+    font-size: 26px;
+    font-weight: 800;
+    color: #0b2d2a;
+}
+
+/* Accent borders */
+.dashboard-card.users{ border-left: 6px solid #2563eb; }
+.dashboard-card.pages{ border-left: 6px solid #0ea5e9; }
+.dashboard-card.events{ border-left: 6px solid #16a34a; }
+.dashboard-card.orders{ border-left: 6px solid #f59e0b; }
+.dashboard-card.restaurants{ border-left: 6px solid #334155; }
+.dashboard-card.dance{ border-left: 6px solid #a855f7; }
+.dashboard-card.artists{ border-left: 6px solid #b45309; }
+.dashboard-card.venues{ border-left: 6px solid #22c55e; }
+.dashboard-card.history-location{ border-left: 6px solid #14b8a6; }
+.dashboard-card.history-tours{ border-left: 6px solid #ec4899; }
+
+/* Improve card & table look */
+.main-content .card,
+.main-content .table,
+.main-content .alert{
+    border-radius: 14px;
+}
+
+/* Buttons fix */
+.btn-add,
+.btn-delete{
+    width: auto;
+    height: auto;
+}
+
+/* Responsive */
+@media (max-width: 992px){
+
+    .main-content,
+    .footer{
+        margin-left: 0;
+    }
+
+    .sidebar-bs{
+        transform: translateX(-105%);
+        transition: transform .25s ease;
+        z-index: 1050;
+        margin-top: 80px;
+        border-radius: 5px;
+    }
+
+    body.sidebar-open .sidebar-bs{
+        transform: translateX(0);
+    }
+}

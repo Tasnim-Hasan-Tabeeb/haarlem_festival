@@ -48,47 +48,8 @@ class HomeController
     }
 
 
-    public function index()
-    {
-        try {
-            // Fetch all events
-            $eventsData = $this->eventService->getAll();
-
-            // Initialize arrays to store data for each enum
-            $danceEvents = [];
-            $historyEvents = [];
-            $yummyEvents = [];
-
-            // Iterate through the events data
-            foreach ($eventsData as $event) {
-                // Check the value of the 'event_type' enum
-                switch ($event['event_type']) {
-                    case 'Dance':
-                        $danceEvents[] = $event;
-                        break;
-                    case 'History':
-                        $historyEvents[] = $event;
-                        break;
-                    case 'Yummy':
-                        $yummyEvents[] = $event;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            require __DIR__ . '/../views/frontend/home.php';
-        } catch (Exception $e) {
-            // Handle exceptions
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
-        }
-    }
-
-
     public function dashboard()
     {
-        if (isset($_SESSION['role']) && $_SESSION['role'] == "Admin") {
-
             $users = $this->userService->getAllUsers();
             $userCount = count($users);
 
@@ -120,14 +81,6 @@ class HomeController
             $orderCount = count($orders);
 
             require __DIR__ . '/../views/backend/home.php';
-        } else {
-            require __DIR__ . '/../views/frontend/home.php';
-        }
-    }
-
-    public function overview()
-    {
-        require __DIR__ . '/../views/frontend/overview.php';
     }
 
     public function create()
