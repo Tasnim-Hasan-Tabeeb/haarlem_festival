@@ -45,21 +45,29 @@ class Helper
 
     public static function uploadFile($file)
     {
-        $fileName = $file['name'];
-        $fileTmpName = $file['tmp_name'];
-        $fileError = $file['error'];
-
-        if ($fileError === UPLOAD_ERR_OK) {
-            $newFileName = uniqid('', true) . '_' . $fileName;
-            $uploadPath =  __DIR__ . '/../public/images/' . $newFileName;
-            if (move_uploaded_file($fileTmpName, $uploadPath)) {
-                return '/images/' . $newFileName;
-            } else {
-                throw new Exception('Error moving uploaded file');
-            }
-        } else {
-            throw new Exception('Error uploading file: ' . $fileError);
+        if (($file['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+            return '';
         }
+
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            throw new Exception('Error uploading file: ' . $file['error']);
+        }
+
+        $fileName = basename($file['name']);
+        $newFileName = uniqid('', true) . '_' . $fileName;
+
+        $uploadDir = __DIR__ . '/../public/images';
+        if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true) && !is_dir($uploadDir)) {
+            throw new Exception('Upload directory could not be created');
+        }
+
+        $uploadPath = $uploadDir . '/' . $newFileName;
+
+        if (!move_uploaded_file($file['tmp_name'], $uploadPath)) {
+            throw new Exception('Error moving uploaded file');
+        }
+
+        return '/images/' . $newFileName;
     }
 
     public static function validate($fields)

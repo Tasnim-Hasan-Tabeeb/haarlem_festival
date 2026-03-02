@@ -22,8 +22,6 @@ include __DIR__ . '/../inc/header.php';
                     <th>Status</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    <th>Primary Color</th>
-                    <th>Secondary Color</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,11 +32,9 @@ include __DIR__ . '/../inc/header.php';
                         <td><?= $event['event_type'] ?></td>
                         <td><?= $event['title'] ?></td>
                         <td><?= $event['description'] ?></td>
-                        <td><?= $event['status'] ?></td>
+                        <td><?= $event['status'] == 1 ? 'Active' : 'Inactive' ?></td>
                         <td><?= $event['start_date'] ?></td>
                         <td><?= $event['end_date'] ?></td>
-                        <td><?= $event['primary_theme_color'] ?></td>
-                        <td><?= $event['secondary_theme_color'] ?></td>
                         <td>
                             <a href="/events/edit?id=<?= $event['event_id'] ?>" class="btn btn-primary btn-sm">Edit</a>
                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $event['event_id'] ?>">Delete</button>
