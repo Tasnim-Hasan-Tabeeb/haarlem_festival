@@ -32,7 +32,7 @@ class SessionService
             throw new Exception("Error: " . $e->getMessage());
         }
     }
-    
+
     public function getAllEvents()
     {
         try {
@@ -42,10 +42,10 @@ class SessionService
         }
     }
 
-    public function createSession($restaurantId, $startTime, $duration, $sessionsPerDay)
+    public function createSession($restaurantId, $eventId, $startTime, $duration, $sessionsPerDay)
     {
         try {
-            $session = new Session($restaurantId, $startTime, $duration, $sessionsPerDay);
+            $session = new Session($restaurantId, $eventId, $startTime, $duration, $sessionsPerDay);
             return $this->sessionRepository->createSession($session);
         } catch (Exception $e) {
             throw new Exception("Error: " . $e->getMessage());
@@ -61,10 +61,10 @@ class SessionService
         }
     }
 
-    public function updateSession($sessionId, $restaurantId, $startTime, $duration, $sessionsPerDay)
+    public function updateSession($sessionId, $restaurantId, $eventId, $startTime, $duration, $sessionsPerDay)
     {
         try {
-            $session = new Session($restaurantId, $startTime, $duration, $sessionsPerDay);
+            $session = new Session($restaurantId, $eventId, $startTime, $duration, $sessionsPerDay);
             $session->setSessionId($sessionId);
             return $this->sessionRepository->updateSession($session);
         } catch (Exception $e) {

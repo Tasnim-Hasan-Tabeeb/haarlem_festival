@@ -1,0 +1,244 @@
+@import url("https://fonts.googleapis.com/css2?family=Jomhuria&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap");
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #fcebbd;
+    min-height: 100vh;
+    background-attachment: fixed;
+}
+
+.white-space {
+    height: 10vw;
+    max-height: 3em;
+    font-size: 2vw;
+}
+
+.hidden {
+    display: none;
+}
+
+.masthead {
+    background-size: cover;
+    background-position: center;
+    min-height: 60vh;
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    font-family: "Jomhuria", serif;
+    font-weight: 100;
+    font-size: calc(3rem + 3.3vw);
+    position: absolute;
+    bottom: 1vw;
+    background-color: rgba(252, 235, 189, 0.8);
+    padding: 0.5rem 2rem;
+    color: #780b1e;
+}
+
+h2 {
+    font-family: "Jomhuria", serif;
+    font-weight: 100;
+    font-size: calc(2rem + 3.3vw);
+    color: #780b1e;
+}
+
+#introduction {
+    border-radius: 1em;
+}
+
+section {
+    margin-bottom: 1em;
+    background-color: #780b1e;
+    color: #fcebbd;
+    font-size: calc(1rem + 0.77vw);
+    padding: 2.5vw;
+}
+
+.tour-info {
+    display: flex;
+    gap: 10%;
+}
+
+.tour-info .tickets {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 1rem;
+}
+
+.tour-info .details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.tour-info .tickets .ticket {
+    background-color: #fcebbd;
+    color: #780b1e;
+    font-family: "Jomhuria", serif;
+    font-size: calc(1rem + 0.77vw);
+    padding: 1rem;
+    border-radius: 1rem;
+    text-align: center;
+}
+
+#buy-button {
+    text-decoration: none;
+    color: #780b1e;
+    background-color: #fcebbd;
+    text-align: center;
+    padding: 1rem;
+    display: inline;
+    font-size: calc(1rem + 3.77vw);
+    font-family: "Jomhuria", serif;
+    border-radius: 1rem;
+}
+main {
+    padding: 3em;
+}
+
+.tour-route {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+.tour-route ul {
+    margin-left: 2rem;
+    flex: 1;
+    list-style-type: none;
+}
+
+.tour-route ul li {
+    font-family: "Jomhuria", serif;
+    font-size: calc(1.5rem + 0.77vw);
+}
+
+.tour-route .img-wrapper {
+    width: 60%;
+}
+
+.tour-route .img-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.time-slots {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-slots .calendar {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.time-slots .calendar .calendar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.calendar-item .day {
+    text-align: center;
+}
+
+.calendar-item .hour {
+    margin-top: 3rem;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hour .languages {
+    display: flex;
+    gap: 1rem;
+}
+
+.languages .language {
+    height: 1em;
+}
+
+.languages .language img {
+    height: 100%;
+    width: auto;
+}
+
+.day .date {
+    font-weight: bold;
+}
+
+.day .day-name {
+    font-weight: 100;
+    font-size: smaller;
+}
+
+.time-slots {
+    gap: 2em;
+}
+
+#book-button {
+    background-color: #fcebbd;
+    color: #780b1e;
+    text-decoration: none;
+    padding: 1rem;
+    border-radius: 1rem;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .masthead {
+        min-height: 30vh;
+    }
+    h1 {
+        font-size: calc(1.525rem + 3.3vw);
+    }
+
+    .tour-info {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .tour-info .tickets {
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .tour-route {
+        flex-direction: column-reverse;
+    }
+
+    .tour-route .img-wrapper {
+        width: 100%;
+    }
+
+    .calendar {
+        flex-direction: column;
+        font-size: 2em;
+    }
+
+    .calendar-item {
+        margin-bottom: 6rem;
+    }
+
+    #book-button {
+        font-size: 2em;
+    }
+}

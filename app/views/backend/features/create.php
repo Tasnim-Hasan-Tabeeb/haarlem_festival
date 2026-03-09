@@ -12,7 +12,7 @@
                 <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="mb-3">
-                <label for="image_url" class="form-label">Feature Image</label>
+                <label for="image_url" class="form-label">Feature Image</label><span>(40*40 px)</span>
                 <input type="file" class="form-control" id="image_url" name="image_url" required>
             </div>
             <button type="submit" class="btn btn-primary">Create</button>

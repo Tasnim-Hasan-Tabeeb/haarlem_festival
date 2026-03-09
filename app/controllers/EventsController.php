@@ -118,7 +118,7 @@ class EventsController{
                 $_POST['title'] ?? '',
                 $image_url ?? '',
                 $_POST['description'] ?? '',
-                (string)($_POST['status'] ?? '1'),
+                1,
                 $_POST['start_date'] ?? '',
                 $_POST['end_date'] ?? '',
                 $_POST['primary_theme_color'] ?? '',

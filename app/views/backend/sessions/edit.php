@@ -8,6 +8,17 @@
     <div class="mt-4">
         <form action="/session/update" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="mb-3">
+                <label for="event_id" class="form-label">Event</label>
+                <select name="event_id" id="event_id" class="form-control" required>
+                    <option value="">Select event</option>
+                    <?php foreach ($events as $event): ?>
+                        <option value="<?= $event['event_id']; ?>" <?= ($session['event_id'] == $event['event_id']) ? 'selected' : ''; ?>>
+                            <?= htmlspecialchars($event['title']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label for="restaurant_id" class="form-label">Restaurant</label>
                 <select id="restaurant_id" name="restaurant_id" class="form-control" required>
                     <?php foreach ($restaurants as $restaurant) : ?>

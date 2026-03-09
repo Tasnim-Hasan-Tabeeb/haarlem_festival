@@ -57,10 +57,4 @@ class Router
             exit;
         }
     }
-
-    private function showNotFoundPage()
-    {
-        http_response_code(404);
-        echo '404 Not Found';
-    }
 }

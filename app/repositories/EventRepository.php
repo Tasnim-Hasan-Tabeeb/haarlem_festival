@@ -24,7 +24,7 @@ class EventRepository extends Repository{
     public function getEventById(int $event_id)
     {
         try {
-            $stmt = $this->connection->prepare("SELECT * FROM events WHERE event_id = :event_id");
+            $stmt = $this->connection->prepare("SELECT * FROM events WHERE  event_id = :event_id");
             $stmt->bindParam(':event_id', $event_id);
             $stmt->execute();
             $events = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -37,7 +37,7 @@ class EventRepository extends Repository{
     public function storeEvent(Events $event)
     {
         try {
-            $stmt = $this->connection->prepare("INSERT INTO events (event_type, title, image_url, description, status, start_date, end_date) VALUES (:event_type, :title, :image_url, :description, :status, :start_date, :end_date, :primary_theme_color, :secondary_theme_color)");
+            $stmt = $this->connection->prepare("INSERT INTO events (event_type, title, image_url, description, status, start_date, end_date, primary_theme_color, secondary_theme_color) VALUES (:event_type, :title, :image_url, :description, :status, :start_date, :end_date, :primary_theme_color, :secondary_theme_color)");
             $stmt->execute([
                 ':event_type' => $event->getEventType(),
                 ':title' => $event->getEventTitle(),
@@ -46,6 +46,8 @@ class EventRepository extends Repository{
                 ':status' => 1, 
                 ':start_date' => $event->getEventStartDate(),
                 ':end_date' => $event->getEventEndDate(),
+                ':primary_theme_color' => $event->getPrimaryThemeColor(),
+                ':secondary_theme_color' => $event->getSecondaryThemeColor(),
             ]);
             return true;
         } catch (PDOException $e) {
@@ -58,7 +60,7 @@ class EventRepository extends Repository{
     {
         try {
 
-            $stmt = $this->connection->prepare("UPDATE events SET event_type = :event_type, title = :title, image_url = :image_url, description = :description, status = :status,  start_date = :start_date, end_date = :end_date WHERE event_id = :event_id");
+            $stmt = $this->connection->prepare("UPDATE events SET event_type = :event_type, title = :title,  image_url = :image_url, description = :description, status = :status,  start_date = :start_date, end_date = :end_date, primary_theme_color = :primary_theme_color, secondary_theme_color = :secondary_theme_color WHERE event_id = :event_id");
             $stmt->execute([
                 ':event_id' => $event_id,
                 ':event_type' => $event->getEventType(),
@@ -68,6 +70,8 @@ class EventRepository extends Repository{
                 ':status' => $event->getEventStatus(),
                 ':start_date' => $event->getEventStartDate(),
                 ':end_date' => $event->getEventEndDate(),
+                ':primary_theme_color' => $event->getPrimaryThemeColor(),
+                ':secondary_theme_color' => $event->getSecondaryThemeColor(),
             ]);
 
             return true;

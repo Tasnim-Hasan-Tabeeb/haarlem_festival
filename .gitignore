@@ -1,43 +1,20 @@
-# OS files
-.DS_Store
-Thumbs.db
-ehthumbs.db
-Icon?
+# images
+/app/config/
+/app/public/music/
+/app/public/assets/images/
+/app/public/images/
 
-# Editor/IDE
-.vscode/
+# IntelliJ IDEA files
 .idea/
 *.iml
+*.ipr
+*.iws
+/.idea/
+/.idea/*
+.DS_Store
 
-# Composer
-composer.phar
-/vendor/
-/app/vendor/
-/vendor-bin/**/vendor/
+# vscode files
+.vscode/
 
-# Environment files (keep example files tracked)
-.env
-.env.*
-!.env.example
-!/app/.env.example
-
-# Logs and caches
-*.log
-logs/
-tmp/
-temp/
-cache/
-storage/
-var/
-app/storage/
-app/cache/
-app/var/
-.phpunit.result.cache
-coverage/
-
-# Node (if present)
-node_modules/
-
-# Docker overrides (optional local overrides)
-docker-compose.override.yml
-
+# Include specific image file
+!/app/public/images/default.jpg
