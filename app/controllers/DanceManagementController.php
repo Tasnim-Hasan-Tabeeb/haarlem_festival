@@ -58,8 +58,8 @@ class DanceManagementController
 
         // Convert comma-separated string of artist IDs into an array
         $selectedArtistIds = explode(',', $dance['artist_id']);
-var_dump($selectedArtistIds);
-exit();
+        var_dump($selectedArtistIds);
+        exit();
 
         // Render the edit view with all necessary data
         require __DIR__ . '/../views/backend/danceManagement/edit.php';
@@ -83,6 +83,23 @@ exit();
             $this->danceService->updateEvent($dance, $id);
             header("Location: /dance-management");
             exit();
+        } catch (Exception $e) {
+            header("Location: /error?message=" . urlencode($e->getMessage()));
+            exit();
+        }
+    }
+
+    public function create()
+    {
+        try {
+
+            // Fetch session types
+            $sessionTypes = SessionType::getAll();
+
+            // Fetch venues
+            $venues = $this->venueService->getAllVenues();
+            $artists = $this->artistService->getAllArtists();
+            require __DIR__ . '/../views/backend/danceManagement/create.php';
         } catch (Exception $e) {
             header("Location: /error?message=" . urlencode($e->getMessage()));
             exit();

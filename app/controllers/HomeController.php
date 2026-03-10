@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Helpers\Helper;
 use App\Models\SectionType;
 use App\Services\EventService;
-use App\Services\HistoryService;
 use App\Services\PageService;
 use App\Services\RestaurantService;
 use App\Services\ArtistService;
@@ -28,7 +27,6 @@ class HomeController
     protected $artistService;
     protected $venueService;
     protected $danceService;
-    protected $historyService;
     private $userService;
     private $orderService;
 
@@ -42,7 +40,6 @@ class HomeController
         $this->artistService = new ArtistService();
         $this->venueService = new VenueService();
         $this->danceService = new DanceService();
-        $this->historyService = new HistoryService();
         $this->userService = new UserService();
         $this->orderService = new OrderService();
     }
@@ -56,7 +53,6 @@ class HomeController
 
             // Initialize arrays to store data for each enum
             $danceEvents = [];
-            $historyEvents = [];
             $yummyEvents = [];
 
             // Iterate through the events data
@@ -65,9 +61,6 @@ class HomeController
                 switch ($event['event_type']) {
                     case 'Dance':
                         $danceEvents[] = $event;
-                        break;
-                    case 'History':
-                        $historyEvents[] = $event;
                         break;
                     case 'Yummy':
                         $yummyEvents[] = $event;
@@ -110,12 +103,6 @@ class HomeController
             $venues = $this->venueService->getAllVenues();
             $venueCount = count($venues);
 
-            $historyLocations = $this->historyService->getAllTourLocations();
-            $historyLocationCount = count($historyLocations);
-
-            $historytimetable = $this->historyService->getAllTours();
-            $historytimetableCount = count($historytimetable);
-
             $orders = $this->orderService->getAllOrders();
             $orderCount = count($orders);
 
@@ -144,17 +131,6 @@ class HomeController
         $slug = $_GET['slug'];
         $sections = $this->sectionService->getSectionByPageId($id);        
         switch ($slug) {
-            case 'history':
-                $headers = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Header);
-                $introduction = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Introduction);
-                $information = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Information);
-                $regularTickets = $this->historyService->getHistoryPageInfoBySectionType(SectionType::RegularTicket);
-                $familyTickets = $this->historyService->getHistoryPageInfoBySectionType(SectionType::FamilyTicket);
-                $routes = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Routes);
-                $tours = $this->historyService->getOrderedTours();
-                $locations = $this->historyService->getAllTourLocations();
-                require '../views/frontend/history/index.php';
-                break;
             case 'yummy':
                 $restaurants = $this->restaurantService->getAllRestaurants();
                 foreach ($restaurants as &$restaurant) {

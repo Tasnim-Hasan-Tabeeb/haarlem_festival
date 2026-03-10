@@ -111,26 +111,6 @@
         </li>
     </ul>
 
-    <div class="px-3 pt-3 pb-1">
-        <div class="text-uppercase small fw-bold text-muted">History Management</div>
-    </div>
-    <ul class="nav flex-column px-2">
-        <li class="nav-item">
-            <a class="nav-link sidebar-link" href="/historylocation" data-url="/historylocation">
-                <i class="fas fa-history"></i><span>History Locations</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link sidebar-link" href="/historytour" data-url="/historytour">
-                <i class="fas fa-history"></i><span>History Tour Timetable</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link sidebar-link" href="/historyinformation" data-url="/historyinformation">
-                <i class="fas fa-history"></i><span>History Tour Info</span>
-            </a>
-        </li>
-    </ul>
 
     <div class="px-3 pt-3 pb-1">
         <div class="text-uppercase small fw-bold text-muted">Order Management</div>
