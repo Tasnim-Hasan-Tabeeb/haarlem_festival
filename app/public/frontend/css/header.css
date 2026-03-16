@@ -1,0 +1,152 @@
+.custom-navbar {
+  background-color: #ffffff;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  padding: 0.75rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.custom-navbar .container {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand {
+  margin-right: 1rem;
+}
+
+.navbar-logo {
+  height: 52px;
+  width: auto;
+  display: block;
+}
+
+.custom-navbar .navbar-nav {
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.custom-navbar .nav-link {
+  color: #373737;
+  text-decoration: none;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 0.55rem 0.9rem;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  border-radius: 8px;
+}
+
+.custom-navbar .nav-link:hover,
+.custom-navbar .nav-link:focus {
+  color: #ff7a68;
+}
+
+.custom-navbar .username-link {
+  color: #780b1e;
+  font-weight: 800;
+}
+
+.navbar-action-btn {
+  display: inline-block;
+  border: none;
+  border-radius: 10px;
+  padding: 0.55rem 1rem;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.login-btn {
+  background-color: #ff7a68;
+  color: #ffffff;
+}
+
+.login-btn:hover {
+  background-color: #e96756;
+  color: #ffffff;
+}
+
+.logout-btn {
+  background-color: #780b1e;
+  color: #ffffff;
+}
+
+.logout-btn:hover {
+  background-color: #5d0917;
+  color: #ffffff;
+}
+
+.custom-navbar .navbar-toggler {
+  border: none;
+  box-shadow: none;
+  padding: 0.35rem 0.5rem;
+}
+
+.custom-navbar .navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.custom-navbar .navbar-toggler-icon {
+  background-image: none;
+  width: 24px;
+  height: 2px;
+  background-color: #373737;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.custom-navbar .navbar-toggler-icon::before,
+.custom-navbar .navbar-toggler-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 24px;
+  height: 2px;
+  background-color: #373737;
+}
+
+.custom-navbar .navbar-toggler-icon::before {
+  top: -7px;
+}
+
+.custom-navbar .navbar-toggler-icon::after {
+  top: 7px;
+}
+
+@media (max-width: 991.98px) {
+  .custom-navbar {
+    padding: 0.7rem 0;
+  }
+
+  .navbar-logo {
+    height: 44px;
+  }
+
+  .custom-navbar .navbar-collapse {
+    margin-top: 0.85rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .custom-navbar .navbar-nav {
+    align-items: flex-start;
+    gap: 0.15rem;
+  }
+
+  .custom-navbar .nav-link {
+    width: 100%;
+    padding: 0.7rem 0;
+  }
+
+  .navbar-action-btn {
+    width: 100%;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+}

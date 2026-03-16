@@ -1,0 +1,190 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jomhuria&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(to bottom, #742dd7, #fff);
+    background-attachment: fixed;
+    font-family: "Jomhuria", serif;
+    min-height: 100hv;
+}
+
+.white-space {
+    height: 10vw;
+    max-height: 3em;
+    font-size: 2vw;
+}
+
+.all-events_button {
+    display: block;
+    width: fit-content;
+    padding: 0.5vw 1vw;
+    margin: 1vw auto;
+    font-size: 2em;
+    background: #007589;
+    text-decoration: none;
+    font-family: "Baloo Bhaijaan 2", sans-serif;
+    color: #fff;
+    border-radius: 1vw;
+}
+
+.all-events {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vw;
+    width: 100%;
+}
+
+.all-events_child {
+    display: flex;
+    padding: 1vw 3vw;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2vw;
+    font-size: 3vw;
+}
+
+.all-events_child h2 {
+    font-size: 6vw;
+    text-align: center;
+}
+
+.all-events_child img {
+    height: 15vw;
+}
+
+#all-events_1 {
+    background: #bec3bd;
+}
+
+#all-events_2 {
+    background: #bda4a2;
+}
+
+#all-events_3 {
+    background: #cbd1d2;
+}
+
+#all-events_4 {
+    background: #edbc83;
+}
+
+.event-tables {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4vw;
+    gap: 2vw;
+}
+
+.event-tables h2 {
+    font-size: 6vw;
+    color: #ff7a68;
+}
+
+.table-aside {
+    writing-mode: vertical-rl;
+    padding: 0.5vw;
+    font-size: 3vw;
+    text-align: center;
+}
+
+.history-tours-table .table-aside {
+    transform: rotate(180deg);
+    background: #fcebbd;
+    color: #780b1e;
+}
+
+.section {
+    display: flex;
+    width: 70%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: none;
+    text-align: center;
+    font-size: 2vw;
+}
+
+td {
+    padding: 0.5vw;
+}
+
+.history-tours-table table {
+    tr:nth-child(odd) {
+        color: #fcebbd;
+        background: #780b1e;
+    }
+    tr:nth-child(even) {
+        color: #780b1e;
+        background: #fcebbd;
+    }
+}
+
+.book-button {
+    text-decoration: none;
+    padding: 0.5vw 1vw;
+    border-radius: 0.5vw;
+    font-size: 2vw;
+}
+.book-button-history {
+    color: #fcebbd;
+    background: #780b1e;
+}
+
+.dance-table .table-aside {
+    background: #3a1d6a;
+    color: #5ca5b3;
+}
+
+.dance-table table {
+    tr:nth-child(odd) {
+        color: #3a1d6a;
+        background: #5ca5b3;
+    }
+    tr:nth-child(even) {
+        color: #5ca5b3;
+        background: #3a1d6a;
+    }
+}
+
+.book-button-dance {
+    color: #3a1d6a;
+    background: #5ca5b3;
+}
+
+.yummy-table table {
+    tr:nth-child(odd) {
+        color: #000000;
+        background: #ff7a68;
+    }
+    tr:nth-child(even) {
+        color: #ff7a68;
+        background: #000000;
+    }
+}
+
+.yummy-table .table-aside {
+    transform: rotate(180deg);
+    color: #ff7a68;
+    background: #000000;
+}
+
+.book-button-yummy {
+    color: #ff7a68;
+    background: #000000;
+}
+
+@media (max-width: 768px) {
+    .white-space {
+        height: 8vw;
+        max-height: none;
+    }
+}

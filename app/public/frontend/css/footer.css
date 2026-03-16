@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap");
+
+.footer-section {
+    background:linear-gradient(rgb(242 242 242), rgba(0, 0, 0, 0.65)), url(/assets/images/footer.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 50px 0;
+    font-family: "Baloo Bhaijaan 2", sans-serif;
+    color: #fff;
+}
+
+.footer-logo img {
+    max-width: 180px;
+    border-radius: 10px;
+}
+
+.footer-signup {
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.footer-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    color: #4b4b4b;
+}
+
+.footer-input {
+    min-height: 48px;
+    border-radius: 8px;
+    border: none;
+    padding: 10px 15px;
+    font-size: 15px;
+}
+
+.footer-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 122, 104, 0.25);
+    border-color: transparent;
+}
+
+.footer-btn {
+    background-color: #ff7a68;
+    color: #fff;
+    border: none;
+    min-height: 48px;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.footer-btn:hover {
+    background-color: #e86453;
+    color: #fff;
+}
+
+.footer-heading {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.social-link img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.social-link:hover img {
+    transform: scale(1.1);
+}
+
+.social-icon {
+    font-size: 28px;
+    color: #ffffff;
+    transition: 0.3s ease;
+}
+
+.social-icon:hover {
+    color: #ff7a68;
+    transform: scale(1.2);
+}
+
+@media (max-width: 991px) {
+    .footer-section {
+        text-align: center;
+    }
+
+    .footer-logo img {
+        max-width: 150px;
+    }
+
+    .footer-text {
+        font-size: 1rem;
+    }
+
+    .footer-heading {
+        margin-top: 10px;
+    }
+}

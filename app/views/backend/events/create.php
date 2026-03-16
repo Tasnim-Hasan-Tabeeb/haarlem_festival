@@ -35,6 +35,14 @@
                     <label for="end_date" class="form-label">End Date</label>
                     <input type="date" class="form-control" id="end_date" name="end_date" required>
                 </div>
+                <div class="mb-3">
+                    <label for="primary_theme_color" class="form-label">Primary color</label>
+                    <input type="text" class="form-control" id="primary_theme_color" name="primary_theme_color" required>
+                </div>
+                <div class="mb-3">
+                    <label for="secondary_theme_color" class="form-label">Secondary Color</label>
+                    <input type="text" class="form-control" id="secondary_theme_color" name="secondary_theme_color" required>
+                </div>
                 <button type="submit" class="btn btn-primary">Create</button>
             </form>
         </div>
