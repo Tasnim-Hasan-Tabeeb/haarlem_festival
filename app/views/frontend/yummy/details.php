@@ -46,7 +46,7 @@
 <div class="section-navigation" style="color: white;">
     <ul>
         <li><a href="#about" style="color: white;">ABOUT</a></li>
-        <li><a href="#food-costs" style="color: white;">FOOD TYPE</a></li>
+        <li><a href="#foodcosts" style="color: white;">FOOD TYPE</a></li>
         <li><a href="#gallery" style="color: white;">GALLERY</a></li>
         <li><a href="#reservation" style="color: white;">RESERVATION</a></li>
         <li><a href="#contact" style="color: white;">CONTACT</a></li>
@@ -64,7 +64,7 @@
     </div>
 
     <!-- Food/Costs Section -->
-    <div id="food-costs" class="section">
+    <div id="foodcosts" class="section">
         <h2>Food Type</h2>
         <div class="red-line"></div>
         <p><strong>Cuisines:</strong> <?= htmlspecialchars($restaurant['cuisines']) ?></p>
