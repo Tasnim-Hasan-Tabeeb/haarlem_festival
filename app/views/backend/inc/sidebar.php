@@ -121,12 +121,12 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link sidebar-link" href="/historytour" data-url="/historytour">
-                <i class="fas fa-history"></i><span>History Tour Timetable</span>
+            <a class="nav-link sidebar-link" href="/historyinformation" data-url="/historyinformation">
+                <i class="fas fa-history"></i><span>History Information</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link sidebar-link" href="/historyinformation" data-url="/historyinformation">
+            <a class="nav-link sidebar-link" href="/historytour" data-url="/historytour">
                 <i class="fas fa-history"></i><span>History Tour Info</span>
             </a>
         </li>

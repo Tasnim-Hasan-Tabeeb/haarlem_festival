@@ -1,0 +1,319 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap");
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background: #8b8c93;
+    font-family: "Baloo Bhaijaan 2", sans-serif;
+}
+
+/* Wrapper for this page only */
+.personal-program-page {
+    width: 100%;
+    padding: 110px 16px 40px;
+    box-sizing: border-box;
+}
+
+/* Do not use .container here because Bootstrap already uses it */
+.personal-program-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.checkoutText {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0 0 12px;
+    text-align: center;
+    color: #111;
+}
+
+.checkout-btn {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #ff7a68;
+    color: black;
+    padding: 12px 22px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 24px;
+    border: 2px solid #000;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+.checkout-btn:hover {
+    background-color: #ff5f49;
+    color: black;
+}
+
+.view-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.listViewText {
+    background-color: #fff;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin: 0;
+    font-size: 30px;
+    border: 2px solid #000;
+    font-weight: bold;
+}
+
+.list-view,
+.agenda-view {
+    display: none;
+}
+
+.list-view.active,
+.agenda-view.active {
+    display: block;
+}
+
+.list-view {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px 0 0;
+    margin-top: 10px;
+}
+
+.list-view__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background-color: #007589;
+    border: 3px solid #ff786a;
+    border-radius: 12px;
+    padding: 22px 20px;
+    width: 100%;
+    margin-bottom: 25px;
+    position: relative;
+    color: white;
+    box-sizing: border-box;
+}
+
+.list-view__item::before {
+    position: absolute;
+    top: -14px;
+    left: 16px;
+    background-color: white;
+    font-size: 1rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+    color: #007589;
+    font-weight: bold;
+}
+
+.list-view__item[data-type="History Ticket"]::before {
+    content: "History Ticket";
+}
+
+.list-view__item[data-type="Dance Ticket"]::before {
+    content: "Dance Ticket";
+}
+
+.list-view__item[data-type="Dance Pass"]::before {
+    content: "Dance Pass";
+}
+
+.list-view__item[data-type="Reservation"]::before {
+    content: "Reservation";
+}
+
+.list-view__item__left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.list-view__item__left > * {
+    margin-bottom: 8px;
+}
+
+.list-view__item__left > *:last-child {
+    margin-bottom: 0;
+}
+
+.list-view__item__title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    line-height: 1.2;
+    word-break: break-word;
+}
+
+.list-view__item__subheading {
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 1.2;
+    word-break: break-word;
+}
+
+.list-view__item__info {
+    font-size: 1rem;
+    font-style: italic;
+    word-break: break-word;
+}
+
+.list-view__item__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    flex-shrink: 0;
+}
+
+.list-view__item__price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.delete-btn {
+    background-color: #ff7a68;
+    border: 2px solid #000;
+    color: black;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: #ff3e29;
+}
+
+.empty-state {
+    width: 100%;
+    background: #ffffff;
+    color: #222;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    box-sizing: border-box;
+}
+
+.empty-item-text {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    .personal-program-page {
+        padding: 100px 14px 32px;
+    }
+
+    .checkoutText {
+        font-size: 24px;
+    }
+
+    .checkout-btn {
+        font-size: 20px;
+        padding: 10px 18px;
+    }
+
+    .listViewText {
+        font-size: 24px;
+    }
+
+    .list-view__item {
+        padding: 20px 16px;
+    }
+
+    .list-view__item__title {
+        font-size: 1.3rem;
+    }
+
+    .list-view__item__subheading {
+        font-size: 1.05rem;
+    }
+
+    .list-view__item__info,
+    .list-view__item__price {
+        font-size: 0.95rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .personal-program-page {
+        padding: 95px 12px 24px;
+    }
+
+    .checkoutText {
+        font-size: 20px;
+    }
+
+    .checkout-btn {
+        width: 100%;
+        max-width: 320px;
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .listViewText {
+        width: 100%;
+        text-align: center;
+        font-size: 22px;
+    }
+
+    .list-view__item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 22px 14px 16px;
+    }
+
+    .list-view__item::before {
+        top: -12px;
+        left: 12px;
+        font-size: 0.9rem;
+        padding: 5px 10px;
+    }
+
+    .list-view__item__title {
+        font-size: 1.15rem;
+    }
+
+    .list-view__item__subheading {
+        font-size: 1rem;
+    }
+
+    .list-view__item__info {
+        font-size: 0.95rem;
+    }
+
+    .list-view__item__right {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    .list-view__item__price {
+        margin-bottom: 8px;
+    }
+
+    .delete-btn {
+        width: 100%;
+        text-align: center;
+    }
+}

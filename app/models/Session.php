@@ -6,13 +6,15 @@ class Session
 {
     private $session_id;
     private $restaurant_id;
+    private $event_id;
     private $start_time;
     private $duration;
     private $sessions_per_day;
 
-    public function __construct($restaurant_id, $start_time, $duration, $sessions_per_day)
+    public function __construct($restaurant_id, $event_id, $start_time, $duration, $sessions_per_day)
     {
         $this->restaurant_id = $restaurant_id;
+        $this->event_id = $event_id;
         $this->start_time = $start_time;
         $this->duration = $duration;
         $this->sessions_per_day = $sessions_per_day;
@@ -31,6 +33,11 @@ class Session
     public function getRestaurantId()
     {
         return $this->restaurant_id;
+    }
+
+    public function getEventId()
+    {
+        return $this->event_id;
     }
 
     public function getStartTime()
@@ -53,6 +60,7 @@ class Session
         return [
             'session_id' => $this->session_id,
             'restaurant_id' => $this->restaurant_id,
+            'event_id' => $this->event_id,
             'start_time' => $this->start_time,
             'duration' => $this->duration,
             'sessions_per_day' => $this->sessions_per_day,

@@ -27,20 +27,20 @@
                 <textarea class="form-control" id="description" name="description" rows="5" required><?= $event['description'] ?></textarea>
             </div>
             <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <select class="form-select" id="status" name="status" required>
-                    <option value="1" <?= ((int)$event['status'] === 1) ? 'selected' : '' ?>>Active</option>
-                    <option value="0" <?= ((int)$event['status'] === 0) ? 'selected' : '' ?>>Inactive</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
                 <label for="start_date" class="form-label">Start Date</label>
                 <input type="date" class="form-control" id="start_date" name="start_date"  value="<?= $event['start_date'] ?>" required>
             </div>
             <div class="mb-3">
                 <label for="end_date" class="form-label">End Date</label>
                 <input type="date" class="form-control" id="end_date" name="end_date" value="<?= $event['end_date'] ?>"  required>
+            </div>
+            <div class="mb-3">
+                <label for="primary_theme_color" class="form-label">Primary color</label>
+                <input type="text" class="form-control" id="primary_theme_color" name="primary_theme_color" value="<?= $event['primary_theme_color'] ?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="secondary_theme_color" class="form-label">Secondary Color</label>
+                <input type="text" class="form-control" id="secondary_theme_color" name="secondary_theme_color" value="<?= $event['secondary_theme_color'] ?>" required>
             </div>
             <div class="mb-5">
                 <label for="image_url" class="form-label">Event Image</label>
@@ -54,5 +54,3 @@
 </div>
 
 <?php include __DIR__ . '/../inc/footer.php'; ?>
-
-

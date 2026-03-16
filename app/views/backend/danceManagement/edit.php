@@ -5,7 +5,7 @@
     <?php include __DIR__ . '/../inc/message.php'; ?>
 
 
-    <h1>Edit Venue</h1>
+    <h1>Edit event</h1>
     <div class="mt-4">
         <form action="/dancemanagement/update" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="mb-3">

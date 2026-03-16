@@ -1,0 +1,149 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap");
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.basket-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #8A8E95;
+    flex-wrap: wrap;
+}
+h2 {
+    color: white;
+    margin-top: 60px;
+    font-size: 3em;
+}
+.basket, .summary {
+    flex: 1 1 45%;
+    margin: 10px;
+    box-sizing: border-box;
+}
+
+.item-box {
+    background-color: #007589;
+    padding: 10px;
+    color: white;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+}
+
+.remove-btn {
+    background-color: #FF7A68;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.remove-btn:hover {
+    background-color: #cc634e;
+}
+
+.total-box {
+    margin-top: 60px;
+    background: linear-gradient(90deg, rgba(255, 122, 104, 1) 0%, rgba(128, 128, 128, 1) 100%);
+    border: 1px solid black;
+    padding: 20px;
+    color: white;
+    margin-bottom: 20px;
+    width: 60%;
+    margin-left: auto;
+    border-radius: 5px;
+}
+
+.total-box p {
+    margin: 5px 0;
+    padding-bottom: 5px;
+    font-size: 1.5em;
+}
+
+.total-box p strong {
+    font-size: 1.2em;
+}
+#header-total{
+    font-weight: bold;
+    font-size: 2em;
+    border-bottom: 1px solid white;
+
+}
+.checkout-btn {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.checkout-btn:hover {
+    background-color: #333;
+}
+
+.accepted-payments {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.accepted-payments img {
+    height: 30px;
+}
+
+.create-account-box {
+    background-color: #FF7A68;
+    border: 1px solid black;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    width: 66%;
+    margin-left: auto;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.create-account-btn {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 5px;
+
+}
+
+.create-account-btn:hover {
+    background-color: #333;
+}
+.cart {
+    display: flex;
+    justify-content: center;
+}
+
+.cartText {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.buy-btn {
+    background-color: #ff7a68;
+    color: black;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 24px;
+    border: 2px solid #000;
+    font-weight: bold;
+}

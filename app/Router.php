@@ -52,15 +52,9 @@ class Router
             $controllerObj = new $controllerName();
             $controllerObj->$methodName();
         } catch (Error $e) {
-            echo $e->getMessage();
             http_response_code(500);
+            echo $e->getMessage();
             exit;
         }
-    }
-
-    private function showNotFoundPage()
-    {
-        http_response_code(404);
-        echo '404 Not Found';
     }
 }

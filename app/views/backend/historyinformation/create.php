@@ -1,7 +1,7 @@
 <?php include __DIR__ . '/../inc/header.php'; ?>
 
     <div class="container mb-5">
-        <h1>Add Location</h1>
+        <h1>Add Content</h1>
         <div class="mt-4">
             <form action="/historyinformation/add" method="POST" autocomplete="off" enctype="multipart/form-data">
                 <div class="mb-3">

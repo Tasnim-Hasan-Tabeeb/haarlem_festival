@@ -131,7 +131,10 @@ class UserRepository extends Repository
             $stmt->bindParam(':userid', $userId);
             $stmt->execute();
             $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $userRow !== false ? $userRow : null;
+            if ($stmt->rowCount() > 0) {
+                return $userRow;
+            }
+            return null;
         } catch (PDOException $e) {
             throw new Exception("Error: " . $e->getMessage());
         }
