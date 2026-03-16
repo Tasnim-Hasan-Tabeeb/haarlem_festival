@@ -37,16 +37,16 @@ body {
 
 .intro h1 {
     display: inline;
-    font-size: 10vw;
-    background: linear-gradient(to right, purple, blue, yellow);
+    font-size: 35px;
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent;
+    color: white;
 }
 
 .intro p {
     color: white;
-    font-size: 3vw;
+    font-size: 22px;
+    padding: 5px;
 }
 .intro h2 {
     font-family: "Limelight", serif;
@@ -73,7 +73,9 @@ body {
 }
 
 .intro .img-wrap img {
-    width: 100%;
+    width: 95%;
+    border-radius: 25px;
+    float: right;
 }
 
 .restaurants-section {
@@ -111,6 +113,43 @@ body {
 
 .filter a:hover {
     background-color: #ff7a68;
+}
+
+.yummy_explore_btn{
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.2s;
+  padding: 10px 20px;
+  border-radius: 100px;
+  background: #df4908;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
+
+.yummy_explore_btn:hover {
+  background: #ca6004;
+}
+
+.yummy_explore_btn > svg {
+  width: 34px;
+  margin-left: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.yummy_explore_btn:hover svg {
+  transform: translateX(5px);
+}
+
+.yummy_explore_btn:active {
+  transform: scale(0.95);
+}
+
+.yummy_booknow{
+    font-size: 25px;
+    letter-spacing: 1px;
+    color: white;
 }
 
 .description {

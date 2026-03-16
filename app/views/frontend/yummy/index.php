@@ -90,7 +90,7 @@ During the festival, talented chefs and popular local spots come together to ser
                         </div>
                     </div>
                      <a href="/restaurant/details?id=<?= $restaurant['restaurant_id'] ?>">
-                         <button>Book Now</button>
+                         <button class="yummy_explore_btn"><span class="yummy_booknow">Book Now</span></button>
                     </a>
                    
                 </div>
