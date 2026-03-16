@@ -64,14 +64,6 @@
                     <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label for="primary_theme_color" class="form-label">Primary Theme Color</label>
-                    <input type="color" class="form-control form-control-color" id="primary_theme_color" name="primary_theme_color">
-                </div>
-                <div class="mb-3">
-                    <label for="secondary_theme_color" class="form-label">Secondary Theme Color</label>
-                    <input type="color" class="form-control form-control-color" id="secondary_theme_color" name="secondary_theme_color">
-                </div>
                 <button type="submit" class="btn btn-primary">Create</button>
             </form>
         </div>

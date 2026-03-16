@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Mar 08, 2026 at 12:33 AM
--- Server version: 12.2.2-MariaDB-ubu2404
+-- Generation Time: Mar 16, 2026 at 12:18 PM
+-- Server version: 12.1.2-MariaDB-ubu2404
 -- PHP Version: 8.3.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -50,6 +50,18 @@ CREATE TABLE `artists` (
   `about` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `artists`
+--
+
+INSERT INTO `artists` (`artist_id`, `artist_name`, `age`, `nationality`, `genre`, `about`) VALUES
+(1, 'Hardwell', '38', 'Dutch', 'dance and house', 'Hardwell, a two-time DJ Mag #1 DJ in the World, is renowned for his explosive sets and anthems like Spaceman. Headlining Tomorrowland and Ultra, he’s a trailblazer in electronic music, known for pushing boundaries with his festival hits and groundbreaking performances.'),
+(2, 'Armin van Buuren', '49', 'Dutch', 'trance and techno', 'Armin van Buuren, a five-time DJ Mag #1 DJ, is a global trance legend. Known for his iconic A State of Trance radio show, he has headlined every major festival, earned Grammy nominations, and captivated millions with hits like This Is What It Feels Like.'),
+(3, 'Martin Garrix', '29', 'Dutch', 'dance / electronic', 'Martin Garrix rose to global stardom with his smash hit Animals and has since headlined festivals like Coachella and Tomorrowland. A three-time winner of DJ Mag’s #1 DJ in the World title, he’s collaborated with icons like Dua Lipa, Usher, and David Guetta, solidifying his place as a trailblazer in EDM.'),
+(4, 'Tiësto', '57', 'Dutch', 'trance, techno, minimal, house, electro', 'Tiësto, a Grammy-winning DJ and producer, has shaped electronic music for decades. With legendary tracks like Adagio for Strings and The Business, he’s headlined festivals worldwide, from Tomorrowland to Coachella, solidifying his status as a global dance music icon.'),
+(5, 'Nicky Romero', '37', 'Dutch', 'electrohouse / progressive house', 'Nicky Romero, a chart-topping DJ and producer, gained global fame with hits like Toulouse and I Could Be the One with Avicii. A festival favorite at Tomorrowland and Ultra, he’s also the founder of Protocol Recordings, nurturing the next generation of electronic music talent.'),
+(6, 'Afrojack', '37', 'Dutch', 'house', 'Afrojack, a global EDM icon, has headlined the world’s biggest festivals, including Tomorrowland and Ultra Music Festival. Known for chart-topping hits like Take Over Control and collaborations with stars like Beyoncé, David Guetta, and Pitbull, he continues to redefine the electronic music scene.');
+
 -- --------------------------------------------------------
 
 --
@@ -94,6 +106,18 @@ CREATE TABLE `dance_venues` (
   `map_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `dance_venues`
+--
+
+INSERT INTO `dance_venues` (`venue_id`, `venue_name`, `venue_location`, `capacity`, `venue_image`, `map_url`) VALUES
+(1, 'Lichtfabriek', 'Minckelersweg 2, 2031 EM Haarlem', 1500, 'aaa', 'aaaaa'),
+(2, 'Sachthuis', 'Rockplein 6, 2033 KK Haarlem', 100, '', ''),
+(3, 'Jopenkerk', 'Gedempte Voldersgracht 2, 2011 WD Haarlem', 100, '', ''),
+(4, 'XO the Club', 'Grote Markt 8, 2011 RD Haarlem', 100, '', ''),
+(5, 'Puncher comedy club', 'Grote Markt 10, 2011 RD Haarlem', 100, '', ''),
+(6, 'Caprera Openluchttheater', 'Hoge Duin en Daalseweg 2, 2061 AG Bloemendaal', 100, '', '');
+
 -- --------------------------------------------------------
 
 --
@@ -118,7 +142,8 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`event_id`, `event_type`, `title`, `image_url`, `description`, `status`, `start_date`, `end_date`, `primary_theme_color`, `secondary_theme_color`) VALUES
-(1, 'Yummy', 'Yummy Events', '69aaff2f8caa86.87631750_yummy-events.jpg', 'Are you coming to the yummy event in Haarlem? For four days, you\'ll enjoy the most delicious dishes in Haarlem\'s Grote Markt. Don\'t miss out! Enjoy various tastings and live bands. Gather your group. Admission is free, so mark the dates in your calendar.\r\n', 1, '2026-07-26', '2026-07-30', 'D35472', 'F57B5F');
+(1, 'Yummy', 'Yummy', '69aaff2f8caa86.87631750_yummy-events.jpg', 'Are you coming to the yummy event in Haarlem? For four days, you\'ll enjoy the most delicious dishes in Haarlem\'s Grote Markt. Don\'t miss out! Enjoy various tastings and live bands. Gather your group. Admission is free, so mark the dates in your calendar.\r\n', 1, '2026-07-26', '2026-07-30', 'D35472', 'F57B5F'),
+(2, 'Dance', 'Dance', '69b576fc6deb83.96166153_Dance (1).png', 'Experience an unforgettable weekend of music, energy, and world-class DJs in Haarlem!', 1, '2026-06-27', '2026-06-28', 'D35472', 'F57B5F');
 
 -- --------------------------------------------------------
 
@@ -165,6 +190,21 @@ CREATE TABLE `history_event_date` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `history_info`
+--
+
+CREATE TABLE `history_info` (
+  `content_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `section_type` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `history_tickets`
 --
 
@@ -179,6 +219,32 @@ CREATE TABLE `history_tickets` (
   `tour_location_id` int(11) NOT NULL,
   `timetable_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `history_timeslots`
+--
+
+CREATE TABLE `history_timeslots` (
+  `timetable_id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `history_tours`
+--
+
+CREATE TABLE `history_tours` (
+  `tour_id` int(11) NOT NULL,
+  `timetable_id` int(11) DEFAULT NULL,
+  `language_id` int(11) DEFAULT NULL,
+  `available_guides` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -297,7 +363,7 @@ CREATE TABLE `pages` (
 --
 
 INSERT INTO `pages` (`page_id`, `title`, `content`, `active`, `slug`) VALUES
-(2, 'Yammy', NULL, 1, 'yammy'),
+(2, 'Yummy', NULL, 1, 'yummy'),
 (3, 'About', NULL, 1, 'about'),
 (4, 'Events', NULL, 1, 'events');
 
@@ -387,8 +453,8 @@ CREATE TABLE `restaurant_features` (
 --
 
 INSERT INTO `restaurant_features` (`restaurant_features_id`, `restaurant_id`, `feature_id`) VALUES
-(6, 1, 1),
-(7, 1, 2);
+(10, 1, 1),
+(11, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -469,6 +535,20 @@ CREATE TABLE `tickets` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ticket_pass`
+--
+
+CREATE TABLE `ticket_pass` (
+  `pass_id` int(11) NOT NULL,
+  `passName` varchar(255) DEFAULT NULL,
+  `passDescription` text DEFAULT NULL,
+  `passPrice` decimal(10,2) DEFAULT NULL,
+  `passType` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tour_language`
 --
 
@@ -476,6 +556,15 @@ CREATE TABLE `tour_language` (
   `language_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tour_language`
+--
+
+INSERT INTO `tour_language` (`language_id`, `name`) VALUES
+(1, 'Dutch'),
+(2, 'English'),
+(3, 'Mandarin');
 
 -- --------------------------------------------------------
 
@@ -526,7 +615,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `profile_picture`, `registration_date`, `role`) VALUES
 (5, 'Ahsanul Rabbi Khan', 'admin@gmail.com', '$2y$12$0EbV0MT.dKL3EUsM0pKJX.iY4yOA6RSXLw.cpxH9TulLldTE9HPJ2', 'download-5.jpeg', '2026-03-02 21:49:06', 'Admin'),
 (6, 'Ahasanul Rabbi Khan', 'ahsan@gmail.com', '$2y$12$TnGSKXJmH0IYI1TzVWsPFunSDnlbU0XEcTblb8J0fNLrIDUryA5Aa', 'download-5.jpeg', '2026-03-06 20:03:12', 'Admin'),
-(7, 'Ahsanul Rabbi Khan', 'me.ahsanul01@gmail.com', '$2y$12$x6juwndsZypeVtoKPTZWaOCsRD9s6ml1X4QBlmUx9DEAxlGSikGLi', 'download-5.jpeg', '2026-03-08 00:06:16', 'Customer');
+(7, 'Ahsanul Rabbi Khan', 'me.ahsanul01@gmail.com', '$2y$12$x6juwndsZypeVtoKPTZWaOCsRD9s6ml1X4QBlmUx9DEAxlGSikGLi', 'download-5.jpeg', '2026-03-08 00:06:16', 'Customer'),
+(8, 'Tabeeb', 'tabeeb@gmail.com', '$2y$12$zoaz2udD5ND.0kZ5rT45JOxsXT7UTOyX1omw36WnzpjTBExLQGQxu', '/images/69af97612f35d6.29856032_sign.jpg', '2026-03-10 04:00:33', 'Customer');
 
 --
 -- Indexes for dumped tables
@@ -591,6 +681,12 @@ ALTER TABLE `history_event_date`
   ADD PRIMARY KEY (`event_date_id`);
 
 --
+-- Indexes for table `history_info`
+--
+ALTER TABLE `history_info`
+  ADD PRIMARY KEY (`content_id`);
+
+--
 -- Indexes for table `history_tickets`
 --
 ALTER TABLE `history_tickets`
@@ -601,6 +697,20 @@ ALTER TABLE `history_tickets`
   ADD KEY `tour_to_time` (`timetable_id`),
   ADD KEY `tour_to_location` (`tour_location_id`),
   ADD KEY `history_ticket_to_history_event` (`history_event_id`);
+
+--
+-- Indexes for table `history_timeslots`
+--
+ALTER TABLE `history_timeslots`
+  ADD PRIMARY KEY (`timetable_id`);
+
+--
+-- Indexes for table `history_tours`
+--
+ALTER TABLE `history_tours`
+  ADD PRIMARY KEY (`tour_id`),
+  ADD KEY `timetable_id` (`timetable_id`),
+  ADD KEY `language_id` (`language_id`);
 
 --
 -- Indexes for table `music_events`
@@ -705,6 +815,12 @@ ALTER TABLE `tickets`
   ADD KEY `ticket_to_event` (`event_id`);
 
 --
+-- Indexes for table `ticket_pass`
+--
+ALTER TABLE `ticket_pass`
+  ADD PRIMARY KEY (`pass_id`);
+
+--
 -- Indexes for table `tour_language`
 --
 ALTER TABLE `tour_language`
@@ -744,7 +860,7 @@ ALTER TABLE `albums`
 -- AUTO_INCREMENT for table `artists`
 --
 ALTER TABLE `artists`
-  MODIFY `artist_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `artist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `artist_musics`
@@ -762,13 +878,19 @@ ALTER TABLE `awards`
 -- AUTO_INCREMENT for table `dance_venues`
 --
 ALTER TABLE `dance_venues`
-  MODIFY `venue_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `venue_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `events`
+--
+ALTER TABLE `events`
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `features`
 --
 ALTER TABLE `features`
-  MODIFY `feature_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `feature_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `history_event_date`
@@ -781,6 +903,18 @@ ALTER TABLE `history_event_date`
 --
 ALTER TABLE `history_tickets`
   MODIFY `history_ticket_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `history_timeslots`
+--
+ALTER TABLE `history_timeslots`
+  MODIFY `timetable_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `history_tours`
+--
+ALTER TABLE `history_tours`
+  MODIFY `tour_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `music_events`
@@ -834,7 +968,7 @@ ALTER TABLE `restaurants`
 -- AUTO_INCREMENT for table `restaurant_features`
 --
 ALTER TABLE `restaurant_features`
-  MODIFY `restaurant_features_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `restaurant_features_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `sections`
@@ -855,6 +989,18 @@ ALTER TABLE `tickets`
   MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `ticket_pass`
+--
+ALTER TABLE `ticket_pass`
+  MODIFY `pass_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tour_language`
+--
+ALTER TABLE `tour_language`
+  MODIFY `language_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `tour_locations`
 --
 ALTER TABLE `tour_locations`
@@ -870,7 +1016,7 @@ ALTER TABLE `tour_timetable`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
@@ -910,6 +1056,13 @@ ALTER TABLE `history_tickets`
   ADD CONSTRAINT `tour_to_date` FOREIGN KEY (`event_date_id`) REFERENCES `history_event_date` (`event_date_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tour_to_location` FOREIGN KEY (`tour_location_id`) REFERENCES `tour_locations` (`tour_location_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tour_to_time` FOREIGN KEY (`timetable_id`) REFERENCES `tour_timetable` (`timetable_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `history_tours`
+--
+ALTER TABLE `history_tours`
+  ADD CONSTRAINT `1` FOREIGN KEY (`timetable_id`) REFERENCES `history_timeslots` (`timetable_id`),
+  ADD CONSTRAINT `2` FOREIGN KEY (`language_id`) REFERENCES `tour_language` (`language_id`);
 
 --
 -- Constraints for table `music_events`
