@@ -145,7 +145,7 @@ class PersonalProgramController
                             $cartItem['total_children'],
                             $cartItem['email'],
                             $cartItem['phone'],
-                            null,
+                            $cartItem['user_id'],
                             $cartItem['session_id'],
                             $cartItem['restaurant_id'],
                             $cartItem['remarks'],

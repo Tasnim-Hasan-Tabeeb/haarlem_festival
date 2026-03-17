@@ -32,9 +32,7 @@ class UserService
         return password_hash($password, PASSWORD_BCRYPT);
     }
 
-    /**
-     * @throws Exception
-     */
+
     public function handleUserImage($image)
     {
         try {
@@ -160,8 +158,6 @@ class UserService
 
     public function isValidEmail($email): bool
     {
-//        var_dump($email);
-//        die();
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
     public function isStrongPassword($password)
