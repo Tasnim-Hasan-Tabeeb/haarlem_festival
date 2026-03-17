@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Mar 16, 2026 at 12:18 PM
--- Server version: 12.1.2-MariaDB-ubu2404
+-- Generation Time: Mar 16, 2026 at 08:16 PM
+-- Server version: 12.2.2-MariaDB-ubu2404
 -- PHP Version: 8.3.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -363,9 +363,12 @@ CREATE TABLE `pages` (
 --
 
 INSERT INTO `pages` (`page_id`, `title`, `content`, `active`, `slug`) VALUES
-(2, 'Yummy', NULL, 1, 'yummy'),
-(3, 'About', NULL, 1, 'about'),
-(4, 'Events', NULL, 1, 'events');
+(1, 'Home', NULL, 1, 'home'),
+(2, 'Events', NULL, 1, 'events'),
+(3, 'History', NULL, 1, 'history'),
+(5, 'Dance', NULL, 1, 'dance'),
+(6, 'Yummy', NULL, 1, 'yummy'),
+(7, 'About', NULL, 1, 'about');
 
 -- --------------------------------------------------------
 
@@ -434,7 +437,7 @@ CREATE TABLE `restaurants` (
 --
 
 INSERT INTO `restaurants` (`restaurant_id`, `title`, `image_url`, `description`, `ratings`, `cuisines`, `session_id`, `event_id`, `location`, `number_of_seats`, `contact_email`, `contact_phone`, `gallery_images`) VALUES
-(1, 'Café de Roemer', '/images/69aafdbf458ae4.44129310_yummy_events.jpg', '&lt;p&gt;Welcome to Café de Roemer, an iconic spot located on Botermarkt in the heart of Haarlem. A Haarlem institution for over 30 years, it&#039;s now owned by two enthusiastic entrepreneurs who are continuing the Roemer legacy with renewed energy. Step inside and discover our diverse menu, where classics meet surprising new flavors. Whether you&#039;re looking for a delicious lunch, a leisurely dinner, or just a relaxing drink, you&#039;re sure to find something to suit your taste. Enjoy the sun on our spacious and sunny terrace, or experience the outdoors year-round in our beautiful glass conservatory. Whatever the weather, at Café de Roemer we always offer a warm welcome and a cozy atmosphere. Our team is ready to make your experience unforgettable, with enthusiasm, hospitality, and a smile. Whether you&#039;re stopping by for a quick bite or a long night out, you&#039;ll always feel at home at Café de Roemer. Come visit us and discover the unique charm of Café de Roemer for yourself. We look forward to welcoming you!&lt;/p&gt;', 4, 'Dutch, fish and seafood, European', 1, 1, 'Botermarkt 17, 2011 XL Haarlem', 35, 'info@cafederoemer.nl', '02857488', '[\"\\/images\\/69aafdbf479990.19159331_yummy_events.jpg\",\"\\/images\\/69acae9da4a2e0.32909133_639565879_18079722086596251_5554071152351958995_n.jpg\",\"\\/images\\/69acae9daf53d2.17401647_642509984_18080492510596251_7090866304138896856_n.jpg\",\"\\/images\\/69acae9dba47c4.44593639_643545031_18080492501596251_1310653718942307600_n.jpg\",\"\\/images\\/69acae9dc2c316.06554831_645841499_18080957423596251_3190953387532787824_n.jpg\"]');
+(1, 'Café de Roemer', '/images/69aafdbf458ae4.44129310_yummy_events.jpg', '&lt;p&gt;Welcome to Café de Roemer, an iconic spot located on Botermarkt in the heart of Haarlem. A Haarlem institution for over 30 years, it&#039;s now owned by two enthusiastic entrepreneurs who are continuing the Roemer legacy with renewed energy. Step inside and discover our diverse menu, where classics meet surprising new flavors. Whether you&#039;re looking for a delicious lunch, a leisurely dinner, or just a relaxing drink, you&#039;re sure to find something to suit your taste. Enjoy the sun on our spacious and sunny terrace, or experience the outdoors year-round in our beautiful glass conservatory. Whatever the weather, at Café de Roemer we always offer a warm welcome and a cozy atmosphere. Our team is ready to make your experience unforgettable, with enthusiasm, hospitality, and a smile. Whether you&#039;re stopping by for a quick bite or a long night out, you&#039;ll always feel at home at Café de Roemer. Come visit us and discover the unique charm of Café de Roemer for yourself. We look forward to welcoming you!&lt;/p&gt;', 4, 'Dutch, Fish and Seafood, European', 1, 1, 'Botermarkt 17, 2011 XL Haarlem', 35, 'info@cafederoemer.nl', '02857488', '[\"\\/images\\/69aafdbf479990.19159331_yummy_events.jpg\",\"\\/images\\/69acae9da4a2e0.32909133_639565879_18079722086596251_5554071152351958995_n.jpg\",\"\\/images\\/69acae9daf53d2.17401647_642509984_18080492510596251_7090866304138896856_n.jpg\",\"\\/images\\/69acae9dba47c4.44593639_643545031_18080492501596251_1310653718942307600_n.jpg\",\"\\/images\\/69acae9dc2c316.06554831_645841499_18080957423596251_3190953387532787824_n.jpg\"]');
 
 -- --------------------------------------------------------
 
@@ -453,8 +456,8 @@ CREATE TABLE `restaurant_features` (
 --
 
 INSERT INTO `restaurant_features` (`restaurant_features_id`, `restaurant_id`, `feature_id`) VALUES
-(10, 1, 1),
-(11, 1, 2);
+(12, 1, 1),
+(13, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -478,10 +481,10 @@ CREATE TABLE `sections` (
 --
 
 INSERT INTO `sections` (`section_id`, `section_title`, `section_sub_title`, `content`, `image_url`, `map_url`, `section_type`, `page_id`) VALUES
-(1, 'A DELICIOUSLY COMPOSED MENU', '', '<font color=\"#2a4634\" face=\"helvetica-w01-light, sans-serif\">Our menu is inspired by the flavors of the Mediterranean, with a mix of delicious tapas, tasty mezze, fresh main courses and tempting desserts.  ​  Whether you\'re coming for dinner, a cozy evening with friends, or drinks on our terrace: Vester is all about sharing, enjoying, and experiencing together. Be amazed by our dishes and discover the perfect combination of authentic flavors, fresh ingredients, and stylish presentation.  ​  Take a look and plan your favorites for an unforgettable evening!</font>', '/images/69a982efaaf230.79610024_Haarlem-Culinair-Blackline-Media-Edit-52-1-2048x1365.jpg', 'https://maps.app.goo.gl/o69KfbnbDv6tDm8q8', 'header', 2),
-(2, 'About Us', '', '<p>Our journey began at Inholland University of Applied Sciences, where we met as a team of students passionate about technology and problem-solving. With backgrounds in IT and a shared curiosity for how digital solutions could make life easier, we often found ourselves discussing real-world challenges and how software could solve them. It wasn’t long before the idea sparked: What if we started our own IT company—one that focused not on trends or hype, but on building useful, reliable tools that actually help businesses grow? That idea became our mission. We founded our company with one goal in mind: to build valuable digital products that solve real business problems. From the start, we’ve focused on clarity, practicality, and purpose—cutting through the noise to deliver solutions that truly support teams and organizations. Our vision is simple: empower businesses to scale and thrive through technology. We believe digital tools should feel like an extension of your goals, not a barrier. That means making digital less confusing, more helpful, and always aligned with your needs. We’re human-first, results-driven, and always collaborative. We listen before we build. We explain things clearly. We avoid shortcuts, respect your time, and treat every project like a partnership. With us, you’ll always know where things stand, and what’s coming next. This is our story—rooted in curiosity, grown through collaboration, and driven by a commitment to help businesses succeed with technology that works. #inholland hashtag #LearningTogether hashtag #InhollandUniversityofAppliedSciences</p>', '', '', 'instruction', 3),
-(3, 'You don\'t want to miss this', '', '<font color=\"#4a4a49\" face=\"WixMadeforText-VariableFont_wght, sans-serif\"><span style=\"font-size: 17px;\">From Dutch Masters to modern art, from arthouse films to children\'s theater, from pop concerts to city history: if you\'re looking for inspiration, art, and culture, Haarlem is sure to satisfy your cravings. Not only is Haarlem home to the oldest museum in the Netherlands, but its historic city center is also bustling with cultural hotspots, (art) history, and creative initiatives.</span></font>', '', '', 'tour_information', 4),
-(4, 'Art and Culture', '', '<p>Be amazed by Haarlem\'s rich art and culture. Will it be a museum, the theater, or a stroll past historic monuments?&nbsp; Haarlem\'s artistic soul. Haarlem is a paradise for art lovers, with a wide range of museums, galleries, and cultural events. Immerse yourself in the city\'s artistic offerings and witness the interplay between tradition and innovation. Art and culture in Haarlem truly embrace and celebrate the spirit of creativity. Here\'s a glimpse of what this enchanting city has to offer</p>', '', '', 'header', 4);
+(1, 'Discover Food  & Drinks', '', '<p><span style=\"font-family: Arial;\">﻿</span>When you say Haarlem, you immediately think of culinary experiences. This vibrant city offers something for every taste, from chic restaurants where you can enjoy refined dining to cozy cafés and lively eateries perfect for a quick and delicious bite. Stroll through its charming streets and you’ll find inviting coffee bars serving expertly brewed drinks, welcoming tasting rooms where you can sample local flavors, and atmospheric breweries offering craft beers with character. Whether you’re looking for a relaxed lunch, an indulgent dinner, or simply a place to unwind with a drink, Haarlem’s diverse food and drink scene makes it a true destination for anyone who loves good taste and great atmosphere. 🍽️☕🍺</p>', '/images/69a982efaaf230.79610024_Haarlem-Culinair-Blackline-Media-Edit-52-1-2048x1365.jpg', 'https://maps.app.goo.gl/o69KfbnbDv6tDm8q8', 'header', 6),
+(2, 'About Us', '', '<p>Our journey began at Inholland University of Applied Sciences, where we met as a team of students passionate about technology and problem-solving. With backgrounds in IT and a shared curiosity for how digital solutions could make life easier, we often found ourselves discussing real-world challenges and how software could solve them. It wasn’t long before the idea sparked: What if we started our own IT company—one that focused not on trends or hype, but on building useful, reliable tools that actually help businesses grow? That idea became our mission. We founded our company with one goal in mind: to build valuable digital products that solve real business problems. From the start, we’ve focused on clarity, practicality, and purpose—cutting through the noise to deliver solutions that truly support teams and organizations. Our vision is simple: empower businesses to scale and thrive through technology. We believe digital tools should feel like an extension of your goals, not a barrier. That means making digital less confusing, more helpful, and always aligned with your needs. We’re human-first, results-driven, and always collaborative. We listen before we build. We explain things clearly. We avoid shortcuts, respect your time, and treat every project like a partnership. With us, you’ll always know where things stand, and what’s coming next. This is our story—rooted in curiosity, grown through collaboration, and driven by a commitment to help businesses succeed with technology that works. #inholland hashtag #LearningTogether hashtag #InhollandUniversityofAppliedSciences</p>', '', '', 'instruction', 7),
+(3, 'You don\'t want to miss this', '', '<font color=\"#4a4a49\" face=\"WixMadeforText-VariableFont_wght, sans-serif\"><span style=\"font-size: 17px;\">From Dutch Masters to modern art, from arthouse films to children\'s theater, from pop concerts to city history: if you\'re looking for inspiration, art, and culture, Haarlem is sure to satisfy your cravings. Not only is Haarlem home to the oldest museum in the Netherlands, but its historic city center is also bustling with cultural hotspots, (art) history, and creative initiatives.</span></font>', '', '', 'tour_information', 2),
+(4, 'Art and Culture', '', '<p>Be amazed by Haarlem\'s rich art and culture. Will it be a museum, the theater, or a stroll past historic monuments?&nbsp; Haarlem\'s artistic soul. Haarlem is a paradise for art lovers, with a wide range of museums, galleries, and cultural events. Immerse yourself in the city\'s artistic offerings and witness the interplay between tradition and innovation. Art and culture in Haarlem truly embrace and celebrate the spirit of creativity. Here\'s a glimpse of what this enchanting city has to offer</p>', '', '', 'header', 2);
 
 -- --------------------------------------------------------
 
@@ -944,7 +947,7 @@ ALTER TABLE `order_items`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `page_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `price_list`
@@ -968,7 +971,7 @@ ALTER TABLE `restaurants`
 -- AUTO_INCREMENT for table `restaurant_features`
 --
 ALTER TABLE `restaurant_features`
-  MODIFY `restaurant_features_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `restaurant_features_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `sections`
