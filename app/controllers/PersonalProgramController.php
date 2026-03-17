@@ -89,7 +89,7 @@ class PersonalProgramController
                 'quantity' => 1,
             ];
 
-            Stripe::setApiKey("sk_test_51PS8HHF7UbSXoXFVQFRcOjx7b6nffHvGpqbNQngGmuaiOmyqxRA3IywweJclE1X0bTwFEkDBXUEwvkj0haSUPPfP00JhIdhACj");
+            Stripe::setApiKey("sk_test_51R7EjbLSlU6qdtCikZB6lOvcgu9V7E4YrNI5C6TPmU0o81eJKoOIr2tHpRAHEnjcSrl9O2y0GqeffBTUFduFWoAM00HKtxNt81");
 
             $session = Session::create([
                 'payment_method_types' => ['ideal', 'card'],
@@ -111,7 +111,7 @@ class PersonalProgramController
     {
         try {
             $sessionId = $_GET['session_id'];
-            Stripe::setApiKey('sk_test_51PS8HHF7UbSXoXFVQFRcOjx7b6nffHvGpqbNQngGmuaiOmyqxRA3IywweJclE1X0bTwFEkDBXUEwvkj0haSUPPfP00JhIdhACj');
+            Stripe::setApiKey('sk_test_51R7EjbLSlU6qdtCikZB6lOvcgu9V7E4YrNI5C6TPmU0o81eJKoOIr2tHpRAHEnjcSrl9O2y0GqeffBTUFduFWoAM00HKtxNt81');
             $session = Session::retrieve($sessionId);
 
             if ($session->payment_status === 'paid') {

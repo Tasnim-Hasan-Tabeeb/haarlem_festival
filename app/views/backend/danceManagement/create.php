@@ -5,7 +5,7 @@
 
         <h1>Add event</h1>
         <div class="mt-4">
-            <form action="/events/store" method="POST" autocomplete="off" enctype="multipart/form-data">
+            <form action="/danceManagement/store" method="POST" autocomplete="off" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" class="form-control" id="title" name="title" required>

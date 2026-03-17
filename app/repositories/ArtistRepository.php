@@ -41,17 +41,15 @@ class ArtistRepository extends Repository
     public function update(Artist $artist, $artist_id): bool
     {
         try {
-            $stmt = $this->connection->prepare("UPDATE artists SET artist_name = :artist_name, age = :age, nationality = :nationality, genre = :genre, about = :about, image_url = :image_url, artist_real_name = :artist_real_name, detail_image = :detail_image WHERE artist_id = :artist_id");
+            $stmt = $this->connection->prepare("UPDATE artists SET artist_name = :artist_name, age = :age, nationality = :nationality, genre = :genre, about = :about, image_url = :image_url WHERE artist_id = :artist_id");
             $stmt->execute([
                 ':artist_id' => $artist_id,
                 ':artist_name' => $artist->getArtist_name(),
-                ':artist_real_name' => $artist->getReal_name(),
                 ':age' => $artist->getAge(),
                 ':nationality' => $artist->getNationality(),
                 ':genre' => $artist->getGenre(),
                 ':about' => $artist->getAbout(),
                 ':image_url' => $artist->getImage_url(),
-                ':detail_image' => $artist->getDetail_image(),
             ]);
             return true;
         } catch (PDOException $e) {
@@ -61,16 +59,14 @@ class ArtistRepository extends Repository
     public function storeArtist(Artist $artist)
     {
         try {
-            $stmt = $this->connection->prepare("INSERT INTO artists (artist_name, artist_real_name, age, nationality, genre, about, image_url, detail_image) VALUES (:artist_name, :artist_real_name, :age, :nationality, :genre, :about, :image_url, :detail_image)");
+            $stmt = $this->connection->prepare("INSERT INTO artists (artist_name, age, nationality, genre, about, image_url) VALUES (:artist_name, :age, :nationality, :genre, :about, :image_url)");
             $stmt->execute([
                 ':artist_name' => $artist->getArtist_name(),
-                ':artist_real_name' => $artist->getReal_name(),
                 ':age' => $artist->getAge(),
                 ':nationality' => $artist->getNationality(),
                 ':genre' => $artist->getGenre(),
                 ':about' => $artist->getAbout(),
                 ':image_url' => $artist->getImage_url(),
-                ':detail_image' => $artist->getDetail_image(),
             ]);
             return true;
         } catch (PDOException $e) {
