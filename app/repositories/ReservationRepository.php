@@ -34,6 +34,7 @@ class ReservationRepository extends Repository
                 ':payment_status' => $reservation->getPaymentStatus(),
                 ':confirmation_code' => $reservation->getConfirmationCode(),
             ]);
+
             $reservationId = $this->connection->lastInsertId();
             return $reservationId;
         } catch (PDOException $e) {
