@@ -31,6 +31,7 @@ class ReservationController
             $validatedData = Helper::validate($_POST);
 
             $name = $validatedData['name'];
+            $user_id = $_SESSION['user']['user_id'];
             $reservation_date = $validatedData['reservation_date'];
             $total_adult = $validatedData['total_adult'];
             $total_children = $validatedData['total_children'];
@@ -48,7 +49,7 @@ class ReservationController
                 $total_children,
                 $email,
                 $phone,
-                null, // user_id
+                $user_id,
                 $session_id,
                 $restaurant_id,
                 $remarks,
