@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Mar 16, 2026 at 08:16 PM
+-- Generation Time: Apr 02, 2026 at 06:05 AM
 -- Server version: 12.2.2-MariaDB-ubu2404
 -- PHP Version: 8.3.26
 
@@ -47,20 +47,21 @@ CREATE TABLE `artists` (
   `age` varchar(255) NOT NULL,
   `nationality` varchar(255) NOT NULL,
   `genre` varchar(255) NOT NULL,
-  `about` text NOT NULL
+  `about` text NOT NULL,
+  `image_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `artists`
 --
 
-INSERT INTO `artists` (`artist_id`, `artist_name`, `age`, `nationality`, `genre`, `about`) VALUES
-(1, 'Hardwell', '38', 'Dutch', 'dance and house', 'Hardwell, a two-time DJ Mag #1 DJ in the World, is renowned for his explosive sets and anthems like Spaceman. Headlining Tomorrowland and Ultra, he’s a trailblazer in electronic music, known for pushing boundaries with his festival hits and groundbreaking performances.'),
-(2, 'Armin van Buuren', '49', 'Dutch', 'trance and techno', 'Armin van Buuren, a five-time DJ Mag #1 DJ, is a global trance legend. Known for his iconic A State of Trance radio show, he has headlined every major festival, earned Grammy nominations, and captivated millions with hits like This Is What It Feels Like.'),
-(3, 'Martin Garrix', '29', 'Dutch', 'dance / electronic', 'Martin Garrix rose to global stardom with his smash hit Animals and has since headlined festivals like Coachella and Tomorrowland. A three-time winner of DJ Mag’s #1 DJ in the World title, he’s collaborated with icons like Dua Lipa, Usher, and David Guetta, solidifying his place as a trailblazer in EDM.'),
-(4, 'Tiësto', '57', 'Dutch', 'trance, techno, minimal, house, electro', 'Tiësto, a Grammy-winning DJ and producer, has shaped electronic music for decades. With legendary tracks like Adagio for Strings and The Business, he’s headlined festivals worldwide, from Tomorrowland to Coachella, solidifying his status as a global dance music icon.'),
-(5, 'Nicky Romero', '37', 'Dutch', 'electrohouse / progressive house', 'Nicky Romero, a chart-topping DJ and producer, gained global fame with hits like Toulouse and I Could Be the One with Avicii. A festival favorite at Tomorrowland and Ultra, he’s also the founder of Protocol Recordings, nurturing the next generation of electronic music talent.'),
-(6, 'Afrojack', '37', 'Dutch', 'house', 'Afrojack, a global EDM icon, has headlined the world’s biggest festivals, including Tomorrowland and Ultra Music Festival. Known for chart-topping hits like Take Over Control and collaborations with stars like Beyoncé, David Guetta, and Pitbull, he continues to redefine the electronic music scene.');
+INSERT INTO `artists` (`artist_id`, `artist_name`, `age`, `nationality`, `genre`, `about`, `image_url`) VALUES
+(1, 'Hardwell', '38', 'Dutch', 'dance and house', 'Hardwell, a two-time DJ Mag #1 DJ in the World, is renowned for his explosive sets and anthems like Spaceman. Headlining Tomorrowland and Ultra, he’s a trailblazer in electronic music, known for pushing boundaries with his festival hits and groundbreaking performances.', '69b9329fd1b421.30474573_Hardwell.jpg'),
+(2, 'Armin van Buuren', '49', 'Dutch', 'trance and techno', 'Armin van Buuren, a five-time DJ Mag #1 DJ, is a global trance legend. Known for his iconic A State of Trance radio show, he has headlined every major festival, earned Grammy nominations, and captivated millions with hits like This Is What It Feels Like.', '69b932b19d4162.10550312_armin-event-image.jpg'),
+(3, 'Martin Garrix', '29', 'Dutch', 'dance / electronic', 'Martin Garrix rose to global stardom with his smash hit Animals and has since headlined festivals like Coachella and Tomorrowland. A three-time winner of DJ Mag’s #1 DJ in the World title, he’s collaborated with icons like Dua Lipa, Usher, and David Guetta, solidifying his place as a trailblazer in EDM.', '69b932c42e0255.25550700_martin-YT.jpg'),
+(4, 'Tiësto', '57', 'Dutch', 'trance, techno, minimal, house, electro', 'Tiësto, a Grammy-winning DJ and producer, has shaped electronic music for decades. With legendary tracks like Adagio for Strings and The Business, he’s headlined festivals worldwide, from Tomorrowland to Coachella, solidifying his status as a global dance music icon.', '69b932d0b5c266.98710356_Tiesto.jpg'),
+(5, 'Nicky Romero', '37', 'Dutch', 'electrohouse / progressive house', 'Nicky Romero, a chart-topping DJ and producer, gained global fame with hits like Toulouse and I Could Be the One with Avicii. A festival favorite at Tomorrowland and Ultra, he’s also the founder of Protocol Recordings, nurturing the next generation of electronic music talent.', '69b932dd260565.10574418_Nicky-Romero-EDM-nomi.jpg'),
+(6, 'Afrojack', '37', 'Dutch', 'house', 'Afrojack, a global EDM icon, has headlined the world’s biggest festivals, including Tomorrowland and Ultra Music Festival. Known for chart-topping hits like Take Over Control and collaborations with stars like Beyoncé, David Guetta, and Pitbull, he continues to redefine the electronic music scene.', '69b932e76a78d1.34539551_Afrojack.jpg');
 
 -- --------------------------------------------------------
 
@@ -143,7 +144,8 @@ CREATE TABLE `events` (
 
 INSERT INTO `events` (`event_id`, `event_type`, `title`, `image_url`, `description`, `status`, `start_date`, `end_date`, `primary_theme_color`, `secondary_theme_color`) VALUES
 (1, 'Yummy', 'Yummy', '69aaff2f8caa86.87631750_yummy-events.jpg', 'Are you coming to the yummy event in Haarlem? For four days, you\'ll enjoy the most delicious dishes in Haarlem\'s Grote Markt. Don\'t miss out! Enjoy various tastings and live bands. Gather your group. Admission is free, so mark the dates in your calendar.\r\n', 1, '2026-07-26', '2026-07-30', 'D35472', 'F57B5F'),
-(2, 'Dance', 'Dance', '69b576fc6deb83.96166153_Dance (1).png', 'Experience an unforgettable weekend of music, energy, and world-class DJs in Haarlem!', 1, '2026-06-27', '2026-06-28', 'D35472', 'F57B5F');
+(2, 'Dance', 'Dance', '69cd55a06fead8.72393054_images.jpeg', 'Experience an unforgettable weekend of music, energy, and world-class DJs in Haarlem.', 1, '2024-07-27', '2024-07-29', 'D35472', 'F57B5F'),
+(3, 'History', 'Haarlem Veterans Day 2026', '69cd55ab0922b0.97271831_ai-generated-concert-crowd-enjoying-live-music-event-photo.jpg', 'Veterans Day Haarlem on Sunday, May 10 (1:00 PM–5:00 PM) brings past and present together with vehicles and stands on the Grote Markt. Free admission, an afternoon full of experiences for young and old.', 1, '2026-05-10', '2026-05-13', '3772FF', '080708');
 
 -- --------------------------------------------------------
 
@@ -187,6 +189,14 @@ CREATE TABLE `history_event_date` (
   `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `history_event_date`
+--
+
+INSERT INTO `history_event_date` (`event_date_id`, `date`) VALUES
+(1, '2026-05-10'),
+(2, '2026-05-11');
+
 -- --------------------------------------------------------
 
 --
@@ -201,6 +211,20 @@ CREATE TABLE `history_info` (
   `url` varchar(255) DEFAULT NULL,
   `section_type` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `history_info`
+--
+
+INSERT INTO `history_info` (`content_id`, `title`, `description`, `image`, `url`, `section_type`) VALUES
+(10, 'Churches & Religious Landmarks Tour', 'Discover the spiritual side of the city by visiting its most significant churches, cathedrals, and religious landmarks. Experience awe-inspiring architecture ranging from ', '69cd5d006ae2b1.99221733_51325507921_09f706f4b3_c 2.jpg', 'https://www.example.com/history/religious-landmarks-tour', 'Header'),
+(11, 'Ancient City Ruins', 'Step into a world frozen in time as you explore the ruins of an ancient city that flourished centuries ago. Wander through crumbling stone walls, weathered temples, and old marketplaces where merchants once traded goods from distant lands.', '69cd5d2754c951.32140409_the-top-15-things-to-do-in-tours-francerent.jpg', 'https://www.example.com/history/ancient-city-ruins', 'Introduction'),
+(12, 'Medieval Castle Tour', 'Discover a colonial town frozen in time, where cobblestone streets, old town halls, and vintage houses tell stories of settlers and colonists. Learn about the architectural styles introduced during the colonial era and how they blended with local culture. Explore museums, public squares, and historical buildings that showcase governance, trade, and social life of the past. Hear tales of exploration, conflict, and community growth that shaped the town’s unique identity. This tour immerses you in centuries of history, giving insights into the everyday lives and struggles of people who built the town.', '69cd5d46d3b771.50439394_5-2-1.jpg', 'https://www.example.com/history/medieval-castle', 'Information'),
+(13, 'Historic Port City', 'Visit a historic port city that was a hub of trade, exploration, and cultural exchange for centuries. Walk along ancient docks, warehouses, and bustling merchant', '69cd5d7b3e9ef3.16638183_images (1).jpeg', 'https://www.example.com/history/historic-port-city', 'RegularTicket'),
+(14, 'Ancient Temples Expedition', 'Visit a historic port city that was a hub of trade, exploration, and cultural exchange for centuries. Walk along ancient docks, warehouses, and bustling merchant streets that once connected continents through commerce. Learn about legendary explorers, maritime adventures, and the city’s role in shaping regional and global trade routes\r\n\r\nVisit a historic port city that was a hub of trade, exploration, and cultural exchange for centuries. Walk along ancient docks, warehouses, and bustling merchant streets that once connected continents through commerce. Learn about legendary explorers, maritime adventures, and the city’s role in shaping regional and global trade routes', '69cd5de30d6783.33979010_pexels-tkirkgoz-11408378.jpg', 'https://www.example.com/history/historic-port-city', 'Information'),
+(15, 'Ancient Temples Expedition', 'Embark on a journey to ancient temples that have survived the test of time, standing as a testament to human devotion and architectural brilliance. Marvel at intricately carved pillars, ', '69cd5e09bddf21.54010894_51325507921_09f706f4b3_c 2.jpg', 'https://www.example.com/history/ancient-temples', 'RegularTicket'),
+(16, 'Royal Palace & Gardens', 'Step into the opulent world of royalty by visiting grand palaces and meticulously maintained gardens. Explore luxurious halls adorned with golden chandeliers, intricate frescoes, and royal artifacts that showcase wealth,', '69cd5e27a300d6.73665516_5-2-1.jpg', 'https://www.example.com/history/royal-palace', 'FamilyTicket'),
+(17, 'Colonial Town Heritage', 'Discover a colonial town frozen in time, where cobblestone streets, old town halls, and vintage houses tell stories of settlers and colonists. Learn about the architectural styles introduced during the colonial era and how they blended with local culture', '69cd5e4a23fc85.78503403_images.jpeg', 'https://www.example.com/history/colonial-town', 'Routes');
 
 -- --------------------------------------------------------
 
@@ -233,6 +257,14 @@ CREATE TABLE `history_timeslots` (
   `end_time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
+--
+-- Dumping data for table `history_timeslots`
+--
+
+INSERT INTO `history_timeslots` (`timetable_id`, `date`, `start_time`, `end_time`) VALUES
+(1, '2026-05-16', '10:00:00', '17:00:00'),
+(2, '2026-05-17', '10:00:00', '17:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -245,6 +277,14 @@ CREATE TABLE `history_tours` (
   `language_id` int(11) DEFAULT NULL,
   `available_guides` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Dumping data for table `history_tours`
+--
+
+INSERT INTO `history_tours` (`tour_id`, `timetable_id`, `language_id`, `available_guides`) VALUES
+(1, 1, 3, 24),
+(3, 2, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -265,6 +305,18 @@ CREATE TABLE `music_events` (
   `event_duration` int(11) NOT NULL,
   `music_event_image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `music_events`
+--
+
+INSERT INTO `music_events` (`music_event_id`, `event_id`, `artist_id`, `venue_id`, `event_date`, `event_name`, `event_price`, `session_type`, `event_start_time`, `event_duration`, `music_event_image`) VALUES
+(101, 2, 1, 1, '2024-07-27', 'Hardwell Live', 65.00, 'Club', '20:00:00', 90, 'hardwell-live.jpg'),
+(102, 2, 2, 4, '2024-07-27', 'Armin After Dark', 55.00, 'Club', '23:00:00', 120, 'armin-after-dark.jpg'),
+(103, 2, 3, 1, '2024-07-28', 'Martin Garrix Festival Set', 70.00, 'Club', '21:00:00', 90, 'martin-garrix-festival.jpg'),
+(104, 2, 6, 4, '2024-07-28', 'Afrojack Midnight Session', 60.00, 'Club', '23:30:00', 90, 'afrojack-midnight.jpg'),
+(105, 2, 4, 6, '2024-07-29', 'Tiësto Closing Show', 85.00, 'Club', '20:30:00', 120, 'tiesto-closing.jpg'),
+(106, 2, 5, 1, '2024-07-29', 'Nicky Romero Finale', 58.00, 'Club', '22:30:00', 90, 'nicky-romero-finale.jpg');
 
 -- --------------------------------------------------------
 
@@ -304,6 +356,18 @@ CREATE TABLE `music_performance` (
   `quantity` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `music_performance`
+--
+
+INSERT INTO `music_performance` (`music_performance_id`, `music_event_id`, `artist_id`, `event_id`, `title`, `session_type`, `start_date`, `event_start_time`, `event_duration`, `event_price`, `quantity`) VALUES
+(201, 101, 1, 2, 'Hardwell Live', 'Club', '2024-07-27', '20:00:00', 90, 65.00, 500),
+(202, 102, 2, 2, 'Armin After Dark', 'Club', '2024-07-27', '23:00:00', 120, 55.00, 500),
+(203, 103, 3, 2, 'Martin Garrix Festival Set', 'Club', '2024-07-28', '21:00:00', 90, 70.00, 500),
+(204, 104, 6, 2, 'Afrojack Midnight Session', 'Club', '2024-07-28', '23:30:00', 90, 60.00, 500),
+(205, 105, 4, 2, 'Tiësto Closing Show', 'Club', '2024-07-29', '20:30:00', 120, 85.00, 500),
+(206, 106, 5, 2, 'Nicky Romero Finale', 'Club', '2024-07-29', '22:30:00', 90, 58.00, 500);
+
 -- --------------------------------------------------------
 
 --
@@ -327,7 +391,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `user_id`, `total_amount`, `payment_method`, `payment_status`, `payment_date`, `order_date`, `created_at`, `updated_at`) VALUES
-(1, 7, 30.00, NULL, 'completed', NULL, '2026-03-08 00:07:34', '2026-03-08 00:07:34', '2026-03-08 00:07:34');
+(1, 7, 30.00, NULL, 'completed', NULL, '2026-03-08 00:07:34', '2026-03-08 00:07:34', '2026-03-08 00:07:34'),
+(2, 5, 40.00, NULL, 'completed', NULL, '2026-03-17 11:02:11', '2026-03-17 11:02:11', '2026-03-17 11:02:11'),
+(3, 5, 30.00, NULL, 'completed', NULL, '2026-03-17 11:41:27', '2026-03-17 11:41:27', '2026-03-17 11:41:27');
 
 -- --------------------------------------------------------
 
@@ -343,6 +409,14 @@ CREATE TABLE `order_items` (
   `event_id` int(11) DEFAULT NULL,
   `quantity` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`order_item_id`, `order_id`, `item_type`, `item_id`, `event_id`, `quantity`) VALUES
+(1, 2, 'reservation', 1, NULL, 1),
+(2, 3, 'reservation', 2, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -409,6 +483,14 @@ CREATE TABLE `reservations` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reservations`
+--
+
+INSERT INTO `reservations` (`reservation_id`, `name`, `reservation_date`, `total_adult`, `total_children`, `email`, `phone`, `user_id`, `session_id`, `restaurant_id`, `remarks`, `total_cost`, `payment_status`, `confirmation_code`, `is_paid`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 'Ahsanul Rabbi Khan', '2024-07-27', 3, 1, 'admin@gmail.com', '0630414048', 5, 3, 1, 'this is test ', 40.00, 'completed', 'CONF-69B934B33A211', 0, 1, '2026-03-17 11:02:11', '2026-03-17 11:02:11'),
+(2, 'Ahsanul Rabbi Khan', '2024-07-27', 2, 1, 'admin@gmail.com', '0630414048', 5, 3, 1, 'This is test', 30.00, 'completed', 'CONF-69B93DE7B5CAE', 0, 1, '2026-03-17 11:41:27', '2026-03-17 11:41:27');
 
 -- --------------------------------------------------------
 
@@ -549,6 +631,15 @@ CREATE TABLE `ticket_pass` (
   `passType` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
+--
+-- Dumping data for table `ticket_pass`
+--
+
+INSERT INTO `ticket_pass` (`pass_id`, `passName`, `passDescription`, `passPrice`, `passType`) VALUES
+(1, 'Saturday Dance Pass', 'Access to all Haarlem Festival dance events on Saturday 27 July 2024.', 79.00, 'Day Pass'),
+(2, 'Sunday Dance Pass', 'Access to all Haarlem Festival dance events on Sunday 28 July 2024.', 79.00, 'Day Pass'),
+(3, 'Weekend Dance Pass', 'Full access to all Haarlem Festival dance events from 27 to 29 July 2024.', 199.00, 'Weekend Pass');
+
 -- --------------------------------------------------------
 
 --
@@ -557,17 +648,18 @@ CREATE TABLE `ticket_pass` (
 
 CREATE TABLE `tour_language` (
   `language_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `flag_image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tour_language`
 --
 
-INSERT INTO `tour_language` (`language_id`, `name`) VALUES
-(1, 'Dutch'),
-(2, 'English'),
-(3, 'Mandarin');
+INSERT INTO `tour_language` (`language_id`, `name`, `flag_image`) VALUES
+(1, 'Dutch', NULL),
+(2, 'English', NULL),
+(3, 'Mandarin', NULL);
 
 -- --------------------------------------------------------
 
@@ -580,8 +672,18 @@ CREATE TABLE `tour_locations` (
   `location_name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `address` text NOT NULL,
-  `contact_info` text NOT NULL
+  `contact_info` text NOT NULL,
+  `images` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tour_locations`
+--
+
+INSERT INTO `tour_locations` (`tour_location_id`, `location_name`, `description`, `address`, `contact_info`, `images`) VALUES
+(6, 'Old Town Square', 'Old Town Square is the historic and cultural centerpiece of the city, dating back several centuries. Surrounded by beautifully preserved buildings, charming cafes, and traditional shops, the square reflects a blend of medieval and modern influences. Over the years, it has served as a marketplace, a gathering point for social and political events, and a hub for cultural celebrations. Visitors can enjoy street performances, seasonal festivals, and local artisan stalls that bring the area to life. The atmosphere changes throughout the day—from peaceful mornings with soft sunlight over cobblestone streets to vibrant evenings filled with music and activity. It offers an immersive experience for anyone interested in history, architecture, and local traditions.', 'Old Town Square, Central District, Haarlem, Netherlands', 'Phone: +31 23 123 4567 Email: info@oldtownhaarlem.nl', '69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg'),
+(7, 'St. Bavo Church', 'St. Bavo Church is one of the most iconic landmarks in the city, showcasing remarkable Gothic architecture and centuries of history. Constructed during the medieval period, the church stands as a testament to the craftsmanship and artistic excellence of its time. Inside, visitors are greeted by intricate stonework, stunning stained glass windows, and a magnificent pipe organ that has attracted musicians from around the world—including the legendary Mozart. The church has played an important role not only as a place of worship but also as a center for community gatherings and historical events.', 'Grote Markt 22, 2011 RD Haarlem, Netherlands', 'Phone: +31 23 555 7890 Email: contact@stbavochurch.nl', '69cd5753edbbb5.83085371_IMG_8670-scaled.jpg'),
+(8, 'Haarlemmerhout Park', 'Haarlemmerhout Park is one of the oldest public parks in the Netherlands, offering a peaceful escape from the busy city environment. Known for its lush greenery, walking trails, and scenic landscapes, the park has been a favorite destination for locals and visitors for generations. Historically, it served as a recreational space for the city’s residents and has gradually evolved into a well-maintained urban park with modern amenities. Visitors can enjoy leisurely walks, cycling, picnics, and outdoor activities while surrounded by tall trees and open green spaces. The park also hosts seasonal events, cultural activities, and small gatherings that make it a lively yet relaxing destination. Its combination of natural beauty and historical significance makes it a must-visit location for anyone exploring the area.', 'Haarlemmerhout, 2012 Haarlem, Netherlands', 'Phone: +31 23 987 6543 Email: info@haarlemmerhoutpark.nl', '69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg');
 
 -- --------------------------------------------------------
 
@@ -594,6 +696,13 @@ CREATE TABLE `tour_timetable` (
   `event_date_id` int(11) NOT NULL,
   `time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tour_timetable`
+--
+
+INSERT INTO `tour_timetable` (`timetable_id`, `event_date_id`, `time`) VALUES
+(1, 2, '10:00:00');
 
 -- --------------------------------------------------------
 
@@ -887,7 +996,7 @@ ALTER TABLE `dance_venues`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `features`
@@ -899,7 +1008,13 @@ ALTER TABLE `features`
 -- AUTO_INCREMENT for table `history_event_date`
 --
 ALTER TABLE `history_event_date`
-  MODIFY `event_date_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `event_date_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `history_info`
+--
+ALTER TABLE `history_info`
+  MODIFY `content_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `history_tickets`
@@ -911,37 +1026,37 @@ ALTER TABLE `history_tickets`
 -- AUTO_INCREMENT for table `history_timeslots`
 --
 ALTER TABLE `history_timeslots`
-  MODIFY `timetable_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `timetable_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `history_tours`
 --
 ALTER TABLE `history_tours`
-  MODIFY `tour_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tour_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `music_events`
 --
 ALTER TABLE `music_events`
-  MODIFY `music_event_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `music_event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `music_performance`
 --
 ALTER TABLE `music_performance`
-  MODIFY `music_performance_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `music_performance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -959,7 +1074,7 @@ ALTER TABLE `price_list`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `restaurants`
@@ -995,7 +1110,7 @@ ALTER TABLE `tickets`
 -- AUTO_INCREMENT for table `ticket_pass`
 --
 ALTER TABLE `ticket_pass`
-  MODIFY `pass_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pass_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tour_language`
@@ -1007,13 +1122,13 @@ ALTER TABLE `tour_language`
 -- AUTO_INCREMENT for table `tour_locations`
 --
 ALTER TABLE `tour_locations`
-  MODIFY `tour_location_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tour_location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tour_timetable`
 --
 ALTER TABLE `tour_timetable`
-  MODIFY `timetable_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `timetable_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`

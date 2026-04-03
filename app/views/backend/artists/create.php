@@ -13,6 +13,10 @@
                     <input type="text" class="form-control" id="name" name="name" required>
                 </div>
                 <div class="mb-3">
+                    <label for="real-name" class="form-label">Real Name</label>
+                    <input type="text" class="form-control" id="real-name" name="real-name" required>
+                </div>
+                <div class="mb-3">
                     <label for="image_url" class="form-label">Artist Image</label>
                     <input type="file" class="form-control" id="image_url" name="image_url">
                 </div>
@@ -31,6 +35,10 @@
                 <div class="mb-3">
                     <label for="about" class="form-label">About</label>
                     <textarea class="form-control" id="about" name="about" rows="5" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="detail_image" class="form-label">Detail Image</label>
+                    <input type="file" class="form-control" id="detail_image" name="detail_image">
                 </div>
                 <button type="submit" class="btn btn-primary">Create</button>
             </form>

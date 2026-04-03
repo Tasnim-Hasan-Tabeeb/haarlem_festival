@@ -1,7 +1,7 @@
 <?php include __DIR__ . '/../inc/header.php'; ?>
 <?php //var_dump($location['tour_location_id']); ?>
     <div class="container mb-5">
-        <h1>Edit Location Information</h1>
+        <h1>Edit  Information</h1>
         <div class="mt-4">
             <form action="/historyinformation/update" method="post" autocomplete="off" enctype="multipart/form-data">
                 <div class="mb-3">
@@ -26,6 +26,31 @@
                     <img src="<?= '/images/' . $content['image'] ?>" class="mt-2" width="100" height="100"
                          alt="Location Image">
                 </div>
+
+                 <div class="mb-3">
+                    <label for="section_type" class="form-label">Section Type</label>
+                   <select class="form-control" id="section_type" name="section_type" required>
+                        <option value="">Select Section</option>
+
+                        <option value="Header" <?= $content['section_type'] == 'Header' ? 'selected' : '' ?>>Header</option>
+
+                        <option value="Introduction" <?= $content['section_type'] == 'Introduction' ? 'selected' : '' ?>>Introduction</option>
+
+                        <option value="Information" <?= $content['section_type'] == 'Information' ? 'selected' : '' ?>>Information</option>
+
+                        <option value="RegularTicket" <?= $content['section_type'] == 'RegularTicket' ? 'selected' : '' ?>>Regular Ticket</option>
+
+                        <option value="FamilyTicket" <?= $content['section_type'] == 'FamilyTicket' ? 'selected' : '' ?>>Family Ticket</option> 
+
+                        <option value="Routes" <?= $content['section_type'] == 'Routes' ? 'selected' : '' ?>>Routes</option>
+                        
+
+
+                    </select>
+               </div>
+
+
+
                 <input type="hidden" name="content_id" value="<?= $content['content_id'] ?>">
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>

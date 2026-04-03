@@ -6,13 +6,15 @@ class Artist
 
     public ?int $artist_id;
     public string $artist_name;
+    public string $artist_real_name;
     public string $age;
     public string $nationality;
     public string $genre;
     public string $about;
     public string $image_url;
+    public string $detail_image;
 
-    public function __construct(?int $artist_id, string $artist_name, string $age, string $nationality, string $genre, string $about, string $image_url)
+    public function __construct(?int $artist_id, string $artist_name, string $artist_real_name, string $age, string $nationality, string $genre, string $about, string $image_url, string $detail_image)
     {
         $this->artist_id = $artist_id;
         $this->artist_name = $artist_name;
@@ -21,6 +23,8 @@ class Artist
         $this->genre = $genre;
         $this->about = $about;
         $this->image_url = $image_url;
+        $this->artist_real_name = $artist_real_name;
+        $this->detail_image = $detail_image;
     }
 
     public function getArtist_id(): int
@@ -58,6 +62,22 @@ class Artist
     public function getGenre(): string
     {
         return $this->genre;
+    }
+    public  function getReal_name(): string
+    {
+        return $this->artist_real_name;
+    }
+    public function setReal_name(string $artist_real_name): void
+    {
+        $this->artist_real_name = $artist_real_name;
+    }
+    public function getDetail_image(): string
+    {
+        return $this->detail_image;
+    }
+    public function setDetail_image(string $detail_image): void
+    {
+        $this->detail_image = $detail_image;
     }
     public function setGenre(string $genre): void
     {

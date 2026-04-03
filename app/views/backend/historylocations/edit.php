@@ -1,7 +1,7 @@
 <?php include __DIR__ . '/../inc/header.php'; ?>
 <?php //var_dump($location['tour_location_id']); ?>
     <div class="container mb-5">
-        <h1>Edit Location Information</h1>
+        <h1>Edit  Information</h1>
         <div class="mt-4">
             <form action="/historylocation/update" method="post" autocomplete="off" enctype="multipart/form-data">
                 <div class="mb-3">

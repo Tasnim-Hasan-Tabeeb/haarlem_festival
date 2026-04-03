@@ -13,6 +13,11 @@
                        required>
             </div>
             <div class="mb-3">
+                <label for="real-name" class="form-label">Real Name</label>
+                <input type="text" class="form-control" id="real-name" name="real-name" value="<?= $artists['artist_real_name'] ?>"
+                       required>
+            </div>
+            <div class="mb-3">
                 <label for="age" class="form-label">Age</label>
                 <input type="text" class="form-control" id="age" name="age" value="<?= $artists['age'] ?>"
                        required>
@@ -34,6 +39,11 @@
                 <label for="image_artist" class="form-label">Artist Image</label>
                 <input type="file" class="form-control" id="image_url" name="image_url">
                 <img src="<?= '/images/' . $artists['image_url'] ?>" class="mt-2" width="100" height="100" alt="Artist Image">
+            </div>
+            <div class="mb-5">
+                <label for="detail_image" class="form-label">Detail Image</label>
+                <input type="file" class="form-control" id="image_url" name="detail_image">
+                <img src="<?= '/images/' . $artists['detail_image'] ?>" class="mt-2" width="100" height="100" alt="Detail Image">
             </div>
             <input type="hidden" name="artist_id" value="<?= $artists['artist_id'] ?>">
             <button type="submit" class="btn btn-primary">Update</button>

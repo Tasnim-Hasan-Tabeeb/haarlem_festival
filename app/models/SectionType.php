@@ -2,23 +2,23 @@
 
 namespace App\Models;
 
-enum SectionType:string
+enum SectionType: string
 {
-    case Header = 'Header';
-    case Introduction = 'Introduction';
-    case Information  = 'Information';
+    case Header        = 'Header';
+    case Introduction  = 'Introduction';
+    case Information   = 'Information';
     case RegularTicket = 'RegularTicket';
-    case FamilyTicket = 'FamilyTicket';
-    case Routes = 'Routes';
+    case FamilyTicket  = 'FamilyTicket';
+    case Routes        = 'Routes';
     public static function getSectionType(self $value): string
     {
         return match ($value) {
-            self::Header => 'Header',
-            self::Introduction => 'Introduction',
-            self::Information => 'Information',
+            self::Header        => 'Header',
+            self::Introduction  => 'Introduction',
+            self::Information   => 'Information',
             self::RegularTicket => 'RegularTicket',
-            self::FamilyTicket => 'FamilyTicket',
-            self::Routes => 'Routes',
+            self::FamilyTicket  => 'FamilyTicket',
+            self::Routes        => 'Routes',
         };
     }
     public static function createFrom(string $value): SectionType

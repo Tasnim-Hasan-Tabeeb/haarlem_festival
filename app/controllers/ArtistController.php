@@ -38,6 +38,7 @@ class ArtistController
     {
         try {
             $imageUrl = null;
+            $detailImage = null;
             if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
                 $file = $_FILES['image_url'];
                 $fileName = $file['name'];
@@ -57,16 +58,36 @@ class ArtistController
 
                 $imageUrl = $newFileName;
             }
+            if (isset($_FILES['detail_image']) && $_FILES['detail_image']['error'] === UPLOAD_ERR_OK) {
+                $file = $_FILES['detail_image'];
+                $fileName = $file['name'];
+                $newFileName = uniqid('', true) . '_' . $fileName;
+                $uploadFile = __DIR__ . '/../public/images/' . $newFileName;
 
+                $imageFileType = strtolower(pathinfo($uploadFile, PATHINFO_EXTENSION));
+                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+                if (!in_array($imageFileType, $allowedExtensions)) {
+                    throw new Exception('Invalid file format. Please upload a valid image file.');
+                }
+
+                if (!move_uploaded_file($file['tmp_name'], $uploadFile)) {
+                    throw new Exception('Failed to upload image.');
+                }
+
+                $detailImage = $newFileName;
+            }
 
             $artist = new Artist(
                 null,
                 $_POST['name'],
+                $_POST['real-name'],
                 $_POST['age'],
                 $_POST['nationality'],
                 $_POST['genre'],
                 $_POST['about'],
-                $imageUrl ?? '',
+                $imageUrl,
+                $detailImage
             );
 
             $this->artistService->storeArtist($artist);
@@ -96,11 +117,6 @@ class ArtistController
     {
         try {
             $artist_id = $_POST['artist_id'];
-            $artist = $this->artistService->getArtistsById($artist_id);
-
-            if (!$artist) {
-                throw new Exception('Artist not found.');
-            }
 
             if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
                 // Process image upload
@@ -119,17 +135,43 @@ class ArtistController
 
                 $image_url = $newFileName;
             } else {
+                $artist = $this->artistService->getArtistsById($artist_id);
                 $image_url = $artist['image_url'];
+            }
+            if (isset($_FILES['detail_image']) && $_FILES['detail_image']['error'] === UPLOAD_ERR_OK) {
+                $file = $_FILES['detail_image'];
+                $fileName = $file['name'];
+                $newFileName = uniqid('', true) . '_' . $fileName;
+                $uploadFile = __DIR__ . '/../public/images/' . $newFileName;
+
+                $imageFileType = strtolower(pathinfo($uploadFile, PATHINFO_EXTENSION));
+                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+                if (!in_array($imageFileType, $allowedExtensions)) {
+                    throw new Exception('Invalid file format. Please upload a valid image file.');
+                }
+
+                if (!move_uploaded_file($file['tmp_name'], $uploadFile)) {
+                    throw new Exception('Failed to upload image.');
+                }
+
+                $detailImage = $newFileName;
+            }else {
+                $artist = $this->artistService->getArtistsById($artist_id);
+                $detailImage = $artist['detail_image'];
             }
 
             $artist = new Artist(
-                (int)$artist_id,
+                null,
                 $_POST['name'],
+                $_POST['real-name'],
                 $_POST['age'],
                 $_POST['nationality'],
                 $_POST['genre'],
                 $_POST['about'],
+                $_POST['real-name'],
                 $image_url,
+                $detailImage
             );
 
             $this->artistService->updateArtist($artist, $artist_id);

@@ -23,7 +23,6 @@ include __DIR__ . '/../inc/header.php';
                 <th>Session Type</th>
                 <th>Venue</th>
                 <th>Artists</th>
-                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -39,24 +38,24 @@ include __DIR__ . '/../inc/header.php';
                     <td>&euro;<?= $dance['event_price'] ?></td>
                     <td><?= $dance['event_duration'] ?> minutes</td>
                     <td><?= $dance['session_type'] ?></td>
-                    <td><?= $dance['venue_name'] ?? '' ?></td>
-                    <td><?= $dance['artist_names'] ?? '' ?></td>
+                    <td><?= $dance['venue_name'] ?></td>
+                    <td><?= $dance['artist_names'] ?></td>
                     <td>
-                        <a href="/dancemanagement/edit?id=<?= $dance['music_event_id'] ?>" class="btn btn-primary btn-sm">Edit</a>
-                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $dance['music_event_id'] ?>">Delete</button>
-                        <div class="modal fade" id="deleteModal<?= $dance['music_event_id'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?= $dance['music_event_id'] ?>" aria-hidden="true">
+                        <a href="/dancemanagement/edit?id=<?= $dance['music_performance_id'] ?>" class="btn btn-primary btn-sm">Edit</a>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $dance['music_performance_id'] ?>">Delete</button>
+                        <div class="modal fade" id="deleteModal<?= $dance['music_performance_id'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?= $dance['music_performance_id'] ?>" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="deleteModalLabel<?= $dance['music_event_id'] ?>">Confirm Deletion</h5>
+                                        <h5 class="modal-title" id="deleteModalLabel<?= $dance['music_performance_id'] ?>">Confirm Deletion</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Are you sure you want to delete this dance event?
+                                        Are you sure you want to delete this event?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <a href="/dancemanagement/delete?id=<?= $dance['music_event_id'] ?>" class="btn btn-danger">Delete</a>
+                                        <a href="/dancemanagement/delete?id=<?= $dance['music_performance_id'] ?>" class="btn btn-danger">Delete</a>
                                     </div>
                                 </div>
                             </div>

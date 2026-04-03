@@ -10,7 +10,7 @@
 <div id="section-artist">
     <div class="artist-header">
         <div class="artist-header-image">
-            <img src="<?= '/images/' . htmlspecialchars($artists['image_url']) ?>" alt="<?= htmlspecialchars($artists['artist_name']); ?>">
+            <img src="<?= '/images/' . htmlspecialchars($artists['detail_image']) ?>" alt="<?= htmlspecialchars($artists['artist_name']); ?>">
         </div>
         <h1><?= htmlspecialchars($artists['artist_name']); ?></h1>
     </div>
@@ -24,6 +24,7 @@
             </div>
             <ul>
                 <li class="name"><?= htmlspecialchars($artists['artist_name']); ?></li>
+                <li><strong>Name:</strong> <?= htmlspecialchars($artists['artist_real_name']); ?></li>
                 <li><strong>Age:</strong> <?= htmlspecialchars($artists['age']); ?></li>
                 <li><strong>Nationality:</strong> <?= htmlspecialchars($artists['nationality']); ?></li>
                 <li><strong>Genre:</strong> <?= htmlspecialchars($artists['genre']); ?></li>

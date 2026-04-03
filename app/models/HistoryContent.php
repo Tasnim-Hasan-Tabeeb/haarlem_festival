@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 class HistoryContent
 {
     public ?int $id;
@@ -8,15 +9,15 @@ class HistoryContent
     public string $description;
     public ?string $image;
     public ?string $url;
-    public ?SectionType $sectionType;
+    public ?string $sectionType;
 
-    public function __construct(?int $id, string $title, string $description, ?string $image, ?string $url, ?SectionType $sectionType)
+    public function __construct(?int $id, string $title, string $description, ?string $image, ?string $url, ?string $sectionType = null)
     {
-        $this->id = $id;
-        $this->title = $title;
+        $this->id          = $id;
+        $this->title       = $title;
         $this->description = $description;
-        $this->image = $image;
-        $this->url = $url;
+        $this->image       = $image;
+        $this->url         = $url;
         $this->sectionType = $sectionType;
     }
     public function getId(): int
@@ -60,11 +61,11 @@ class HistoryContent
     {
         $this->url = $url;
     }
-    public function getSectionType(): SectionType
+    public function getSectionType(): SectionType | string
     {
         return $this->sectionType;
     }
-    public function setSectionType(SectionType $sectionType): void
+    public function setSectionType(SectionType | string $sectionType): void
     {
         $this->sectionType = $sectionType;
     }

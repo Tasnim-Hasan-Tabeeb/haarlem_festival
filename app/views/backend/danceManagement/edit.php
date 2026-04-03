@@ -5,7 +5,7 @@
     <?php include __DIR__ . '/../inc/message.php'; ?>
 
 
-    <h1>Edit event</h1>
+    <h1>Edit Venue</h1>
     <div class="mt-4">
         <form action="/dancemanagement/update" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="mb-3">
@@ -38,17 +38,17 @@
             </div>
             <div class="mb-3">
                 <label for="venue_name" class="form-label">Venue</label>
-                <select class="form-select" id="venue_id" name="venue_id" required>
+                <select class="form-select" id="venue_name" name="venue_name" required>
                     <?php foreach ($venues as $venue) : ?>
-                        <option value="<?= $venue['venue_id'] ?>" <?= ($venue['venue_id'] == $dance['venue_id']) ? 'selected' : '' ?>><?= $venue['name'] ?></option>
+                        <option value="<?= $venue['venue_id'] ?>" <?= ($venue['venue_id'] == $dance['venue_id']) ? 'selected' : '' ?>><?= $venue['venue_name'] ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="artist_id" class="form-label">Artist</label>
-                <select class="form-select" id="artist_id" name="artist_id" required>
+                <select class="form-select" id="artist_id" name="artist_id[]" multiple>
                     <?php foreach ($artists as $artist) : ?>
-                        <option value="<?= $artist['artist_id'] ?>" <?= ((int)$artist['artist_id'] === (int)$dance['artist_id']) ? 'selected' : '' ?>>
+                        <option value="<?= $artist['artist_id'] ?>" <?php if (in_array($artist['artist_id'], $selectedArtistIds)) echo 'selected'; ?>>
                             <?= $artist['artist_name'] ?>
                         </option>
                     <?php endforeach; ?>
@@ -58,11 +58,11 @@
 
 
             <div class="mb-5">
-                <label for="image_url" class="form-label">Event Image</label>
-                <input type="file" class="form-control" id="image_url" name="image_url">
+                <label for="venue_image" class="form-label">Venue Image</label>
+                <input type="file" class="form-control" id="venue_image" name="venue_image">
                 <img src="<?= '/images/' . $dance['music_event_image'] ?>" class="mt-2" width="100" height="100" alt="Venue Image">
             </div>
-            <input type="hidden" name="music_event_id" value="<?= $dance['music_event_id'] ?>">
+            <input type="hidden" name="music_performance_id" value="<?= $dance['music_performance_id'] ?>">
             <button type="submit" class="btn btn-primary">Update</button>
 
         </form>

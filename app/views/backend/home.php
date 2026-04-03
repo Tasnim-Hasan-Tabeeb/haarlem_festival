@@ -142,6 +142,41 @@
                 </div>
             </a>
         </div>
+
+        <!-- History Locations -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <a href="/historylocation" class="text-decoration-none dashboard-link">
+                <div class="card dashboard-card history-location">
+                    <div class="card-body">
+                        <div class="card-header-row">
+                            <div class="card-icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <h6 class="card-title mb-0">Number of History Locations</h6>
+                        </div>
+                        <div class="card-value"><?php echo (int)$historyLocationCount; ?></div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- History Tours -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <a href="/historytour" class="text-decoration-none dashboard-link">
+                <div class="card dashboard-card history-tours">
+                    <div class="card-body">
+                        <div class="card-header-row">
+                            <div class="card-icon">
+                                <i class="fas fa-route"></i>
+                            </div>
+                            <h6 class="card-title mb-0">Number of History Tours</h6>
+                        </div>
+                        <div class="card-value"><?php echo (int)$historytimetableCount; ?></div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
     </div>
 </div>
 
