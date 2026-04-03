@@ -21,7 +21,7 @@ class HistoryLocationController
             $locations = $this->historyService->getAllTourLocations();
             require_once __DIR__ . '/../views/backend/historylocations/index.php';
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
+            header('Location: /error?message=' . urlencode($e->getMessage()));
             exit();
         }
     }
@@ -30,10 +30,10 @@ class HistoryLocationController
     {
         try {
             $location_id = $_GET['id'];
-            $location = $this->historyService->getTourLocationById($location_id);
+            $location    = $this->historyService->getTourLocationById($location_id);
             require_once __DIR__ . '/../views/backend/historylocations/edit.php';
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
+            header('Location: /error?message=' . urlencode($e->getMessage()));
             exit();
         }
     }
@@ -44,9 +44,9 @@ class HistoryLocationController
             if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
                 // Process image upload
                 $newFileName = uniqid('', true) . '_' . $_FILES['image_url']['name'];
-                $uploadFile = __DIR__ . '/../public/images/' . $newFileName;
+                $uploadFile  = __DIR__ . '/../public/images/' . $newFileName;
 
-                $imageFileType = strtolower(pathinfo($uploadFile, PATHINFO_EXTENSION));
+                $imageFileType     = strtolower(pathinfo($uploadFile, PATHINFO_EXTENSION));
                 $allowedExtensions = ['jpg', 'jpeg', 'png'];
                 if (!in_array($imageFileType, $allowedExtensions)) {
                     throw new Exception('Invalid file format. Please upload a valid image file.');
@@ -58,11 +58,11 @@ class HistoryLocationController
 
                 $image_url = $newFileName;
             }else{
-                $location = $this->historyService->getTourLocationById($location_id);
+                $location  = $this->historyService->getTourLocationById($location_id);
                 $image_url = $location['images'];
             }
             $location = new Location(
-                (int)$_POST['tour_location_id'],
+                (int) $_POST['tour_location_id'],
                 $_POST['location_name'],
                 $_POST['description'],
                 $_POST['address'],
@@ -70,12 +70,12 @@ class HistoryLocationController
                 $image_url
             );
             $this->historyService->updateLocation($location, $location_id);
-            $_SESSION['isError'] = 0;
-            $_SESSION['flash_message'] = "Location updated successfully!";
-            header("Location: /historylocation");
+            $_SESSION['isError']       = 0;
+            $_SESSION['flash_message'] = 'Location updated successfully!';
+            header('Location: /historylocation');
             exit();
         }catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
+            header('Location: /error?message=' . urlencode($e->getMessage()));
             exit();
         }
     }
@@ -88,13 +88,13 @@ class HistoryLocationController
     public function add()
     {
         try {
-            $imageUrl = null;
+            $imageUrl = 'default.webp';
             if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
-                $file = $_FILES['image_url'];
-                $fileName = $file['name'];
-                $newFileName = uniqid('', true) . '_' . $fileName;
-                $uploadFile = __DIR__ . '/../public/images/' . $newFileName;
-                $imageFileType = strtolower(pathinfo($uploadFile, PATHINFO_EXTENSION));
+                $file              = $_FILES['image_url'];
+                $fileName          = $file['name'];
+                $newFileName       = uniqid('', true) . '_' . $fileName;
+                $uploadFile        = __DIR__ . '/../public/images/' . $newFileName;
+                $imageFileType     = strtolower(pathinfo($uploadFile, PATHINFO_EXTENSION));
                 $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
                 if (!in_array($imageFileType, $allowedExtensions)) {
                     throw new Exception('Invalid file format. Please upload a valid image file.');
@@ -113,12 +113,12 @@ class HistoryLocationController
                 $imageUrl
             );
             $this->historyService->addLocation($location);
-            $_SESSION['isError'] = 0;
-            $_SESSION['flash_message'] = "Location added successfully!";
-            header("Location: /historylocation");
+            $_SESSION['isError']       = 0;
+            $_SESSION['flash_message'] = 'Location added successfully!';
+            header('Location: /historylocation');
             exit();
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
+            header('Location: /error?message=' . urlencode($e->getMessage()));
             exit();
         }
     }
@@ -126,16 +126,16 @@ class HistoryLocationController
     {
         try {
             $location_id = $_GET['id'];
-            if(isset($location_id) && $location_id>0){
+            if(isset($location_id) && $location_id > 0){
                 $location = $this->historyService->getTourLocationById($location_id);
                 $this->historyService->deleteLocation($location_id);
             }
-            $_SESSION['isError'] = 0;
-            $_SESSION['flash_message'] = "Location deleted successfully!";
-            header("Location: /historylocation");
+            $_SESSION['isError']       = 0;
+            $_SESSION['flash_message'] = 'Location deleted successfully!';
+            header('Location: /historylocation');
             exit();
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
+            header('Location: /error?message=' . urlencode($e->getMessage()));
             exit();
         }
     }

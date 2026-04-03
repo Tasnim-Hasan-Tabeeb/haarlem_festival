@@ -8,17 +8,17 @@ class Venue{
     public string $venue_location;
     public int $capacity;
     public string $venue_image;
-    public ?string $map_url;
+    public string $map_url;
 
 
-    public function __construct(?int $venue_id, string $venue_name, string $venue_location, int $capacity, string $venue_image, ?string $map)
+    public function __construct(?int $venue_id, string $venue_name, string $venue_location, int $capacity, string $venue_image, string $map)
     {
         $this->venue_id = $venue_id;
         $this->venue_name = $venue_name;
         $this->venue_location = $venue_location;
         $this->capacity = $capacity;
         $this->venue_image = $venue_image;
-        $this->map_url = $map ?? '';
+        $this->map_url = $map;
     }
     public function getVenue_id(): int
     {
@@ -37,7 +37,7 @@ class Venue{
         $this->venue_name = $venue_name;
     }
 
-    public function getMap_url(): ?string
+    public function getMap_url(): string
     {
         return $this->map_url;
     }

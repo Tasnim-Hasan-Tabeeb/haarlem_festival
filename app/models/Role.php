@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use JsonSerializable;
 use ReflectionClass;
 
-class Role implements JsonSerializable
+class Role implements jsonSerializable
 {
     const Customer = 'Customer';
     const Employee = 'Employee';

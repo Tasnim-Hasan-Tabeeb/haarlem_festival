@@ -6,12 +6,12 @@ use DateTime;
 
 class User
 {
-    private int $userid;
-    private string $name;
-    private string $profilepicture;
-    private string $email;
-    private string $role;
-    private string $password;
+    public int $userid;
+    public string $name;
+    public string $profilepicture;
+    public string $email;
+    public string $role;
+    public string $password;
     public DateTime $registration_date;
 
     public function getUserid(): int

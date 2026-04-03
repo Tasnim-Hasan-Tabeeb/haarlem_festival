@@ -52,8 +52,8 @@ class Router
             $controllerObj = new $controllerName();
             $controllerObj->$methodName();
         } catch (Error $e) {
-            http_response_code(500);
             echo $e->getMessage();
+            http_response_code(500);
             exit;
         }
     }

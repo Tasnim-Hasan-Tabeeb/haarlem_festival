@@ -51,6 +51,7 @@ class ForgotPasswordController
         $mail = new PHPMailer(true);
 
         try {
+            // Server settings
             $mail->isSMTP();
             $mail->Host = $mailConfig['host'];
             $mail->SMTPAuth = $mailConfig['SMTPAuth'];
@@ -59,7 +60,7 @@ class ForgotPasswordController
             $mail->SMTPSecure = $mailConfig['SMTPSecure'];
             $mail->Port = $mailConfig['port'];
 
-            
+            // Recipients
             $mail->setFrom($mailConfig['from_email'], $mailConfig['from_name']);
             $mail->addAddress($email, $name);
 
