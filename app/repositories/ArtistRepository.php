@@ -114,7 +114,7 @@ class ArtistRepository extends Repository
 
     public function getArtistAwards($artist_id){
         try {
-            $stmt = $this->connection->prepare("SELECT * FROM artist_awards WHERE artist_id = :artist_id");
+            $stmt = $this->connection->prepare("SELECT * FROM awards WHERE artist_id = :artist_id");
             $stmt->bindParam(':artist_id', $artist_id);
             $stmt->execute();
             $awards = $stmt->fetchAll(PDO::FETCH_ASSOC);
