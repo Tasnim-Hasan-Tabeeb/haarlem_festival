@@ -63,7 +63,7 @@ class VenueController
                 $imageUrl = $newFileName;
             }
 
-            $venue = new Venue(null, $_POST['name'], $_POST['location'], $_POST['capacity'], $_POST['map_url'], $imageUrl);
+            $venue = new Venue(null, $_POST['name'], $_POST['location'], $_POST['capacity'], $imageUrl, $_POST['map_url']);
             $this->venueService->storeVenue($venue);
             header("Location: /venue");
             exit();
@@ -121,8 +121,8 @@ class VenueController
                 $_POST['name'],
                 $_POST['location'],
                 $_POST['capacity'],
-                $_POST['map_url'],
-                $image_url
+                $image_url,
+                $_POST['map_url']
             );
 
             $this->venueService->updateVenue($venue, $venue_id);

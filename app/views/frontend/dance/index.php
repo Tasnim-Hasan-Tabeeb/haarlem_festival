@@ -40,10 +40,7 @@
     <h2 class="venue-list">Our Locations</h2>
     <div class="venues-container">
         <?php foreach ($venues as $venue) :?>
-            <div class="venue" data-toggle="modal" data-target="#venueModal"
-                 data-name="<?= htmlspecialchars($venue['venue_name']); ?>"
-                 data-location="<?= htmlspecialchars($venue['venue_location']); ?>"
-                 data-map="<?= htmlspecialchars($venue['map_url']); ?>">
+            <div class="venue">
                 <div class="venue-image">
                     <img src="<?= '/images/' . htmlspecialchars($venue['venue_image']) ?>" alt="<?= htmlspecialchars($venue['venue_name']); ?>">
                 </div>
@@ -52,32 +49,9 @@
         <?php endforeach; ?>
     </div>
 </div>
-
-<div class="modal fade" id="venueModal" tabindex="-1" role="dialog" aria-labelledby="venueModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title details-venue" id="venueModalLabel">Venue Details</h5>
-                <!-- Removed the close button from here -->
-            </div>
-            <div class="modal-body">
-                <h2 id="venue-detail-name"></h2>
-                <p id="venue-detail-location"></p>
-                <div class="map">
-                    <iframe id="venue-map" width="100%" height="400" frameborder="0" style="border:0" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="section-4a">
     <h2 class="ticket-list">Tickets</h2>
-    <h2 class="ticket-list">DANCE! - DAY 1</h2>
-    <div class="passes-container">
-        <?php foreach ($allAccessPass as $pass): ?>
+    <?php foreach ($allAccessPass as $pass): ?>
             <div class="pass-container">
                 <div class="top-section">
                     <p class="pass-name"><?= $pass['passName']; ?></p>
@@ -88,6 +62,8 @@
                 </div>
             </div>
         <?php endforeach; ?>
+    <h2 class="ticket-list">DANCE! - DAY 1</h2>
+    <div class="passes-container">
         <?php foreach ($fridayPass as $pass): ?>
             <div class="pass-container">
                 <div class="top-section">
@@ -120,7 +96,6 @@
                     </div>
                     <input type="hidden" class="music-performance-id" value="<?= $ticket['music_performance_id']; ?>">
                     <div class="ticket-buttons">
-                        <button class="favorite-button"><img src="/images/heart.png" alt="Favorite"></button>
                         <button class="buy-button">Buy</button>
                     </div>
                 </div>
@@ -132,17 +107,6 @@
 <div class="section-4b">
     <h2 class="ticket-list">DANCE! - DAY 2</h2>
     <div class="passes-container">
-        <?php foreach ($allAccessPass as $pass): ?>
-            <div class="pass-container">
-                <div class="top-section">
-                    <p class="pass-name"><?= $pass['passName']; ?></p>
-                </div>
-                <div class="bottom-section">
-                    <p class="pass-description-price"><?= $pass['passDescription']; ?> - €<?= $pass['passPrice']; ?></p>
-                    <button class="buy-pass-button" data-passType="<?= $pass['passType']; ?>">Buy</button>
-                </div>
-            </div>
-        <?php endforeach; ?>
         <?php foreach ($saturdayPass as $pass): ?>
             <div class="pass-container">
                 <div class="top-section">
@@ -175,7 +139,6 @@
                     </div>
                     <input type="hidden" class="music-performance-id" value="<?= $ticket['music_performance_id']; ?>">
                     <div class="ticket-buttons">
-                        <button class="favorite-button"><img src="/images/heart.png" alt="Favorite"></button>
                         <button class="buy-button">Buy</button>
                     </div>
                 </div>
@@ -187,17 +150,6 @@
 <div class="section-4c">
     <h2 class="ticket-list">DANCE! - DAY 3</h2>
     <div class="passes-container">
-        <?php foreach ($allAccessPass as $pass): ?>
-            <div class="pass-container">
-                <div class="top-section">
-                    <p class="pass-name"><?= $pass['passName']; ?></p>
-                </div>
-                <div class="bottom-section">
-                    <p class="pass-description-price"><?= $pass['passDescription']; ?> - €<?= $pass['passPrice']; ?></p>
-                    <button class="buy-pass-button" data-passType="<?= $pass['passType']; ?>">Buy</button>
-                </div>
-            </div>
-        <?php endforeach; ?>
         <?php foreach ($sundayPass as $pass): ?>
             <div class="pass-container">
                 <div class="top-section">
@@ -229,7 +181,6 @@
                     </div>
                     <input type="hidden" class="music-performance-id" value="<?= $ticket['music_performance_id']; ?>">
                     <div class="ticket-buttons">
-                        <button class="favorite-button"><img src="/images/heart.png" alt="Favorite"></button>
                         <button class="buy-button">Buy</button>
                     </div>
                 </div>
@@ -239,20 +190,6 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-        $('#venueModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var name = button.data('name'); // Extract info from data-* attributes
-            var location = button.data('location');
-            var mapUrl = button.data('map');
-
-            var modal = $(this);
-            modal.find('#venue-detail-name').text(name);
-            modal.find('#venue-detail-location').text(location);
-            modal.find('#venue-map').attr('src', mapUrl);
-        });
-    });
-
     $(document).ready(function() {
         // Handle click on event ticket buy buttons
         $('.buy-button').click(function(event) {

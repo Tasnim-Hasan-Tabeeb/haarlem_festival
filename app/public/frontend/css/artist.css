@@ -31,10 +31,24 @@ body {
     width: 100%;
 }
 
+.artist-header {
+    position: relative;
+}
+
+.artist-header-image {
+    width: 100%;
+    height: 420px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1a0830;
+}
+
 .artist-header img {
     width: 100%;
-    max-height: 420px;
-    object-fit: cover;
+    height: 100%;
+    object-fit: contain;
     display: block;
 }
 
@@ -180,43 +194,59 @@ body {
     color: black;
 }
 /* Best Albums section */
-.artist-albums {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+.artist-albums,
+.artist-awards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
 }
 
-.artist-albums .album-container {
-    width: calc(33.33% - 20px);
-    margin-bottom: 20px;
+.artist-albums .album-container,
+.artist-awards .award-container {
+    width: 100%;
+    margin-bottom: 0;
     text-align: center;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.artist-albums .album-container:nth-child(3n + 1) {
+.artist-albums .album-container:nth-child(3n + 1),
+.artist-awards .award-container:nth-child(3n + 1) {
     margin-left: 0;
 }
 
-.album-image img {
+.album-image img,
+.awards-image img {
     width: 180px;
     height: 180px;
     border-radius: 10px;
+    object-fit: cover;
 }
 
-.album-info {
+.album-info,
+.award-title {
     margin-top: 10px;
     font-size: 2em;
+    line-height: 1.2;
 }
 
 /* Music section */
 .artist-songs {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    align-items: stretch;
+}
+
+.artist-songs .artist-heading {
+    grid-column: 1 / -1;
 }
 
 .song-container {
-    width: 30%;
-    margin-bottom: 20px;
+    width: 100%;
+    height: 100%;
 }
 
 .song-info {
@@ -224,6 +254,12 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    justify-content: space-between;
+    height: 100%;
+    min-height: 340px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 .song-name {
@@ -239,35 +275,6 @@ body {
     width: 180px;
     height: 180px;
     border-radius: 5px;
-}
-
-/* Awards section */
-.artist-awards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.artist-awards .award-container {
-    width: calc(33.33% - 20px); /* 3 items per row with space between */
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.artist-awards .award-container:nth-child(3n + 1) {
-    margin-left: 0; /* clear margin for first item in each row */
-}
-
-.awards-image img {
-    width: 180px;
-    height: 180px;
-    border-radius: 10px;
-}
-
-.award-title {
-    margin-top: 10px;
-    font-size: 2em;
-
 }
 
 /* Back button styles */
@@ -290,13 +297,26 @@ body {
 }
 /* Responsive styles */
 @media (max-width: 768px) {
+    .artist-header-image {
+        height: 280px;
+    }
+
     .artist-albums .album-container,
     .artist-awards .award-container {
-        width: 45%;
+        width: 100%;
+    }
+
+    .artist-albums,
+    .artist-awards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .song-container {
         width: 100%;
+    }
+
+    .artist-songs {
+        grid-template-columns: 1fr;
     }
 
     .favorite-button, .buyTicket-button {

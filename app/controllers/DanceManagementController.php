@@ -58,30 +58,58 @@ class DanceManagementController
 
         // Convert comma-separated string of artist IDs into an array
         $selectedArtistIds = explode(',', $dance['artist_id']);
-var_dump($selectedArtistIds);
-exit();
 
         // Render the edit view with all necessary data
         require __DIR__ . '/../views/backend/danceManagement/edit.php';
     }
 
-
-    public function update($id)
+    public function update()
     {
         try {
-            $dance = new Dance(
-                $_POST['music_performance_id'],
-                $_POST['music_event_id'],
-                $_POST['event_price'],
-                $_POST['session_type'],
+            $musicPerformanceId = (int)($_POST['music_performance_id'] ?? 0);
+
+            if ($musicPerformanceId <= 0) {
+                throw new Exception('Music performance ID is required.');
+            }
+
+            $imageUrl = null;
+            if (isset($_FILES['venue_image']) && $_FILES['venue_image']['error'] === UPLOAD_ERR_OK) {
+                $file = $_FILES['venue_image'];
+                $fileName = $file['name'];
+                $newFileName = uniqid('', true) . '_' . $fileName;
+                $uploadFile = __DIR__ . '/../public/images/' . $newFileName;
+
+                $imageFileType = strtolower(pathinfo($uploadFile, PATHINFO_EXTENSION));
+                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+                if (!in_array($imageFileType, $allowedExtensions)) {
+                    throw new Exception('Invalid file format. Please upload a valid image file.');
+                }
+
+                if (!move_uploaded_file($file['tmp_name'], $uploadFile)) {
+                    throw new Exception('Failed to upload image.');
+                }
+
+                $imageUrl = $newFileName;
+            }
+
+            $artistIds = $_POST['artist_id'] ?? [];
+            $artistIds = array_values(array_filter(array_map('intval', $artistIds)));
+
+            $this->danceService->updateManagedEvent(
+                $musicPerformanceId,
+                $_POST['title'],
                 $_POST['event_date'],
                 $_POST['event_start_time'],
-                $_POST['event_duration'],
-                $_POST['event_name'],
-                $_POST['event_id'],
-                );
-            $this->danceService->updateEvent($dance, $id);
-            header("Location: /dance-management");
+                (float)$_POST['event_price'],
+                (int)$_POST['event_duration'],
+                $_POST['session_type'],
+                (int)$_POST['venue_name'],
+                $artistIds,
+                $imageUrl
+            );
+
+            header("Location: /dancemanagement");
             exit();
         } catch (Exception $e) {
             header("Location: /error?message=" . urlencode($e->getMessage()));

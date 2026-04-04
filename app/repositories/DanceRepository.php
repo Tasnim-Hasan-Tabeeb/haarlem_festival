@@ -226,6 +226,170 @@ class DanceRepository extends Repository
         }
     }
 
+    public function updateManagedEvent(
+        int $musicPerformanceId,
+        string $eventName,
+        string $eventDate,
+        string $eventStartTime,
+        float $eventPrice,
+        int $eventDuration,
+        string $sessionType,
+        int $venueId,
+        array $artistIds,
+        ?string $musicEventImage = null
+    ): bool {
+        try {
+            $existingEvent = $this->getDanceEventById($musicPerformanceId);
+
+            if (!$existingEvent) {
+                throw new Exception("Dance event not found.");
+            }
+
+            $musicEventId = (int)$existingEvent['music_event_id'];
+            $eventId = (int)$existingEvent['event_id'];
+            $currentImage = $existingEvent['music_event_image'] ?? null;
+            $artistIds = array_values(array_unique(array_map('intval', $artistIds)));
+
+            if (empty($artistIds)) {
+                $artistIds = array_map('intval', explode(',', (string)($existingEvent['artist_id'] ?? '')));
+                $artistIds = array_values(array_filter($artistIds));
+            }
+
+            if (empty($artistIds)) {
+                throw new Exception("At least one artist must be selected.");
+            }
+
+            $imageToStore = $musicEventImage ?? $currentImage;
+
+            $stmt = $this->connection->prepare("
+                SELECT music_performance_id, artist_id, quantity
+                FROM music_performance
+                WHERE music_event_id = :music_event_id
+            ");
+            $stmt->bindParam(':music_event_id', $musicEventId, PDO::PARAM_INT);
+            $stmt->execute();
+            $existingPerformances = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $performancesByArtist = [];
+            $defaultQuantity = 1;
+
+            foreach ($existingPerformances as $performance) {
+                $performancesByArtist[(int)$performance['artist_id']] = $performance;
+                $defaultQuantity = (int)$performance['quantity'];
+            }
+
+            $this->connection->beginTransaction();
+
+            $stmt = $this->connection->prepare("
+                UPDATE music_events
+                SET artist_id = :artist_id,
+                    venue_id = :venue_id,
+                    event_date = :event_date,
+                    event_name = :event_name,
+                    event_price = :event_price,
+                    session_type = :session_type,
+                    event_start_time = :event_start_time,
+                    event_duration = :event_duration,
+                    music_event_image = :music_event_image
+                WHERE music_event_id = :music_event_id
+            ");
+            $stmt->execute([
+                ':artist_id' => $artistIds[0],
+                ':venue_id' => $venueId,
+                ':event_date' => $eventDate,
+                ':event_name' => $eventName,
+                ':event_price' => $eventPrice,
+                ':session_type' => $sessionType,
+                ':event_start_time' => $eventStartTime,
+                ':event_duration' => $eventDuration,
+                ':music_event_image' => $imageToStore,
+                ':music_event_id' => $musicEventId,
+            ]);
+
+            foreach ($artistIds as $artistId) {
+                if (isset($performancesByArtist[$artistId])) {
+                    $stmt = $this->connection->prepare("
+                        UPDATE music_performance
+                        SET artist_id = :artist_id,
+                            title = :title,
+                            session_type = :session_type,
+                            start_date = :start_date,
+                            event_start_time = :event_start_time,
+                            event_duration = :event_duration,
+                            event_price = :event_price
+                        WHERE music_performance_id = :music_performance_id
+                    ");
+                    $stmt->execute([
+                        ':artist_id' => $artistId,
+                        ':title' => $eventName,
+                        ':session_type' => $sessionType,
+                        ':start_date' => $eventDate,
+                        ':event_start_time' => $eventStartTime,
+                        ':event_duration' => $eventDuration,
+                        ':event_price' => $eventPrice,
+                        ':music_performance_id' => $performancesByArtist[$artistId]['music_performance_id'],
+                    ]);
+                    continue;
+                }
+
+                $stmt = $this->connection->prepare("
+                    INSERT INTO music_performance (
+                        music_event_id,
+                        artist_id,
+                        event_id,
+                        title,
+                        session_type,
+                        start_date,
+                        event_start_time,
+                        event_duration,
+                        event_price,
+                        quantity
+                    ) VALUES (
+                        :music_event_id,
+                        :artist_id,
+                        :event_id,
+                        :title,
+                        :session_type,
+                        :start_date,
+                        :event_start_time,
+                        :event_duration,
+                        :event_price,
+                        :quantity
+                    )
+                ");
+                $stmt->execute([
+                    ':music_event_id' => $musicEventId,
+                    ':artist_id' => $artistId,
+                    ':event_id' => $eventId,
+                    ':title' => $eventName,
+                    ':session_type' => $sessionType,
+                    ':start_date' => $eventDate,
+                    ':event_start_time' => $eventStartTime,
+                    ':event_duration' => $eventDuration,
+                    ':event_price' => $eventPrice,
+                    ':quantity' => $defaultQuantity,
+                ]);
+            }
+
+            $placeholders = implode(',', array_fill(0, count($artistIds), '?'));
+            $params = array_merge([$musicEventId], $artistIds);
+            $stmt = $this->connection->prepare("
+                DELETE FROM music_performance
+                WHERE music_event_id = ?
+                  AND artist_id NOT IN ($placeholders)
+            ");
+            $stmt->execute($params);
+
+            $this->connection->commit();
+            return true;
+        } catch (Exception $e) {
+            if ($this->connection->inTransaction()) {
+                $this->connection->rollBack();
+            }
+            throw new Exception("Error: " . $e->getMessage());
+        }
+    }
+
     public function update(Dance $dance, $dance_id): bool
     {
         try {

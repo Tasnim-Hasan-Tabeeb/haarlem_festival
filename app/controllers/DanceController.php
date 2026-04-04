@@ -39,28 +39,31 @@ class DanceController{
         $SundayTickets = $this->danceService->getSundayEvents();
 
 
-
         $fridayPass = [];
         $saturdayPass = [];
         $sundayPass = [];
         $allAccessPass = [];
 
         foreach ($passes as $pass) {
-            switch ($pass['passType']) {
-                case 'One-Day Pass (Friday)':
-                    $fridayPass[] = $pass;
-                    break;
-                case 'One-Day Pass (Saturday)':
-                    $saturdayPass[] = $pass;
-                    break;
-                case 'One-Day Pass (Sunday)':
-                    $sundayPass[] = $pass;
-                    break;
-                case 'All-Access Pass':
-                    $allAccessPass[] = $pass;
-                    break;
-                default:
-                    break;
+            $passName = strtolower(trim((string)($pass['passName'] ?? '')));
+
+            if (str_contains($passName, 'weekend') || str_contains($passName, 'all access')) {
+                $allAccessPass[] = $pass;
+                continue;
+            }
+
+            if (str_contains($passName, 'friday')) {
+                $fridayPass[] = $pass;
+                continue;
+            }
+
+            if (str_contains($passName, 'saturday')) {
+                $saturdayPass[] = $pass;
+                continue;
+            }
+
+            if (str_contains($passName, 'sunday')) {
+                $sundayPass[] = $pass;
             }
         }
         require __DIR__ . '/../views/frontend/dance/index.php';

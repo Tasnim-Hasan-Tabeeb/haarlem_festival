@@ -60,10 +60,51 @@ class DanceService
             throw new Exception("Error: " . $e->getMessage());
         }
     }
+
+    public function getDanceEventById(int $music_performance_id)
+    {
+        return $this->getEventById($music_performance_id);
+    }
+
     public function updateDance(Dance $dance, $dance_id): bool
     {
         try {
             return $this->danceRepository->update($dance, $dance_id);
+        } catch (Exception $e) {
+            throw new Exception("Error: " . $e->getMessage());
+        }
+    }
+
+    public function updateEvent(Dance $dance, $dance_id): bool
+    {
+        return $this->updateDance($dance, $dance_id);
+    }
+
+    public function updateManagedEvent(
+        int $musicPerformanceId,
+        string $eventName,
+        string $eventDate,
+        string $eventStartTime,
+        float $eventPrice,
+        int $eventDuration,
+        string $sessionType,
+        int $venueId,
+        array $artistIds,
+        ?string $musicEventImage = null
+    ): bool {
+        try {
+            return $this->danceRepository->updateManagedEvent(
+                $musicPerformanceId,
+                $eventName,
+                $eventDate,
+                $eventStartTime,
+                $eventPrice,
+                $eventDuration,
+                $sessionType,
+                $venueId,
+                $artistIds,
+                $musicEventImage
+            );
         } catch (Exception $e) {
             throw new Exception("Error: " . $e->getMessage());
         }

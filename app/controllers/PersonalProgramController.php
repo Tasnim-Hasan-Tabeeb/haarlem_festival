@@ -476,7 +476,11 @@ class PersonalProgramController
             $qrCodeImage = $qrCodeBuilder->build();
 
             // Define the path to save the QR code image
-            $qrCodeImagePath = __DIR__ . '/../public/images/qrCodes/' . $qrCodeData . '.png';
+            $qrCodesDir = __DIR__ . '/../public/images/qrCodes';
+            if (!is_dir($qrCodesDir)) {
+                mkdir($qrCodesDir, 0775, true);
+            }
+            $qrCodeImagePath = $qrCodesDir . '/' . $qrCodeData . '.png';
 
             // Save the QR code image to the specified path
             file_put_contents($qrCodeImagePath, $qrCodeImage->getString());

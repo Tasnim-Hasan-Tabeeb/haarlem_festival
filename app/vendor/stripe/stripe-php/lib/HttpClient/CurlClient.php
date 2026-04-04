@@ -677,7 +677,10 @@ class CurlClient implements ClientInterface, StreamingClientInterface
     private function closeCurlHandle()
     {
         if (null !== $this->curlHandle) {
-            \curl_close($this->curlHandle);
+            // PHP 8.5+ deprecates curl_close() (no-op since PHP 8.0).
+            if (\PHP_VERSION_ID < 80500) {
+                \curl_close($this->curlHandle);
+            }
             $this->curlHandle = null;
         }
     }

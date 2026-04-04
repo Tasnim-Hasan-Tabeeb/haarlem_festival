@@ -2,19 +2,9 @@
 
 <title><?= htmlspecialchars($artists['artist_name'] ?? ''); ?></title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
 <link rel="stylesheet" href="/frontend/css/artist.css">
 </head>
 <body>
-
-<div id="section-artist">
-    <div class="artist-header">
-        <div class="artist-header-image">
-            <img src="<?= '/images/' . htmlspecialchars($artists['detail_image'] ?? '') ?>" alt="<?= htmlspecialchars($artists['artist_name'] ?? ''); ?>">
-        </div>
-        <h1><?= htmlspecialchars($artists['artist_name'] ?? ''); ?></h1>
-    </div>
-</div>
 
 <div class="grid-container">
     <div class="section-1">
@@ -23,8 +13,7 @@
                 <img src="<?= '/images/' . htmlspecialchars($artists['image_url'] ?? '') ?>" alt="<?= htmlspecialchars($artists['artist_name'] ?? ''); ?>">
             </div>
             <ul>
-                <li class="name"><?= htmlspecialchars($artists['artist_name'] ?? ''); ?></li>
-                <li><strong>Name:</strong> <?= htmlspecialchars($artists['artist_real_name'] ?? ''); ?></li>
+                <li><strong>Name:</strong> <?= htmlspecialchars($artists['artist_name'] ?? ''); ?></li>
                 <li><strong>Age:</strong> <?= htmlspecialchars((string)($artists['age'] ?? '')); ?></li>
                 <li><strong>Nationality:</strong> <?= htmlspecialchars($artists['nationality'] ?? ''); ?></li>
                 <li><strong>Genre:</strong> <?= htmlspecialchars($artists['genre'] ?? ''); ?></li>
@@ -34,7 +23,7 @@
 
     <div class="section-2">
         <div class="artist-aboutMe">
-            <h2 class="artist-heading">About Me</h2>
+            <h2 class="artist-heading">About</h2>
             <p><?= htmlspecialchars($artists['about'] ?? ''); ?></p>
         </div>
     </div>
@@ -46,7 +35,6 @@
                 <div class="container">
                     <p class="event-date"><?= htmlspecialchars($events['event_date'] ?? ''); ?> - <?= htmlspecialchars($events['event_start_time'] ?? ''); ?> @ <?= htmlspecialchars($events['venue_name'] ?? ''); ?> - €<?= htmlspecialchars((string)($events['event_price'] ?? '')); ?></p>
                     <input type="hidden" class="music-performance-id" value="<?= htmlspecialchars((string)($events['music_performance_id'] ?? '')); ?>">
-                    <button class="favorite-button"><img src="/images/heart.png" alt="Favorite"></button>
                     <button class="buyTicket-button">Buy Ticket</button>
                 </div>
             <?php endforeach; ?>
@@ -75,14 +63,15 @@
             <div class="song-container">
                 <div class="song-info">
                     <div class="song-name"><?= htmlspecialchars($music['music_title'] ?? ''); ?></div>
-                    <div class="music-player">
-                        <audio controls>
-                            <source src="<?= '/music/' . htmlspecialchars($music['music_url'] ?? ''); ?>" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
-                    </div>
+                    
                     <div class="song-image">
                         <img src="<?= '/images/' . htmlspecialchars($music['image_url'] ?? '') ?>" alt="<?= htmlspecialchars($music['music_title'] ?? ''); ?>">
+                    </div>
+                    <div class="music-player">
+                        <audio controls>
+                            <source src="<?= '/images/' . htmlspecialchars($music['music_url'] ?? ''); ?>" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
                     </div>
                 </div>
             </div>
