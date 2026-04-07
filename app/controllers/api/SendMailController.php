@@ -4,9 +4,6 @@ namespace App\Controllers\Api;
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-require_once __DIR__ . '/../../vendor/PHPMailer-master/src/PHPMailer.php';
-require_once __DIR__ . '/../../vendor/PHPMailer-master/src/Exception.php';
-require_once __DIR__ . '/../../vendor/PHPMailer-master/src/SMTP.php';
 require_once __DIR__ . '/ApiBaseController.php';
 
 class SendMailController extends ApiBaseController
