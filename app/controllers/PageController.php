@@ -135,7 +135,6 @@ class PageController
         try {
             $rules = [
                 'title' => 'required|string|min:3|max:500',
-
                 'section_title'     => 'required_array|string|min:3|max:500', 
                 'section_type'      => 'required_array|string',                
                 'section_content'   => 'array|string',                       

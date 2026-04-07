@@ -45,7 +45,7 @@
                     <h2><?= $historyEvent['title']; ?></h2>
                     <p><?= $historyEvent['description']; ?></p>
                 </div>
-                <a href="/home/page?slug=history&id=6" class="event-section__button" id="event-section__button-history">
+                <a href="/home/page?slug=history&id=3" class="event-section__button" id="event-section__button-history">
                     <p><?= $historyEvent['start_date']; ?> till <?= $historyEvent['end_date']; ?></p>
                 <?php endforeach; ?>
                 </a>
