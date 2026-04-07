@@ -90,6 +90,5 @@
 
 <?php include __DIR__ . '/inc/footer.php'; ?>
 
-<script>
-    <script src="/frontend/js/home.js"></script>
-</script>
+
+<script src="/frontend/js/home.js"></script>
