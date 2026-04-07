@@ -2,8 +2,8 @@
 
 .history-ticket-page {
     font-family: "Baloo Bhaijaan 2", sans-serif;
-    background-color: #780B1E;
-    color: white;
+    background: lightblue;
+    color: rgb(4, 4, 4);
     min-height: calc(100vh - 90px);
     display: flex;
     justify-content: center;
