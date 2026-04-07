@@ -140,7 +140,8 @@ class PageController
                 'section_type'      => 'required_array|string',                
                 'section_content'   => 'array|string',                       
                 'section_sub_title' => 'array|string|max:150',               
-                'map_url'           => 'array|string|max:255',                  
+                'map_url'           => 'array|string|max:255', 
+            ];           
 
             $validateData = Validator::validate($_POST, $rules);
 
