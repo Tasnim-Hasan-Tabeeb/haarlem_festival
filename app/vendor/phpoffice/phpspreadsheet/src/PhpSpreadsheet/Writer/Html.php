@@ -6,6 +6,7 @@ use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Chart\Chart;
+use PhpOffice\PhpSpreadsheet\Comment;
 use PhpOffice\PhpSpreadsheet\Document\Properties;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
 use PhpOffice\PhpSpreadsheet\RichText\Run;
@@ -114,13 +115,6 @@ class Html extends BaseWriter
      * Is the current writer creating PDF?
      */
     protected bool $isPdf = false;
-
-    /**
-     * Is the current writer creating mPDF?
-     *
-     * @deprecated 2.0.1 use instanceof Mpdf instead
-     */
-    protected bool $isMPdf = false;
 
     /**
      * Generate the Navigation block.
@@ -241,8 +235,9 @@ class Html extends BaseWriter
         return Alignment::HORIZONTAL_ALIGNMENT_FOR_HTML[$hAlign] ?? '';
     }
 
+    const BORDER_NONE = 'none';
     const BORDER_ARR = [
-        Border::BORDER_NONE => 'none',
+        Border::BORDER_NONE => self::BORDER_NONE,
         Border::BORDER_DASHDOT => '1px dashed',
         Border::BORDER_DASHDOTDOT => '1px dotted',
         Border::BORDER_DASHED => '1px dashed',
@@ -263,7 +258,7 @@ class Html extends BaseWriter
      */
     private function mapBorderStyle($borderStyle): string
     {
-        return array_key_exists($borderStyle, self::BORDER_ARR) ? self::BORDER_ARR[$borderStyle] : '1px solid';
+        return self::BORDER_ARR[$borderStyle] ?? '1px solid';
     }
 
     /**
@@ -353,7 +348,11 @@ class Html extends BaseWriter
         $html .= '  <head>' . PHP_EOL;
         $html .= '      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . PHP_EOL;
         $html .= '      <meta name="generator" content="PhpSpreadsheet, https://github.com/PHPOffice/PhpSpreadsheet" />' . PHP_EOL;
-        $html .= '      <title>' . htmlspecialchars($properties->getTitle(), Settings::htmlEntityFlags()) . '</title>' . PHP_EOL;
+        $title = $properties->getTitle();
+        if ($title === '') {
+            $title = $this->spreadsheet->getActiveSheet()->getTitle();
+        }
+        $html .= '      <title>' . htmlspecialchars($title, Settings::htmlEntityFlags()) . '</title>' . PHP_EOL;
         $html .= self::generateMeta($properties->getCreator(), 'author');
         $html .= self::generateMeta($properties->getTitle(), 'title');
         $html .= self::generateMeta($properties->getDescription(), 'description');
@@ -386,12 +385,12 @@ class Html extends BaseWriter
                 } else {
                     $propertyValue = (string) $propertyValue;
                 }
-                $html .= self::generateMeta($propertyValue, "custom.$propertyQualifier.$customProperty");
+                $html .= self::generateMeta($propertyValue, htmlspecialchars("custom.$propertyQualifier.$customProperty"));
             }
         }
 
         if (!empty($properties->getHyperlinkBase())) {
-            $html .= '      <base href="' . $properties->getHyperlinkBase() . '" />' . PHP_EOL;
+            $html .= '      <base href="' . htmlspecialchars($properties->getHyperlinkBase()) . '" />' . PHP_EOL;
         }
 
         $html .= $includeStyles ? $this->generateStyles(true) : $this->generatePageDeclarations(true);
@@ -496,7 +495,7 @@ class Html extends BaseWriter
                             $rowData[$column] = ($sheet->getCellCollection()->has($cellAddress)) ? $cellAddress : '';
                         }
                         ++$column;
-                        ++$colStr;
+                        StringHelper::stringIncrement($colStr);
                     }
                     $html .= $this->generateRow($sheet, $rowData, $row - 1, $cellType);
                 }
@@ -544,7 +543,7 @@ class Html extends BaseWriter
             $html .= '<ul class="navigation">' . PHP_EOL;
 
             foreach ($sheets as $sheet) {
-                $html .= '  <li class="sheet' . $sheetId . '"><a href="#sheet' . $sheetId . '">' . $sheet->getTitle() . '</a></li>' . PHP_EOL;
+                $html .= '  <li class="sheet' . $sheetId . '"><a href="#sheet' . $sheetId . '">' . htmlspecialchars($sheet->getTitle()) . '</a></li>' . PHP_EOL;
                 ++$sheetId;
             }
 
@@ -572,6 +571,9 @@ class Html extends BaseWriter
             }
         }
         foreach ($worksheet->getDrawingCollection() as $drawing) {
+            if ($drawing instanceof Drawing && $drawing->getPath() === '') {
+                continue;
+            }
             $imageTL = Coordinate::indexesFromString($drawing->getCoordinates());
             $this->sheetDrawings[$drawing->getCoordinates()] = $drawing;
             if ($imageTL[1] > $rowMax) {
@@ -614,7 +616,7 @@ class Html extends BaseWriter
         if ($drawing !== null) {
             $filedesc = $drawing->getDescription();
             $filedesc = $filedesc ? htmlspecialchars($filedesc, ENT_QUOTES) : 'Embedded image';
-            if ($drawing instanceof Drawing) {
+            if ($drawing instanceof Drawing && $drawing->getPath() !== '') {
                 $filename = $drawing->getPath();
 
                 // Strip off eventual '.'
@@ -633,12 +635,15 @@ class Html extends BaseWriter
                 $imageData = self::winFileToUrl($filename, $this instanceof Pdf\Mpdf);
 
                 if ($this->embedImages || str_starts_with($imageData, 'zip://')) {
+                    $imageData = 'data:,';
                     $picture = @file_get_contents($filename);
                     if ($picture !== false) {
-                        $imageDetails = getimagesize($filename) ?: ['mime' => ''];
-                        // base64 encode the binary data
-                        $base64 = base64_encode($picture);
-                        $imageData = 'data:' . $imageDetails['mime'] . ';base64,' . $base64;
+                        $mimeContentType = (string) @mime_content_type($filename);
+                        if (str_starts_with($mimeContentType, 'image/')) {
+                            // base64 encode the binary data
+                            $base64 = base64_encode($picture);
+                            $imageData = 'data:' . $mimeContentType . ';base64,' . $base64;
+                        }
                     }
                 }
 
@@ -752,8 +757,8 @@ class Html extends BaseWriter
                     $totalHeight += ($height >= 0) ? $height : $defaultRowHeight;
                 }
                 $rightEdge = $brCoordinate[2];
-                ++$rightEdge;
-                for ($column = $tlCoordinate[2]; $column !== $rightEdge; ++$column) {
+                StringHelper::stringIncrement($rightEdge);
+                for ($column = $tlCoordinate[2]; $column !== $rightEdge; StringHelper::stringIncrement($column)) {
                     $width = $sheet->getColumnDimension($column)->getWidth();
                     $width = ($width < 0) ? self::DEFAULT_CELL_WIDTH_PIXELS : SharedDrawing::cellDimensionToPixels($sheet->getColumnDimension($column)->getWidth(), $this->defaultFont);
                     $totalWidth += $width;
@@ -848,7 +853,7 @@ class Html extends BaseWriter
             if ($this->shouldGenerateColumn($sheet, $colStr)) {
                 $css['table.sheet' . $sheetIndex . ' col.col' . $column]['width'] = self::DEFAULT_CELL_WIDTH_POINTS . 'pt';
             }
-            ++$colStr;
+            StringHelper::stringIncrement($colStr);
         }
 
         // col elements, loop through columnDimensions and set width
@@ -1069,10 +1074,26 @@ class Html extends BaseWriter
         $css = [];
 
         // Create CSS
-        $css['border-bottom'] = $this->createCSSStyleBorder($borders->getBottom());
-        $css['border-top'] = $this->createCSSStyleBorder($borders->getTop());
-        $css['border-left'] = $this->createCSSStyleBorder($borders->getLeft());
-        $css['border-right'] = $this->createCSSStyleBorder($borders->getRight());
+        if (!($this instanceof Pdf\Mpdf)) {
+            $css['border-bottom'] = $this->createCSSStyleBorder($borders->getBottom());
+            $css['border-top'] = $this->createCSSStyleBorder($borders->getTop());
+            $css['border-left'] = $this->createCSSStyleBorder($borders->getLeft());
+            $css['border-right'] = $this->createCSSStyleBorder($borders->getRight());
+        } else {
+            // Mpdf doesn't process !important, so omit unimportant border none
+            if ($borders->getBottom()->getBorderStyle() !== Border::BORDER_NONE) {
+                $css['border-bottom'] = $this->createCSSStyleBorder($borders->getBottom());
+            }
+            if ($borders->getTop()->getBorderStyle() !== Border::BORDER_NONE) {
+                $css['border-top'] = $this->createCSSStyleBorder($borders->getTop());
+            }
+            if ($borders->getLeft()->getBorderStyle() !== Border::BORDER_NONE) {
+                $css['border-left'] = $this->createCSSStyleBorder($borders->getLeft());
+            }
+            if ($borders->getRight()->getBorderStyle() !== Border::BORDER_NONE) {
+                $css['border-right'] = $this->createCSSStyleBorder($borders->getRight());
+            }
+        }
 
         return $css;
     }
@@ -1087,7 +1108,7 @@ class Html extends BaseWriter
         //    Create CSS - add !important to non-none border styles for merged cells
         $borderStyle = $this->mapBorderStyle($border->getBorderStyle());
 
-        return $borderStyle . ' #' . $border->getColor()->getRGB() . (($borderStyle == 'none') ? '' : ' !important');
+        return $borderStyle . ' #' . $border->getColor()->getRGB() . (($borderStyle === self::BORDER_NONE) ? '' : ' !important');
     }
 
     /**
@@ -1344,7 +1365,7 @@ class Html extends BaseWriter
 
             // Converts the cell content so that spaces occuring at beginning of each new line are replaced by &nbsp;
             // Example: "  Hello\n to the world" is converted to "&nbsp;&nbsp;Hello\n&nbsp;to the world"
-            $cellData = (string) preg_replace('/(?m)(?:^|\\G) /', '&nbsp;', $cellData);
+            $cellData = (string) preg_replace('/(?m)(?:^|\G) /', '&nbsp;', $cellData);
 
             // convert newline "\n" to '<br>'
             $cellData = nl2br($cellData);
@@ -1444,11 +1465,21 @@ class Html extends BaseWriter
                 $xcssClass['height'] = $height;
             }
             //** end of redundant code **
+            if ($this->useInlineCss) {
+                foreach (['border-top', 'border-bottom', 'border-right', 'border-left'] as $borderType) {
+                    if (($xcssClass[$borderType] ?? '') === 'none #000000') {
+                        unset($xcssClass[$borderType]);
+                    }
+                }
+            }
 
             if ($htmlx) {
                 $xcssClass['position'] = 'relative';
             }
             $html .= ' style="' . $this->assembleCSS($xcssClass) . '"';
+            if ($this->useInlineCss) {
+                $html .= ' class="gridlines gridlinesp"';
+            }
         }
         $html = $this->generateRowSpans($html, $rowSpan, $colSpan);
 
@@ -1487,7 +1518,16 @@ class Html extends BaseWriter
 
             // Hyperlink?
             if ($worksheet->hyperlinkExists($coordinate) && !$worksheet->getHyperlink($coordinate)->isInternal()) {
-                $cellData = '<a href="' . htmlspecialchars($worksheet->getHyperlink($coordinate)->getUrl(), Settings::htmlEntityFlags()) . '" title="' . htmlspecialchars($worksheet->getHyperlink($coordinate)->getTooltip(), Settings::htmlEntityFlags()) . '">' . $cellData . '</a>';
+                $url = $worksheet->getHyperlink($coordinate)->getUrl();
+                $urlDecode1 = html_entity_decode($url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+                $urlTrim = preg_replace('/^\s+/u', '', $urlDecode1) ?? $urlDecode1;
+                $parseScheme = preg_match('/^([\w\s\x00-\x1f]+):/u', strtolower($urlTrim), $matches);
+                if ($parseScheme === 1 && !in_array($matches[1], ['http', 'https', 'file', 'ftp', 'mailto', 's3'], true)) {
+                    $cellData = htmlspecialchars($url, Settings::htmlEntityFlags());
+                     $cellData = self::replaceControlChars($cellData);
+                } else {
+                    $cellData = '<a href="' . htmlspecialchars($url, Settings::htmlEntityFlags()) . '" title="' . htmlspecialchars($worksheet->getHyperlink($coordinate)->getTooltip(), Settings::htmlEntityFlags()) . '">' . $cellData . '</a>';
+                }
             }
 
             // Should the cell be written or is it swallowed by a rowspan or colspan?
@@ -1507,6 +1547,14 @@ class Html extends BaseWriter
                 $endCellCoord = Coordinate::stringFromColumnIndex($colNum + $colSpan) . ($row + $rowSpan);
                 if (!$this->useInlineCss) {
                     $cssClass .= ' style' . $worksheet->getCell($endCellCoord)->getXfIndex();
+                } else {
+                    $endBorders = $this->spreadsheet->getCellXfByIndex($worksheet->getCell($endCellCoord)->getXfIndex())->getBorders();
+                    $altBorders = $this->createCSSStyleBorders($endBorders);
+                    foreach ($altBorders as $altKey => $altValue) {
+                        if (str_contains($altValue, '!important')) {
+                            $cssClass[$altKey] = $altValue;
+                        }
+                    }
                 }
             }
 
@@ -1524,6 +1572,20 @@ class Html extends BaseWriter
 
         // Return
         return $html;
+    }
+
+    private static function replaceNonAscii(array $matches): string
+    {
+        return '&#' . mb_ord($matches[0], 'UTF-8') . ';';
+    }
+
+    private static function replaceControlChars(string $convert): string
+    {
+        return (string) preg_replace_callback(
+            '/[\x00-\x1f]/',
+            [self::class, 'replaceNonAscii'],
+            $convert
+        );
     }
 
     /**
@@ -1612,7 +1674,7 @@ class Html extends BaseWriter
         $color = null; // initialize
         $matches = [];
 
-        $color_regex = '/^\\[[a-zA-Z]+\\]/';
+        $color_regex = '/^\[[a-zA-Z]+\]/';
         if (preg_match($color_regex, $format, $matches)) {
             $color = str_replace(['[', ']'], '', $matches[0]);
             $color = strtolower($color);
@@ -1737,9 +1799,15 @@ class Html extends BaseWriter
         $result = '';
         if (!$this->isPdf && isset($worksheet->getComments()[$coordinate])) {
             $sanitizedString = $this->generateRowCellDataValueRich($worksheet->getComment($coordinate)->getText());
+            $dir = ($worksheet->getComment($coordinate)->getTextboxDirection() === Comment::TEXTBOX_DIRECTION_RTL) ? ' dir="rtl"' : '';
+            $align = strtolower($worksheet->getComment($coordinate)->getAlignment());
+            $alignment = Alignment::HORIZONTAL_ALIGNMENT_FOR_HTML[$align] ?? '';
+            if ($alignment !== '') {
+                $alignment = " style=\"text-align:$alignment\"";
+            }
             if ($sanitizedString !== '') {
                 $result .= '<a class="comment-indicator"></a>';
-                $result .= '<div class="comment">' . $sanitizedString . '</div>';
+                $result .= "<div class=\"comment\"$dir$alignment>" . $sanitizedString . '</div>';
                 $result .= PHP_EOL;
             }
         }

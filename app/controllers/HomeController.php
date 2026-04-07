@@ -4,17 +4,17 @@ namespace App\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\SectionType;
+use App\Services\ArtistService;
+use App\Services\DanceService;
 use App\Services\EventService;
 use App\Services\HistoryService;
+use App\Services\OrderService;
 use App\Services\PageService;
 use App\Services\RestaurantService;
-use App\Services\ArtistService;
-use App\Services\UserService;
-use App\Services\OrderService;
-use App\Services\VenueService;
-use App\Services\DanceService;
 use App\Services\SectionService;
 use App\Services\SessionService;
+use App\Services\UserService;
+use App\Services\VenueService;
 use Exception;
 
 class HomeController
@@ -34,19 +34,18 @@ class HomeController
 
     public function __construct()
     {
-        $this->pageService = new PageService();
-        $this->sectionService = new SectionService();
-        $this->sessionService = new SessionService();
+        $this->pageService       = new PageService();
+        $this->sectionService    = new SectionService();
+        $this->sessionService    = new SessionService();
         $this->restaurantService = new RestaurantService();
-        $this->eventService = new EventService();
-        $this->artistService = new ArtistService();
-        $this->venueService = new VenueService();
-        $this->danceService = new DanceService();
-        $this->historyService = new HistoryService();
-        $this->userService = new UserService();
-        $this->orderService = new OrderService();
+        $this->eventService      = new EventService();
+        $this->artistService     = new ArtistService();
+        $this->venueService      = new VenueService();
+        $this->danceService      = new DanceService();
+        $this->historyService    = new HistoryService();
+        $this->userService       = new UserService();
+        $this->orderService      = new OrderService();
     }
-
 
     public function index()
     {
@@ -55,9 +54,9 @@ class HomeController
             $eventsData = $this->eventService->getAll();
 
             // Initialize arrays to store data for each enum
-            $danceEvents = [];
+            $danceEvents   = [];
             $historyEvents = [];
-            $yummyEvents = [];
+            $yummyEvents   = [];
 
             // Iterate through the events data
             foreach ($eventsData as $event) {
@@ -79,44 +78,42 @@ class HomeController
             require __DIR__ . '/../views/frontend/home.php';
         } catch (Exception $e) {
             // Handle exceptions
-            header("Location: /error?message=" . urlencode($e->getMessage()));
+            header('Location: /error?message=' . urlencode($e->getMessage()));
             exit();
         }
     }
 
-
     public function dashboard()
     {
-        if (isset($_SESSION['role']) && $_SESSION['role'] == "Admin") {
-
-            $users = $this->userService->getAllUsers();
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'Admin') {
+            $users     = $this->userService->getAllUsers();
             $userCount = count($users);
 
-            $pages = $this->pageService->getAllActive();
+            $pages     = $this->pageService->getAllActive();
             $pageCount = count($pages);
 
-            $events = $this->eventService->getAll();
+            $events     = $this->eventService->getAll();
             $eventCount = count($events);
 
-            $restaurants = $this->restaurantService->getAllRestaurants();
+            $restaurants     = $this->restaurantService->getAllRestaurants();
             $restaurantCount = count($restaurants);
 
-            $danceEvents = $this->danceService->getAllEvents();
+            $danceEvents     = $this->danceService->getAllEvents();
             $danceEventCount = count($danceEvents);
 
-            $artists = $this->artistService->getAllArtists();
+            $artists     = $this->artistService->getAllArtists();
             $artistCount = count($artists);
 
-            $venues = $this->venueService->getAllVenues();
+            $venues     = $this->venueService->getAllVenues();
             $venueCount = count($venues);
 
-            $historyLocations = $this->historyService->getAllTourLocations();
+            $historyLocations     = $this->historyService->getAllTourLocations();
             $historyLocationCount = count($historyLocations);
 
-            $historytimetable = $this->historyService->getAllTours();
+            $historytimetable      = $this->historyService->getAllTours();
             $historytimetableCount = count($historytimetable);
 
-            $orders = $this->orderService->getAllOrders();
+            $orders     = $this->orderService->getAllOrders();
             $orderCount = count($orders);
 
             require __DIR__ . '/../views/backend/home.php';
@@ -140,19 +137,19 @@ class HomeController
      */
     public function page()
     {
-        $id = $_GET['id'];
-        $slug = $_GET['slug'];
-        $sections = $this->sectionService->getSectionByPageId($id);        
+        $id       = $_GET['id'];
+        $slug     = $_GET['slug'];
+        $sections = $this->sectionService->getSectionByPageId($id);
         switch ($slug) {
             case 'history':
-                $headers = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Header);
-                $introduction = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Introduction);
-                $information = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Information);
+                $headers        = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Header);
+                $introduction   = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Introduction);
+                $information    = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Information);
                 $regularTickets = $this->historyService->getHistoryPageInfoBySectionType(SectionType::RegularTicket);
-                $familyTickets = $this->historyService->getHistoryPageInfoBySectionType(SectionType::FamilyTicket);
-                $routes = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Routes);
-                $tours = $this->historyService->getOrderedTours();
-                $locations = $this->historyService->getAllTourLocations();
+                $familyTickets  = $this->historyService->getHistoryPageInfoBySectionType(SectionType::FamilyTicket);
+                $routes         = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Routes);
+                $tours          = $this->historyService->getOrderedTours();
+                $locations      = $this->historyService->getAllTourLocations();
                 require '../views/frontend/history/index.php';
                 break;
             case 'yummy':
@@ -160,13 +157,13 @@ class HomeController
                 foreach ($restaurants as &$restaurant) {
                     if (!empty($restaurant['sessions'])) {
                         $latestStartTime = null;
-                        $latestSession = null;
+                        $latestSession   = null;
 
                         foreach ($restaurant['sessions'] as $session) {
                             $sessionStartTime = new \DateTime($session['start_time']);
                             if ($latestStartTime === null || $sessionStartTime > $latestStartTime) {
                                 $latestStartTime = $sessionStartTime;
-                                $latestSession = $session;
+                                $latestSession   = $session;
                             }
                         }
 
@@ -174,11 +171,11 @@ class HomeController
                             $end_time = clone $latestStartTime;
                             $end_time->add(new \DateInterval('PT' . ($latestSession['duration'] * 60) . 'M'));
                             $restaurant['start_time'] = $latestStartTime->format('H:i');
-                            $restaurant['end_time'] = $end_time->format('H:i');
+                            $restaurant['end_time']   = $end_time->format('H:i');
                         }
                     } else {
                         $restaurant['start_time'] = null;
-                        $restaurant['end_time'] = null;
+                        $restaurant['end_time']   = null;
                     }
                 }
                 unset($restaurant);
@@ -186,17 +183,16 @@ class HomeController
                 require '../views/frontend/yummy/index.php';
                 break;
             case 'dance':
-                $artists = $this->artistService->getAllArtists();
-                $venues = $this->venueService->getAllVenues();
-                $passes = $this->danceService->getAllPasses();
-                $fridayTickets = $this->danceService->getfridayEvents();
+                $artists         = $this->artistService->getAllArtists();
+                $venues          = $this->venueService->getAllVenues();
+                $passes          = $this->danceService->getAllPasses();
+                $fridayTickets   = $this->danceService->getfridayEvents();
                 $saturdayTickets = $this->danceService->getSaturdayEvents();
-                $SundayTickets = $this->danceService->getSundayEvents();
+                $SundayTickets   = $this->danceService->getSundayEvents();
 
-
-                $fridayPass = [];
-                $saturdayPass = [];
-                $sundayPass = [];
+                $fridayPass    = [];
+                $saturdayPass  = [];
+                $sundayPass    = [];
                 $allAccessPass = [];
 
                 foreach ($passes as $pass) {

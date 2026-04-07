@@ -20,40 +20,44 @@ class ManageOrdersController
     }
 
     public function exportOrdersToExcel() {
-        $orders = $this->orderService->getAllOrders(); // Adjust to your actual method
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
+    $orders = $this->orderService->getAllOrders();
 
-        // Add headers
-        $header = ['Order ID', 'Total Amount', 'Created At', 'Updated At', 'Item Type', 'Customer Name', 'Event Name'];
-        $sheet->fromArray($header, NULL, 'A1');
+    $spreadsheet = new Spreadsheet();
+    $sheet       = $spreadsheet->getActiveSheet();
 
-        // Add data
-        $rowNumber = 2;
-        foreach ($orders as $order) {
-            $sheet->setCellValue('A' . $rowNumber, $order['order_id']);
-            $sheet->setCellValue('B' . $rowNumber, $order['total_amount']);
-            $sheet->setCellValue('C' . $rowNumber, $order['created_at']);
-            $sheet->setCellValue('D' . $rowNumber, $order['updated_at']);
-            $sheet->setCellValue('E' . $rowNumber, $order['item_type']);
-            $sheet->setCellValue('F' . $rowNumber, $order['customer_name']);
-            $sheet->setCellValue('G' . $rowNumber, $order['event_name']);
-            $rowNumber++;
-        }
+    $header = ['Order ID', 'Total Amount', 'Created At', 'Updated At', 'Item Type', 'Customer Name', 'Event Name'];
+    $sheet->fromArray($header, NULL, 'A1');
 
-        // Headers for browser download
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="orders.xlsx"');
-        header('Cache-Control: max-age=0');
+    $rowNumber = 2;
 
-        $writer = new Xlsx($spreadsheet);
-        $writer->save('php://output');
-        exit;
+    foreach ($orders as $order) {
+        $sheet->setCellValue('A' . $rowNumber, $order['order_id']);
+        $sheet->setCellValue('B' . $rowNumber, $order['total_amount']);
+        $sheet->setCellValue('C' . $rowNumber, $order['created_at']);
+        $sheet->setCellValue('D' . $rowNumber, $order['updated_at']);
+        $sheet->setCellValue('E' . $rowNumber, $order['item_type']);
+        $sheet->setCellValue('F' . $rowNumber, $order['customer_name']);
+        $sheet->setCellValue('G' . $rowNumber, $order['event_name']);
+        $rowNumber++;
     }
 
+    // Clean output buffer (VERY IMPORTANT)
+    if (ob_get_length()) {
+        ob_end_clean();
+    }
+
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment; filename="orders.xlsx"');
+    header('Cache-Control: max-age=0');
+
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
+    exit;
+}
+
     public function exportOrdersToCSV() {
-        $orders = $this->orderService->getAllOrders(); // Adjust to your actual method
-        $filename = "orders_" . date('Ymd') . ".csv";
+        $orders   = $this->orderService->getAllOrders(); // Adjust to your actual method
+        $filename = 'orders_' . date('Ymd') . '.csv';
 
         // Set headers
         header('Content-Type: text/csv; charset=utf-8');
@@ -84,5 +88,4 @@ class ManageOrdersController
         fclose($output);
         exit;
     }
-
 }

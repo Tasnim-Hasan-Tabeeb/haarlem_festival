@@ -6,19 +6,21 @@ use App\Helpers\Helper;
 use App\Models\Reservation;
 use App\Models\Ticket;
 use App\Services\Basket;
-use App\Services\ReservationService;
 use App\Services\OrderService;
-use Exception;
-use Stripe\Checkout\Session;
-use Stripe\Stripe;
-use TCPDF;
+use App\Services\ReservationService;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 use Endroid\QrCode\RoundBlockSizeMode;
+use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
+use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
+use Stripe\Checkout\Session;
 
+use Stripe\Stripe;
+use TCPDF;
 class PersonalProgramController
 {
     private $reservationService;
@@ -27,82 +29,124 @@ class PersonalProgramController
 
     public function __construct()
     {
-        $this->basket = new Basket();
+        $this->basket             = new Basket();
         $this->reservationService = new ReservationService();
-        $this->orderService = new OrderService();
+        $this->orderService       = new OrderService();
     }
 
     public function basket()
     {
-        $cartItems = $this->basket->getAllItems();
-        require __DIR__ . '/../views/frontend/basket.php';
+        try {
+            $cartItems = $this->basket->getAllItems();
+            require __DIR__ . '/../views/frontend/basket.php';
+        } catch (Exception $e) {
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+            $redirect                  = $_SERVER['HTTP_REFERER'] ?? '/personalprogram/basket';
+            header('Location: ' . $redirect);
+            exit();
+        }
     }
 
     public function removeItem()
     {
-        $index = $_GET['index'];
-        $this->basket->removeItem($index);
-        header("Location: /personalprogram/basket");
-        exit();
+        try {
+            $index = $_GET['index'];
+            $this->basket->removeItem($index);
+            header('Location: /personalprogram/basket');
+            exit();
+        } catch (Exception $e) {
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+            $redirect                  = $_SERVER['HTTP_REFERER'] ?? '/personalprogram/basket';
+            header('Location: ' . $redirect);
+            exit();
+        }
     }
 
     public function checkout()
     {
+        $key = 'sk_test_51PS8HHF7UbSXoXFVQFRcOjx7b6nffHvGpqbNQngGmuaiOmyqxRA3IywweJclE1X0bTwFEkDBXUEwvkj0haSUPPfP00JhIdhACj';
+
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = 'You must be logged in to checkout';
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/login/login';
+            header('Location: ' . $redirect);
+            exit();
+        }
+
+        $user = $_SESSION['user'];
+
         try {
-            $cartItems = $this->basket->getAllItems();
-            $lineItems = [];
+            $cartItems   = $this->basket->getAllItems();
+            $lineItems   = [];
             $totalAmount = 0;
 
             foreach ($cartItems as $cartItem) {
                 $unitAmount = isset($cartItem['cost_per_person']) ? $cartItem['cost_per_person'] : $cartItem['cost'];
-                $quantity = isset($cartItem['total_adult']) ? $cartItem['total_adult'] + $cartItem['total_children'] : (isset($cartItem['quantity']) ? $cartItem['quantity'] : $cartItem['participants']);
+
+                $quantity    = isset($cartItem['total_adult']) ? $cartItem['total_adult'] + $cartItem['total_children'] : (isset($cartItem['quantity']) ? $cartItem['quantity'] : $cartItem['participants']);
                 $productName = isset($cartItem['name']) ? 'Reservation' : (isset($cartItem['ticketType']) ? 'Ticket for ' . $cartItem['start_location'] : (isset($cartItem['passType']) ? 'Pass: ' . $cartItem['passType'] : 'Dance Ticket'));
 
                 $lineItems[] = [
                     'price_data' => [
-                        'currency' => 'eur',
+                        'currency'     => 'eur',
                         'product_data' => [
                             'name' => $productName,
                         ],
-                        'unit_amount' => $unitAmount * 100, // Amount in cents
+                        'unit_amount' => (int) round($unitAmount * 100), // Amount in cents
                     ],
                     'quantity' => $quantity,
                 ];
 
                 $totalAmount += $unitAmount * $quantity;
-
             }
 
             // Calculate the tax amount
-            $taxAmount = $totalAmount * 0.09;
+            $taxAmount          = $totalAmount * 0.09;
             $totalAmountWithTax = $totalAmount + $taxAmount;
 
             // Add the tax as a separate line item
             $lineItems[] = [
                 'price_data' => [
-                    'currency' => 'eur',
+                    'currency'     => 'eur',
                     'product_data' => [
                         'name' => 'Tax (9%)',
                     ],
-                    'unit_amount' => $taxAmount * 100, // Amount in cents
+                    'unit_amount' => (int) round($taxAmount * 100), // Amount in cents
                 ],
                 'quantity' => 1,
             ];
 
-            Stripe::setApiKey("sk_test_51PS8HHF7UbSXoXFVQFRcOjx7b6nffHvGpqbNQngGmuaiOmyqxRA3IywweJclE1X0bTwFEkDBXUEwvkj0haSUPPfP00JhIdhACj");
+            Stripe::setApiKey($key);
 
             $session = Session::create([
                 'payment_method_types' => ['ideal', 'card'],
-                'line_items' => $lineItems,
-                'mode' => 'payment',
+                'line_items'           => $lineItems,
+                'mode'                 => 'payment',
+                'client_reference_id'  => $user['user_id'],
+
+                'customer_email' => $user['email'] ?? '',
+
+                'metadata' => [
+                    'user_id'    => $user['user_id'],
+                    'user_email' => $user['email'] ?? '',
+                    'name'       => $user['name']  ?? '',
+                ],
                 'success_url' => 'http://localhost/personalprogram/success?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => 'http://localhost/personalprogram/cancel',
+                'cancel_url'  => 'http://localhost/personalprogram/cancel',
             ]);
 
             header('Location: ' . $session->url);
             exit();
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/login/login';
+            header('Location: ' . $redirect);
             exit();
         }
     }
@@ -115,25 +159,21 @@ class PersonalProgramController
             $session = Session::retrieve($sessionId);
 
             if ($session->payment_status === 'paid') {
-                $cartItems = $this->basket->getAllItems();
+                $cartItems   = $this->basket->getAllItems();
                 $totalAmount = 0;
 
                 foreach ($cartItems as $cartItem) {
                     $totalAmount += isset($cartItem['cost_per_person']) ? $cartItem['cost_per_person'] * ($cartItem['total_adult'] + $cartItem['total_children']) : $cartItem['cost'];
                 }
 
-                $userId = null;
-                $name = "guest/visitor";
-                $email = "mfz_2022@hotmail.com";
-                if (isset($_SESSION['user'])) {
-                    $userId = $_SESSION['user']['user_id'];
-                    $name = $_SESSION['user']['name'];
-                    $email = $_SESSION['user']['email'];
-                }
+                $userId = $session->client_reference_id;
+
+                $name  = $session->metadata->name;
+                $email = $session->metadata->user_email;
 
                 $orderId = $this->orderService->createOrder($userId, $totalAmount);
 
-                $ticketDetails = [];
+                $ticketDetails  = [];
                 $invoiceDetails = [];
 
                 foreach ($cartItems as $cartItem) {
@@ -145,7 +185,7 @@ class PersonalProgramController
                             $cartItem['total_children'],
                             $cartItem['email'],
                             $cartItem['phone'],
-                            null,
+                            $userId,
                             $cartItem['session_id'],
                             $cartItem['restaurant_id'],
                             $cartItem['remarks'],
@@ -157,10 +197,10 @@ class PersonalProgramController
                         $this->orderService->addOrderItem($orderId, 'reservation', $reservationId);
 
                         $invoiceDetails[] = [
-                            'type' => 'Reservation',
-                            'details' => $reservation->getName() . ' - ' . $reservation->getReservationDate(),
-                            'quantity' => $reservation->getTotalAdult() + $reservation->getTotalChildren(),
-                            'price' => $reservation->getCost() / ($reservation->getTotalAdult() + $reservation->getTotalChildren()),
+                            'type'       => 'Reservation',
+                            'details'    => $reservation->getName() . ' - ' . $reservation->getReservationDate(),
+                            'quantity'   => $reservation->getTotalAdult() + $reservation->getTotalChildren(),
+                            'price'      => $reservation->getCost() / ($reservation->getTotalAdult() + $reservation->getTotalChildren()),
                             'total_cost' => $reservation->getCost()
                         ];
                     } elseif (isset($cartItem['ticketType'])) {
@@ -174,15 +214,16 @@ class PersonalProgramController
                         );
 
                         $ticketId = $this->orderService->createTicket($ticket);
+
                         $this->orderService->addOrderItem($orderId, 'history_ticket', $ticketId);
 
                         $ticketDetails[] = array_merge($ticket->toArray(), ['qr_code_path' => $qrCode]);
 
                         $invoiceDetails[] = [
-                            'type' => 'History Ticket',
-                            'details' => $cartItem['start_location'] . ' - ' . $cartItem['timeslot'],
-                            'quantity' => $cartItem['participants'],
-                            'price' => $cartItem['price'],
+                            'type'       => 'History Ticket',
+                            'details'    => $cartItem['start_location'] . ' - ' . $cartItem['timeslot'],
+                            'quantity'   => $cartItem['participants'],
+                            'price'      => $cartItem['price'],
                             'total_cost' => $cartItem['cost']
                         ];
                     } elseif (isset($cartItem['passName'])) {
@@ -201,10 +242,10 @@ class PersonalProgramController
                         $ticketDetails[] = array_merge($ticket->toArray(), ['qr_code_path' => $qrCode]);
 
                         $invoiceDetails[] = [
-                            'type' => 'Dance Pass',
-                            'details' => $cartItem['passName'],
-                            'quantity' => $cartItem['quantity'],
-                            'price' => $cartItem['passPrice'],
+                            'type'       => 'Dance Pass',
+                            'details'    => $cartItem['passName'],
+                            'quantity'   => $cartItem['quantity'],
+                            'price'      => $cartItem['passPrice'],
                             'total_cost' => $cartItem['cost']
                         ];
                     } elseif (isset($cartItem['music_performance_id'])) {
@@ -223,33 +264,40 @@ class PersonalProgramController
                         $ticketDetails[] = array_merge($ticket->toArray(), ['qr_code_path' => $qrCode]);
 
                         $invoiceDetails[] = [
-                            'type' => 'Dance Ticket',
-                            'details' => $cartItem['event_name'] . ' - ' . $cartItem['event_date'] . ' ' . $cartItem['event_start_time'],
-                            'quantity' => $cartItem['quantity'],
-                            'price' => $cartItem['event_price'],
+                            'type'       => 'Dance Ticket',
+                            'details'    => $cartItem['event_name'] . ' - ' . $cartItem['event_date'] . ' ' . $cartItem['event_start_time'],
+                            'quantity'   => $cartItem['quantity'],
+                            'price'      => $cartItem['event_price'],
                             'total_cost' => $cartItem['cost']
                         ];
                     }
                 }
 
                 $invoicePdf = $this->generateInvoicePdf($invoiceDetails);
+
                 $this->sendInvoiceEmail($email, $name, $invoicePdf);
 
                 $qrCodeImagePaths = $this->getQR($orderId); // Generate QR codes and get their paths
-                $ticketPdf = $this->generateTicketPdf($ticketDetails);
-                $this->sendTicketEmail($email, $name, $ticketPdf, $qrCodeImagePaths);
+                $ticketPdf        = $this->generateTicketPdf($ticketDetails);
+
+                if($ticketPdf && is_array($qrCodeImagePaths) && count( $qrCodeImagePaths) != 0 ) {
+                  $this->sendTicketEmail($email, $name, $ticketPdf, $qrCodeImagePaths);
+                }
 
                 $this->basket->clearBasket();
 
-                Helper::setMessage(false, "Reservations and tickets confirmed and stored successfully!");
-                header("Location: /personalprogram/basket");
+                Helper::setMessage(false, 'Reservations and tickets confirmed and stored successfully!');
+                header('Location: /personalprogram/basket');
                 exit();
             } else {
                 throw new Exception('Payment was not successful.');
             }
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/login/login';
+            header('Location: ' . $redirect);
         }
     }
 
@@ -273,7 +321,7 @@ class PersonalProgramController
         $pdf->SetFont('helvetica', '', 12);
 
         // Add invoice content
-        $html = '<h1>Invoice</h1><table border="1" cellpadding="5"><tr><th>Type</th><th>Details</th><th>Quantity</th><th>Price</th><th>Total Cost</th></tr>';
+        $html        = '<h1>Invoice</h1><table border="1" cellpadding="5"><tr><th>Type</th><th>Details</th><th>Quantity</th><th>Price</th><th>Total Cost</th></tr>';
         $totalAmount = 0;
 
         foreach ($invoiceDetails as $detail) {
@@ -287,7 +335,7 @@ class PersonalProgramController
                   </tr>';
         }
 
-        $taxAmount = $totalAmount * 0.09;
+        $taxAmount    = $totalAmount * 0.09;
         $totalWithTax = $totalAmount + $taxAmount;
 
         $html .= '<tr>
@@ -347,8 +395,12 @@ class PersonalProgramController
             $mail->Subject = 'Invoice';
             $mail->Body    = 'Please find the attached invoice for your recent reservation and purchases.';
 
-            $mail->addAttachment($invoicePdf);
-
+            $mail->addStringAttachment(
+                file_get_contents($invoicePdf),
+                'invoice.pdf',
+                'base64',
+                'application/pdf'
+            );
             $mail->send();
         } catch (Exception $e) {
             error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
@@ -436,25 +488,38 @@ class PersonalProgramController
 
             $mail->isHTML(true);
             $mail->Subject = 'Ticket Confirmation';
-            $mail->Body    = 'Please find the attached tickets for your reservation and purchases.';
 
-            $mail->addAttachment($ticketPdf);
+            // Body
+            $body = '<p>Please find your tickets attached below with the QR codes:</p>';
 
-            // Attach each QR code image
-            foreach ($qrCodeImagePaths as $path) {
+            foreach ($qrCodeImagePaths as $i => $path) {
+                $cid = 'qr' . $i;
+                $mail->addEmbeddedImage($path, $cid);
+                $body .= '<p>QR Code #' . ($i + 1) . ':</p>';
+                $body .= "<img src='cid:$cid' style='width:200px;height:200px;'/><br/>";
+                // Also attach QR image as separate file
                 $mail->addAttachment($path);
             }
 
+            $body .= '<p>The ticket PDF is attached as well.</p>';
+
+            $mail->Body = $body;
+
+            // Attach ticket PDF
+            $mail->addAttachment($ticketPdf);
+
             $mail->send();
         } catch (Exception $e) {
-            error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+            error_log("Ticket email could not be sent: {$mail->ErrorInfo}");
+            var_dump($e->getMessage());
         }
     }
 
     public function getQR($orderId)
     {
         // Get all tickets for the order
-        $tickets = $this->orderService->getTicketsByOrderId($orderId);
+       try {
+          $tickets        = $this->orderService->getTicketsByOrderId($orderId);
         $qrCodeImagePaths = [];
 
         foreach ($tickets as $ticket) {
@@ -485,12 +550,15 @@ class PersonalProgramController
         }
 
         return $qrCodeImagePaths;
+       } catch (\Throwable $th) {
+        //throw $th;
+       }
     }
 
     public function cancel()
     {
-        Helper::setMessage(true, "Payment was canceled.");
-        header("Location: /personalprogram/basket");
+        Helper::setMessage(true, 'Payment was canceled.');
+        header('Location: /personalprogram/basket');
         exit();
     }
 
@@ -503,17 +571,28 @@ class PersonalProgramController
     {
         try {
             $this->orderService->updateTicketStatus($qrCode);
-            Helper::setMessage(false, "Ticket status updated successfully!");
-            header("Location: /personalprogram/basket");
+            Helper::setMessage(false, 'Ticket status updated successfully!');
+            header('Location: /personalprogram/basket');
             exit();
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/login/login';
+            header('Location: ' . $redirect);
         }
     }
     public function personalprogram()
     {
-        $reservations = $this->basket->getAllItems();
-        require __DIR__ . '/../views/frontend/PersonalProgram.php';
+        try {
+            $reservations = $this->basket->getAllItems();
+            require __DIR__ . '/../views/frontend/PersonalProgram.php';
+        } catch (Exception $ex) {
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/login/login';
+            header('Location: ' . $redirect);
+        }
     }
 }

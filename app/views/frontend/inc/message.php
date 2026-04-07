@@ -15,7 +15,7 @@
     <div>
         <?php if (isset($_SESSION['flash_message'])) : ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Success!</strong> <?= $_SESSION['flash_message'] ?>
+                  <strong><?= $_SESSION['isError'] ? 'Error!' : 'Success!' ?></strong> <?= $_SESSION['flash_message'] ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <?php unset($_SESSION['flash_message']); ?>
@@ -39,4 +39,24 @@ if (!empty($errors)) {
     }
 }
 
+?>
+
+
+<?php
+// Show validation errors
+$validationErrors = $_SESSION['validation_errors'] ?? [];
+unset($_SESSION['validation_errors']);
+
+if (!empty($validationErrors)) {
+    foreach ($validationErrors as $field => $errors) {
+        foreach ($errors as $error) {
+            ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> <?= $error ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php
+        }
+    }
+}
 ?>

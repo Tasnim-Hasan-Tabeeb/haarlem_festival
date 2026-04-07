@@ -9,7 +9,7 @@ class OrderRepository extends Repository
 {
     public function getTicketWithQRCode($qrCode)
     {
-        $stmt = $this->connection->prepare("SELECT * FROM tickets WHERE qr_code = :qrCode");
+        $stmt = $this->connection->prepare('SELECT * FROM tickets WHERE qr_code = :qrCode');
         $stmt->bindParam(':qrCode', $qrCode);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -28,7 +28,7 @@ class OrderRepository extends Repository
     public function addOrderItem($orderId, $itemType, $itemId)
     {
         $stmt = $this->connection->prepare(
-            "INSERT INTO order_items (order_id, item_type, item_id) VALUES (:order_id, :item_type, :item_id)"
+            'INSERT INTO order_items (order_id, item_type, item_id) VALUES (:order_id, :item_type, :item_id)'
         );
         $stmt->execute(['order_id' => $orderId, 'item_type' => $itemType, 'item_id' => $itemId]);
     }
@@ -40,10 +40,10 @@ class OrderRepository extends Repository
         );
         $stmt->execute([
             'customer_name' => $ticket->getCustomerName(),
-            'event_name' => $ticket->getEventName(),
-            'event_date' => $ticket->getEventDate(),
-            'event_time' => $ticket->getEventTime(),
-            'qr_code' => $ticket->getQrCode(),
+            'event_name'    => $ticket->getEventName(),
+            'event_date'    => $ticket->getEventDate(),
+            'event_time'    => $ticket->getEventTime(),
+            'qr_code'       => $ticket->getQrCode(),
         ]);
 
         return $this->connection->lastInsertId();
@@ -73,7 +73,7 @@ class OrderRepository extends Repository
         return true;
     }
     public function getOrders() {
-        $stmt = $this->connection->prepare("
+        $stmt = $this->connection->prepare('
             SELECT 
                 o.order_id, 
                 o.total_amount, 
@@ -85,7 +85,7 @@ class OrderRepository extends Repository
             FROM orders o
             JOIN order_items oi ON o.order_id = oi.order_id
             LEFT JOIN tickets t ON oi.item_id = t.ticket_id
-        ");
+        ');
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

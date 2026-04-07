@@ -23,9 +23,47 @@ class HistoryService
     {
         return $this->historyRepository->getTourLocationById($id);
     }
+
+    public function getAllLanguages()
+    {
+        return $this->historyRepository->getAllLanguages();
+    }
+
     public function getAllTimeSlots()
     {
         return $this->historyRepository->getAllTimeSlots();
+    }
+
+    public function addTour($timetable_id, $language_id, $available_guides)
+    {
+        return $this->historyRepository->addTour($timetable_id, $language_id, $available_guides);
+    }
+
+    public function updateTour($id, $timetable_id, $language_id, $available_guides)
+{
+    try {
+        return $this->historyRepository->updateTour($id, $timetable_id, $language_id, $available_guides);
+    } catch (Exception $e) {
+        throw new Exception('Error: ' . $e->getMessage());
+    }
+}
+
+public function deleteTour($id)
+{
+    try {
+        return $this->historyRepository->deleteTour($id);
+    } catch (Exception $e) {
+        throw new Exception('Error: ' . $e->getMessage());
+    }
+}
+
+    public function getTourById($id)
+    {
+        try {
+            return $this->historyRepository->getTourById($id);
+        } catch (Exception $e) {
+            throw new Exception('Error: ' . $e->getMessage());
+        }
     }
 
     public function addLocation($location)
@@ -33,7 +71,7 @@ class HistoryService
         try {
             return $this->historyRepository->addLocation($location);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function updateLocation($location, $id)
@@ -41,7 +79,7 @@ class HistoryService
         try {
             return $this->historyRepository->updateLocation($location, $id);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function deleteLocation($id)
@@ -49,49 +87,49 @@ class HistoryService
         try {
             return $this->historyRepository->deleteLocation($id);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function getAllContent(){
         try{
             return $this->historyRepository->getAllContent();
         }catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function getContentById($id){
         try{
             return $this->historyRepository->getContentById($id);
         }catch (Exception $e){
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function deleteContent($id){
         try{
             return $this->historyRepository->deleteContent($id);
         }catch (Exception $e){
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function addContent($content){
         try{
             return $this->historyRepository->addContent($content);
         }catch (Exception $e){
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function updateContent($content, $id){
         try{
             return $this->historyRepository->updateContent($content, $id);
         }catch (Exception $e){
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function getAllTours(){
         try{
             return $this->historyRepository->getAllTours();
         }catch (Exception $e){
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function getHeader()
@@ -99,7 +137,7 @@ class HistoryService
         try{
             return $this->historyRepository->getPageHeader();
         }catch (Exception $e){
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function getIntroduction()
@@ -107,7 +145,7 @@ class HistoryService
         try{
             return $this->historyRepository->getPageIntroduction();
         }catch (Exception $e){
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function getTourInfo()
@@ -115,7 +153,7 @@ class HistoryService
         try{
             return $this->historyRepository->getTourInformation();
         }catch (Exception $e){
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function getRoute()
@@ -123,7 +161,7 @@ class HistoryService
         try {
             return $this->historyRepository->getTourRoute();
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function getRegularTicketPrice()
@@ -131,7 +169,7 @@ class HistoryService
         try {
             return $this->historyRepository->getRegularTicketPrice();
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function getFamilyTicketPrice()
@@ -139,16 +177,16 @@ class HistoryService
         try {
             return $this->historyRepository->getFamilyTicketPrice();
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
-    public function getHistoryPageInfoBySectionType(SectionType $sectionType): array
+    public function getHistoryPageInfoBySectionType(SectionType | string $sectionType): array
     {
         $section = SectionType::getSectionType($sectionType);
         try {
             return $this->historyRepository->getHistoryPageInfoBySectionType($section);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function getFilteredTours($language_name, $availableGuides)
@@ -156,14 +194,14 @@ class HistoryService
         try {
             return $this->historyRepository->getFilteredTours($language_name, $availableGuides);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
     public function getOrderedTours(){
         try {
             return $this->historyRepository->getOrderedTours();
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 }

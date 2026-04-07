@@ -21,7 +21,7 @@
     <h2 class="artist-list">Our Artists</h2>
     <div class="artists-container">
         <?php foreach ($artists as $artist): ?>
-            <div class="artist-containers">3
+            <div class="artist-containers">
                 <div class="artist">
                     <a href="/dance/artists?id=<?= $artist['artist_id']; ?>">
                         <div class="artist-image">

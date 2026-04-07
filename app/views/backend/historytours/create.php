@@ -1,7 +1,7 @@
 <?php include __DIR__ . '/../inc/header.php'; ?>
 
 <div class="container mb-5">
-    <h1>Add History Tour</h1>
+    <h1>Add History Tour time table</h1>
 
     <div class="mt-4">
         <form action="/historytour/add" method="POST" autocomplete="off">
@@ -24,7 +24,7 @@
                     <option value="">Select Language</option>
                     <?php foreach ($languages as $language): ?>
                         <option value="<?= $language['language_id']; ?>">
-                            <?= htmlspecialchars($language['language_name']); ?>
+                            <?= htmlspecialchars($language['name']); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

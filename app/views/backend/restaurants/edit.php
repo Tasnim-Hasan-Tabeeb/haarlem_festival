@@ -63,6 +63,22 @@
                 <label for="number_of_seats" class="form-label">Number of Seats</label>
                 <input type="number" min="1" class="form-control" id="number_of_seats" name="number_of_seats" value="<?= $restaurant['number_of_seats'] ?>" required>
             </div>
+
+
+
+            <div class="mb-3">
+                <label for="price_for_children" class="form-label">Price for children</label>
+                <input min="0" type="number" step="any" class="form-control" id="price_for_children" name="price_for_child" value="<?= $restaurant['price_for_child'] ?>"  required>
+            </div>
+
+            <div class="mb-3">
+                <label for="price_for_adults" class="form-label">Price for adults</label>
+                <input min="0" type="number" step="any" class="form-control" id="price_for_adults" name="price_for_adult" value="<?= $restaurant['price_for_adult'] ?>" required>
+            </div>
+            
+
+
+
             <div class="mb-3">
                 <label for="contact_email" class="form-label">Contact Email</label>
                 <input type="email" class="form-control" id="contact_email" name="contact_email" value="<?= $restaurant['contact_email'] ?>" required>

@@ -15,6 +15,7 @@
                     <th>Title</th>
                     <th>Image</th>
                     <th>Rating</th>
+                    <th>Price</th>
                     <th>Cuisines</th>
                     <th>Location</th>
                     <th>Actions</th>
@@ -27,7 +28,11 @@
                             <td><?= $restaurant['title'] ?></td>
                             <td><img src="<?= $restaurant['image_url'] ?>" alt="Restaurant Image" style="width: 100px;"></td>
                             <td><?= $restaurant['ratings'] ?> star</td>
-                            <td><?= $restaurant['cuisines'] ?></td>
+                           <td style="min-width: 180px;">
+                                <div>👶 Child: <?= number_format($restaurant['price_for_child'], 2) ?></div>
+                                <div>🧑 Adult: <?= number_format($restaurant['price_for_adult'], 2) ?></div>
+                            </td>                         
+                             <td><?= $restaurant['cuisines'] ?></td>
                             <td><?= $restaurant['location'] ?></td>
                             <td>
                                 <a href="/restaurant/view?id=<?= $restaurant['restaurant_id'] ?>" class="btn btn-info btn-sm">View</a>

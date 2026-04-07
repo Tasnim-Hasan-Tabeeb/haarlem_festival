@@ -6,8 +6,8 @@ namespace Endroid\QrCode;
 
 enum ErrorCorrectionLevel: string
 {
-    case High = 'high';
-    case Low = 'low';
-    case Medium = 'medium';
+    case High     = 'high';
+    case Low      = 'low';
+    case Medium   = 'medium';
     case Quartile = 'quartile';
 }

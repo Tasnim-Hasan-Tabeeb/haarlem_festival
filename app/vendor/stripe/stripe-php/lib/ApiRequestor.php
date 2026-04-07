@@ -68,7 +68,7 @@ class ApiRequestor
     {
         $payload = [
             'last_request_metrics' => [
-                'request_id' => $requestTelemetry->requestId,
+                'request_id'          => $requestTelemetry->requestId,
                 'request_duration_ms' => $requestTelemetry->requestDuration,
             ],
         ];
@@ -128,12 +128,11 @@ class ApiRequestor
      */
     public function request($method, $url, $params = null, $headers = null, $usage = [])
     {
-        $params = $params ?: [];
-        $headers = $headers ?: [];
-        list($rbody, $rcode, $rheaders, $myApiKey) =
-            $this->_requestRaw($method, $url, $params, $headers, $usage);
-        $json = $this->_interpretResponse($rbody, $rcode, $rheaders);
-        $resp = new ApiResponse($rbody, $rcode, $rheaders, $json);
+        $params                                    = $params ?: [];
+        $headers                                   = $headers ?: [];
+        list($rbody, $rcode, $rheaders, $myApiKey) = $this->_requestRaw($method, $url, $params, $headers, $usage);
+        $json                                      = $this->_interpretResponse($rbody, $rcode, $rheaders);
+        $resp                                      = new ApiResponse($rbody, $rcode, $rheaders, $json);
 
         return [$resp, $myApiKey];
     }
@@ -150,10 +149,9 @@ class ApiRequestor
      */
     public function requestStream($method, $url, $readBodyChunkCallable, $params = null, $headers = null, $usage = [])
     {
-        $params = $params ?: [];
-        $headers = $headers ?: [];
-        list($rbody, $rcode, $rheaders, $myApiKey) =
-            $this->_requestRawStreaming($method, $url, $params, $headers, $usage, $readBodyChunkCallable);
+        $params                                    = $params ?: [];
+        $headers                                   = $headers ?: [];
+        list($rbody, $rcode, $rheaders, $myApiKey) = $this->_requestRawStreaming($method, $url, $params, $headers, $usage, $readBodyChunkCallable);
         if ($rcode >= 300) {
             $this->_interpretResponse($rbody, $rcode, $rheaders);
         }
@@ -203,10 +201,10 @@ class ApiRequestor
      */
     private static function _specificAPIError($rbody, $rcode, $rheaders, $resp, $errorData)
     {
-        $msg = isset($errorData['message']) ? $errorData['message'] : null;
-        $param = isset($errorData['param']) ? $errorData['param'] : null;
-        $code = isset($errorData['code']) ? $errorData['code'] : null;
-        $type = isset($errorData['type']) ? $errorData['type'] : null;
+        $msg         = isset($errorData['message']) ? $errorData['message'] : null;
+        $param       = isset($errorData['param']) ? $errorData['param'] : null;
+        $code        = isset($errorData['code']) ? $errorData['code'] : null;
+        $type        = isset($errorData['type']) ? $errorData['type'] : null;
         $declineCode = isset($errorData['decline_code']) ? $errorData['decline_code'] : null;
 
         switch ($rcode) {
@@ -337,18 +335,18 @@ class ApiRequestor
     {
         $uaString = 'Stripe/v1 PhpBindings/' . Stripe::VERSION;
 
-        $langVersion = \PHP_VERSION;
+        $langVersion    = \PHP_VERSION;
         $uname_disabled = self::_isDisabled(\ini_get('disable_functions'), 'php_uname');
-        $uname = $uname_disabled ? '(disabled)' : \php_uname();
+        $uname          = $uname_disabled ? '(disabled)' : \php_uname();
 
         // Fallback to global configuration to maintain backwards compatibility.
         $appInfo = $appInfo ?: Stripe::getAppInfo();
-        $ua = [
+        $ua      = [
             'bindings_version' => Stripe::VERSION,
-            'lang' => 'php',
-            'lang_version' => $langVersion,
-            'publisher' => 'stripe',
-            'uname' => $uname,
+            'lang'             => 'php',
+            'lang_version'     => $langVersion,
+            'publisher'        => 'stripe',
+            'uname'            => $uname,
         ];
         if ($clientInfo) {
             $ua = \array_merge($clientInfo, $ua);
@@ -360,9 +358,9 @@ class ApiRequestor
 
         return [
             'X-Stripe-Client-User-Agent' => \json_encode($ua),
-            'User-Agent' => $uaString,
-            'Authorization' => 'Bearer ' . $apiKey,
-            'Stripe-Version' => Stripe::getApiVersion(),
+            'User-Agent'                 => $uaString,
+            'Authorization'              => 'Bearer ' . $apiKey,
+            'Stripe-Version'             => Stripe::getApiVersion(),
         ];
     }
 
@@ -405,8 +403,8 @@ class ApiRequestor
             }
         }
 
-        $absUrl = $this->_apiBase . $url;
-        $params = self::_encodeObjects($params);
+        $absUrl         = $this->_apiBase . $url;
+        $params         = self::_encodeObjects($params);
         $defaultHeaders = $this->_defaultHeaders($myApiKey, $clientUAInfo, $this->_appInfo);
 
         if (Stripe::$accountId) {
@@ -420,7 +418,7 @@ class ApiRequestor
         $hasFile = false;
         foreach ($params as $k => $v) {
             if (\is_resource($v)) {
-                $hasFile = true;
+                $hasFile    = true;
                 $params[$k] = self::_processResourceParam($v);
             } elseif ($v instanceof \CURLFile) {
                 $hasFile = true;
@@ -434,7 +432,7 @@ class ApiRequestor
         }
 
         $combinedHeaders = \array_merge($defaultHeaders, $headers);
-        $rawHeaders = [];
+        $rawHeaders      = [];
 
         foreach ($combinedHeaders as $header => $value) {
             $rawHeaders[] = $header . ': ' . $value;
@@ -564,7 +562,7 @@ class ApiRequestor
      */
     private function _interpretResponse($rbody, $rcode, $rheaders)
     {
-        $resp = \json_decode($rbody, true);
+        $resp      = \json_decode($rbody, true);
         $jsonError = \json_last_error();
         if (null === $resp && \JSON_ERROR_NONE !== $jsonError) {
             $msg = "Invalid response body from API: {$rbody} "

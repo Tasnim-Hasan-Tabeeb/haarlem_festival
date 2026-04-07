@@ -38,14 +38,13 @@ class UserService
     public function handleUserImage($image)
     {
         try {
-            $ext = pathinfo($image['name'], PATHINFO_EXTENSION);
+            $ext          = pathinfo($image['name'], PATHINFO_EXTENSION);
             $newImageName = uniqid() . '.' . $ext;
-            $upload_dir = __DIR__ . '/../public/images/';
+            $upload_dir   = __DIR__ . '/../public/images/';
             if (!move_uploaded_file($image['tmp_name'], $upload_dir . $newImageName)) {
-                throw new Exception("Failed to move uploaded file.");
+                throw new Exception('Failed to move uploaded file.');
             }
             return $newImageName;
-
         } catch (Exception $exception) {
             echo $exception->getMessage();
         }
@@ -53,9 +52,9 @@ class UserService
 
     public function registerUser($newUser): bool
     {
-        $plainPassword = $newUser['password'];
+        $plainPassword       = $newUser['password'];
         $newUser['password'] = $this->hashPassword($plainPassword);
-        $image = $newUser['profile_picture'];
+        $image               = $newUser['profile_picture'];
         if (!empty($image['name'])) {
             $newUser['profile_picture'] = $this->handleUserImage($image);
         } else {
@@ -71,16 +70,16 @@ class UserService
 
     public function captchaVerification(&$systemMessage)
     {
-        $secret = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe";
+        $secret   = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
         $response = $_POST['g-recaptcha-response'];
         $remoteip = $_SERVER['REMOTE_ADDR'];
-        $url = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
-        $data = file_get_contents($url);
-        $row = json_decode($data);
-        if ($row->success == "true") {
+        $url      = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
+        $data     = file_get_contents($url);
+        $row      = json_decode($data);
+        if ($row->success == 'true') {
             return true;
         } else {
-            $systemMessage = "you are a robot";
+            $systemMessage = 'you are a robot';
             return false;
         }
     }
@@ -90,7 +89,7 @@ class UserService
         try {
             return $this->userRepository->getAllUsers();
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
@@ -99,7 +98,7 @@ class UserService
         try {
             return $this->userRepository->storeUser($user);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
@@ -108,7 +107,7 @@ class UserService
         try {
             return $this->userRepository->getUserById($userId);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
@@ -117,7 +116,7 @@ class UserService
         try {
             return $this->userRepository->getUserByEmail($email);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
@@ -126,7 +125,7 @@ class UserService
         try {
             return $this->userRepository->updateUser($user);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
@@ -135,16 +134,15 @@ class UserService
         try {
             return $this->userRepository->deleteUser($userId);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
-
 
     public function resetPassword($email, $password, $token)
 
     {
         if ($token !== $_SESSION['password_reset_token']) {
-            throw new Exception("Invalid token.");
+            throw new Exception('Invalid token.');
         }
         try {
             $result = $this->userRepository->resetPassword($email, $password); // Remove $token parameter
@@ -153,10 +151,9 @@ class UserService
 
             return true;
         } catch (PDOException $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
-
 
     public function isValidEmail($email): bool
     {
@@ -169,5 +166,4 @@ class UserService
         $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/';
         return preg_match($pattern, $password);
     }
-
 }

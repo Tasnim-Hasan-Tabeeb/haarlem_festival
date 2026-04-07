@@ -34,11 +34,12 @@
     <div class="section-heading" id="upcoming">
         <h2>Upcoming Events</h2>
     </div>
+
     <div class="event-section">
         <div class="event-section__body">
             <?php foreach ($historyEvents as $historyEvent) : ?>
                 <div class="event-section__image">
-                    <img src="<?= '/images/' .  $historyEvent['image_url']; ?> " alt="" />
+                    <img src="<?= '/images/' . $historyEvent['image_url']; ?> " alt="" />
                 </div>
                 <div class="event-section__text">
                     <h2><?= $historyEvent['title']; ?></h2>
@@ -50,11 +51,12 @@
                 </a>
         </div>
     </div>
+
     <div class="event-section">
         <div class="event-section__body" id="event-section__body-dj">
             <?php foreach ($danceEvents as $danceEvent) : ?>
                 <div class="event-section__image">
-                    <img src="<?= '/images/' .  $danceEvent['image_url']; ?> " alt="" />
+                    <img src="<?= '/images/' . $danceEvent['image_url']; ?> " alt="" />
                 </div>
                 <div class="event-section__text" id="event-section__text-dj">
                     <h2><?= $danceEvent['title']; ?></h2>
@@ -70,7 +72,7 @@
         <div class="event-section__body" id="event-section__body-yummy">
             <?php foreach ($yummyEvents as $yummyEvent) : ?>
                 <div class="event-section__image">
-                    <img src="<?= '/images/' .  $yummyEvent['image_url']; ?> " alt="" />
+                    <img src="<?= '/images/' . $yummyEvent['image_url']; ?> " alt="" />
                 </div>
                 <div class="event-section__text" id="event-section__text-yummy">
                     <h2><?= $yummyEvent['title']; ?></h2>

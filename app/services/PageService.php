@@ -20,17 +20,16 @@ class PageService
         try {
             return $this->pageRepository->create($page);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
-
 
     public function updatePage(Page $page, $page_id): bool
     {
         try {
             return $this->pageRepository->update($page, $page_id);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
@@ -39,7 +38,7 @@ class PageService
         try {
             return $this->pageRepository->delete($page_id);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
@@ -48,7 +47,7 @@ class PageService
         try {
             return $this->pageRepository->findBySlug($slug);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
@@ -57,7 +56,7 @@ class PageService
         try {
             return $this->pageRepository->getById($page_id);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
@@ -66,16 +65,16 @@ class PageService
         try {
             return $this->pageRepository->getAllActive();
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
-    
+
     public function getAllPages()
     {
         try {
             return $this->pageRepository->getAllPages();
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 }

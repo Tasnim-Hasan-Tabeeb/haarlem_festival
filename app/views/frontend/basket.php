@@ -2,7 +2,7 @@
 include __DIR__ . '/inc/header.php';
 include __DIR__ . '/inc/message.php';
 
-$isLoggedIn = isset($_SESSION['username']);
+$isLoggedIn   = isset($_SESSION['username']);
 $reservations = $_SESSION['basket'] ?? [];
 
 ?>
@@ -87,8 +87,8 @@ $reservations = $_SESSION['basket'] ?? [];
             <div class="total-box">
                 <?php
                 $subTotal = array_sum(array_column($reservations, 'cost'));
-                $vat = $subTotal * 0.09;
-                $total = $subTotal + $vat;
+                $vat      = $subTotal * 0.09;
+                $total    = $subTotal + $vat;
                 ?>
                 <p id="header-total">Total</p>
                 <br>
@@ -98,10 +98,7 @@ $reservations = $_SESSION['basket'] ?? [];
                 <button class="checkout-btn">Check Out</button>
                 <div class="accepted-payments">
                     <p>We accept:</p>
-                    <img src="/images/ideal.png" alt="iDEAL">
-                    <img src="/images/visa.png" alt="Visa">
-                    <img src="/images/master.png" alt="MasterCard">
-                    <img src="/images/paypal.png" alt="PayPal">
+                    <img src="/images/payment-image.jpeg" alt="iDEAL">
                 </div>
             </div>
 
