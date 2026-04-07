@@ -1,8 +1,8 @@
 <?php include __DIR__ . '/../inc/header.php'; ?>
+<link rel="stylesheet" href="/frontend/css/artist.css">
 
 <title><?= htmlspecialchars($artists['artist_name'] ?? ''); ?></title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<link rel="stylesheet" href="/frontend/css/artist.css">
 </head>
 <body>
 

@@ -1,6 +1,6 @@
 <?php include __DIR__ . '/../inc/header.php'; ?>
-
 <link rel="stylesheet" href="/frontend/css/dance.css"/>
+
 
 <title>Dance</title>
 <link rel="stylesheet" href="/frontend/css/dance.css">

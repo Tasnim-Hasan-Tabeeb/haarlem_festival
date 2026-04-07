@@ -42,26 +42,145 @@ body {
   position: absolute;
   left: 24px;
   bottom: 24px;
-  color: rgb(255,255,255);
+  color: rgb(255, 255, 255);
   font-family: "Jomhuria", serif;
   font-size: clamp(4rem, 10vw, 9rem);
   line-height: 0.9;
   letter-spacing: 1px;
-  text-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   z-index: 2;
 }
 
-/* INTRO SECTION */
+.event-section {
+  padding: 30px 20px 60px;
+}
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.event-card {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  background: #e8d9ad;
+  padding: 40px;
+  border-radius: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.event-card__image {
+  flex: 0 0 420px;
+  margin: 0;
+}
+
+.event-card__image img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 20px;
+  display: block;
+}
+
+.event-card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 320px;
+}
+
+.event-card__title {
+  margin: 0 0 20px;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #000;
+}
+
+.event-card__description {
+  margin: 0;
+  font-size: 1.8rem;
+  line-height: 1.7;
+  color: #222;
+  max-width: 1000px;
+}
+
+.event-card__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+.event-card__button {
+  display: inline-block;
+  background: #2f35f5;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 22px 28px;
+  border-radius: 16px;
+  min-width: 280px;
+  text-align: center;
+  box-shadow: 0 8px 18px rgba(47, 53, 245, 0.25);
+}
+
+.event-card__button:hover {
+  background: #2329d8;
+}
+
+@media (max-width: 992px) {
+  .event-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 25px;
+    gap: 25px;
+  }
+
+  .event-card__image {
+    flex: unset;
+  }
+
+  .event-card__image img {
+    height: 240px;
+  }
+
+  .event-card__content {
+    min-height: auto;
+  }
+
+  .event-card__title {
+    font-size: 2rem;
+  }
+
+  .event-card__description {
+    font-size: 1.1rem;
+  }
+
+  .event-card__footer {
+    justify-content: flex-start;
+  }
+
+  .event-card__button {
+    min-width: auto;
+    width: 100%;
+  }
+}
 
 .section {
   width: min(100% - 32px, 1200px);
   margin: 48px auto 0;
   text-align: center;
-  background-color: rgb(11,93,120);
-  color: rgb(255,255,255);
+  background-color: rgb(11, 93, 120);
+  color: rgb(255, 255, 255);
   padding: clamp(20px, 4vw, 48px);
   border-radius: 22px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
 }
 
 .section h2 {
@@ -83,7 +202,7 @@ body {
   width: min(100%, 460px);
   border-radius: 16px;
   object-fit: cover;
-  box-shadow: 0 4px 18px rgba(13,110,253,0.5);
+  box-shadow: 0 4px 18px rgba(13, 110, 253, 0.5);
 }
 
 .p-button {
@@ -104,7 +223,9 @@ body {
   font-size: clamp(1rem, 1.8vw, 1.15rem);
   color: rgb(10, 10, 10);
   font-weight: 700;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .p-button a:hover {
@@ -122,7 +243,7 @@ body {
 .section-heading h2 {
   font-family: "Jomhuria", serif;
   font-size: clamp(3rem, 6vw, 5.5rem);
-  color:rgb(18, 18, 18);
+  color: rgb(18, 18, 18);
   line-height: 0.9;
 }
 
@@ -142,7 +263,7 @@ body {
   max-width: 100%;
   border: 0;
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
 }
 
 /* EVENT CARD */
@@ -161,9 +282,9 @@ body {
   align-items: center;
   gap: clamp(20px, 4vw, 48px);
   padding: clamp(20px, 4vw, 48px);
-  background-color: rgb(252,235,189);
+  background-color: rgb(252, 235, 189);
   border-radius: 22px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
 }
 
 .event-section__image {
@@ -207,15 +328,17 @@ body {
   right: 20px;
   bottom: 20px;
   background: rgb(50, 56, 239);
-  color: rgb(255,255,255);
+  color: rgb(255, 255, 255);
   border: none;
   border-radius: 10px;
   padding: 12px 20px;
   font-size: clamp(0.95rem, 1.7vw, 1.1rem);
   font-weight: 700;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .event-section__button:hover {
@@ -231,16 +354,16 @@ body {
 }
 
 #event-section__text-dj h2 {
-  color: rgb(92,165,179);
+  color: rgb(92, 165, 179);
 }
 
 #event-section__text-dj p {
-  color: rgb(255,255,255);
+  color: rgb(255, 255, 255);
 }
 
 #event-section__button-dj {
-  background-color: rgb(92,165,179);
-  color: rgb(255,255,255);
+  background-color: rgb(92, 165, 179);
+  color: rgb(255, 255, 255);
 }
 
 /* YUMMY SECTION */
@@ -254,10 +377,10 @@ body {
 }
 
 #event-section__text-yummy p {
-  color: rgb(255,255,255);
+  color: rgb(255, 255, 255);
 }
 
 #event-section__button-yummy {
-  background-color: rgb(64,228,94);
-  color: rgb(255,255,255);
+  background-color: rgb(64, 228, 94);
+  color: rgb(255, 255, 255);
 }

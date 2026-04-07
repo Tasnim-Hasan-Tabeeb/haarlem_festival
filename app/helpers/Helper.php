@@ -99,13 +99,7 @@ class Helper
         unlink($unLinkImageUrl);
     }
 
-    /**
-     * Set error message in session.
-     *
-     * @param bool $isError True if it's an error message, false otherwise.
-     * @param string $message The message to be set in the session.
-     * @return void
-     */
+
     public static function setMessage($isError, $message)
     {
         $_SESSION['isError']       = $isError;

@@ -37,6 +37,8 @@ $pages = $pageService->getAllActive();
             <ul class="navbar-nav mx-auto">
 
                 <?php
+                $currentSlug = $_GET['slug'] ?? 'home'; 
+
                 foreach ($pages as $page) {
 
                     $pageTitle = htmlspecialchars($page['title']);
@@ -47,9 +49,12 @@ $pages = $pageService->getAllActive();
                         ? '/'
                         : '/home/page?slug=' . $pageSlug . '&id=' . $page['page_id'];
 
+                    $isActive = ($lowerPageTitle === 'home' && $currentSlug === 'home') 
+                        || ($pageSlug === $currentSlug);
+
                     echo '
                     <li class="nav-item">
-                        <a class="nav-link" href="' . $pageUrl . '">' . $pageTitle . '</a>
+                        <a class="nav-link ' . ($isActive ? 'active' : '') . '" href="' . $pageUrl . '">' . $pageTitle . '</a>
                     </li>';
                 }
                 ?>
