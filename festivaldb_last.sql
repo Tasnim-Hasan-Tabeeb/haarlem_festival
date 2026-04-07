@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Apr 07, 2026 at 08:38 PM
+-- Generation Time: Apr 07, 2026 at 09:29 PM
 -- Server version: 12.1.2-MariaDB-ubu2404
 -- PHP Version: 8.3.26
 
@@ -430,7 +430,9 @@ INSERT INTO `orders` (`order_id`, `user_id`, `total_amount`, `payment_method`, `
 (36, 5, 1220.00, NULL, 'completed', NULL, '2026-04-06 08:15:23', '2026-04-06 08:15:23', '2026-04-06 08:15:23'),
 (37, 5, 17.50, NULL, 'completed', NULL, '2026-04-07 19:34:44', '2026-04-07 19:34:44', '2026-04-07 19:34:44'),
 (38, 5, 127.50, NULL, 'completed', NULL, '2026-04-07 19:40:49', '2026-04-07 19:40:49', '2026-04-07 19:40:49'),
-(39, 7, 127.50, NULL, 'completed', NULL, '2026-04-07 20:02:16', '2026-04-07 20:02:16', '2026-04-07 20:02:16');
+(39, 7, 127.50, NULL, 'completed', NULL, '2026-04-07 20:02:16', '2026-04-07 20:02:16', '2026-04-07 20:02:16'),
+(40, 8, 120.00, NULL, 'completed', NULL, '2026-04-07 20:57:52', '2026-04-07 20:57:52', '2026-04-07 20:57:52'),
+(41, 8, 286.00, NULL, 'completed', NULL, '2026-04-07 21:01:45', '2026-04-07 21:01:45', '2026-04-07 21:01:45');
 
 -- --------------------------------------------------------
 
@@ -484,7 +486,13 @@ INSERT INTO `order_items` (`order_item_id`, `order_id`, `item_type`, `item_id`, 
 (30, 36, 'reservation', 27, NULL, 1),
 (31, 37, 'history_ticket', 5, NULL, 1),
 (32, 38, 'reservation', 28, NULL, 1),
-(33, 39, 'reservation', 29, NULL, 1);
+(33, 39, 'reservation', 29, NULL, 1),
+(34, 40, 'dance_ticket', 6, NULL, 1),
+(35, 40, 'dance_ticket', 7, NULL, 1),
+(36, 41, 'dance_ticket', 8, NULL, 1),
+(37, 41, 'dance_ticket', 9, NULL, 1),
+(38, 41, 'dance_ticket', 10, NULL, 1),
+(39, 41, 'dance_ticket', 11, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -729,7 +737,13 @@ INSERT INTO `tickets` (`ticket_id`, `event_id`, `customer_name`, `event_name`, `
 (2, NULL, 'Ahsanul Rabbi Khan', 'Mandarin', '2026-05-16', '10:00:00', 'da4ba9660c674bd87bdf5dcc78b02b4b', 'new', '2026-04-06 04:58:34', '2026-04-06 04:58:34'),
 (3, NULL, 'Ahsanul Rabbi Khan', 'Mandarin', '2026-05-16', '10:00:00', '392ac36170b41feed7075d8706227d53', 'new', '2026-04-06 05:20:25', '2026-04-06 05:20:25'),
 (4, NULL, 'Ahsanul Rabbi Khan', 'Mandarin', '2026-05-16', '10:00:00', 'fc82a0dbff01964d6b25765f83b7af4d', 'new', '2026-04-06 05:41:08', '2026-04-06 05:41:08'),
-(5, NULL, 'Ahsanul Rabbi Khan', 'Mandarin', '2026-05-16', '10:00:00', '2bb5ec4815dc2a847264d4e7b991ef15', 'new', '2026-04-07 19:34:44', '2026-04-07 19:34:44');
+(5, NULL, 'Ahsanul Rabbi Khan', 'Mandarin', '2026-05-16', '10:00:00', '2bb5ec4815dc2a847264d4e7b991ef15', 'new', '2026-04-07 19:34:44', '2026-04-07 19:34:44'),
+(6, NULL, 'Tabeeb', 'Hardwell Live', '2024-07-27', '20:00:00', '84098f0ff4f71deb4855faceb471fab2', 'new', '2026-04-07 20:57:52', '2026-04-07 20:57:52'),
+(7, NULL, 'Tabeeb', 'Armin After Dark', '2024-07-27', '23:00:00', '7d65fd897b035de049cf886fc2f1c129', 'new', '2026-04-07 20:57:52', '2026-04-07 20:57:52'),
+(8, NULL, 'Tabeeb', 'Tiësto Closing Show', '2024-07-29', '20:30:00', '810ceb10a72e1e0a0418ce05fbe5546f', 'new', '2026-04-07 21:01:45', '2026-04-07 21:01:45'),
+(9, NULL, 'Tabeeb', 'Nicky Romero Finale', '2024-07-29', '22:30:00', 'ba99b7be1f5385b5698274c7d7fa9621', 'new', '2026-04-07 21:01:45', '2026-04-07 21:01:45'),
+(10, NULL, 'Tabeeb', 'Tiësto Closing Show', '2024-07-29', '20:30:00', '1f41a5d0fce6bbd7b48088b843f30fcf', 'new', '2026-04-07 21:01:45', '2026-04-07 21:01:45'),
+(11, NULL, 'Tabeeb', 'Nicky Romero Finale', '2024-07-29', '22:30:00', 'ebcf4bf90198ab4a083d351203ea404b', 'new', '2026-04-07 21:01:45', '2026-04-07 21:01:45');
 
 -- --------------------------------------------------------
 
@@ -843,7 +857,7 @@ INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `profile_picture`, 
 (5, 'Ahsanul Rabbi Khan', 'admin@gmail.com', '$2y$12$0EbV0MT.dKL3EUsM0pKJX.iY4yOA6RSXLw.cpxH9TulLldTE9HPJ2', 'download-5.jpeg', '2026-03-02 21:49:06', 'Admin'),
 (6, 'Ahasanul Rabbi Khan', 'ahsan@gmail.com', '$2y$12$TnGSKXJmH0IYI1TzVWsPFunSDnlbU0XEcTblb8J0fNLrIDUryA5Aa', 'download-5.jpeg', '2026-03-06 20:03:12', 'Admin'),
 (7, 'Ahsanul Rabbi Khan', 'me.ahsanul01@gmail.com', '$2y$12$x6juwndsZypeVtoKPTZWaOCsRD9s6ml1X4QBlmUx9DEAxlGSikGLi', 'download-5.jpeg', '2026-03-08 00:06:16', 'Customer'),
-(8, 'Tabeeb', 'tabeeb@gmail.com', '$2y$12$zoaz2udD5ND.0kZ5rT45JOxsXT7UTOyX1omw36WnzpjTBExLQGQxu', '/images/69af97612f35d6.29856032_sign.jpg', '2026-03-10 04:00:33', 'Customer'),
+(8, 'Tabeeb', 'tabeeb788@gmail.com', '$2y$12$zoaz2udD5ND.0kZ5rT45JOxsXT7UTOyX1omw36WnzpjTBExLQGQxu', '/images/69af97612f35d6.29856032_sign.jpg', '2026-03-10 04:00:33', 'Customer'),
 (9, 'Stewart Dejesus', 'xyxyxy@mailinator.com', '$2y$12$9nAXO.n/9swk8NATQecwl.A57K7ifV4KISsn7iRkh.pbb1JX8joMi', '', '2026-04-06 07:34:05', 'Customer');
 
 --
@@ -1135,251 +1149,3 @@ ALTER TABLE `history_info`
 --
 -- AUTO_INCREMENT for table `history_tickets`
 --
-ALTER TABLE `history_tickets`
-  MODIFY `history_ticket_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `history_timeslots`
---
-ALTER TABLE `history_timeslots`
-  MODIFY `timetable_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `history_tours`
---
-ALTER TABLE `history_tours`
-  MODIFY `tour_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `music_events`
---
-ALTER TABLE `music_events`
-  MODIFY `music_event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
-
---
--- AUTO_INCREMENT for table `music_performance`
---
-ALTER TABLE `music_performance`
-  MODIFY `music_performance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
-
---
--- AUTO_INCREMENT for table `orders`
---
-ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
-
---
--- AUTO_INCREMENT for table `order_items`
---
-ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
-
---
--- AUTO_INCREMENT for table `pages`
---
-ALTER TABLE `pages`
-  MODIFY `page_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `price_list`
---
-ALTER TABLE `price_list`
-  MODIFY `list_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `reservations`
---
-ALTER TABLE `reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
-
---
--- AUTO_INCREMENT for table `restaurants`
---
-ALTER TABLE `restaurants`
-  MODIFY `restaurant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `restaurant_features`
---
-ALTER TABLE `restaurant_features`
-  MODIFY `restaurant_features_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
-
---
--- AUTO_INCREMENT for table `sections`
---
-ALTER TABLE `sections`
-  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `sessions`
---
-ALTER TABLE `sessions`
-  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `tickets`
---
-ALTER TABLE `tickets`
-  MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `ticket_pass`
---
-ALTER TABLE `ticket_pass`
-  MODIFY `pass_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `tour_language`
---
-ALTER TABLE `tour_language`
-  MODIFY `language_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `tour_locations`
---
-ALTER TABLE `tour_locations`
-  MODIFY `tour_location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `tour_timetable`
---
-ALTER TABLE `tour_timetable`
-  MODIFY `timetable_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `albums`
---
-ALTER TABLE `albums`
-  ADD CONSTRAINT `artist_to_album` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `artist_musics`
---
-ALTER TABLE `artist_musics`
-  ADD CONSTRAINT `artist_to_music` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `awards`
---
-ALTER TABLE `awards`
-  ADD CONSTRAINT `artist_to_awards` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `history_events`
---
-ALTER TABLE `history_events`
-  ADD CONSTRAINT `history_to_events` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `history_tickets`
---
-ALTER TABLE `history_tickets`
-  ADD CONSTRAINT `history_ticket_to_history_event` FOREIGN KEY (`history_event_id`) REFERENCES `history_events` (`history_event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `history_to_language` FOREIGN KEY (`language_id`) REFERENCES `tour_language` (`language_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `history_to_tickets` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`ticket_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tour_to_date` FOREIGN KEY (`event_date_id`) REFERENCES `history_event_date` (`event_date_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tour_to_location` FOREIGN KEY (`tour_location_id`) REFERENCES `tour_locations` (`tour_location_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tour_to_time` FOREIGN KEY (`timetable_id`) REFERENCES `tour_timetable` (`timetable_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `history_tours`
---
-ALTER TABLE `history_tours`
-  ADD CONSTRAINT `1` FOREIGN KEY (`timetable_id`) REFERENCES `history_timeslots` (`timetable_id`),
-  ADD CONSTRAINT `2` FOREIGN KEY (`language_id`) REFERENCES `tour_language` (`language_id`);
-
---
--- Constraints for table `music_events`
---
-ALTER TABLE `music_events`
-  ADD CONSTRAINT `artist_to_music_event` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `event_to_music_event` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `venue_to_music_event` FOREIGN KEY (`venue_id`) REFERENCES `dance_venues` (`venue_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `music_event_tickets`
---
-ALTER TABLE `music_event_tickets`
-  ADD CONSTRAINT `music_ticket_to_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`ticket_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ticket_to_music_artists` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ticket_to_music_event` FOREIGN KEY (`music_event_id`) REFERENCES `music_events` (`music_event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ticket_to_venue` FOREIGN KEY (`venue_id`) REFERENCES `dance_venues` (`venue_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `music_performance`
---
-ALTER TABLE `music_performance`
-  ADD CONSTRAINT `fk_mp_event` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_mp_music_event` FOREIGN KEY (`music_event_id`) REFERENCES `music_events` (`music_event_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `orders`
---
-ALTER TABLE `orders`
-  ADD CONSTRAINT `user_to_orders` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `order_items`
---
-ALTER TABLE `order_items`
-  ADD CONSTRAINT `event_to_items` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_to_items` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `price_list`
---
-ALTER TABLE `price_list`
-  ADD CONSTRAINT `events_id` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `reservations`
---
-ALTER TABLE `reservations`
-  ADD CONSTRAINT `session_to_reservation` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`session_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_to_reservation` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `restaurants`
---
-ALTER TABLE `restaurants`
-  ADD CONSTRAINT `event_id` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `restaurant_features`
---
-ALTER TABLE `restaurant_features`
-  ADD CONSTRAINT `feature_to_restaurant_feature` FOREIGN KEY (`feature_id`) REFERENCES `features` (`feature_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `restaurant_to_restaurant_features` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`restaurant_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `sections`
---
-ALTER TABLE `sections`
-  ADD CONSTRAINT `page_id` FOREIGN KEY (`page_id`) REFERENCES `pages` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `tickets`
---
-ALTER TABLE `tickets`
-  ADD CONSTRAINT `ticket_to_event` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `tour_timetable`
---
-ALTER TABLE `tour_timetable`
-  ADD CONSTRAINT `timetable_to_event` FOREIGN KEY (`event_date_id`) REFERENCES `history_event_date` (`event_date_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
