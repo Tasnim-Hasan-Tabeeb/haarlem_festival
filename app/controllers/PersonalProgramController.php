@@ -335,7 +335,7 @@ class PersonalProgramController
                   </tr>';
         }
 
-        $taxAmount    = $totalAmount * 0.09;
+        $taxAmount    = $totalAmount * 0.21;
         $totalWithTax = $totalAmount + $taxAmount;
 
         $html .= '<tr>
@@ -551,7 +551,7 @@ class PersonalProgramController
 
         return $qrCodeImagePaths;
        } catch (\Throwable $th) {
-        //throw $th;
+         throw $th;
        }
     }
 
