@@ -87,13 +87,13 @@ $reservations = $_SESSION['basket'] ?? [];
             <div class="total-box">
                 <?php
                 $subTotal = array_sum(array_column($reservations, 'cost'));
-                $vat = $subTotal * 0.09;
+                $vat = $subTotal * 0.21;
                 $total = $subTotal + $vat;
                 ?>
                 <p id="header-total">Total</p>
                 <br>
                 <p>Sub-total:  €<?php echo number_format($subTotal, 2); ?> </p>
-                <p>9% VAT:  €<?php echo number_format($vat, 2); ?> </p>
+                <p>21% VAT:  €<?php echo number_format($vat, 2); ?> </p>
                 <p>Total:  <strong>€<?php echo number_format($total, 2); ?> </strong></p>
                 <button class="checkout-btn">Check Out</button>
                 <div class="accepted-payments">

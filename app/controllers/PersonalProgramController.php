@@ -48,7 +48,7 @@ class PersonalProgramController
 
     public function checkout()
     {
-        $key = 'sk_test_51PS8HHF7UbSXoXFVQFRcOjx7b6nffHvGpqbNQngGmuaiOmyqxRA3IywweJclE1X0bTwFEkDBXUEwvkj0haSUPPfP00JhIdhACj';
+        $key = 'sk_test_51RP6DB2NUICtS7JXYdJHNUpjY4Jh04OUGlIyk2vWgyTlLLkgDxKvqT8tGch5bfcV9rD0txiSvzFM07N8kq3HmkYe00wNDycLpc';
 
         try {
             $cartItems   = $this->basket->getAllItems();
@@ -76,7 +76,7 @@ class PersonalProgramController
             }
 
             // Calculate the tax amount
-            $taxAmount          = $totalAmount * 0.09;
+            $taxAmount          = $totalAmount * 0.21;
             $totalAmountWithTax = $totalAmount + $taxAmount;
 
             // Add the tax as a separate line item
@@ -84,7 +84,7 @@ class PersonalProgramController
                 'price_data' => [
                     'currency'     => 'eur',
                     'product_data' => [
-                        'name' => 'Tax (9%)',
+                        'name' => 'Tax (21%)',
                     ],
                     'unit_amount' => $taxAmount * 100, // Amount in cents
                 ],
@@ -119,7 +119,7 @@ class PersonalProgramController
     {
         try {
             $sessionId = $_GET['session_id'];
-            Stripe::setApiKey('sk_test_51PS8HHF7UbSXoXFVQFRcOjx7b6nffHvGpqbNQngGmuaiOmyqxRA3IywweJclE1X0bTwFEkDBXUEwvkj0haSUPPfP00JhIdhACj');
+            Stripe::setApiKey('sk_test_51RP6DB2NUICtS7JXYdJHNUpjY4Jh04OUGlIyk2vWgyTlLLkgDxKvqT8tGch5bfcV9rD0txiSvzFM07N8kq3HmkYe00wNDycLpc');
             $session = Session::retrieve($sessionId);
 
             if ($session->payment_status === 'paid') {
