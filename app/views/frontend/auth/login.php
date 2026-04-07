@@ -84,7 +84,7 @@
     </div>
     <footer>
         <div class="container">
-            <p>&copy; 2024 The Festival. All rights reserved.</p>
+            <p>&copy; 2026 The Festival. All rights reserved.</p>
         </div>
     </footer>
     <script

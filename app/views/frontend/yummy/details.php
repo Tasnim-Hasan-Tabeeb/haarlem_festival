@@ -1,25 +1,23 @@
 <?php include __DIR__ . '/../inc/header.php'; ?>
-
 <link rel="stylesheet" href="/frontend/css/yummy-details.css" />
 
 <div class="masthead" style="background-image: url('<?php echo htmlspecialchars($restaurant['image_url']); ?>')">
     <div class="color-overlay">
         <div class="name-details">
             <h1 class="restaurant-name"><?php echo htmlspecialchars($restaurant['title']); ?></h1>
-            <!-- &#9733 - filled star; &#9734 - hollow star -->
-            <!-- <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span> -->
+
             <div class="rating">
                 <?php
                 $fullStars = floor($restaurant['ratings']);
                 $halfStar  = $restaurant['ratings'] - $fullStars >= 0.5;
                 for ($i = 0; $i < $fullStars; $i++) {
-                    echo '&#9733;'; // Filled star
+                    echo '&#9733;'; 
                 }
                 if ($halfStar) {
-                    echo '&#9733;'; // Half star (or use a specific half star icon if available)
+                    echo '&#9733;'; 
                 }
                 for ($i = $fullStars + $halfStar; $i < 5; $i++) {
-                    echo '&#9734;'; // Empty star
+                    echo '&#9734;'; 
                 }
                 ?>
             </div>
