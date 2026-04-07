@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Apr 07, 2026 at 05:29 PM
+-- Generation Time: Apr 07, 2026 at 08:38 PM
 -- Server version: 12.1.2-MariaDB-ubu2404
 -- PHP Version: 8.3.26
 
@@ -34,24 +34,6 @@ CREATE TABLE `albums` (
   `image_url` varchar(255) NOT NULL,
   `year` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `albums`
---
-
-INSERT INTO `albums` (`album_id`, `artist_id`, `album_name`, `image_url`, `year`) VALUES
-(1, 1, 'United We Are', 'hardwell-united-we-are.jpg', 2015),
-(2, 1, 'Rebels Never Die', 'hardwell-rebels-never-die.jpg', 2022),
-(3, 2, 'Imagine', 'armin-imagine.jpg', 2008),
-(4, 2, 'Intense', 'armin-intense.jpg', 2013),
-(5, 3, 'Sentio', 'martin-sentio.jpg', 2022),
-(6, 3, 'The Martin Garrix Experience', 'martin-garrix-experience.jpg', 2019),
-(7, 4, 'Just Be', 'tiesto-just-be.jpg', 2004),
-(8, 4, 'Drive', 'tiesto-drive.jpg', 2023),
-(9, 5, 'Nicky Romero Presents Protocol', 'nicky-romero-protocol.jpg', 2020),
-(10, 5, 'Redefine', 'nicky-romero-redefine.jpg', 2023),
-(11, 6, 'Forget the World', 'afrojack-forget-the-world.jpg', 2014),
-(12, 6, 'Press Play', 'afrojack-press-play.jpg', 2022);
 
 -- --------------------------------------------------------
 
@@ -95,30 +77,6 @@ CREATE TABLE `artist_musics` (
   `music_url` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `artist_musics`
---
-
-INSERT INTO `artist_musics` (`artist_music_id`, `artist_id`, `music_title`, `image_url`, `music_url`) VALUES
-(1, 1, 'Spaceman', 'spaceman.jpg', 'hardwell-spaceman.mp3'),
-(2, 1, 'Apollo', 'apollo.jpg', 'hardwell-apollo.mp3'),
-(3, 1, 'Run Wild', 'run-wild.jpg', 'hardwell-run-wild.mp3'),
-(4, 2, 'This Is What It Feels Like', 'this-is-what-it-feels-like.jpg', 'armin-this-is-what-it-feels-like.mp3'),
-(5, 2, 'Blah Blah Blah', 'blah-blah-blah.jpg', 'armin-blah-blah-blah.mp3'),
-(6, 2, 'In and Out of Love', 'in-and-out-of-love.jpg', 'armin-in-and-out-of-love.mp3'),
-(7, 3, 'Animals', 'animals.jpg', 'martin-animals.mp3'),
-(8, 3, 'Scared to Be Lonely', 'scared-to-be-lonely.jpg', 'martin-scared-to-be-lonely.mp3'),
-(9, 3, 'High on Life', 'high-on-life.jpg', 'martin-high-on-life.mp3'),
-(10, 4, 'Adagio for Strings', 'adagio-for-strings.jpg', 'tiesto-adagio-for-strings.mp3'),
-(11, 4, 'The Business', 'the-business.jpg', 'tiesto-the-business.mp3'),
-(12, 4, 'Red Lights', 'red-lights.jpg', 'tiesto-red-lights.mp3'),
-(13, 5, 'Toulouse', 'toulouse.jpg', 'nicky-toulouse.mp3'),
-(14, 5, 'I Could Be the One', 'i-could-be-the-one.jpg', 'nicky-i-could-be-the-one.mp3'),
-(15, 5, 'Like Home', 'like-home.jpg', 'nicky-like-home.mp3'),
-(16, 6, 'Take Over Control', 'take-over-control.jpg', 'afrojack-take-over-control.mp3'),
-(17, 6, 'Ten Feet Tall', 'ten-feet-tall.jpg', 'afrojack-ten-feet-tall.mp3'),
-(18, 6, 'No Beef', 'no-beef.jpg', 'afrojack-no-beef.mp3');
-
 -- --------------------------------------------------------
 
 --
@@ -131,24 +89,6 @@ CREATE TABLE `awards` (
   `title` varchar(255) NOT NULL,
   `image_url` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `awards`
---
-
-INSERT INTO `awards` (`award_id`, `artist_id`, `title`, `image_url`) VALUES
-(1, 1, 'DJ Mag Top 100 DJs #1', 'hardwell-award-1.jpg'),
-(2, 1, 'Best Global DJ', 'hardwell-award-2.jpg'),
-(3, 2, 'DJ Mag Top 100 DJs #1', 'armin-award-1.jpg'),
-(4, 2, 'International Dance Music Award', 'armin-award-2.jpg'),
-(5, 3, 'DJ Mag Top 100 DJs #1', 'martin-award-1.jpg'),
-(6, 3, 'MTV Europe Music Award', 'martin-award-2.jpg'),
-(7, 4, 'Grammy Award Winner', 'tiesto-award-1.jpg'),
-(8, 4, 'DJ Mag Top 100 DJs Legend Award', 'tiesto-award-2.jpg'),
-(9, 5, 'MTV Clubland Award Nominee', 'nicky-award-1.jpg'),
-(10, 5, 'Protocol Recordings Recognition Award', 'nicky-award-2.jpg'),
-(11, 6, 'Grammy Award Winner', 'afrojack-award-1.jpg'),
-(12, 6, 'NRJ DJ Award', 'afrojack-award-2.jpg');
 
 -- --------------------------------------------------------
 
@@ -172,8 +112,8 @@ CREATE TABLE `dance_venues` (
 --
 
 INSERT INTO `dance_venues` (`venue_id`, `venue_name`, `venue_location`, `capacity`, `venue_image`, `map_url`) VALUES
-(1, 'Lichtfabriek', 'Minckelersweg 2, 2031 EM Haarlem', 1500, '69d112f4ac3855.69508695_Lichtfabriek.jpg', '69d112a53a5b11.85821531_Lichtfabriek.jpg'),
-(2, 'Sachthuis', 'Rockplein 6, 2033 KK Haarlem', 100, '69d113de3b58b4.30144645_Sachthuis.jpg', 'https://maps.app.goo.gl/vk4fLgZ4REjKFaAh8'),
+(1, 'Lichtfabriek', 'Minckelersweg 2, 2031 EM Haarlem', 1500, '69d112f4ac3855.69508695_Lichtfabriek.jpg', 'https://maps.app.goo.gl/DCApR6pH3CUFJDzu7'),
+(2, 'Sachthuis', 'Rockplein 6, 2033 KK Haarlem', 100, '69d113de3b58b4.30144645_Sachthuis.jpg', 'https://maps.app.goo.gl/vk4fLgZ4REjKFaAh'),
 (3, 'Jopenkerk', 'Gedempte Voldersgracht 2, 2011 WD Haarlem', 100, '69d1140e852ce6.42120188_Jopenkerk.jpg', 'https://maps.app.goo.gl/mfzzDw8WHC36pp8R9'),
 (4, 'XO the Club', 'Grote Markt 8, 2011 RD Haarlem', 100, '69d1144e4eabb0.02404578_XO.jpg', 'https://maps.app.goo.gl/9jfxL3RuvcXvC5666'),
 (5, 'Puncher comedy club', 'Grote Markt 10, 2011 RD Haarlem', 100, '69d114867be5e2.82910195_Puncher comedy club.jpg', 'https://maps.app.goo.gl/tLUZ55yoMzPV7SD7A'),
@@ -225,7 +165,8 @@ CREATE TABLE `features` (
 
 INSERT INTO `features` (`feature_id`, `image_url`, `name`) VALUES
 (1, '/images/69a98251800624.94485628_Placeholder-Image-2.png', 'Planning a party?'),
-(2, '/images/69acac2f884617.63145441_639565879_18079722086596251_5554071152351958995_n.jpg', 'Best value of food');
+(2, '/images/69acac2f884617.63145441_639565879_18079722086596251_5554071152351958995_n.jpg', 'Best value of food'),
+(4, '/images/69d548fa89b6e3.19593079_fav2.png', 'Ratatouille colse days : Monday &amp; Tuesday');
 
 -- --------------------------------------------------------
 
@@ -454,24 +395,42 @@ INSERT INTO `orders` (`order_id`, `user_id`, `total_amount`, `payment_method`, `
 (1, 7, 30.00, NULL, 'completed', NULL, '2026-03-08 00:07:34', '2026-03-08 00:07:34', '2026-03-08 00:07:34'),
 (2, 5, 40.00, NULL, 'completed', NULL, '2026-03-17 11:02:11', '2026-03-17 11:02:11', '2026-03-17 11:02:11'),
 (3, 5, 30.00, NULL, 'completed', NULL, '2026-03-17 11:41:27', '2026-03-17 11:41:27', '2026-03-17 11:41:27'),
-(4, 8, 120.00, NULL, 'completed', NULL, '2026-04-03 20:47:57', '2026-04-03 20:47:57', '2026-04-03 20:47:57'),
-(5, 8, 0.00, NULL, 'completed', NULL, '2026-04-03 20:51:17', '2026-04-03 20:51:17', '2026-04-03 20:51:17'),
-(6, 8, 0.00, NULL, 'completed', NULL, '2026-04-03 20:51:22', '2026-04-03 20:51:22', '2026-04-03 20:51:22'),
-(7, 8, 120.00, NULL, 'completed', NULL, '2026-04-04 11:05:14', '2026-04-04 11:05:14', '2026-04-04 11:05:14'),
-(8, 8, 0.00, NULL, 'completed', NULL, '2026-04-04 11:09:09', '2026-04-04 11:09:09', '2026-04-04 11:09:09'),
-(9, 8, 143.00, NULL, 'completed', NULL, '2026-04-04 11:09:41', '2026-04-04 11:09:41', '2026-04-04 11:09:41'),
-(10, 5, 134.00, NULL, 'completed', NULL, '2026-04-04 18:44:25', '2026-04-04 18:44:25', '2026-04-04 18:44:25'),
-(11, 5, 55.00, NULL, 'completed', NULL, '2026-04-04 18:45:07', '2026-04-04 18:45:07', '2026-04-04 18:45:07'),
-(12, 8, 120.00, NULL, 'completed', NULL, '2026-04-07 16:07:48', '2026-04-07 16:07:48', '2026-04-07 16:07:48'),
-(13, 8, 144.00, NULL, 'completed', NULL, '2026-04-07 16:18:52', '2026-04-07 16:18:52', '2026-04-07 16:18:52'),
-(14, 8, 144.00, NULL, 'completed', NULL, '2026-04-07 16:19:03', '2026-04-07 16:19:03', '2026-04-07 16:19:03'),
-(15, 8, 185.00, NULL, 'completed', NULL, '2026-04-07 16:19:46', '2026-04-07 16:19:46', '2026-04-07 16:19:46'),
-(16, 8, 120.00, NULL, 'completed', NULL, '2026-04-07 16:55:31', '2026-04-07 16:55:31', '2026-04-07 16:55:31'),
-(17, 8, 130.00, NULL, 'completed', NULL, '2026-04-07 16:58:03', '2026-04-07 16:58:03', '2026-04-07 16:58:03'),
-(18, 8, 120.00, NULL, 'completed', NULL, '2026-04-07 17:01:41', '2026-04-07 17:01:41', '2026-04-07 17:01:41'),
-(19, 8, 130.00, NULL, 'completed', NULL, '2026-04-07 17:02:53', '2026-04-07 17:02:53', '2026-04-07 17:02:53'),
-(20, 8, 120.00, NULL, 'completed', NULL, '2026-04-07 17:11:37', '2026-04-07 17:11:37', '2026-04-07 17:11:37'),
-(21, 8, 120.00, NULL, 'completed', NULL, '2026-04-07 17:15:45', '2026-04-07 17:15:45', '2026-04-07 17:15:45');
+(4, 5, 410.00, NULL, 'completed', NULL, '2026-04-05 04:16:09', '2026-04-05 04:16:09', '2026-04-05 04:16:09'),
+(5, 5, 2290.00, NULL, 'completed', NULL, '2026-04-05 04:45:29', '2026-04-05 04:45:29', '2026-04-05 04:45:29'),
+(6, 5, 2290.00, NULL, 'completed', NULL, '2026-04-05 04:47:03', '2026-04-05 04:47:03', '2026-04-05 04:47:03'),
+(7, 5, 2290.00, NULL, 'completed', NULL, '2026-04-05 04:48:01', '2026-04-05 04:48:01', '2026-04-05 04:48:01'),
+(8, 5, 2290.00, NULL, 'completed', NULL, '2026-04-05 04:50:42', '2026-04-05 04:50:42', '2026-04-05 04:50:42'),
+(9, 5, 2290.00, NULL, 'completed', NULL, '2026-04-05 04:53:31', '2026-04-05 04:53:31', '2026-04-05 04:53:31'),
+(10, 5, 850.00, NULL, 'completed', NULL, '2026-04-05 05:03:12', '2026-04-05 05:03:12', '2026-04-05 05:03:12'),
+(11, 5, 1310.00, NULL, 'completed', NULL, '2026-04-05 05:07:17', '2026-04-05 05:07:17', '2026-04-05 05:07:17'),
+(12, 5, 1590.00, NULL, 'completed', NULL, '2026-04-05 05:14:04', '2026-04-05 05:14:04', '2026-04-05 05:14:04'),
+(13, 5, 0.00, NULL, 'completed', NULL, '2026-04-05 05:15:24', '2026-04-05 05:15:24', '2026-04-05 05:15:24'),
+(14, 5, 450.00, NULL, 'completed', NULL, '2026-04-05 05:18:35', '2026-04-05 05:18:35', '2026-04-05 05:18:35'),
+(15, 5, 450.00, NULL, 'completed', NULL, '2026-04-05 05:22:12', '2026-04-05 05:22:12', '2026-04-05 05:22:12'),
+(16, 5, 510.00, NULL, 'completed', NULL, '2026-04-05 05:25:04', '2026-04-05 05:25:04', '2026-04-05 05:25:04'),
+(17, 5, 370.00, NULL, 'completed', NULL, '2026-04-05 05:30:15', '2026-04-05 05:30:15', '2026-04-05 05:30:15'),
+(18, 5, 370.00, NULL, 'completed', NULL, '2026-04-05 05:33:42', '2026-04-05 05:33:42', '2026-04-05 05:33:42'),
+(19, 5, 940.00, NULL, 'completed', NULL, '2026-04-05 05:35:39', '2026-04-05 05:35:39', '2026-04-05 05:35:39'),
+(20, 5, 510.00, NULL, 'completed', NULL, '2026-04-05 05:37:31', '2026-04-05 05:37:31', '2026-04-05 05:37:31'),
+(21, 5, 900.00, NULL, 'completed', NULL, '2026-04-05 05:47:00', '2026-04-05 05:47:00', '2026-04-05 05:47:00'),
+(22, 5, 900.00, NULL, 'completed', NULL, '2026-04-05 05:52:32', '2026-04-05 05:52:32', '2026-04-05 05:52:32'),
+(23, 5, 2280.00, NULL, 'completed', NULL, '2026-04-05 05:53:20', '2026-04-05 05:53:20', '2026-04-05 05:53:20'),
+(24, 5, 2280.00, NULL, 'completed', NULL, '2026-04-05 05:53:51', '2026-04-05 05:53:51', '2026-04-05 05:53:51'),
+(25, 5, 2280.00, NULL, 'completed', NULL, '2026-04-05 05:57:57', '2026-04-05 05:57:57', '2026-04-05 05:57:57'),
+(26, 5, 35.00, NULL, 'completed', NULL, '2026-04-05 06:20:40', '2026-04-05 06:20:40', '2026-04-05 06:20:40'),
+(27, 5, 515.00, NULL, 'completed', NULL, '2026-04-05 06:26:52', '2026-04-05 06:26:52', '2026-04-05 06:26:52'),
+(28, 5, 590.00, NULL, 'completed', NULL, '2026-04-05 15:41:18', '2026-04-05 15:41:18', '2026-04-05 15:41:18'),
+(29, 5, 770.00, NULL, 'completed', NULL, '2026-04-06 04:27:39', '2026-04-06 04:27:39', '2026-04-06 04:27:39'),
+(30, 5, 1680.00, NULL, 'completed', NULL, '2026-04-06 04:37:32', '2026-04-06 04:37:32', '2026-04-06 04:37:32'),
+(31, 5, 60.00, NULL, 'completed', NULL, '2026-04-06 04:54:59', '2026-04-06 04:54:59', '2026-04-06 04:54:59'),
+(32, 5, 60.00, NULL, 'completed', NULL, '2026-04-06 04:58:34', '2026-04-06 04:58:34', '2026-04-06 04:58:34'),
+(33, 5, 35.00, NULL, 'completed', NULL, '2026-04-06 05:20:25', '2026-04-06 05:20:25', '2026-04-06 05:20:25'),
+(34, 5, 35.00, NULL, 'completed', NULL, '2026-04-06 05:41:07', '2026-04-06 05:41:07', '2026-04-06 05:41:07'),
+(35, 5, 940.00, NULL, 'completed', NULL, '2026-04-06 06:37:44', '2026-04-06 06:37:44', '2026-04-06 06:37:44'),
+(36, 5, 1220.00, NULL, 'completed', NULL, '2026-04-06 08:15:23', '2026-04-06 08:15:23', '2026-04-06 08:15:23'),
+(37, 5, 17.50, NULL, 'completed', NULL, '2026-04-07 19:34:44', '2026-04-07 19:34:44', '2026-04-07 19:34:44'),
+(38, 5, 127.50, NULL, 'completed', NULL, '2026-04-07 19:40:49', '2026-04-07 19:40:49', '2026-04-07 19:40:49'),
+(39, 7, 127.50, NULL, 'completed', NULL, '2026-04-07 20:02:16', '2026-04-07 20:02:16', '2026-04-07 20:02:16');
 
 -- --------------------------------------------------------
 
@@ -495,32 +454,37 @@ CREATE TABLE `order_items` (
 INSERT INTO `order_items` (`order_item_id`, `order_id`, `item_type`, `item_id`, `event_id`, `quantity`) VALUES
 (1, 2, 'reservation', 1, NULL, 1),
 (2, 3, 'reservation', 2, NULL, 1),
-(3, 4, 'dance_ticket', 1, NULL, 1),
-(4, 4, 'dance_ticket', 2, NULL, 1),
-(5, 7, 'dance_ticket', 3, NULL, 1),
-(6, 7, 'dance_ticket', 4, NULL, 1),
-(7, 9, 'dance_ticket', 5, NULL, 1),
-(8, 9, 'dance_ticket', 6, NULL, 1),
-(9, 11, 'dance_ticket', 7, NULL, 1),
-(10, 12, 'dance_ticket', 8, NULL, 1),
-(11, 12, 'dance_ticket', 9, NULL, 1),
-(12, 13, 'dance_ticket', 10, NULL, 1),
-(13, 14, 'dance_ticket', 11, NULL, 1),
-(14, 15, 'dance_ticket', 12, NULL, 1),
-(15, 15, 'dance_ticket', 13, NULL, 1),
-(16, 15, 'dance_ticket', 14, NULL, 1),
-(17, 16, 'dance_ticket', 15, NULL, 1),
-(18, 16, 'dance_ticket', 16, NULL, 1),
-(19, 17, 'dance_ticket', 17, NULL, 1),
-(20, 17, 'dance_ticket', 18, NULL, 1),
-(21, 18, 'dance_ticket', 19, NULL, 1),
-(22, 18, 'dance_ticket', 20, NULL, 1),
-(23, 19, 'dance_ticket', 21, NULL, 1),
-(24, 19, 'dance_ticket', 22, NULL, 1),
-(25, 20, 'dance_ticket', 23, NULL, 1),
-(26, 20, 'dance_ticket', 24, NULL, 1),
-(27, 21, 'dance_ticket', 25, NULL, 1),
-(28, 21, 'dance_ticket', 26, NULL, 1);
+(3, 9, 'reservation', 3, NULL, 1),
+(4, 9, 'reservation', 4, NULL, 1),
+(5, 10, 'reservation', 5, NULL, 1),
+(6, 11, 'reservation', 6, NULL, 1),
+(7, 12, 'reservation', 7, NULL, 1),
+(8, 14, 'reservation', 8, NULL, 1),
+(9, 15, 'reservation', 9, NULL, 1),
+(10, 16, 'reservation', 10, NULL, 1),
+(11, 17, 'reservation', 11, NULL, 1),
+(12, 18, 'reservation', 12, NULL, 1),
+(13, 19, 'reservation', 13, NULL, 1),
+(14, 20, 'reservation', 14, NULL, 1),
+(15, 22, 'reservation', 15, NULL, 1),
+(16, 23, 'reservation', 16, NULL, 1),
+(17, 23, 'reservation', 17, NULL, 1),
+(18, 24, 'reservation', 18, NULL, 1),
+(19, 24, 'reservation', 19, NULL, 1),
+(20, 25, 'reservation', 20, NULL, 1),
+(21, 25, 'reservation', 21, NULL, 1),
+(22, 28, 'reservation', 22, NULL, 1),
+(23, 29, 'reservation', 23, NULL, 1),
+(24, 30, 'reservation', 24, NULL, 1),
+(25, 31, 'history_ticket', 1, NULL, 1),
+(26, 32, 'history_ticket', 2, NULL, 1),
+(27, 33, 'history_ticket', 3, NULL, 1),
+(28, 34, 'history_ticket', 4, NULL, 1),
+(29, 35, 'reservation', 25, NULL, 1),
+(30, 36, 'reservation', 27, NULL, 1),
+(31, 37, 'history_ticket', 5, NULL, 1),
+(32, 38, 'reservation', 28, NULL, 1),
+(33, 39, 'reservation', 29, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -594,7 +558,34 @@ CREATE TABLE `reservations` (
 
 INSERT INTO `reservations` (`reservation_id`, `name`, `reservation_date`, `total_adult`, `total_children`, `email`, `phone`, `user_id`, `session_id`, `restaurant_id`, `remarks`, `total_cost`, `payment_status`, `confirmation_code`, `is_paid`, `is_active`, `created_at`, `updated_at`) VALUES
 (1, 'Ahsanul Rabbi Khan', '2024-07-27', 3, 1, 'admin@gmail.com', '0630414048', 5, 3, 1, 'this is test ', 40.00, 'completed', 'CONF-69B934B33A211', 0, 1, '2026-03-17 11:02:11', '2026-03-17 11:02:11'),
-(2, 'Ahsanul Rabbi Khan', '2024-07-27', 2, 1, 'admin@gmail.com', '0630414048', 5, 3, 1, 'This is test', 30.00, 'completed', 'CONF-69B93DE7B5CAE', 0, 1, '2026-03-17 11:41:27', '2026-03-17 11:41:27');
+(2, 'Ahsanul Rabbi Khan', '2024-07-27', 2, 1, 'admin@gmail.com', '0630414048', 5, 3, 1, 'This is test', 30.00, 'completed', 'CONF-69B93DE7B5CAE', 0, 1, '2026-03-17 11:41:27', '2026-03-17 11:41:27'),
+(3, 'Shad Callahan', '2024-07-28', 11, 59, 'kuwudirif@mailinator.com', '+1 (972) 585-3399', 5, 3, 1, 'Eligendi qui placeat', 700.00, 'completed', 'CONF-69D1EACB89D39', 0, 1, '2026-04-05 04:53:31', '2026-04-05 04:53:31'),
+(4, 'Celeste Carver', '2024-07-27', 100, 59, 'fihoso@mailinator.com', '+1 (962) 379-3128', 5, 2, 1, 'Irure rerum quis ex ', 1590.00, 'completed', 'CONF-69D1EACB8AAA8', 0, 1, '2026-04-05 04:53:31', '2026-04-05 04:53:31'),
+(5, 'Breanna Thomas', '2024-07-29', 75, 10, 'qobyd@mailinator.com', '+1 (636) 974-8198', 5, 2, 1, 'Quia consectetur in ', 850.00, 'completed', 'CONF-69D1ED1044AE9', 0, 1, '2026-04-05 05:03:12', '2026-04-05 05:03:12'),
+(6, 'Kaitlin Dickerson', '2024-07-28', 47, 84, 'midahequ@mailinator.com', '+1 (811) 788-3686', 5, 3, 1, 'Et modi optio adipi', 1310.00, 'completed', 'CONF-69D1EE0545466', 0, 1, '2026-04-05 05:07:17', '2026-04-05 05:07:17'),
+(7, 'Xandra Gates', '2024-07-30', 66, 93, 'mewukux@mailinator.com', '+1 (532) 258-9938', 5, 2, 1, 'Amet sit molestias ', 1590.00, 'completed', 'CONF-69D1EF9C814EC', 0, 1, '2026-04-05 05:14:04', '2026-04-05 05:14:04'),
+(8, 'Tara Weber', '2024-07-27', 15, 30, 'juruxebav@mailinator.com', '+1 (333) 866-9565', 5, 3, 1, 'Quae quidem quia cup', 450.00, 'completed', 'CONF-69D1F0ABE848A', 0, 1, '2026-04-05 05:18:35', '2026-04-05 05:18:35'),
+(9, 'Tara Weber', '2024-07-27', 15, 30, 'juruxebav@mailinator.com', '+1 (333) 866-9565', 5, 3, 1, 'Quae quidem quia cup', 450.00, 'completed', 'CONF-69D1F18450824', 0, 1, '2026-04-05 05:22:12', '2026-04-05 05:22:12'),
+(10, 'Hermione Mcconnell', '2024-07-29', 45, 6, 'tyjenuq@mailinator.com', '+1 (214) 904-3301', 5, 3, 1, 'Mollitia eveniet el', 510.00, 'completed', 'CONF-69D1F23006C04', 0, 1, '2026-04-05 05:25:04', '2026-04-05 05:25:04'),
+(11, 'Sacha Stevenson', '2024-07-27', 17, 20, 'gobokywyba@mailinator.com', '+1 (179) 473-6266', 5, 2, 1, 'Iusto anim cumque si', 370.00, 'completed', 'CONF-69D1F367A2DC9', 0, 1, '2026-04-05 05:30:15', '2026-04-05 05:30:15'),
+(12, 'Sacha Stevenson', '2024-07-27', 17, 20, 'gobokywyba@mailinator.com', '+1 (179) 473-6266', 5, 2, 1, 'Iusto anim cumque si', 370.00, 'completed', 'CONF-69D1F436C720C', 0, 1, '2026-04-05 05:33:42', '2026-04-05 05:33:42'),
+(13, 'Lysandra Mitchell', '2024-07-28', 93, 1, 'pogovogap@mailinator.com', '+1 (929) 964-7742', 5, 3, 1, 'Vel hic quas id simi', 940.00, 'completed', 'CONF-69D1F4AB23CB6', 0, 1, '2026-04-05 05:35:39', '2026-04-05 05:35:39'),
+(14, 'Brett Greene', '2024-07-28', 28, 23, 'batizor@mailinator.com', '+1 (691) 607-4184', 5, 2, 1, 'Voluptate est autem', 510.00, 'completed', 'CONF-69D1F51B437C3', 0, 1, '2026-04-05 05:37:31', '2026-04-05 05:37:31'),
+(15, 'Moana Bradley', '2024-07-30', 67, 23, 'zitahyvyt@mailinator.com', '+1 (345) 725-5587', 5, 2, 1, 'Enim ab ab commodi N', 900.00, 'completed', 'CONF-69D1F8A02CDDC', 0, 1, '2026-04-05 05:52:32', '2026-04-05 05:52:32'),
+(16, 'Moana Bradley', '2024-07-30', 67, 23, 'zitahyvyt@mailinator.com', '+1 (345) 725-5587', 5, 2, 1, 'Enim ab ab commodi N', 900.00, 'completed', 'CONF-69D1F8D0476C8', 0, 1, '2026-04-05 05:53:20', '2026-04-05 05:53:20'),
+(17, 'Maxine Maynard', '2024-07-27', 58, 80, 'gunobonyd@mailinator.com', '+1 (955) 702-6217', 5, 3, 1, 'Sit perspiciatis re', 1380.00, 'completed', 'CONF-69D1F8D048247', 0, 1, '2026-04-05 05:53:20', '2026-04-05 05:53:20'),
+(18, 'Moana Bradley', '2024-07-30', 67, 23, 'zitahyvyt@mailinator.com', '+1 (345) 725-5587', 5, 2, 1, 'Enim ab ab commodi N', 900.00, 'completed', 'CONF-69D1F8EF0B840', 0, 1, '2026-04-05 05:53:51', '2026-04-05 05:53:51'),
+(19, 'Maxine Maynard', '2024-07-27', 58, 80, 'gunobonyd@mailinator.com', '+1 (955) 702-6217', 5, 3, 1, 'Sit perspiciatis re', 1380.00, 'completed', 'CONF-69D1F8EF0BFD8', 0, 1, '2026-04-05 05:53:51', '2026-04-05 05:53:51'),
+(20, 'Moana Bradley', '2024-07-30', 67, 23, 'zitahyvyt@mailinator.com', '+1 (345) 725-5587', 5, 2, 1, 'Enim ab ab commodi N', 900.00, 'completed', 'CONF-69D1F9E5A6FCD', 0, 1, '2026-04-05 05:57:57', '2026-04-05 05:57:57'),
+(21, 'Maxine Maynard', '2024-07-27', 58, 80, 'gunobonyd@mailinator.com', '+1 (955) 702-6217', 5, 3, 1, 'Sit perspiciatis re', 1380.00, 'completed', 'CONF-69D1F9E5A7A08', 0, 1, '2026-04-05 05:57:57', '2026-04-05 05:57:57'),
+(22, 'Garth Nolan', '2024-07-29', 12, 47, 'dycutelus@mailinator.com', '+1 (962) 701-2537', 5, 3, 1, 'Nesciunt explicabo', 590.00, 'completed', 'CONF-69D2829EA3DC0', 0, 1, '2026-04-05 15:41:18', '2026-04-05 15:41:18'),
+(23, 'Josephine Curtis', '2024-07-30', 72, 5, 'kubu@mailinator.com', '+1 (893) 194-9763', 5, 3, 1, 'Perferendis at recus', 770.00, 'completed', 'CONF-69D3363B352EF', 0, 1, '2026-04-06 04:27:39', '2026-04-06 04:27:39'),
+(24, 'Ann Barrett', '2024-07-29', 93, 75, 'wupa@mailinator.com', '+1 (494) 726-3682', 5, 2, 1, 'Aliqua Illum neces', 1680.00, 'completed', 'CONF-69D3388CD6D04', 0, 1, '2026-04-06 04:37:32', '2026-04-06 04:37:32'),
+(25, 'Eve Barr', '2024-07-27', 50, 44, 'kubu@mailinator.com', '+1 (462) 607-2089', 5, 3, 1, 'Aute et molestiae et', 940.00, 'completed', 'CONF-69D354B8DF858', 0, 1, '2026-04-06 06:37:44', '2026-04-06 06:37:44'),
+(26, 'Stewart Dejesus', '1999-07-25', 47, 96, 'xyxyxy@mailinator.com', '+1 (217) 258-5219', 9, 2, 1, 'Laudantium assumend', 1430.00, 'pending', 'CONF-69D361EDBCE18', 0, 1, '2026-04-06 07:34:05', '2026-04-06 07:34:05'),
+(27, 'Andrew Ballard', '2024-07-29', 52, 70, 'vidud@mailinator.com', '+1 (184) 338-4593', 5, 2, 1, 'Ad aliquid quia omni', 1220.00, 'completed', 'CONF-69D36B9C01DDC', 0, 1, '2026-04-06 08:15:24', '2026-04-06 08:15:24'),
+(28, 'Ahsanul Rabbi Khan', '2024-07-27', 3, 1, 'admin@gmail.com', '0630414048', 5, 4, 2, 'hi', 127.50, 'completed', 'CONF-69D55DC137028', 0, 1, '2026-04-07 19:40:49', '2026-04-07 19:40:49'),
+(29, 'Ahsanul Rabbi Khan', '2024-07-27', 3, 1, 'me.ahsanul01@gmail.com', '0630414048', 7, 4, 2, 'Looks ok for me', 127.50, 'completed', 'CONF-69D562C816538', 0, 1, '2026-04-07 20:02:16', '2026-04-07 20:02:16');
 
 -- --------------------------------------------------------
 
@@ -612,6 +603,8 @@ CREATE TABLE `restaurants` (
   `session_id` int(11) DEFAULT NULL,
   `event_id` int(11) NOT NULL,
   `location` varchar(500) NOT NULL,
+  `price_for_child` double NOT NULL DEFAULT 0,
+  `price_for_adult` double NOT NULL DEFAULT 0,
   `number_of_seats` int(11) NOT NULL,
   `contact_email` varchar(255) NOT NULL,
   `contact_phone` varchar(255) NOT NULL,
@@ -622,8 +615,9 @@ CREATE TABLE `restaurants` (
 -- Dumping data for table `restaurants`
 --
 
-INSERT INTO `restaurants` (`restaurant_id`, `title`, `image_url`, `description`, `ratings`, `cuisines`, `session_id`, `event_id`, `location`, `number_of_seats`, `contact_email`, `contact_phone`, `gallery_images`) VALUES
-(1, 'Café de Roemer', '/images/69aafdbf458ae4.44129310_yummy_events.jpg', '&lt;p&gt;Welcome to Café de Roemer, an iconic spot located on Botermarkt in the heart of Haarlem. A Haarlem institution for over 30 years, it&#039;s now owned by two enthusiastic entrepreneurs who are continuing the Roemer legacy with renewed energy. Step inside and discover our diverse menu, where classics meet surprising new flavors. Whether you&#039;re looking for a delicious lunch, a leisurely dinner, or just a relaxing drink, you&#039;re sure to find something to suit your taste. Enjoy the sun on our spacious and sunny terrace, or experience the outdoors year-round in our beautiful glass conservatory. Whatever the weather, at Café de Roemer we always offer a warm welcome and a cozy atmosphere. Our team is ready to make your experience unforgettable, with enthusiasm, hospitality, and a smile. Whether you&#039;re stopping by for a quick bite or a long night out, you&#039;ll always feel at home at Café de Roemer. Come visit us and discover the unique charm of Café de Roemer for yourself. We look forward to welcoming you!&lt;/p&gt;', 4, 'Dutch, Fish and Seafood, European', 1, 1, 'Botermarkt 17, 2011 XL Haarlem', 35, 'info@cafederoemer.nl', '02857488', '[\"\\/images\\/69aafdbf479990.19159331_yummy_events.jpg\",\"\\/images\\/69acae9da4a2e0.32909133_639565879_18079722086596251_5554071152351958995_n.jpg\",\"\\/images\\/69acae9daf53d2.17401647_642509984_18080492510596251_7090866304138896856_n.jpg\",\"\\/images\\/69acae9dba47c4.44593639_643545031_18080492501596251_1310653718942307600_n.jpg\",\"\\/images\\/69acae9dc2c316.06554831_645841499_18080957423596251_3190953387532787824_n.jpg\"]');
+INSERT INTO `restaurants` (`restaurant_id`, `title`, `image_url`, `description`, `ratings`, `cuisines`, `session_id`, `event_id`, `location`, `price_for_child`, `price_for_adult`, `number_of_seats`, `contact_email`, `contact_phone`, `gallery_images`) VALUES
+(1, 'Café de Roemer', '/images/69aafdbf458ae4.44129310_yummy_events.jpg', '&lt;p&gt;Welcome to Café de Roemer, an iconic spot located on Botermarkt in the heart of Haarlem. A Haarlem institution for over 30 years, it&#039;s now owned by two enthusiastic entrepreneurs who are continuing the Roemer legacy with renewed energy. Step inside and discover our diverse menu, where classics meet surprising new flavors. Whether you&#039;re looking for a delicious lunch, a leisurely dinner, or just a relaxing drink, you&#039;re sure to find something to suit your taste. Enjoy the sun on our spacious and sunny terrace, or experience the outdoors year-round in our beautiful glass conservatory. Whatever the weather, at Café de Roemer we always offer a warm welcome and a cozy atmosphere. Our team is ready to make your experience unforgettable, with enthusiasm, hospitality, and a smile. Whether you&#039;re stopping by for a quick bite or a long night out, you&#039;ll always feel at home at Café de Roemer. Come visit us and discover the unique charm of Café de Roemer for yourself. We look forward to welcoming you!&lt;/p&gt;', 4, 'Dutch, Fish and Seafood, European', 1, 1, 'Botermarkt 17, 2011 XL Haarlem', 17.5, 35, 35, 'info@cafederoemer.nl', '02857488', '[\"\\/images\\/69aafdbf479990.19159331_yummy_events.jpg\",\"\\/images\\/69acae9da4a2e0.32909133_639565879_18079722086596251_5554071152351958995_n.jpg\",\"\\/images\\/69acae9daf53d2.17401647_642509984_18080492510596251_7090866304138896856_n.jpg\",\"\\/images\\/69acae9dba47c4.44593639_643545031_18080492501596251_1310653718942307600_n.jpg\",\"\\/images\\/69acae9dc2c316.06554831_645841499_18080957423596251_3190953387532787824_n.jpg\"]'),
+(2, 'Ratatouille', '/images/69d547a313bb57.80127509_ratatui.png', 'Welkom bij Ratatouille Food and Wine, waar gastronomie een kunst wordt en gastvrijheid de kern vormt van onze ervaring. Gelegen in het hart van Haarlem, is ons restaurant onder leiding van de bevlogen chef Jozua Jaring een toevluchtsoord voor liefhebbers van verfijnde smaken en stijlvolle culinaire avonturen.', 4, 'French, fish and seafood, European', NULL, 1, 'Spaarne 96, 2011 CL Haarlem, Nederland', 22.5, 35, 52, 'info@ratatouillefoodandwine.nl', '023 542 7270', '[\"\\/images\\/69d547a325ae04.19165332_gal1t.png\",\"\\/images\\/69d54914547a09.98915651_gal2.png\",\"\\/images\\/69d549426d40c5.54630293_gal4.png\"]');
 
 -- --------------------------------------------------------
 
@@ -642,8 +636,10 @@ CREATE TABLE `restaurant_features` (
 --
 
 INSERT INTO `restaurant_features` (`restaurant_features_id`, `restaurant_id`, `feature_id`) VALUES
-(12, 1, 1),
-(13, 1, 2);
+(21, 1, 1),
+(22, 1, 2),
+(26, 2, 2),
+(27, 2, 4);
 
 -- --------------------------------------------------------
 
@@ -668,7 +664,7 @@ CREATE TABLE `sections` (
 
 INSERT INTO `sections` (`section_id`, `section_title`, `section_sub_title`, `content`, `image_url`, `map_url`, `section_type`, `page_id`) VALUES
 (1, 'Discover Food  & Drinks', '', '<p><span style=\"font-family: Arial;\">﻿</span>When you say Haarlem, you immediately think of culinary experiences. This vibrant city offers something for every taste, from chic restaurants where you can enjoy refined dining to cozy cafés and lively eateries perfect for a quick and delicious bite. Stroll through its charming streets and you’ll find inviting coffee bars serving expertly brewed drinks, welcoming tasting rooms where you can sample local flavors, and atmospheric breweries offering craft beers with character. Whether you’re looking for a relaxed lunch, an indulgent dinner, or simply a place to unwind with a drink, Haarlem’s diverse food and drink scene makes it a true destination for anyone who loves good taste and great atmosphere. 🍽️☕🍺</p>', '/images/69a982efaaf230.79610024_Haarlem-Culinair-Blackline-Media-Edit-52-1-2048x1365.jpg', 'https://maps.app.goo.gl/o69KfbnbDv6tDm8q8', 'header', 6),
-(2, 'About Us', '', '<p>Our journey began at Inholland University of Applied Sciences, where we met as a team of students passionate about technology and problem-solving. With backgrounds in IT and a shared curiosity for how digital solutions could make life easier, we often found ourselves discussing real-world challenges and how software could solve them. It wasn’t long before the idea sparked: What if we started our own IT company—one that focused not on trends or hype, but on building useful, reliable tools that actually help businesses grow? That idea became our mission. We founded our company with one goal in mind: to build valuable digital products that solve real business problems. From the start, we’ve focused on clarity, practicality, and purpose—cutting through the noise to deliver solutions that truly support teams and organizations. Our vision is simple: empower businesses to scale and thrive through technology. We believe digital tools should feel like an extension of your goals, not a barrier. That means making digital less confusing, more helpful, and always aligned with your needs. We’re human-first, results-driven, and always collaborative. We listen before we build. We explain things clearly. We avoid shortcuts, respect your time, and treat every project like a partnership. With us, you’ll always know where things stand, and what’s coming next. This is our story—rooted in curiosity, grown through collaboration, and driven by a commitment to help businesses succeed with technology that works. #inholland hashtag #LearningTogether hashtag #InhollandUniversityofAppliedSciences</p>', '', '', 'instruction', 7),
+(2, 'About Us', '', '<p>Our journey began at Inholland University of Applied Sciences, where we met as a team of students passionate about technology and problem-solving. With backgrounds in IT and a shared curiosity for how digital solutions could make life easier, we often found ourselves discussing real-world challenges and how software could solve them. It wasn’t long before the idea sparked: What if we started our own IT company—one that focused not on trends or hype, but on building useful, reliable tools that actually help businesses grow? That idea became our mission. We founded our company with one goal in mind: to build valuable digital products that solve real business problems. From the start, we’ve focused on clarity, practicality, and purpose—cutting through the noise to deliver solutions that truly support teams and organizations. Our vision is simple: empower businesses to scale and thrive through technology. We believe digital tools should feel like an extension of your goals, not a barrier. That means making digital less confusing, more helpful, and always aligned with your needs. We’re human-first, results-driven, and always collaborative. We listen before we build. We explain things clearly. We avoid shortcuts, respect your time, and treat every project like a partnership. With us, you’ll always know where things stand, and what’s coming next. This is our story—rooted in curiosity, grown through collaboration, and driven by a commitment to help businesses succeed with technology that works. #inholland hashtag #LearningTogether hashtag #InhollandUniversityofAppliedSciences</p>', '/images/69d54846b277e4.22579770_team.jpg', '', 'header', 7),
 (3, 'You don\'t want to miss this', '', '<font color=\"#4a4a49\" face=\"WixMadeforText-VariableFont_wght, sans-serif\"><span style=\"font-size: 17px;\">From Dutch Masters to modern art, from arthouse films to children\'s theater, from pop concerts to city history: if you\'re looking for inspiration, art, and culture, Haarlem is sure to satisfy your cravings. Not only is Haarlem home to the oldest museum in the Netherlands, but its historic city center is also bustling with cultural hotspots, (art) history, and creative initiatives.</span></font>', '', '', 'tour_information', 2),
 (4, 'Art and Culture', '', '<p>Be amazed by Haarlem\'s rich art and culture. Will it be a museum, the theater, or a stroll past historic monuments?&nbsp; Haarlem\'s artistic soul. Haarlem is a paradise for art lovers, with a wide range of museums, galleries, and cultural events. Immerse yourself in the city\'s artistic offerings and witness the interplay between tradition and innovation. Art and culture in Haarlem truly embrace and celebrate the spirit of creativity. Here\'s a glimpse of what this enchanting city has to offer</p>', '', '', 'header', 2);
 
@@ -700,7 +696,10 @@ CREATE TABLE `sessions` (
 
 INSERT INTO `sessions` (`session_id`, `session_date`, `start_time`, `end_time`, `session_type`, `event_id`, `venue_id`, `restaurant_id`, `capacity`, `sessions_per_day`, `total_session`, `duration`, `first_session`) VALUES
 (2, NULL, '17:00:00', NULL, NULL, 1, NULL, 1, NULL, 3, 3, '1.5', '17:00:00'),
-(3, NULL, '18:00:00', NULL, NULL, 1, NULL, 1, NULL, 3, 3, '1.5', '18:00:00');
+(3, NULL, '18:00:00', NULL, NULL, 1, NULL, 1, NULL, 3, 3, '1.5', '18:00:00'),
+(4, NULL, '17:00:00', NULL, NULL, 1, NULL, 2, NULL, 4, 4, '2', '17:00:00'),
+(5, NULL, '19:00:00', NULL, NULL, 1, NULL, 2, NULL, 4, 4, '2', '19:00:00'),
+(6, NULL, '21:00:00', NULL, NULL, 1, NULL, 2, NULL, 4, 4, '2', '21:00:00');
 
 -- --------------------------------------------------------
 
@@ -726,32 +725,11 @@ CREATE TABLE `tickets` (
 --
 
 INSERT INTO `tickets` (`ticket_id`, `event_id`, `customer_name`, `event_name`, `event_date`, `event_time`, `qr_code`, `status`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Tabeeb', 'Armin After Dark', '2024-07-27', '23:00:00', '1451a4a7f9f827bf0578fccb36f5d4bf', 'new', '2026-04-03 20:47:57', '2026-04-03 20:47:57'),
-(2, NULL, 'Tabeeb', 'Hardwell Live', '2024-07-27', '20:00:00', '694b30b667a3ce7d56ea963579d4ceb8', 'new', '2026-04-03 20:47:57', '2026-04-03 20:47:57'),
-(3, NULL, 'Tabeeb', 'Hardwell Live', '2024-07-27', '20:00:00', 'f8753188f2bce6dbffa099999e9ec2b1', 'new', '2026-04-04 11:05:14', '2026-04-04 11:05:14'),
-(4, NULL, 'Tabeeb', 'Armin After Dark', '2024-07-27', '23:00:00', '3ec702aee1199d0ae67940e887f02129', 'new', '2026-04-04 11:05:14', '2026-04-04 11:05:14'),
-(5, NULL, 'Tabeeb', 'Tiësto Closing Show', '2024-07-29', '20:30:00', '56671940f55b6ab76047120ea7a24699', 'new', '2026-04-04 11:09:41', '2026-04-04 11:09:41'),
-(6, NULL, 'Tabeeb', 'Nicky Romero Finale', '2024-07-29', '22:30:00', '57ba9c21576ff30f6ea4b33dc065f928', 'new', '2026-04-04 11:09:41', '2026-04-04 11:09:41'),
-(7, NULL, 'Ahsanul Rabbi Khan', 'Armin After Dark', '2024-07-27', '23:00:00', 'f444bd53ea4dedf42c7119096e17e9b6', 'new', '2026-04-04 18:45:07', '2026-04-04 18:45:07'),
-(8, NULL, 'Tabeeb', 'Hardwell Live', '2024-07-27', '20:00:00', '5a8362597834b760a38215a0794740be', 'new', '2026-04-07 16:07:48', '2026-04-07 16:07:48'),
-(9, NULL, 'Tabeeb', 'Armin After Dark', '2024-07-27', '23:00:00', 'a4754986303229b5e1047d8a9f670b3c', 'new', '2026-04-07 16:07:48', '2026-04-07 16:07:48'),
-(10, NULL, 'Tabeeb', 'Hardwell Live', '2024-07-27', '20:00:00', 'c8953b03ce8067028e1d7a029af71106', 'new', '2026-04-07 16:18:52', '2026-04-07 16:18:52'),
-(11, NULL, 'Tabeeb', 'Hardwell Live', '2024-07-27', '20:00:00', '364eaf060e2e4963a975508f647041bb', 'new', '2026-04-07 16:19:03', '2026-04-07 16:19:03'),
-(12, NULL, 'Tabeeb', 'Hardwell Live', '2024-07-27', '20:00:00', 'de1d6af5f56d83a0ff9431abcb5d9f11', 'new', '2026-04-07 16:19:46', '2026-04-07 16:19:46'),
-(13, NULL, 'Tabeeb', 'Hardwell Live', '2024-07-27', '20:00:00', '6103cb027cf5ccc64adca2f9f8ff7666', 'new', '2026-04-07 16:19:46', '2026-04-07 16:19:46'),
-(14, NULL, 'Tabeeb', 'Armin After Dark', '2024-07-27', '23:00:00', 'b96ea63167ef1aad28c9494e779032c4', 'new', '2026-04-07 16:19:46', '2026-04-07 16:19:46'),
-(15, NULL, 'Tabeeb', 'Hardwell Live', '2024-07-27', '20:00:00', '543ca841ad4ecca4b74ed3548857e277', 'new', '2026-04-07 16:55:31', '2026-04-07 16:55:31'),
-(16, NULL, 'Tabeeb', 'Armin After Dark', '2024-07-27', '23:00:00', '0b138b0964305a1f635332c74b615a7e', 'new', '2026-04-07 16:55:31', '2026-04-07 16:55:31'),
-(17, NULL, 'Tabeeb', 'Afrojack Midnight Session', '2024-07-28', '23:30:00', 'baf873d12be7a165814e1115fea7aa40', 'new', '2026-04-07 16:58:03', '2026-04-07 16:58:03'),
-(18, NULL, 'Tabeeb', 'Martin Garrix Festival Set', '2024-07-28', '21:00:00', 'f2823879a440300b8b594cf63c3530fa', 'new', '2026-04-07 16:58:03', '2026-04-07 16:58:03'),
-(19, NULL, 'Tabeeb', 'Armin After Dark', '2024-07-27', '23:00:00', '6f79acb8e3225638199d5f96785f10fe', 'new', '2026-04-07 17:01:41', '2026-04-07 17:01:41'),
-(20, NULL, 'Tabeeb', 'Hardwell Live', '2024-07-27', '20:00:00', '39b01b3236beb937851d005985d05a5a', 'new', '2026-04-07 17:01:41', '2026-04-07 17:01:41'),
-(21, NULL, 'Tabeeb', 'Martin Garrix Festival Set', '2024-07-28', '21:00:00', 'e63830c1a8143d5f50dcc5ac846351a9', 'new', '2026-04-07 17:02:53', '2026-04-07 17:02:53'),
-(22, NULL, 'Tabeeb', 'Afrojack Midnight Session', '2024-07-28', '23:30:00', 'c87ec15a0cb5b1c506942cde5d565fdb', 'new', '2026-04-07 17:02:53', '2026-04-07 17:02:53'),
-(23, NULL, 'Tabeeb', 'Hardwell Live', '2024-07-27', '20:00:00', '918757b8d2450f846e1031228f870f46', 'new', '2026-04-07 17:11:37', '2026-04-07 17:11:37'),
-(24, NULL, 'Tabeeb', 'Armin After Dark', '2024-07-27', '23:00:00', 'c42921a9a10388a5a69c0599d7929e44', 'new', '2026-04-07 17:11:37', '2026-04-07 17:11:37'),
-(25, NULL, 'Tabeeb', 'Hardwell Live', '2024-07-27', '20:00:00', '9eb4fc0cefa50cd2aeb8736ebb9da088', 'new', '2026-04-07 17:15:45', '2026-04-07 17:15:45'),
-(26, NULL, 'Tabeeb', 'Armin After Dark', '2024-07-27', '23:00:00', '9c8e5aefda011c8e66507e3797bbb17c', 'new', '2026-04-07 17:15:45', '2026-04-07 17:15:45');
+(1, NULL, 'Ahsanul Rabbi Khan', 'Mandarin', '2026-05-16', '10:00:00', '4a3e2cbb040fb07ccbebc73d0254aea9', 'new', '2026-04-06 04:54:59', '2026-04-06 04:54:59'),
+(2, NULL, 'Ahsanul Rabbi Khan', 'Mandarin', '2026-05-16', '10:00:00', 'da4ba9660c674bd87bdf5dcc78b02b4b', 'new', '2026-04-06 04:58:34', '2026-04-06 04:58:34'),
+(3, NULL, 'Ahsanul Rabbi Khan', 'Mandarin', '2026-05-16', '10:00:00', '392ac36170b41feed7075d8706227d53', 'new', '2026-04-06 05:20:25', '2026-04-06 05:20:25'),
+(4, NULL, 'Ahsanul Rabbi Khan', 'Mandarin', '2026-05-16', '10:00:00', 'fc82a0dbff01964d6b25765f83b7af4d', 'new', '2026-04-06 05:41:08', '2026-04-06 05:41:08'),
+(5, NULL, 'Ahsanul Rabbi Khan', 'Mandarin', '2026-05-16', '10:00:00', '2bb5ec4815dc2a847264d4e7b991ef15', 'new', '2026-04-07 19:34:44', '2026-04-07 19:34:44');
 
 -- --------------------------------------------------------
 
@@ -865,7 +843,8 @@ INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `profile_picture`, 
 (5, 'Ahsanul Rabbi Khan', 'admin@gmail.com', '$2y$12$0EbV0MT.dKL3EUsM0pKJX.iY4yOA6RSXLw.cpxH9TulLldTE9HPJ2', 'download-5.jpeg', '2026-03-02 21:49:06', 'Admin'),
 (6, 'Ahasanul Rabbi Khan', 'ahsan@gmail.com', '$2y$12$TnGSKXJmH0IYI1TzVWsPFunSDnlbU0XEcTblb8J0fNLrIDUryA5Aa', 'download-5.jpeg', '2026-03-06 20:03:12', 'Admin'),
 (7, 'Ahsanul Rabbi Khan', 'me.ahsanul01@gmail.com', '$2y$12$x6juwndsZypeVtoKPTZWaOCsRD9s6ml1X4QBlmUx9DEAxlGSikGLi', 'download-5.jpeg', '2026-03-08 00:06:16', 'Customer'),
-(8, 'Tabeeb', 'tabeeb788@gmail.com', '$2y$12$zoaz2udD5ND.0kZ5rT45JOxsXT7UTOyX1omw36WnzpjTBExLQGQxu', '/images/69af97612f35d6.29856032_sign.jpg', '2026-03-10 04:00:33', 'Customer');
+(8, 'Tabeeb', 'tabeeb@gmail.com', '$2y$12$zoaz2udD5ND.0kZ5rT45JOxsXT7UTOyX1omw36WnzpjTBExLQGQxu', '/images/69af97612f35d6.29856032_sign.jpg', '2026-03-10 04:00:33', 'Customer'),
+(9, 'Stewart Dejesus', 'xyxyxy@mailinator.com', '$2y$12$9nAXO.n/9swk8NATQecwl.A57K7ifV4KISsn7iRkh.pbb1JX8joMi', '', '2026-04-06 07:34:05', 'Customer');
 
 --
 -- Indexes for dumped tables
@@ -1103,7 +1082,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `albums`
 --
 ALTER TABLE `albums`
-  MODIFY `album_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `album_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `artists`
@@ -1115,13 +1094,13 @@ ALTER TABLE `artists`
 -- AUTO_INCREMENT for table `artist_musics`
 --
 ALTER TABLE `artist_musics`
-  MODIFY `artist_music_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `artist_music_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `awards`
 --
 ALTER TABLE `awards`
-  MODIFY `award_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `award_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `dance_venues`
@@ -1139,7 +1118,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `features`
 --
 ALTER TABLE `features`
-  MODIFY `feature_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `feature_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `history_event_date`
@@ -1187,19 +1166,19 @@ ALTER TABLE `music_performance`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `page_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `price_list`
@@ -1211,37 +1190,37 @@ ALTER TABLE `price_list`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `restaurants`
 --
 ALTER TABLE `restaurants`
-  MODIFY `restaurant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `restaurant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `restaurant_features`
 --
 ALTER TABLE `restaurant_features`
-  MODIFY `restaurant_features_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `restaurant_features_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ticket_pass`
@@ -1271,7 +1250,7 @@ ALTER TABLE `tour_timetable`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
