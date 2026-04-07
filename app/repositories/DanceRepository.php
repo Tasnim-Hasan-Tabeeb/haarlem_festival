@@ -390,6 +390,131 @@ class DanceRepository extends Repository
         }
     }
 
+    public function createManagedEvent(
+        string $eventName,
+        string $eventDate,
+        string $eventStartTime,
+        float $eventPrice,
+        int $eventDuration,
+        string $sessionType,
+        int $venueId,
+        array $artistIds,
+        ?string $musicEventImage = null
+    ): int {
+        try {
+            $artistIds = array_values(array_unique(array_map('intval', $artistIds)));
+            if (empty($artistIds)) {
+                throw new Exception("At least one artist must be selected.");
+            }
+
+            $stmt = $this->connection->prepare("
+                SELECT event_id
+                FROM events
+                WHERE event_type = 'Dance'
+                ORDER BY event_id ASC
+                LIMIT 1
+            ");
+            $stmt->execute();
+            $danceEventId = (int)$stmt->fetchColumn();
+
+            if ($danceEventId <= 0) {
+                throw new Exception("Dance parent event not found.");
+            }
+
+            $this->connection->beginTransaction();
+
+            $stmt = $this->connection->prepare("
+                INSERT INTO music_events (
+                    event_id,
+                    artist_id,
+                    venue_id,
+                    event_date,
+                    event_name,
+                    event_price,
+                    session_type,
+                    event_start_time,
+                    event_duration,
+                    music_event_image
+                ) VALUES (
+                    :event_id,
+                    :artist_id,
+                    :venue_id,
+                    :event_date,
+                    :event_name,
+                    :event_price,
+                    :session_type,
+                    :event_start_time,
+                    :event_duration,
+                    :music_event_image
+                )
+            ");
+            $stmt->execute([
+                ':event_id' => $danceEventId,
+                ':artist_id' => $artistIds[0],
+                ':venue_id' => $venueId,
+                ':event_date' => $eventDate,
+                ':event_name' => $eventName,
+                ':event_price' => $eventPrice,
+                ':session_type' => $sessionType,
+                ':event_start_time' => $eventStartTime,
+                ':event_duration' => $eventDuration,
+                ':music_event_image' => $musicEventImage,
+            ]);
+
+            $musicEventId = (int)$this->connection->lastInsertId();
+
+            $stmt = $this->connection->prepare("
+                INSERT INTO music_performance (
+                    music_event_id,
+                    artist_id,
+                    event_id,
+                    title,
+                    session_type,
+                    start_date,
+                    event_start_time,
+                    event_duration,
+                    event_price,
+                    quantity
+                ) VALUES (
+                    :music_event_id,
+                    :artist_id,
+                    :event_id,
+                    :title,
+                    :session_type,
+                    :start_date,
+                    :event_start_time,
+                    :event_duration,
+                    :event_price,
+                    :quantity
+                )
+            ");
+
+            foreach ($artistIds as $artistId) {
+                $stmt->execute([
+                    ':music_event_id' => $musicEventId,
+                    ':artist_id' => $artistId,
+                    ':event_id' => $danceEventId,
+                    ':title' => $eventName,
+                    ':session_type' => $sessionType,
+                    ':start_date' => $eventDate,
+                    ':event_start_time' => $eventStartTime,
+                    ':event_duration' => $eventDuration,
+                    ':event_price' => $eventPrice,
+                    ':quantity' => 1,
+                ]);
+            }
+
+            $this->connection->commit();
+
+            return $musicEventId;
+        } catch (Exception $e) {
+            if ($this->connection->inTransaction()) {
+                $this->connection->rollBack();
+            }
+            throw new Exception("Error: " . $e->getMessage());
+        }
+    }
+
     public function update(Dance $dance, $dance_id): bool
     {
         try {

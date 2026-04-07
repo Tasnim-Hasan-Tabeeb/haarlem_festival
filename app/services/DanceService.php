@@ -109,6 +109,34 @@ class DanceService
             throw new Exception("Error: " . $e->getMessage());
         }
     }
+
+    public function createManagedEvent(
+        string $eventName,
+        string $eventDate,
+        string $eventStartTime,
+        float $eventPrice,
+        int $eventDuration,
+        string $sessionType,
+        int $venueId,
+        array $artistIds,
+        ?string $musicEventImage = null
+    ): int {
+        try {
+            return $this->danceRepository->createManagedEvent(
+                $eventName,
+                $eventDate,
+                $eventStartTime,
+                $eventPrice,
+                $eventDuration,
+                $sessionType,
+                $venueId,
+                $artistIds,
+                $musicEventImage
+            );
+        } catch (Exception $e) {
+            throw new Exception("Error: " . $e->getMessage());
+        }
+    }
     public function storeDance(Dance $dance)
     {
         try {
