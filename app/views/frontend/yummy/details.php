@@ -70,7 +70,7 @@
 
             <div class="price-per-person">
                 <div>
-                    <p><strong>Cuisines:</strong> <?= htmlspecialchars($restaurant['cuisines']) ?></p>
+                    <strong>Cuisines:</strong> <?= htmlspecialchars($restaurant['cuisines']) ?>
                 </div>
                 <div>
                     👶 Child:
