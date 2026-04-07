@@ -54,6 +54,7 @@ class PersonalProgramController
             $cartItems   = $this->basket->getAllItems();
             $lineItems   = [];
             $totalAmount = 0;
+            $customer    = $this->resolveCustomerContact($cartItems);
 
             foreach ($cartItems as $cartItem) {
                 $unitAmount  = isset($cartItem['cost_per_person']) ? $cartItem['cost_per_person'] : $cartItem['cost'];
@@ -92,13 +93,19 @@ class PersonalProgramController
 
             Stripe::setApiKey($key);
 
-            $session = Session::create([
+            $sessionPayload = [
                 'payment_method_types' => ['ideal', 'card'],
                 'line_items'           => $lineItems,
                 'mode'                 => 'payment',
                 'success_url'          => 'http://localhost/personalprogram/success?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url'           => 'http://localhost/personalprogram/cancel',
-            ]);
+            ];
+
+            if (!empty($customer['email'])) {
+                $sessionPayload['customer_email'] = $customer['email'];
+            }
+
+            $session = Session::create($sessionPayload);
 
             header('Location: ' . $session->url);
             exit();
@@ -123,14 +130,13 @@ class PersonalProgramController
                     $totalAmount += isset($cartItem['cost_per_person']) ? $cartItem['cost_per_person'] * ($cartItem['total_adult'] + $cartItem['total_children']) : $cartItem['cost'];
                 }
 
+                $customer = $this->resolveCustomerContact($cartItems, $session);
                 $userId = null;
-                $name   = 'guest/visitor';
-                $email  = 'mfz_2022@hotmail.com';
                 if (isset($_SESSION['user'])) {
                     $userId = $_SESSION['user']['user_id'];
-                    $name   = $_SESSION['user']['name'];
-                    $email  = $_SESSION['user']['email'];
                 }
+                $name  = $customer['name'];
+                $email = $customer['email'];
 
                 $orderId = $this->orderService->createOrder($userId, $totalAmount);
 
@@ -234,15 +240,33 @@ class PersonalProgramController
                 }
 
                 $invoicePdf = $this->generateInvoicePdf($invoiceDetails);
-                $this->sendInvoiceEmail($email, $name, $invoicePdf);
-
                 $qrCodeImagePaths = $this->getQR($orderId); // Generate QR codes and get their paths
                 $ticketPdf        = $this->generateTicketPdf($ticketDetails);
-                $this->sendTicketEmail($email, $name, $ticketPdf, $qrCodeImagePaths);
+
+                $mailIssues = [];
+                if (!empty($email)) {
+                    if (!$this->sendInvoiceEmail($email, $name, $invoicePdf)) {
+                        $mailIssues[] = 'invoice';
+                    }
+
+                    if (!$this->sendTicketEmail($email, $name, $ticketPdf, $qrCodeImagePaths)) {
+                        $mailIssues[] = 'ticket';
+                    }
+                } else {
+                    $mailIssues[] = 'recipient';
+                    error_log('Payment completed, but no recipient email could be resolved for checkout confirmation.');
+                }
 
                 $this->basket->clearBasket();
 
-                Helper::setMessage(false, 'Reservations and tickets confirmed and stored successfully!');
+                $message = 'Reservations and tickets confirmed and stored successfully!';
+                if (!empty($mailIssues)) {
+                    $message .= empty($email)
+                        ? ' Payment succeeded, but no confirmation email was sent because no recipient email address could be resolved.'
+                        : ' Payment succeeded, but we could not send all confirmation emails to ' . $email . '.';
+                }
+
+                Helper::setMessage(false, $message);
                 header('Location: /personalprogram/basket');
                 exit();
             } else {
@@ -351,8 +375,10 @@ class PersonalProgramController
             $mail->addAttachment($invoicePdf);
 
             $mail->send();
+            return true;
         } catch (Exception $e) {
-            error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+            error_log("Invoice email could not be sent to {$email}. Mailer Error: {$mail->ErrorInfo}. Exception: {$e->getMessage()}");
+            return false;
         }
     }
 
@@ -447,9 +473,64 @@ class PersonalProgramController
             }
 
             $mail->send();
+            return true;
         } catch (Exception $e) {
-            error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+            error_log("Ticket email could not be sent to {$email}. Mailer Error: {$mail->ErrorInfo}. Exception: {$e->getMessage()}");
+            return false;
         }
+    }
+
+    private function resolveCustomerContact(array $cartItems, $session = null): array
+    {
+        $name = 'guest/visitor';
+        $email = null;
+
+        if (isset($_SESSION['user'])) {
+            $sessionName = $_SESSION['user']['name'] ?? null;
+            $sessionEmail = $_SESSION['user']['email'] ?? null;
+
+            if (!empty($sessionName)) {
+                $name = $sessionName;
+            }
+
+            if (!empty($sessionEmail) && filter_var($sessionEmail, FILTER_VALIDATE_EMAIL)) {
+                $email = $sessionEmail;
+            }
+        }
+
+        foreach ($cartItems as $cartItem) {
+            if ($name === 'guest/visitor' && !empty($cartItem['name'])) {
+                $name = $cartItem['name'];
+            }
+
+            if (empty($email) && !empty($cartItem['email']) && filter_var($cartItem['email'], FILTER_VALIDATE_EMAIL)) {
+                $email = $cartItem['email'];
+            }
+        }
+
+        if ($session !== null) {
+            $customerDetails = $session->customer_details ?? null;
+
+            if (is_object($customerDetails)) {
+                if ($name === 'guest/visitor' && !empty($customerDetails->name)) {
+                    $name = $customerDetails->name;
+                }
+
+                if (empty($email) && !empty($customerDetails->email) && filter_var($customerDetails->email, FILTER_VALIDATE_EMAIL)) {
+                    $email = $customerDetails->email;
+                }
+            }
+
+            $sessionEmail = $session->customer_email ?? null;
+            if (empty($email) && !empty($sessionEmail) && filter_var($sessionEmail, FILTER_VALIDATE_EMAIL)) {
+                $email = $sessionEmail;
+            }
+        }
+
+        return [
+            'name' => $name,
+            'email' => $email,
+        ];
     }
 
     public function getQR($orderId)

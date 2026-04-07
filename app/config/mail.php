@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'host' => 'smtp.gmail.com',
-    'port' => 465,
-    'SMTPSecure' => 'ssl',
+    'host' => 'smtp.devmail.email',
+    'port' => 2525,
+    'SMTPSecure' => '',
     'SMTPAuth' => true,
-    'username' => 'thefestival918@gmail.com',
-    'password' => 'nvopyclvyukcdzww',
-    'from_email' => 'thefestival918@gmail.com',
+    'username' => 'haarlem-festival',
+    'password' => 'LJwtor5HjIUUyo12ofy9',
+    'from_email' => 'haarlem-festival@inbound.devmail.email',
     'from_name' => 'The Festival',
 ];
