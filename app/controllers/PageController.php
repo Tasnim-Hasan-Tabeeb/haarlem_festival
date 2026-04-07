@@ -29,7 +29,6 @@ class PageController
         } catch (Exception $e) {
             $_SESSION['isError']       = 1;
             $_SESSION['flash_message'] = ($e->getMessage());
-
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
             header('Location: ' . $redirect);
         }
@@ -42,7 +41,6 @@ class PageController
         } catch (Exception $e) {
             $_SESSION['isError']       = 1;
             $_SESSION['flash_message'] = ($e->getMessage());
-
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
             header('Location: ' . $redirect);
         }
@@ -54,27 +52,22 @@ class PageController
             $rules = [
                 // Main page
                 'title' => 'required|string|min:3|max:500',
-
-                'section_title'     => 'required_array|string|min:3|max:500', // Each section must have a title
-                'section_type'      => 'required_array|string',                // Type for each section
-                'section_content'   => 'array|string',                          // Optional content
-                'section_sub_title' => 'array|string|max:150',                // Optional subtitle
-                'map_url'           => 'array|string|max:255',                  // Optional map URL
+                'section_title'     => 'required_array|string|min:3|max:500', 
+                'section_type'      => 'required_array|string',                
+                'section_content'   => 'array|string',                          
+                'section_sub_title' => 'array|string|max:150',                
+                'map_url'           => 'array|string|max:255',                 
             ];
 
             $validateData = Validator::validate($_POST, $rules);
-
             if (!isset($_POST['title'])) {
                 throw new Exception('Title is required for the page.');
             }
-
             $slug   = Helper::slug($_POST['title']);
             $page   = new Page($_POST['title'], 1, $slug);
             $pageId = $this->pageService->createPage($page);
-
             if (isset($_POST['section_title'])) {
                 $sectionTitles = $_POST['section_title'];
-
                 foreach ($sectionTitles as $index => $sectionTitle) {
                     if (empty($sectionTitle)) {
                         continue;
@@ -84,24 +77,19 @@ class PageController
                     if (empty($sectionType)) {
                         throw new Exception('Section type is required for each section.');
                     }
-
                     $sectionContent  = isset($_POST['section_content'][$index]) ? $_POST['section_content'][$index] : null;
                     $sectionSubTitle = isset($_POST['section_sub_title'][$index]) ? $_POST['section_sub_title'][$index] : null;
                     $mapUrl          = isset($_POST['map_url'][$index]) ? $_POST['map_url'][$index] : null;
-
                     $imageUrl = '';
                     if (isset($_FILES['image_url']['name'][$index], $_FILES['image_url']['tmp_name'][$index]) && $_FILES['image_url']['name'][$index] != '' && $_FILES['image_url']['tmp_name'][$index]) {
                         $fileName    = $_FILES['image_url']['name'][$index];
                         $tmpFilePath = $_FILES['image_url']['tmp_name'][$index];
-
                         $uploadDir   = __DIR__ . '/../public/images/';
                         $newFileName = uniqid('', true) . '_' . $fileName;
                         $uploadPath  = $uploadDir . $newFileName;
-
                         if (!move_uploaded_file($tmpFilePath, $uploadPath)) {
                             throw new Exception("Error uploading file: $fileName");
                         }
-
                         $imageUrl = '/images/' . $newFileName;
                     }
 
@@ -114,7 +102,6 @@ class PageController
                 header('Location: /page');
                 exit();
             }
-
             $_SESSION['isError']       = 0;
             $_SESSION['flash_message'] = 'Page and sections created successfully!';
             header('Location: /page');
@@ -138,7 +125,6 @@ class PageController
         } catch (Exception $e) {
             $_SESSION['isError']       = 1;
             $_SESSION['flash_message'] = ($e->getMessage());
-
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
             header('Location: ' . $redirect);
         }
@@ -150,12 +136,11 @@ class PageController
             $rules = [
                 'title' => 'required|string|min:3|max:500',
 
-                'section_title'     => 'required_array|string|min:3|max:500', // Each section must have a title
-                'section_type'      => 'required_array|string',                // Type for each section
-                'section_content'   => 'array|string',                          // Optional content
-                'section_sub_title' => 'array|string|max:150',                // Optional subtitle
-                'map_url'           => 'array|string|max:255',                  // Optional map URL
-            ];
+                'section_title'     => 'required_array|string|min:3|max:500', 
+                'section_type'      => 'required_array|string',                
+                'section_content'   => 'array|string',                       
+                'section_sub_title' => 'array|string|max:150',               
+                'map_url'           => 'array|string|max:255',                  
 
             $validateData = Validator::validate($_POST, $rules);
 
@@ -248,11 +233,9 @@ class PageController
             header('Location: /page');
             exit();
         } catch (Exception $e) {
-            // Handle error appropriately, e.g., redirect to error page
-
+           
             $_SESSION['isError']       = 1;
             $_SESSION['flash_message'] = ($e->getMessage());
-
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
             header('Location: ' . $redirect);
         }
@@ -270,7 +253,6 @@ class PageController
         } catch (Exception $e) {
             $_SESSION['isError']       = 1;
             $_SESSION['flash_message'] = ($e->getMessage());
-
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
             header('Location: ' . $redirect);
         }
@@ -287,7 +269,6 @@ class PageController
         } catch (Exception $e) {
             $_SESSION['isError']       = 1;
             $_SESSION['flash_message'] = ($e->getMessage());
-
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
             header('Location: ' . $redirect);
         }

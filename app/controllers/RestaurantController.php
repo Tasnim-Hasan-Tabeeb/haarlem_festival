@@ -68,13 +68,9 @@ class RestaurantController
             ];
 
             $validateData = Validator::validate($_POST, $rules);
-
             $selectedFeatures = isset($_POST['features']) ? $_POST['features'] : [];
-
             $title = $validateData['title'];
-
             $imageUrl = '';
-
             if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
                 $file     = $_FILES['image_url'];
                 $imageUrl = Helper::uploadFile($file);
@@ -90,36 +86,28 @@ class RestaurantController
             $contact_phone   = $validateData['contact_phone'];
             $price_for_child = $validateData['price_for_child'];
             $price_for_adult = $validateData['price_for_adult'];
-
             $galleryImages = [];
-
             if (!empty($_FILES['gallery_image_url']['name'])) {
                 foreach ($_FILES['gallery_image_url']['name'] as $key => $name) {
                     if ($_FILES['gallery_image_url']['error'][$key] === UPLOAD_ERR_OK) {
                         $fileName    = $_FILES['gallery_image_url']['name'][$key];
                         $tmpFilePath = $_FILES['gallery_image_url']['tmp_name'][$key];
                         $uploadDir   = __DIR__ . '/../public/images/';
-
                         $newFileName = uniqid('', true) . '_' . $fileName;
-
                         $uploadPath = $uploadDir . $newFileName;
-
                         if (!move_uploaded_file($tmpFilePath, $uploadPath)) {
                             $_SESSION['isError']       = 1;
                             $_SESSION['flash_message'] = "Error uploading file: $fileName";
                             header('Location: /restaurant');
                             exit();
                         }
-
                         $uploadedImageUrl = '/images/' . $newFileName;
-
                         $galleryImages[] = $uploadedImageUrl;
                     }
                 }
             }
 
             $galleryImagesJson = json_encode($galleryImages);
-
             $restaurantId = $this->restaurantService->createRestaurant(
                 $title,
                 $imageUrl,
@@ -137,14 +125,12 @@ class RestaurantController
             );
 
             $this->restaurantService->associateFeaturesWithRestaurant($restaurantId, $selectedFeatures);
-
             Helper::setMessage(false, 'Restaurant added successfully!');
             header('Location: /restaurant');
             exit();
         } catch (Exception $e) {
             $_SESSION['isError']       = 1;
             $_SESSION['flash_message'] = ($e->getMessage());
-
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/restaurant';
             header('Location: ' . $redirect);
         }
@@ -160,7 +146,6 @@ class RestaurantController
         } else {
             $_SESSION['isError']       = 1;
             $_SESSION['flash_message'] = 'Something went wrong with this restaurant data!';
-
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/restaurant';
             header('Location: ' . $redirect);
         }
@@ -178,7 +163,6 @@ class RestaurantController
         } else {
             $_SESSION['isError']       = 1;
             $_SESSION['flash_message'] = 'Something went wrong with this restaurant data!';
-
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/restaurant';
             header('Location: ' . $redirect);
         }
@@ -208,14 +192,11 @@ class RestaurantController
             ];
 
             $validateData = Validator::validate($_POST, $rules);
-
             $selectedFeatures   = isset($_POST['features']) ? $_POST['features'] : [];
             $existingRestaurant = $this->restaurantService->getRestaurant($id);
             $existingImageUrl   = $existingRestaurant['image_url'];
             $imageUrl           = $existingImageUrl;
-
             $restaurant = $this->restaurantService->getRestaurant($id);
-
             $title = $validateData['title'];
 
             if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
@@ -223,7 +204,6 @@ class RestaurantController
                 $imageUrl = Helper::uploadFile($file);
                 Helper::unlinkImage($existingImageUrl);
             }
-
             $description     = $validateData['description'];
             $ratings         = $validateData['ratings'];
             $cuisines        = $validateData['cuisines'];
@@ -234,9 +214,7 @@ class RestaurantController
             $contact_phone   = $validateData['contact_phone'];
             $price_for_child = $validateData['price_for_child'];
             $price_for_adult = $validateData['price_for_adult'];
-
             $galleryImages = [];
-
             $previousGalleryImages = json_decode($restaurant['gallery_images'], true);
 
             if (!empty($previousGalleryImages)) {
@@ -264,9 +242,7 @@ class RestaurantController
             }
 
             $galleryImagesJson = json_encode($galleryImages);
-
             $galleryImagesJson = json_encode($galleryImages);
-
             $this->restaurantService->updateRestaurant(
                 $id,
                 $title,
@@ -286,14 +262,12 @@ class RestaurantController
 
             $this->featureService->deleteFeatureByRestaurantId($id);
             $this->restaurantService->associateFeaturesWithRestaurant($id, $selectedFeatures);
-
             Helper::setMessage(false, 'Restaurant updated successfully!');
             header('Location: /restaurant');
             exit();
         } catch (Exception $e) {
             $_SESSION['isError']       = 1;
             $_SESSION['flash_message'] = ($e->getMessage());
-
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/restaurant';
             header('Location: ' . $redirect);
         }
@@ -307,11 +281,9 @@ class RestaurantController
         $existingGalleryImages = json_decode($existingRestaurant['gallery_images'], true);
         if (isset($id) && $id > 0) {
             Helper::unlinkImage($existingImageUrl);
-
             foreach ($existingGalleryImages as $galleryImage) {
                 Helper::unlinkImage($galleryImage);
             }
-
             $this->restaurantService->deleteRestaurant($id);
             Helper::setMessage(false, 'Restaurant deleted successfully!');
             header('Location: /restaurant');
@@ -319,7 +291,6 @@ class RestaurantController
         } else {
             $_SESSION['isError']       = 1;
             $_SESSION['flash_message'] = 'Something went wrong with this restaurant data!';
-
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/restaurant';
             header('Location: ' . $redirect);
         }
@@ -336,7 +307,6 @@ class RestaurantController
         } catch (Exception $ex) {
             $_SESSION['isError']       = 1;
             $_SESSION['flash_message'] = ($e->getMessage());
-
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/restaurant';
             header('Location: ' . $redirect);
         }

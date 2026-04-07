@@ -12,14 +12,10 @@ class Validator
         foreach ($rules as $field => $ruleString) {
             $rulesArr = explode('|', $ruleString);
             $value    = $data[$field] ?? null;
-
-            // Check if field should be treated as array
             $isArrayRule = in_array('required_array', $rulesArr) || in_array('array', $rulesArr);
             if ($isArrayRule && !is_array($value)) {
-                $value = []; // treat non-array as empty array
+                $value = []; 
             }
-
-            // If array, validate each element
             if (is_array($value)) {
                 $validated[$field] = [];
                 foreach ($value as $index => $item) {
@@ -47,11 +43,9 @@ class Validator
                             }
                         }
                     }
-                    // Sanitize each item
                     $validated[$field][$index] = is_string($item) ? htmlspecialchars($item, ENT_QUOTES, 'UTF-8') : $item;
                 }
             } else {
-                // Scalar validation (string, number, email, date, etc.)
                 $value = is_string($value) ? trim($value) : $value;
 
                 foreach ($rulesArr as $rule) {
@@ -67,7 +61,6 @@ class Validator
                     if ($rule === 'email' && !empty($value) && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
                         $errors[$field][] = "$field must be a valid email";
                     }
-                    // DATE validation
                     if (strpos($rule, 'date') === 0 && !empty($value)) {
                         $format = null;
                         if (strpos($rule, ':') !== false) {
@@ -86,7 +79,6 @@ class Validator
                                 : "$field must be a valid date";
                         }
                     }
-                    // MIN / MAX
                     if (strpos($rule, 'min:') === 0 && !empty($value)) {
                         $min = (int) str_replace('min:', '', $rule);
                         if (strlen($value) < $min) {
@@ -100,17 +92,14 @@ class Validator
                         }
                     }
                 }
-                // Sanitize scalar value
                 $validated[$field] = is_string($value) ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8') : $value;
             }
         }
 
-        // If there are errors, store in session and redirect
         if (!empty($errors)) {
             $_SESSION['isError']           = 1;
             $_SESSION['validation_errors'] = $errors;
             $_SESSION['old']               = $data;
-
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/';
             header('Location: ' . $redirect);
             exit();
