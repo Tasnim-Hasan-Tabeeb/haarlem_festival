@@ -105,7 +105,7 @@ class PersonalProgramController
             }
 
             // Calculate the tax amount
-            $taxAmount          = $totalAmount * 0.09;
+            $taxAmount          = $totalAmount * 0.21;
             $totalAmountWithTax = $totalAmount + $taxAmount;
 
             // Add the tax as a separate line item
@@ -113,7 +113,7 @@ class PersonalProgramController
                 'price_data' => [
                     'currency'     => 'eur',
                     'product_data' => [
-                        'name' => 'Tax (9%)',
+                        'name' => 'Tax (21%)',
                     ],
                     'unit_amount' => (int) round($taxAmount * 100), // Amount in cents
                 ],
