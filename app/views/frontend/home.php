@@ -93,7 +93,7 @@
                             <p class="event-card__description"><?= $yummyEvent['description']; ?></p>
 
                             <div class="event-card__footer">
-                                <a href="/home/page?slug=yummy&id=7" class="event-card__button">
+                                <a href="/home/page?slug=yummy&id=6" class="event-card__button">
                                     <?= $yummyEvent['start_date']; ?> till <?= $yummyEvent['end_date']; ?>
                                 </a>
                             </div>

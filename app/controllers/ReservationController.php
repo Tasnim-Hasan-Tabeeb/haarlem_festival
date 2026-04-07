@@ -92,12 +92,11 @@ class ReservationController
             $session_id       = $validatedData['session_id'];
             $restaurant_id    = $validatedData['restaurant_id'];
             $remarks          = $_POST['remarks'];
-            $restaurant = $this->restaurantService->getRestaurant($restaurant_id);
-            $priceForAdult = $restaurant['price_for_adult'];
-            $priceForChild = $restaurant['price_for_child'];
-            $total_cost = ($priceForAdult * $total_adult) + ($priceForChild * $total_children);
-            $total_persons   = $total_adult + $total_children;
-            $cost_per_person = $total_persons > 0 ? $total_cost / $total_persons : 0;
+           $cost_per_person = $this->reservationService->calculateCostPerPerson(
+                $restaurant_id,
+                $total_adult,
+                $total_children
+            );
 
             $reservation = new Reservation(
                 $name,
@@ -192,7 +191,11 @@ class ReservationController
             $session_id       = $validatedData['session_id'];
             $restaurant_id    = $validatedData['restaurant_id'];
             $remarks          = $_POST['remarks'];
-            $cost_per_person  = 10;
+            $cost_per_person = $this->reservationService->calculateCostPerPerson(
+                $restaurant_id,
+                $total_adult,
+                $total_children
+            );
             $user = $this->userService->getUserByEmail($email);
             if (!$user) {
                     $user = new User();
@@ -200,10 +203,8 @@ class ReservationController
                     $user->setEmail($_POST['email']);
                     $user->setPassword(password_hash(123123, PASSWORD_DEFAULT));
                     $user->setRole('Customer');
-                     $user->setProfilePicture('');
-
+                    $user->setProfilePicture('');
                     $this->userService->storeUser($user);
-
                     $user = $this->userService->getUserByEmail($email);
             }
 
@@ -214,7 +215,7 @@ class ReservationController
                 $total_children,
                 $email,
                 $phone,
-                $user? $user['user_id'] : null, // user_id
+                $user? $user['user_id'] : null,
                 $session_id,
                 $restaurant_id,
                 $remarks,
@@ -284,7 +285,11 @@ class ReservationController
             $session_id       = $validatedData['session_id'];
             $restaurant_id    = $validatedData['restaurant_id'];
             $remarks          = $_POST['remarks'];
-            $cost_per_person  = 10; 
+           $cost_per_person = $this->reservationService->calculateCostPerPerson(
+                $restaurant_id,
+                $total_adult,
+                $total_children
+            );
 
             $user = $this->userService->getUserByEmail($email);
             if (!$user) {
@@ -307,7 +312,7 @@ class ReservationController
                 $total_children,
                 $email,
                 $phone,
-                $user? $user['user_id'] : null, // user_id
+                $user? $user['user_id'] : null, 
                 $session_id,
                 $restaurant_id,
                 $remarks,

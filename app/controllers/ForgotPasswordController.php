@@ -6,10 +6,6 @@ use App\Services\UserService;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_once __DIR__ . '/../vendor/PHPMailer-master/src/PHPMailer.php';
-require_once __DIR__ . '/../vendor/PHPMailer-master/src/Exception.php';
-require_once __DIR__ . '/../vendor/PHPMailer-master/src/SMTP.php';
-
 class ForgotPasswordController
 {
     private UserService $forgotPasswordService;
