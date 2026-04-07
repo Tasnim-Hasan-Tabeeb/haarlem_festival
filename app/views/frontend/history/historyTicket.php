@@ -211,14 +211,14 @@
 
         const languages = new Set();
         tours.forEach(tour => {
-            if (!languages.has(tour.language_name)) {
-                languages.add(tour.language_name);
+            if (!languages.has(tour.name)) {
+                languages.add(tour.name);
                 const button = document.createElement('button');
-                button.innerHTML = `<img src="/images/${tour.flag_image}" alt="${tour.language_name}">`;
+                button.innerHTML = `${tour.name}`;
                 button.onclick = () => {
-                    selectedLanguage = tour.language_name;
+                    selectedLanguage = tour.name;
                     highlightSelection(button, 'languages');
-                    filterByLanguage(tour.language_name);
+                    filterByLanguage(tour.name);
                 };
                 languagesDiv.appendChild(button);
             }
@@ -294,6 +294,31 @@
             return;
         }
 
+        if (!selectedLanguage) {
+            alert('Please select a language');
+            displayMessage('Please select  language, date and time.', 'error');
+            return;
+        }
+
+        if( !selectedDate ){
+            alert('Please select a date');
+            displayMessage('Please select  date', 'error');
+            return;
+        }
+
+        if(!selectedTimeSlot){
+            alert('Please select a time');
+            displayMessage('Please select  time', 'error');
+            return;
+        }
+
+        if (ticketType.value == 'regular' && regularParticipants == 0) {
+            alert('Please select at least one regular participant before adding to cart.');
+            return;
+        }
+
+        
+
         const payload = {
             ticketType: ticketType.value,
             price: ticketType.value === 'regular' ? regularParticipants * 17.50 : 60,
@@ -301,6 +326,8 @@
             timeslot: selectedDate + ' ' + selectedTimeSlot,
             participants: ticketType.value === 'regular' ? regularParticipants : 1
         };
+
+        if(!payload?.timeslot)
 
         console.log('Adding to cart:', payload); // Debugging line
 
@@ -311,13 +338,14 @@
             },
             body: JSON.stringify(payload),
         })
+        
             .then(response => response.json())
             .then(data => {
                 console.log('Server response for add to cart:', data); // Debugging line
                 if (data.success) {
                     displayMessage('Ticket added to cart successfully!', 'success');
                     setTimeout(() => {
-                        window.location.href = '/home/page?slug=history&id=${currentId}'; // Redirect to the history page after a brief delay
+                        window.location.href = '/personalprogram/personalprogram'; // Redirect to the history page after a brief delay
                     }, 3000); // 3 seconds delay before redirect
                 } else {
                     displayMessage(`Error: ${data.message || 'Adding ticket to cart failed.'}`, 'error');

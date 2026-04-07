@@ -12,7 +12,7 @@ class Basket
             $_SESSION['basket'] = [];
         }
 
-        $itemArray = $item->toArray();
+        $itemArray         = $item->toArray();
         $itemArray['cost'] = $item->getCost();
 
         $_SESSION['basket'][] = $itemArray;

@@ -23,9 +23,9 @@ include __DIR__ . '/../inc/header.php';
                     <td><?= isset($order['total_amount']) ? htmlspecialchars($order['total_amount']) : '' ?></td>
                     <td><?= isset($order['created_at']) ? htmlspecialchars($order['created_at']) : '' ?></td>
                     <td><?= isset($order['updated_at']) ? htmlspecialchars($order['updated_at']) : '' ?></td>
-                    <td><?= isset($order['item_type']) ? htmlspecialchars($order['item_type']) : '' ?></td>
-                    <td><?= isset($order['customer_name']) ? htmlspecialchars($order['customer_name']) : '' ?></td>
-                    <td><?= isset($order['event_name']) ? htmlspecialchars($order['event_name']) : '' ?></td>
+                    <td><?= isset($order['item_type']) ? htmlspecialchars($order['item_type']) : '---' ?></td>
+                    <td><?= isset($order['customer_name']) ? htmlspecialchars($order['customer_name']) : '---' ?></td>
+                    <td><?= isset($order['event_name']) ? htmlspecialchars($order['event_name']) : '---' ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>

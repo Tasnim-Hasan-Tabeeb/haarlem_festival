@@ -3,11 +3,14 @@
 namespace App\Controllers;
 
 use App\Helpers\Helper;
+use App\Helpers\Validator;
 use App\Models\Reservation;
+use App\Models\User;
 use App\Services\Basket;
 use App\Services\ReservationService;
 use App\Services\RestaurantService;
 use App\Services\SessionService;
+use App\Services\UserService;
 use Exception;
 
 class ReservationController
@@ -17,29 +20,68 @@ class ReservationController
     private $sessionService;
     private $basket;
 
+    private $userService;
+
     public function __construct()
     {
         $this->reservationService = new ReservationService();
-        $this->basket = new Basket();
-        $this->restaurantService = new RestaurantService();
-        $this->sessionService = new SessionService();
+        $this->basket             = new Basket();
+        $this->restaurantService  = new RestaurantService();
+        $this->sessionService     = new SessionService();
+        $this->userService        = new UserService() ;
     }
 
     public function create()
     {
         try {
-            $validatedData = Helper::validate($_POST);
+            $rules = [
+                'name'             => 'required|string|min:3|max:100',
+                'reservation_date' => 'required|date:Y-m-d',
+                'total_adult'      => 'required|numeric',
+                'total_children'   => 'required|numeric',
+                'email'            => 'required|email',
+                'phone'            => 'required|min:6|max:20',
+                'session_id'       => 'required',
+                'restaurant_id'    => 'required|numeric',
+            ];
 
-            $name = $validatedData['name'];
+            // Call our new validator
+            $validatedData = Validator::validate($_POST, $rules);
+
+            if (!isset($_SESSION['user'])) {
+                $_SESSION['isError']       = 1;
+                $_SESSION['flash_message'] = 'You must be logged in to checkout';
+
+                $redirect = $_SERVER['HTTP_REFERER'] ?? '/login/login';
+                header('Location: ' . $redirect);
+                exit();
+            }
+
+            $user = $_SESSION['user'];
+
+            $userId = $user['user_id'];
+
+            $name             = $validatedData['name'];
             $reservation_date = $validatedData['reservation_date'];
-            $total_adult = $validatedData['total_adult'];
-            $total_children = $validatedData['total_children'];
-            $email = $validatedData['email'];
-            $phone = $validatedData['phone'];
-            $session_id = $validatedData['session_id'];
-            $restaurant_id = $validatedData['restaurant_id'];
-            $remarks = $_POST['remarks'];
-            $cost_per_person = 10; // Assuming a fixed cost per person
+            $total_adult      = $validatedData['total_adult'];
+            $total_children   = $validatedData['total_children'];
+            $email            = $validatedData['email'];
+            $phone            = $validatedData['phone'];
+            $session_id       = $validatedData['session_id'];
+            $restaurant_id    = $validatedData['restaurant_id'];
+            $remarks          = $_POST['remarks'];
+
+            $restaurant = $this->restaurantService->getRestaurant($restaurant_id);
+
+            $priceForAdult = $restaurant['price_for_adult'];
+            $priceForChild = $restaurant['price_for_child'];
+
+            // Total cost
+            $total_cost = ($priceForAdult * $total_adult) + ($priceForChild * $total_children);
+
+            // Cost per person (optional)
+            $total_persons   = $total_adult + $total_children;
+            $cost_per_person = $total_persons > 0 ? $total_cost / $total_persons : 0;
 
             $reservation = new Reservation(
                 $name,
@@ -48,7 +90,7 @@ class ReservationController
                 $total_children,
                 $email,
                 $phone,
-                null, // user_id
+                $userId, // user_id
                 $session_id,
                 $restaurant_id,
                 $remarks,
@@ -57,12 +99,15 @@ class ReservationController
 
             $this->basket->addItem($reservation);
 
-            Helper::setMessage(false, "Reservation added to basket successfully!");
-            header("Location: /personalprogram/basket");
+            Helper::setMessage(false, 'Reservation added to basket successfully!');
+            header('Location: /personalprogram/basket');
             exit();
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/personalprogram/basket';
+            header('Location: ' . $redirect);
         }
     }
 
@@ -72,12 +117,15 @@ class ReservationController
             $reservation_id = $_POST['reservation_id'];
             $this->reservationService->updateReservationStatus($reservation_id, 0);
 
-            Helper::setMessage(false, "Reservation deactivated successfully!");
-            header("Location: /reservation");
+            Helper::setMessage(false, 'Reservation deactivated successfully!');
+            header('Location: /reservation');
             exit();
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/reservation';
+            header('Location: ' . $redirect);
         }
     }
 
@@ -87,12 +135,15 @@ class ReservationController
             $reservation_id = $_POST['reservation_id'];
             $this->reservationService->updateReservationStatus($reservation_id, 1);
 
-            Helper::setMessage(false, "Reservation reactivated successfully!");
-            header("Location: /reservation");
+            Helper::setMessage(false, 'Reservation reactivated successfully!');
+            header('Location: /reservation');
             exit();
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/reservation';
+            header('Location: ' . $redirect);
         }
     }
 
@@ -102,8 +153,11 @@ class ReservationController
             $reservations = $this->reservationService->getAllReservations();
             require __DIR__ . '/../views/backend/reservations/index.php';
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/';
+            header('Location: ' . $redirect);
         }
     }
 
@@ -113,8 +167,11 @@ class ReservationController
             $restaurants = $this->restaurantService->getAllRestaurants();
             require __DIR__ . '/../views/backend/reservations/create.php';
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/';
+            header('Location: ' . $redirect);
         }
     }
 
@@ -122,7 +179,7 @@ class ReservationController
     {
         try {
             $restaurant_id = $_GET['id'];
-            $sessions = $this->sessionService->getSessionsByRestaurantId($restaurant_id);
+            $sessions      = $this->sessionService->getSessionsByRestaurantId($restaurant_id);
             echo json_encode($sessions);
         } catch (Exception $e) {
             echo json_encode(['error' => $e->getMessage()]);
@@ -132,18 +189,43 @@ class ReservationController
     public function store()
     {
         try {
-            $validatedData = Helper::validate($_POST);
+            $rules = [
+                'name'             => 'required|string|min:3|max:100',
+                'reservation_date' => 'required|date:Y-m-d',
+                'total_adult'      => 'required|numeric',
+                'total_children'   => 'required|numeric',
+                'email'            => 'required|email',
+                'phone'            => 'required|string|min:6|max:20',
+                'session_id'       => 'required',
+                'restaurant_id'    => 'required',
+            ];
 
-            $name = $validatedData['name'];
+            $validatedData = Validator::validate($_POST, $rules);
+
+            $name             = $validatedData['name'];
             $reservation_date = $validatedData['reservation_date'];
-            $total_adult = $validatedData['total_adult'];
-            $total_children = $validatedData['total_children'];
-            $email = $validatedData['email'];
-            $phone = $validatedData['phone'];
-            $session_id = $validatedData['session_id'];
-            $restaurant_id = $validatedData['restaurant_id'];
-            $remarks = $_POST['remarks'];
-            $cost_per_person = 10;
+            $total_adult      = $validatedData['total_adult'];
+            $total_children   = $validatedData['total_children'];
+            $email            = $validatedData['email'];
+            $phone            = $validatedData['phone'];
+            $session_id       = $validatedData['session_id'];
+            $restaurant_id    = $validatedData['restaurant_id'];
+            $remarks          = $_POST['remarks'];
+            $cost_per_person  = 10;
+
+            $user = $this->userService->getUserByEmail($email);
+            if (!$user) {
+                    $user = new User();
+                    $user->setName($_POST['name']);
+                    $user->setEmail($_POST['email']);
+                    $user->setPassword(password_hash(123123, PASSWORD_DEFAULT));
+                    $user->setRole('Customer');
+                     $user->setProfilePicture('');
+
+                    $this->userService->storeUser($user);
+
+                    $user = $this->userService->getUserByEmail($email);
+            }
 
             $reservation = new Reservation(
                 $name,
@@ -152,7 +234,7 @@ class ReservationController
                 $total_children,
                 $email,
                 $phone,
-                null,
+                $user? $user['user_id'] : null, // user_id
                 $session_id,
                 $restaurant_id,
                 $remarks,
@@ -161,12 +243,15 @@ class ReservationController
 
             $this->reservationService->createReservation($reservation);
 
-            Helper::setMessage(false, "Reservation created successfully!");
-            header("Location: /reservation");
+            Helper::setMessage(false, 'Reservation created successfully!');
+            header('Location: /reservation');
             exit();
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/reservation';
+            header('Location: ' . $redirect);
         }
     }
 
@@ -182,31 +267,61 @@ class ReservationController
                 }
                 require __DIR__ . '/../views/backend/reservations/edit.php';
             } else {
-                header("Location: /error?message=Invalid reservation ID");
+                header('Location: /error?message=Invalid reservation ID');
                 exit();
             }
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/';
+            header('Location: ' . $redirect);
         }
     }
 
     public function update()
     {
         try {
-            $validatedData = Helper::validate($_POST);
+            $rules = [
+                'id'               => 'required|numeric',          // Reservation ID must exist and be numeric
+                'name'             => 'required|string|min:3|max:100', // Customer name
+                'reservation_date' => 'required|date:Y-m-d',       // Reservation date in YYYY-MM-DD format
+                'total_adult'      => 'required|numeric',          // Number of adults
+                'total_children'   => 'required|numeric',          // Number of children
+                'email'            => 'required|email',            // Valid email
+                'phone'            => 'required|string|min:6|max:20', // Phone number
+                'session_id'       => 'required',           // Session ID
+                'restaurant_id'    => 'required',          // Restaurant ID
+                'remarks'          => 'string|max:500',            // Optional remarks, max 500 chars
+            ];
 
-            $reservation_id = $_POST['id'];
-            $name = $validatedData['name'];
+            $validatedData = Validator::validate($_POST, $rules);
+
+            $reservation_id   = $_POST['id'];
+            $name             = $validatedData['name'];
             $reservation_date = $validatedData['reservation_date'];
-            $total_adult = $validatedData['total_adult'];
-            $total_children = $validatedData['total_children'];
-            $email = $validatedData['email'];
-            $phone = $validatedData['phone'];
-            $session_id = $validatedData['session_id'];
-            $restaurant_id = $validatedData['restaurant_id'];
-            $remarks = $_POST['remarks'];
-            $cost_per_person = 10; // Assuming a fixed cost per person
+            $total_adult      = $validatedData['total_adult'];
+            $total_children   = $validatedData['total_children'];
+            $email            = $validatedData['email'];
+            $phone            = $validatedData['phone'];
+            $session_id       = $validatedData['session_id'];
+            $restaurant_id    = $validatedData['restaurant_id'];
+            $remarks          = $_POST['remarks'];
+            $cost_per_person  = 10; // Assuming a fixed cost per person
+
+            $user = $this->userService->getUserByEmail($email);
+            if (!$user) {
+                    $user = new User();
+                    $user->setName($_POST['name']);
+                    $user->setEmail($_POST['email']);
+                    $user->setPassword(password_hash(123123, PASSWORD_DEFAULT));
+                    $user->setRole('Customer');
+                      $user->setProfilePicture('');
+
+                    $this->userService->storeUser($user);
+
+                    $user = $this->userService->getUserByEmail($email);
+            }
 
             $reservation = new Reservation(
                 $name,
@@ -215,7 +330,7 @@ class ReservationController
                 $total_children,
                 $email,
                 $phone,
-                null, // user_id
+                $user? $user['user_id'] : null, // user_id
                 $session_id,
                 $restaurant_id,
                 $remarks,
@@ -226,12 +341,15 @@ class ReservationController
 
             $this->reservationService->updateReservation($reservation);
 
-            Helper::setMessage(false, "Reservation updated successfully!");
-            header("Location: /reservation");
+            Helper::setMessage(false, 'Reservation updated successfully!');
+            header('Location: /reservation');
             exit();
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/reservation';
+            header('Location: ' . $redirect);
         }
     }
 
@@ -239,13 +357,16 @@ class ReservationController
     {
         try {
             $reservation_id = $_GET['id'];
-            $reservation = $this->reservationService->getReservationById($reservation_id);
-            $restaurant = $this->restaurantService->getRestaurant($reservation['restaurant_id']);
-            $session = $this->sessionService->getSession($reservation['session_id']);
+            $reservation    = $this->reservationService->getReservationById($reservation_id);
+            $restaurant     = $this->restaurantService->getRestaurant($reservation['restaurant_id']);
+            $session        = $this->sessionService->getSession($reservation['session_id']);
             require __DIR__ . '/../views/backend/reservations/show.php';
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/';
+            header('Location: ' . $redirect);
         }
     }
 }

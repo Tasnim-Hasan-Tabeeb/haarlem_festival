@@ -19,13 +19,11 @@ class DanceManagementController
 
     public function __construct()
     {
-        $this->danceService = new DanceService();
-        $this->venueService = new VenueService();
+        $this->danceService  = new DanceService();
+        $this->venueService  = new VenueService();
         $this->artistService = new ArtistService();
-        $this->sessionType = new SessionType();
+        $this->sessionType   = new SessionType();
     }
-
-
 
     public function index()
     {
@@ -33,7 +31,7 @@ class DanceManagementController
             $dancesManages = $this->danceService->getAllEvents();
             require __DIR__ . '/../views/backend/danceManagement/index.php';
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
+            header('Location: /error?message=' . urlencode($e->getMessage()));
             exit();
         }
     }
@@ -49,7 +47,7 @@ class DanceManagementController
         $sessionTypes = SessionType::getAll();
 
         // Fetch venues
-        $venues = $this->venueService->getAllVenues();
+        $venues   = $this->venueService->getAllVenues();
         $venue_id = $dance['venue_id'];
 
         // Fetch artists
@@ -58,12 +56,14 @@ class DanceManagementController
 
         // Convert comma-separated string of artist IDs into an array
         $selectedArtistIds = explode(',', $dance['artist_id']);
+// var_dump($selectedArtistIds);
+exit();
 
         // Render the edit view with all necessary data
         require __DIR__ . '/../views/backend/danceManagement/edit.php';
     }
 
-    public function update()
+    public function update($id)
     {
         try {
             $musicPerformanceId = (int)($_POST['music_performance_id'] ?? 0);
@@ -112,9 +112,8 @@ class DanceManagementController
             header("Location: /dancemanagement");
             exit();
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
+            header('Location: /error?message=' . urlencode($e->getMessage()));
             exit();
         }
     }
-
 }

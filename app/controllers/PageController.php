@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Helpers\Helper;
+use App\Helpers\Validator;
 use App\Models\Page;
 use App\Models\Section;
 use App\Services\PageService;
@@ -26,8 +27,11 @@ class PageController
             $pages = $this->pageService->getAllPages();
             require_once __DIR__ . '/../views/backend/pages/index.php';
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
+            header('Location: ' . $redirect);
         }
     }
 
@@ -36,14 +40,30 @@ class PageController
         try {
             require_once __DIR__ . '/../views/backend/pages/create.php';
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
+            header('Location: ' . $redirect);
         }
     }
 
     public function store()
     {
         try {
+            $rules = [
+                // Main page
+                'title' => 'required|string|min:3|max:500',
+
+                'section_title'     => 'required_array|string|min:3|max:500', // Each section must have a title
+                'section_type'      => 'required_array|string',                // Type for each section
+                'section_content'   => 'array|string',                          // Optional content
+                'section_sub_title' => 'array|string|max:150',                // Optional subtitle
+                'map_url'           => 'array|string|max:255',                  // Optional map URL
+            ];
+
+            $validateData = Validator::validate($_POST, $rules);
+
             if (!isset($_POST['title'])) {
                 throw new Exception('Title is required for the page.');
             }
@@ -100,8 +120,11 @@ class PageController
             header('Location: /page');
             exit();
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
+            header('Location: ' . $redirect);
         }
     }
 
@@ -113,14 +136,29 @@ class PageController
             $sections = $this->sectionService->getSectionByPageId($page_id);
             require_once __DIR__ . '/../views/backend/pages/edit.php';
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
+            header('Location: ' . $redirect);
         }
     }
 
     public function update()
     {
         try {
+            $rules = [
+                'title' => 'required|string|min:3|max:500',
+
+                'section_title'     => 'required_array|string|min:3|max:500', // Each section must have a title
+                'section_type'      => 'required_array|string',                // Type for each section
+                'section_content'   => 'array|string',                          // Optional content
+                'section_sub_title' => 'array|string|max:150',                // Optional subtitle
+                'map_url'           => 'array|string|max:255',                  // Optional map URL
+            ];
+
+            $validateData = Validator::validate($_POST, $rules);
+
             if (!isset($_POST['page_id']) || !is_numeric($_POST['page_id'])) {
                 throw new Exception('Invalid page ID provided.');
             }
@@ -192,8 +230,11 @@ class PageController
             header('Location: /page');
             exit();
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
+            header('Location: ' . $redirect);
         }
     }
 
@@ -202,14 +243,18 @@ class PageController
         try {
             $page_id = $_GET['id'];
             $this->pageService->deletePage($page_id);
-            $_SESSION['isError']       = 1;
+            $_SESSION['isError']       = 0;
             $_SESSION['flash_message'] = 'Page deleted successfully!';
             header('Location: /page');
             exit();
         } catch (Exception $e) {
             // Handle error appropriately, e.g., redirect to error page
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
+            header('Location: ' . $redirect);
         }
     }
 
@@ -223,17 +268,28 @@ class PageController
             Helper::unlinkImage($existingImageUrl);
             echo 'success';
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
+            header('Location: ' . $redirect);
         }
     }
 
     public function status()
     {
-        $id       = $_GET['id'];
-        $isActive = $_POST['active'];
-        $page     = $this->pageService->getPageById($id);
-        $newPage  = new Page($page['title'], $isActive, $page['slug']);
-        $this->pageService->updatePage($newPage, $id);
+        try {
+            $id       = $_GET['id'];
+            $isActive = $_POST['active'];
+            $page     = $this->pageService->getPageById($id);
+            $newPage  = new Page($page['title'], $isActive, $page['slug']);
+            $this->pageService->updatePage($newPage, $id);
+        } catch (Exception $e) {
+            $_SESSION['isError']       = 1;
+            $_SESSION['flash_message'] = ($e->getMessage());
+
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '/page';
+            header('Location: ' . $redirect);
+        }
     }
 }

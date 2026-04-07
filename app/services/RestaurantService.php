@@ -20,11 +20,25 @@ class RestaurantService
         try {
             return $this->restaurantRepository->getAllRestaurants();
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
-    public function createRestaurant($title, $image_url, $description, $ratings, $cuisines, $event_id, $location, $number_of_seats, $contact_email, $contact_phone, $galleryImagesJson)
+    public function createRestaurant(
+        $title,
+        $image_url,
+        $description,
+        $ratings,
+        $cuisines,
+        $event_id,
+        $location,
+        $number_of_seats,
+        $contact_email,
+        $contact_phone,
+        $galleryImagesJson,
+        $price_for_child,
+        $price_for_adult
+    )
     {
         try {
             $restaurant = new Restaurant();
@@ -39,10 +53,12 @@ class RestaurantService
             $restaurant->setContactEmail($contact_email);
             $restaurant->setContactPhone($contact_phone);
             $restaurant->setGalleryImages($galleryImagesJson);
-            
+            $restaurant->setPriceForChild($price_for_child);
+            $restaurant->setPriceForAdult($price_for_adult);
+
             return $this->restaurantRepository->createRestaurant($restaurant);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
@@ -55,11 +71,26 @@ class RestaurantService
         try {
             return $this->restaurantRepository->getRestaurant($restaurantId);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
-    public function updateRestaurant($restaurantId, $title, $image_url, $description, $ratings, $cuisines, $event_id, $location, $number_of_seats, $contact_email, $contact_phone, $galleryImagesJson)
+    public function updateRestaurant(
+        $restaurantId,
+        $title,
+        $image_url,
+        $description,
+        $ratings,
+        $cuisines,
+        $event_id,
+        $location,
+        $number_of_seats,
+        $contact_email,
+        $contact_phone,
+        $galleryImagesJson,
+        $price_for_child,
+        $price_for_adult
+    )
     {
         try {
             $restaurant = new Restaurant();
@@ -75,10 +106,12 @@ class RestaurantService
             $restaurant->setContactEmail($contact_email);
             $restaurant->setContactPhone($contact_phone);
             $restaurant->setGalleryImages($galleryImagesJson);
+            $restaurant->setPriceForChild($price_for_child);
+            $restaurant->setPriceForAdult($price_for_adult);
 
             return $this->restaurantRepository->updateRestaurant($restaurant);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
@@ -87,7 +120,7 @@ class RestaurantService
         try {
             return $this->restaurantRepository->deleteRestaurant($restaurantId);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
-}
+   }

@@ -11,7 +11,7 @@
             <div class="rating">
                 <?php
                 $fullStars = floor($restaurant['ratings']);
-                $halfStar = $restaurant['ratings'] - $fullStars >= 0.5;
+                $halfStar  = $restaurant['ratings'] - $fullStars >= 0.5;
                 for ($i = 0; $i < $fullStars; $i++) {
                     echo '&#9733;'; // Filled star
                 }
@@ -36,7 +36,7 @@
             <p class="text">
                 Can't wait to see you on!
             </p>
-            <h2 class="date"> <?php echo "Today is " . date('l, F j, Y') ?></h2>
+            <h2 class="date"> <?php echo 'Today is ' . date('l, F j, Y') ?></h2>
            
         </div>
     </div>
@@ -67,7 +67,24 @@
     <div id="food-costs" class="section">
         <h2>Food/Costs</h2>
         <div class="red-line"></div>
-        <p><strong>Cuisines:</strong> <?= htmlspecialchars($restaurant['cuisines']) ?></p>
+        
+        <div class="price-per-person">
+            <div>
+                <p><strong>Cuisines:</strong> <?= htmlspecialchars($restaurant['cuisines']) ?></p>
+            </div>
+            <div>
+                👶 Child: 
+                <strong>
+                    €<?= number_format($restaurant['price_for_child'], 2) ?>
+                </strong>
+            </div>
+            <div>
+                🧑 Adult: 
+                <strong>
+                    €<?= number_format($restaurant['price_for_adult'], 2) ?>
+                </strong>
+            </div>
+        </div>
     </div>
 
     <!-- Gallery Section -->
@@ -127,7 +144,7 @@
                             <?php foreach ($sessions as $session) : ?>
                                 <?php
                                 $start_time = new DateTime($session['start_time']);
-                                $end_time = clone $start_time;
+                                $end_time   = clone $start_time;
                                 $end_time->add(new DateInterval('PT' . ($session['duration'] * 60) . 'M'));
                                 $session_time = $start_time->format('H:i') . ' - ' . $end_time->format('H:i');
                                 ?>

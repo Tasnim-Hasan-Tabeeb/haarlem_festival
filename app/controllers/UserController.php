@@ -16,7 +16,7 @@ class UserController
     private UserService $userService;
 
     public function __construct()
-    {        
+    {
         $this->userService = new UserService();
     }
 
@@ -36,10 +36,8 @@ class UserController
     {
         try {
             if (isset($_FILES['profile_picture'])) {
-
-                $file = $_FILES['profile_picture'];
+                $file     = $_FILES['profile_picture'];
                 $imageUrl = Helper::uploadFile($file);
-
             } else {
                 $imageUrl = '';
             }
@@ -53,11 +51,11 @@ class UserController
 
             $this->userService->storeUser($user);
 
-            Helper::setMessage(false, "User added successfully!");
-            header("Location: /user");
+            Helper::setMessage(false, 'User added successfully!');
+            header('Location: /user');
             exit();
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
+            header('Location: /error?message=' . urlencode($e->getMessage()));
             exit();
         }
     }
@@ -66,10 +64,10 @@ class UserController
     {
         try {
             $user = $this->userService->getUserById($userId);
-            header("Location: /user/" . $userId);
+            header('Location: /user/' . $userId);
             exit();
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
+            header('Location: /error?message=' . urlencode($e->getMessage()));
             exit();
         }
     }
@@ -81,7 +79,7 @@ class UserController
             $user = $this->userService->getUserById($userId);
             require __DIR__ . '/../views/backend/users/edit.php';
         } else {
-            header("Location: /error?message=something went wrong with this user data!");
+            header('Location: /error?message=something went wrong with this user data!');
             exit();
         }
     }
@@ -91,9 +89,9 @@ class UserController
         try {
             if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
                 $newFileName = uniqid('', true) . '_' . $_FILES['profile_picture']['name'];
-                $uploadFile = __DIR__ . '/../public/images/' . $newFileName;
+                $uploadFile  = __DIR__ . '/../public/images/' . $newFileName;
 
-                $imageFileType = strtolower(pathinfo($uploadFile, PATHINFO_EXTENSION));
+                $imageFileType     = strtolower(pathinfo($uploadFile, PATHINFO_EXTENSION));
                 $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
                 if (!in_array($imageFileType, $allowedExtensions)) {
                     throw new Exception('Invalid file format. Please upload a valid image file.');
@@ -104,28 +102,28 @@ class UserController
                 }
 
                 $userData = [
-                    'user_id' => $_POST['user_id'],
-                    'name' => $_POST['name'],
-                    'email' => $_POST['email'],
-                    'role' => $_POST['role'],
+                    'user_id'         => $_POST['user_id'],
+                    'name'            => $_POST['name'],
+                    'email'           => $_POST['email'],
+                    'role'            => $_POST['role'],
                     'profile_picture' => '/images/' . $newFileName,
                 ];
             } else {
                 $userData = [
-                    'user_id' => $_POST['user_id'],
-                    'name' => $_POST['name'],
-                    'email' => $_POST['email'],
-                    'role' => $_POST['role'],
+                    'user_id'         => $_POST['user_id'],
+                    'name'            => $_POST['name'],
+                    'email'           => $_POST['email'],
+                    'role'            => $_POST['role'],
                     'profile_picture' => '/images/default.jpg',
                 ];
             }
 
             $this->userService->updateUser($userData);
-            Helper::setMessage(false, "User updated successfully!");
-            header("Location: /user");
+            Helper::setMessage(false, 'User updated successfully!');
+            header('Location: /user');
             exit();
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
+            header('Location: /error?message=' . urlencode($e->getMessage()));
             exit();
         }
     }
@@ -136,11 +134,11 @@ class UserController
         if (isset($userId) && $userId > 0) {
             $user = $this->userService->getUserById($userId);
             $this->userService->deleteUser($userId);
-            Helper::setMessage(false, "User deleted successfully!");
-            header("Location: /user");
+            Helper::setMessage(false, 'User deleted successfully!');
+            header('Location: /user');
             exit();
         } else {
-            header("Location: /error?message=something went wrong with this user data!");
+            header('Location: /error?message=something went wrong with this user data!');
             exit();
         }
     }
