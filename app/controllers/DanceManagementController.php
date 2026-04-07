@@ -36,34 +36,90 @@ class DanceManagementController
         }
     }
 
-    public function edit()
+    public function create()
     {
-        $id = $_GET['id'];
+        try {
+            $sessionTypes = SessionType::getAll();
+            $venues = $this->venueService->getAllVenues();
+            $artists = $this->artistService->getAllArtists();
 
-        // Fetch the dance event details
-        $dance = $this->danceService->getDanceEventById($id);
-
-        // Fetch session types
-        $sessionTypes = SessionType::getAll();
-
-        // Fetch venues
-        $venues   = $this->venueService->getAllVenues();
-        $venue_id = $dance['venue_id'];
-
-        // Fetch artists
-
-        $artists = $this->artistService->getAllArtists();
-
-        // Convert comma-separated string of artist IDs into an array
-        $selectedArtistIds = explode(',', $dance['artist_id']);
-// var_dump($selectedArtistIds);
-exit();
-
-        // Render the edit view with all necessary data
-        require __DIR__ . '/../views/backend/danceManagement/edit.php';
+            require __DIR__ . '/../views/backend/danceManagement/create.php';
+        } catch (Exception $e) {
+            header('Location: /error?message=' . urlencode($e->getMessage()));
+            exit();
+        }
     }
 
-    public function update($id)
+    public function edit()
+    {
+        try {
+            $id = (int)($_GET['id'] ?? 0);
+            if ($id <= 0) {
+                throw new Exception('Dance event ID is required.');
+            }
+
+            $dance = $this->danceService->getDanceEventById($id);
+            $sessionTypes = SessionType::getAll();
+            $venues = $this->venueService->getAllVenues();
+            $artists = $this->artistService->getAllArtists();
+            $selectedArtistIds = array_values(array_filter(array_map('intval', explode(',', (string)($dance['artist_id'] ?? '')))));
+
+            require __DIR__ . '/../views/backend/danceManagement/edit.php';
+        } catch (Exception $e) {
+            header('Location: /error?message=' . urlencode($e->getMessage()));
+            exit();
+        }
+    }
+
+    public function store()
+    {
+        try {
+            $imageUrl = null;
+            if (isset($_FILES['venue_image']) && $_FILES['venue_image']['error'] === UPLOAD_ERR_OK) {
+                $file = $_FILES['venue_image'];
+                $fileName = $file['name'];
+                $newFileName = uniqid('', true) . '_' . $fileName;
+                $uploadFile = __DIR__ . '/../public/images/' . $newFileName;
+
+                $imageFileType = strtolower(pathinfo($uploadFile, PATHINFO_EXTENSION));
+                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+                if (!in_array($imageFileType, $allowedExtensions, true)) {
+                    throw new Exception('Invalid file format. Please upload a valid image file.');
+                }
+
+                if (!move_uploaded_file($file['tmp_name'], $uploadFile)) {
+                    throw new Exception('Failed to upload image.');
+                }
+
+                $imageUrl = $newFileName;
+            }
+
+            $artistIds = $_POST['artist_id'] ?? [];
+            $artistIds = array_values(array_filter(array_map('intval', $artistIds)));
+
+            $this->danceService->createManagedEvent(
+                $_POST['title'],
+                $_POST['event_date'],
+                $_POST['event_start_time'],
+                (float)$_POST['event_price'],
+                (int)$_POST['event_duration'],
+                $_POST['session_type'],
+                (int)$_POST['venue_name'],
+                $artistIds,
+                $imageUrl
+            );
+
+            Helper::setMessage(false, 'Dance event created successfully!');
+            header("Location: /dancemanagement");
+            exit();
+        } catch (Exception $e) {
+            header('Location: /error?message=' . urlencode($e->getMessage()));
+            exit();
+        }
+    }
+
+    public function update()
     {
         try {
             $musicPerformanceId = (int)($_POST['music_performance_id'] ?? 0);

@@ -6,6 +6,12 @@ use Error;
 
 class Router
 {
+    private function showNotFoundPage(): void
+    {
+        http_response_code(404);
+        header('Location: /error?message=' . urlencode('Page not found.'));
+    }
+
     private function stripParameters($uri)
     {
         if (str_contains($uri, '?')) {
