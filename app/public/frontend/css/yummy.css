@@ -2,13 +2,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Jomhuria&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Limelight&display=swap");
 
+/* Keep navbar safe */
+.custom-navbar,
+.custom-navbar * {
+  font-family: "Baloo Bhaijaan 2", sans-serif !important;
+}
+
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   background-color: #000;
   background-attachment: fixed;
-  font-family: "Jomhuria", serif;
 }
 
 .white-space {
@@ -19,6 +24,17 @@ body {
 
 .hidden {
   display: none;
+}
+
+.intro,
+.intro h1,
+.intro h2,
+.intro p,
+.intro-button,
+.restaurant-top-line h2,
+.filter,
+.description {
+  font-family: "Jomhuria", serif;
 }
 
 .intro {
@@ -44,6 +60,7 @@ body {
   color: white;
   font-size: 3vw;
 }
+
 .intro h2 {
   font-family: "Limelight", serif;
   font-size: 4vw;
@@ -75,11 +92,13 @@ body {
 .restaurants-section {
   padding: 1vw;
 }
+
 .restaurant-top-line {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .restaurant-top-line h2 {
   color: #ff7a68;
   font-size: 6vw;
@@ -99,6 +118,8 @@ body {
   background-color: white;
   padding: 0.5vw;
   border-radius: 1vw;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+  font-size: 1rem;
 }
 
 #active {
@@ -117,7 +138,6 @@ body {
 
 .restaurants-list {
   display: flex;
-  /* justify-content: space-evenly; */
   flex-wrap: wrap;
 }
 
@@ -152,6 +172,7 @@ body {
   justify-content: space-between;
   padding: 40px;
   background: #f8f8f8;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .restaurants-header-content {
@@ -187,7 +208,6 @@ body {
   border-radius: 5px;
   text-decoration: none;
   font-weight: bold;
-  transition: background 0.3s;
 }
 
 .restaurants-header-image-wrap {
@@ -221,12 +241,14 @@ body {
   font-size: 2em;
   color: #333;
   margin: 0;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .restaurants-section-subtitle {
   font-size: 1.5em;
   color: #444;
   margin-bottom: 10px;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .restaurants-section-description {
@@ -234,6 +256,7 @@ body {
   line-height: 1.7;
   max-width: 800px;
   margin-bottom: 40px;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .restaurants-list {
@@ -249,6 +272,7 @@ body {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .restaurant-card-image-link {
@@ -344,7 +368,6 @@ body {
   font-weight: bold;
   border-radius: 5px;
   text-decoration: none;
-  transition: background 0.3s;
 }
 
 .restaurants-list-item .line {
@@ -366,8 +389,8 @@ body {
   gap: 1vw;
   color: white;
   align-items: center;
-  /* justify-content: center; */
   font-size: 2vw;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .info-item {
@@ -377,6 +400,7 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 2vw;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .restaurant-information {
@@ -391,6 +415,7 @@ body {
   font-size: 2vw;
   display: flex;
   gap: 0.5vw;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .restaurants-list-item {
@@ -422,12 +447,14 @@ body {
   font-weight: bold;
   margin: 0.5vw 0;
   color: #fff;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .review {
   color: #ff7a68;
   font-size: 1.5vw;
   margin: 0.5vw 0;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .line {
