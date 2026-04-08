@@ -51,7 +51,8 @@
 </div>
 <div class="section-4a">
     <h2 class="ticket-list">Tickets</h2>
-    <?php foreach ($allAccessPass as $pass): ?>
+    <div class="passes-container">
+        <?php foreach ($allAccessPass as $pass): ?>
             <div class="pass-container">
                 <div class="top-section">
                     <p class="pass-name"><?= $pass['passName']; ?></p>
@@ -62,6 +63,7 @@
                 </div>
             </div>
         <?php endforeach; ?>
+    </div>
     <h2 class="ticket-list">DANCE! - DAY 1</h2>
     <div class="passes-container">
         <?php foreach ($fridayPass as $pass): ?>
