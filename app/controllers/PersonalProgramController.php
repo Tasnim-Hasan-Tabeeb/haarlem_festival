@@ -8,6 +8,7 @@ use App\Models\Ticket;
 use App\Services\Basket;
 use App\Services\OrderService;
 use App\Services\ReservationService;
+use App\Services\RestaurantService;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel;
@@ -28,6 +29,7 @@ class PersonalProgramController
 {
     private $reservationService;
     private $orderService;
+    private $restaurantService;
     private $basket;
 
     public function __construct()
@@ -69,6 +71,36 @@ class PersonalProgramController
         }
     }
 
+    public function updateItemQuantity()
+    {
+        header('Content-Type: application/json');
+
+        try {
+            $index = isset($_POST['index']) ? (int) $_POST['index'] : null;
+            $quantity = isset($_POST['quantity']) ? (int) $_POST['quantity'] : null;
+
+            if ($index === null || $quantity === null) {
+                throw new Exception('Item index and quantity are required.');
+            }
+
+            $updatedItem = $this->basket->updateItemQuantity($index, $quantity);
+
+            echo json_encode([
+                'success' => true,
+                'item' => $updatedItem,
+                'lineTotal' => $this->basket->calculateItemTotal($updatedItem),
+            ]);
+            exit();
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+            exit();
+        }
+    }
+
     public function checkout()
     {
         $key = 'sk_test_51RP6DB2NUICtS7JXYdJHNUpjY4Jh04OUGlIyk2vWgyTlLLkgDxKvqT8tGch5bfcV9rD0txiSvzFM07N8kq3HmkYe00wNDycLpc';
@@ -80,8 +112,20 @@ class PersonalProgramController
             $customer    = $this->resolveCustomerContact($cartItems);
 
             foreach ($cartItems as $cartItem) {
-                $unitAmount  = isset($cartItem['cost_per_person']) ? $cartItem['cost_per_person'] : $cartItem['cost'];
-                $quantity    = isset($cartItem['total_adult']) ? $cartItem['total_adult'] + $cartItem['total_children'] : (isset($cartItem['quantity']) ? $cartItem['quantity'] : $cartItem['participants']);
+                if (isset($cartItem['reservation_date'])) {
+                    $unitAmount = (float) $cartItem['cost_per_person'];
+                    $quantity = (int) $cartItem['total_adult'] + (int) $cartItem['total_children'];
+                } elseif (isset($cartItem['ticketType'])) {
+                    $quantity = max(1, (int) ($cartItem['participants'] ?? 1));
+                    $unitAmount = $this->basket->calculateItemTotal($cartItem) / $quantity;
+                } elseif (isset($cartItem['passType'])) {
+                    $unitAmount = (float) $cartItem['passPrice'];
+                    $quantity = max(1, (int) ($cartItem['quantity'] ?? 1));
+                } else {
+                    $unitAmount = (float) $cartItem['event_price'];
+                    $quantity = max(1, (int) ($cartItem['quantity'] ?? 1));
+                }
+
                 $productName = isset($cartItem['name']) ? 'Reservation' : (isset($cartItem['ticketType']) ? 'Ticket for ' . $cartItem['start_location'] : (isset($cartItem['passType']) ? 'Pass: ' . $cartItem['passType'] : 'Dance Ticket'));
 
                 $lineItems[] = [
@@ -96,7 +140,7 @@ class PersonalProgramController
                     'quantity' => $quantity,
                 ];
 
-                $totalAmount += $unitAmount * $quantity;
+                $totalAmount += $this->basket->calculateItemTotal($cartItem);
             }
 
             // Calculate the tax amount
@@ -158,7 +202,7 @@ class PersonalProgramController
                 $totalAmount = 0;
 
                 foreach ($cartItems as $cartItem) {
-                    $totalAmount += isset($cartItem['cost_per_person']) ? $cartItem['cost_per_person'] * ($cartItem['total_adult'] + $cartItem['total_children']) : $cartItem['cost'];
+                    $totalAmount += $this->basket->calculateItemTotal($cartItem);
                 }
 
                 $customer = $this->resolveCustomerContact($cartItems, $session);
@@ -207,20 +251,25 @@ class PersonalProgramController
                             'total_cost' => $reservation->getCost()
                         ];
                     } elseif (isset($cartItem['ticketType'])) {
-                        $qrCode = $this->generateUniqueQrCode();
-                        $ticket = new Ticket(
-                            $name,
-                            $cartItem['start_location'],
-                            explode(' ', $cartItem['timeslot'])[0],
-                            explode('-', explode(' ', $cartItem['timeslot'])[1])[0],
-                            $qrCode
-                        );
+                        $quantity = max(1, (int) ($cartItem['participants'] ?? 1));
+                        $unitPrice = $this->basket->calculateItemTotal($cartItem) / $quantity;
 
-                        $ticketId = $this->orderService->createTicket($ticket);
+                        for ($i = 0; $i < $quantity; $i++) {
+                            $qrCode = $this->generateUniqueQrCode();
+                            $ticket = new Ticket(
+                                $name,
+                                $cartItem['start_location'],
+                                explode(' ', $cartItem['timeslot'])[0],
+                                explode('-', explode(' ', $cartItem['timeslot'])[1])[0],
+                                $qrCode
+                            );
 
-                        $this->orderService->addOrderItem($orderId, 'history_ticket', $ticketId);
+                            $ticketId = $this->orderService->createTicket($ticket);
 
-                        $ticketDetails[] = array_merge($ticket->toArray(), ['qr_code_path' => $qrCode]);
+                            $this->orderService->addOrderItem($orderId, 'history_ticket', $ticketId);
+
+                            $ticketDetails[] = $ticket->toArray();
+                        }
 
                         $invoiceDetails[] = [
                             'type'       => 'History Ticket',
@@ -230,23 +279,27 @@ class PersonalProgramController
                             'type'       => 'History Ticket',
                             'details'    => $cartItem['start_location'] . ' - ' . $cartItem['timeslot'],
                             'quantity'   => $cartItem['participants'],
-                            'price'      => $cartItem['price'],
-                            'total_cost' => $cartItem['cost']
+                            'price'      => $unitPrice,
+                            'total_cost' => $this->basket->calculateItemTotal($cartItem)
                         ];
                     } elseif (isset($cartItem['passName'])) {
-                        $qrCode = $this->generateUniqueQrCode();
-                        $ticket = new Ticket(
-                            $name,
-                            $cartItem['passName'],
-                            null,
-                            null,
-                            $qrCode
-                        );
+                        $quantity = max(1, (int) ($cartItem['quantity'] ?? 1));
 
-                        $ticketId = $this->orderService->createTicket($ticket);
-                        $this->orderService->addOrderItem($orderId, 'dance_pass', $ticketId);
+                        for ($i = 0; $i < $quantity; $i++) {
+                            $qrCode = $this->generateUniqueQrCode();
+                            $ticket = new Ticket(
+                                $name,
+                                $cartItem['passName'],
+                                null,
+                                null,
+                                $qrCode
+                            );
 
-                        $ticketDetails[] = array_merge($ticket->toArray(), ['qr_code_path' => $qrCode]);
+                            $ticketId = $this->orderService->createTicket($ticket);
+                            $this->orderService->addOrderItem($orderId, 'dance_pass', $ticketId);
+
+                            $ticketDetails[] = $ticket->toArray();
+                        }
 
                         $invoiceDetails[] = [
                             'type'       => 'Dance Pass',
@@ -257,22 +310,26 @@ class PersonalProgramController
                             'details'    => $cartItem['passName'],
                             'quantity'   => $cartItem['quantity'],
                             'price'      => $cartItem['passPrice'],
-                            'total_cost' => $cartItem['cost']
+                            'total_cost' => $this->basket->calculateItemTotal($cartItem)
                         ];
                     } elseif (isset($cartItem['music_performance_id'])) {
-                        $qrCode = $this->generateUniqueQrCode();
-                        $ticket = new Ticket(
-                            $name,
-                            $cartItem['event_name'],
-                            $cartItem['event_date'],
-                            $cartItem['event_start_time'],
-                            $qrCode
-                        );
+                        $quantity = max(1, (int) ($cartItem['quantity'] ?? 1));
 
-                        $ticketId = $this->orderService->createTicket($ticket);
-                        $this->orderService->addOrderItem($orderId, 'dance_ticket', $ticketId);
+                        for ($i = 0; $i < $quantity; $i++) {
+                            $qrCode = $this->generateUniqueQrCode();
+                            $ticket = new Ticket(
+                                $name,
+                                $cartItem['event_name'],
+                                $cartItem['event_date'],
+                                $cartItem['event_start_time'],
+                                $qrCode
+                            );
 
-                        $ticketDetails[] = array_merge($ticket->toArray(), ['qr_code_path' => $qrCode]);
+                            $ticketId = $this->orderService->createTicket($ticket);
+                            $this->orderService->addOrderItem($orderId, 'dance_ticket', $ticketId);
+
+                            $ticketDetails[] = $ticket->toArray();
+                        }
 
                         $invoiceDetails[] = [
                             'type'       => 'Dance Ticket',
@@ -283,7 +340,7 @@ class PersonalProgramController
                             'details'    => $cartItem['event_name'] . ' - ' . $cartItem['event_date'] . ' ' . $cartItem['event_start_time'],
                             'quantity'   => $cartItem['quantity'],
                             'price'      => $cartItem['event_price'],
-                            'total_cost' => $cartItem['cost']
+                            'total_cost' => $this->basket->calculateItemTotal($cartItem)
                         ];
                     }
                 }
@@ -374,7 +431,7 @@ class PersonalProgramController
                 <td>' . htmlspecialchars($totalAmount, ENT_QUOTES, 'UTF-8') . ' EUR</td>
               </tr>';
         $html .= '<tr>
-                <td colspan="4" style="text-align: right;"><strong>Tax (9%)</strong></td>
+                <td colspan="4" style="text-align: right;"><strong>Tax (21%)</strong></td>
                 <td>' . htmlspecialchars($taxAmount, ENT_QUOTES, 'UTF-8') . ' EUR</td>
               </tr>';
         $html .= '<tr>
@@ -464,19 +521,15 @@ class PersonalProgramController
         foreach ($ticketDetails as $detail) {
             $html .= '<h2>Ticket</h2><table border="1" cellpadding="5">';
             foreach ($detail as $key => $value) {
-                if ($key == 'qr_code_path') {
-                    $html .= '<tr><td>' . htmlspecialchars($key, ENT_QUOTES, 'UTF-8') . '</td><td>';
-                    if (!is_null($value)) {
-                        $html .= '<img src="' . htmlspecialchars(__DIR__ . '/../public/images/qrCodes/' . $value, ENT_QUOTES, 'UTF-8') . '" />';
-                    }
-                    $html .= '</td></tr>';
-                } else {
-                    $html .= '<tr><td>' . htmlspecialchars($key, ENT_QUOTES, 'UTF-8') . '</td><td>';
-                    if (!is_null($value)) {
-                        $html .= htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-                    }
-                    $html .= '</td></tr>';
+                if ($key === 'qrCode') {
+                    continue;
                 }
+
+                $html .= '<tr><td>' . htmlspecialchars($key, ENT_QUOTES, 'UTF-8') . '</td><td>';
+                if (!is_null($value)) {
+                    $html .= htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+                }
+                $html .= '</td></tr>';
             }
             $html .= '</table><br />';
         }
@@ -664,11 +717,12 @@ class PersonalProgramController
         foreach ($tickets as $ticket) {
             // Generate a unique QR code for each ticket
             $qrCodeData = $ticket['qr_code'];
+            $scanUrl = 'http://localhost/personalprogram/scanQrCode?qrCode=' . urlencode($qrCodeData);
 
             // Create QR code builder with ticket data
             $qrCodeBuilder = Builder::create()
                 ->writer(new PngWriter())
-                ->data($qrCodeData)
+                ->data($scanUrl)
                 ->encoding(new Encoding('UTF-8'))
                 ->errorCorrectionLevel(ErrorCorrectionLevel::High)
                 ->size(300)
@@ -710,9 +764,15 @@ class PersonalProgramController
         return bin2hex(random_bytes(16)); // Generate a secure QR code
     }
 
-    public function scanQrCode($qrCode)
+    public function scanQrCode()
     {
         try {
+            $qrCode = $_GET['qrCode'] ?? null;
+
+            if (empty($qrCode)) {
+                throw new Exception('QR code is missing from the request.');
+            }
+
             $this->orderService->updateTicketStatus($qrCode);
             Helper::setMessage(false, 'Ticket status updated successfully!');
             header('Location: /personalprogram/basket');
@@ -725,17 +785,23 @@ class PersonalProgramController
             header('Location: ' . $redirect);
         }
     }
-    public function personalprogram()
+    public function index()
     {
         try {
             $reservations = $this->basket->getAllItems();
             require __DIR__ . '/../views/frontend/PersonalProgram.php';
         } catch (Exception $ex) {
             $_SESSION['isError']       = 1;
-            $_SESSION['flash_message'] = ($e->getMessage());
+            $_SESSION['flash_message'] = ($ex->getMessage());
 
             $redirect = $_SERVER['HTTP_REFERER'] ?? '/login/login';
             header('Location: ' . $redirect);
         }
+    }
+
+    public function personalprogram()
+    {
+        header('Location: /personalprogram');
+        exit();
     }
 }

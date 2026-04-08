@@ -94,7 +94,7 @@ $pages = $pageService->getAllActive();
 
                     echo '
                     <li class="nav-item">
-                        <a class="nav-link" href="/personalprogram/personalprogram">
+                        <a class="nav-link" href="/personalprogram">
                             Personal Program
                         </a>
                     </li>';
@@ -110,7 +110,7 @@ $pages = $pageService->getAllActive();
 
                     echo '
                     <li class="nav-item">
-                        <a class="nav-link" href="/personalprogram/personalprogram">
+                        <a class="nav-link" href="/personalprogram">
                             Personal Program
                         </a>
                     </li>';

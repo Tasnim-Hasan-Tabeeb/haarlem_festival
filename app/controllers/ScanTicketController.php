@@ -26,7 +26,7 @@ class ScanTicketController
             $postDataArray = json_decode($postData, true);
             
             if (isset($postDataArray['code'])) {
-                $qrCode = $postDataArray['code'];
+                $qrCode = $this->extractQrCode($postDataArray['code']);
                 $ticket = $this->orderService->getTicketWithQRCode($qrCode);
 
                 if ($ticket && $ticket['status'] === 'new') {
@@ -83,5 +83,18 @@ class ScanTicketController
         ];
         echo json_encode($response);
         exit();
+    }
+
+    private function extractQrCode(string $value): string
+    {
+        $query = parse_url($value, PHP_URL_QUERY);
+        if (!empty($query)) {
+            parse_str($query, $queryParams);
+            if (!empty($queryParams['qrCode'])) {
+                return $queryParams['qrCode'];
+            }
+        }
+
+        return $value;
     }
 }

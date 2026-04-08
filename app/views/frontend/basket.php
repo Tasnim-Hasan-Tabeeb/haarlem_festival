@@ -4,6 +4,25 @@ include __DIR__ . '/inc/message.php';
 
 $isLoggedIn = isset($_SESSION['username']);
 $reservations = $_SESSION['basket'] ?? [];
+$calculateLineTotal = static function(array $item): float {
+    if (isset($item['reservation_date'])) {
+        $adults = (int) ($item['total_adult'] ?? 0);
+        $children = (int) ($item['total_children'] ?? 0);
+        $costPerPerson = (float) ($item['cost_per_person'] ?? 0);
+
+        return $costPerPerson * ($adults + $children);
+    }
+
+    if (isset($item['music_performance_id'])) {
+        return (float) ($item['event_price'] ?? 0) * max(1, (int) ($item['quantity'] ?? 1));
+    }
+
+    if (isset($item['passType'])) {
+        return (float) ($item['passPrice'] ?? $item['cost'] ?? 0) * max(1, (int) ($item['quantity'] ?? 1));
+    }
+
+    return (float) ($item['cost'] ?? 0);
+};
 
 ?>
 
@@ -68,7 +87,7 @@ $reservations = $_SESSION['basket'] ?? [];
                             }
                             ?>
                         </td>
-                        <td class="item-box"><?php echo htmlspecialchars($item['cost']); ?> EUR</td>
+                        <td class="item-box"><?php echo htmlspecialchars(number_format($calculateLineTotal($item), 2)); ?> EUR</td>
                         <td class="item-box"><button class="remove-btn" data-index="<?php echo $index; ?>">Remove</button></td>
                     </tr>
                 <?php endforeach; ?>
@@ -84,9 +103,15 @@ $reservations = $_SESSION['basket'] ?? [];
 
     <div class="summary">
         <?php if (!empty($reservations)) : ?>
-            <div class="total-box">
+                <div class="total-box">
                 <?php
-                $subTotal = array_sum(array_column($reservations, 'cost'));
+                $subTotal = array_reduce(
+                    $reservations,
+                    static function ($sum, $item) use ($calculateLineTotal) {
+                        return $sum + $calculateLineTotal($item);
+                    },
+                    0
+                );
                 $vat = $subTotal * 0.21;
                 $total = $subTotal + $vat;
                 ?>
