@@ -1,24 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap");
 
-body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
-
 .basket-container {
     display: flex;
     justify-content: space-between;
     padding: 20px;
     background-color: #8A8E95;
     flex-wrap: wrap;
+    font-family: "Baloo Bhaijaan 2", sans-serif;
 }
-h2 {
+
+.basket-container h2 {
     color: white;
     margin-top: 60px;
     font-size: 3em;
 }
-.basket, .summary {
+
+.basket,
+.summary {
     flex: 1 1 45%;
     margin: 10px;
     box-sizing: border-box;
@@ -66,12 +64,13 @@ h2 {
 .total-box p strong {
     font-size: 1.2em;
 }
-#header-total{
+
+#header-total {
     font-weight: bold;
     font-size: 2em;
     border-bottom: 1px solid white;
-
 }
+
 .checkout-btn {
     background-color: black;
     color: white;
@@ -119,15 +118,17 @@ h2 {
     margin-top: 10px;
     width: 100%;
     border-radius: 5px;
-
 }
 
 .create-account-btn:hover {
     background-color: #333;
 }
+
 .cart {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .cartText {
@@ -146,4 +147,37 @@ h2 {
     font-size: 24px;
     border: 2px solid #000;
     font-weight: bold;
+    text-decoration: none;
+}
+
+.buy-btn:hover {
+    background-color: #e56b5a;
+    color: black;
+}
+
+@media (max-width: 768px) {
+    .basket-container {
+        flex-direction: column;
+    }
+
+    .basket,
+    .summary {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    .total-box,
+    .create-account-box {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .basket-container h2 {
+        font-size: 2.2em;
+        margin-top: 20px;
+    }
+
+    .cartText {
+        text-align: center;
+    }
 }
