@@ -4,6 +4,26 @@ include __DIR__ . '/inc/message.php';
 
 $isLoggedIn   = isset($_SESSION['username']);
 $reservations = $_SESSION['basket'] ?? [];
+$calculateLineTotal = static function(array $item): float {
+    if (isset($item['reservation_date'])) {
+        $adults = (int) ($item['total_adult'] ?? 0);
+        $children = (int) ($item['total_children'] ?? 0);
+        $costPerPerson = (float) ($item['cost_per_person'] ?? 0);
+
+        return $costPerPerson * ($adults + $children);
+    }
+
+    if (isset($item['music_performance_id'])) {
+        return (float) ($item['event_price'] ?? 0) * max(1, (int) ($item['quantity'] ?? 1));
+    }
+
+    if (isset($item['passType'])) {
+        return (float) ($item['passPrice'] ?? $item['cost'] ?? 0) * max(1, (int) ($item['quantity'] ?? 1));
+    }
+
+    return (float) ($item['cost'] ?? 0);
+};
+
 ?>
 
 <link rel="stylesheet" href="/frontend/css/basket.css" />
@@ -13,57 +33,65 @@ $reservations = $_SESSION['basket'] ?? [];
     <div class="basket">
         <h2>Shopping Cart</h2>
 
-        <?php if (!empty($cartItems)) : ?>
-            <table>
-                <thead>
+    <?php if (!empty($cartItems)) : ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Details</th>
+                    <th>Quantity</th>
+                    <th>Total Cost</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($cartItems as $index => $item) : ?>
                     <tr>
-                        <th>Type</th>
-                        <th>Details</th>
-                        <th>Quantity</th>
-                        <th>Total Cost</th>
-                        <th>Actions</th>
+                        <td class="item-box">
+                            <?php
+                            if (isset($item['reservation_date'])) {
+                                echo 'Reservation';
+                            } elseif (isset($item['ticketType'])) {
+                                echo 'History Ticket';
+                            } elseif (isset($item['music_performance_id'])) {
+                                echo 'Dance Ticket';
+                            } elseif (isset($item['passType'])) {
+                                echo 'Dance Pass';
+                            }
+                            ?>
+                        </td>
+                        <td class="item-box">
+                            <?php
+                            if (isset($item['reservation_date'])) {
+                                echo htmlspecialchars($item['name']) . ' - ' . htmlspecialchars($item['reservation_date']);
+                            } elseif (isset($item['ticketType'])) {
+                                echo htmlspecialchars($item['start_location']) . ' - ' . htmlspecialchars($item['timeslot']);
+                            } elseif (isset($item['music_performance_id'])) {
+                                echo htmlspecialchars($item['event_name']) . ' - ' . htmlspecialchars($item['event_date']);
+                            } elseif (isset($item['passType'])) {
+                                echo htmlspecialchars($item['passName']) . ' - ' . htmlspecialchars($item['passDescription']);
+                            }
+                            ?>
+                        </td>
+                        <td class="item-box">
+                            <?php
+                            if (isset($item['total_adult'])) {
+                                echo htmlspecialchars($item['total_adult'] + $item['total_children']);
+                            } elseif (isset($item['ticketType'])) {
+                                echo htmlspecialchars($item['participants']);
+                            } elseif (isset($item['music_performance_id'])) {
+                                echo htmlspecialchars($item['quantity']);
+                            } elseif (isset($item['passType'])) {
+                                echo htmlspecialchars($item['quantity']);
+                            }
+                            ?>
+                        </td>
+                        <td class="item-box"><?php echo htmlspecialchars(number_format($calculateLineTotal($item), 2)); ?> EUR</td>
+                        <td class="item-box"><button class="remove-btn" data-index="<?php echo $index; ?>">Remove</button></td>
                     </tr>
-                </thead>
-
-                <tbody>
-                    <?php foreach ($cartItems as $index => $item) : ?>
-                        <?php
-                        $type = '';
-                        $details = '';
-                        $quantity = '';
-
-                        if (isset($item['reservation_date'])) {
-                            $type = 'Reservation';
-                            $details = htmlspecialchars($item['name']) . ' - ' . htmlspecialchars($item['reservation_date']);
-                            $quantity = htmlspecialchars($item['total_adult'] + $item['total_children']);
-                        } elseif (isset($item['ticketType'])) {
-                            $type = 'History Ticket';
-                            $details = htmlspecialchars($item['start_location']) . ' - ' . htmlspecialchars($item['timeslot']);
-                            $quantity = htmlspecialchars($item['participants']);
-                        } elseif (isset($item['music_performance_id'])) {
-                            $type = 'Dance Ticket';
-                            $details = htmlspecialchars($item['event_name']) . ' - ' . htmlspecialchars($item['event_date']);
-                            $quantity = htmlspecialchars($item['quantity']);
-                        } elseif (isset($item['passType'])) {
-                            $type = 'Dance Pass';
-                            $details = htmlspecialchars($item['passName']) . ' - ' . htmlspecialchars($item['passDescription']);
-                            $quantity = htmlspecialchars($item['quantity']);
-                        }
-                        ?>
-
-                        <tr>
-                            <td class="item-box"><?= $type; ?></td>
-                            <td class="item-box"><?= $details; ?></td>
-                            <td class="item-box"><?= $quantity; ?></td>
-                            <td class="item-box"><?= htmlspecialchars($item['cost']); ?> EUR</td>
-                            <td class="item-box">
-                                <button class="remove-btn" data-index="<?= $index; ?>">Remove</button>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-
+                <?php endforeach; ?>
+            </tbody>
+        </table>
         <?php else : ?>
             <div class="cart">
                 <p class="cartText">Your Shopping Cart is empty!</p>
@@ -74,13 +102,18 @@ $reservations = $_SESSION['basket'] ?? [];
 
     <div class="summary">
         <?php if (!empty($reservations)) : ?>
-            <?php
-            $subTotal = array_sum(array_column($reservations, 'cost'));
-            $vat = $subTotal * 0.21;
-            $total = $subTotal + $vat;
-            ?>
-
-            <div class="total-box">
+                <div class="total-box">
+                <?php
+                $subTotal = array_reduce(
+                    $reservations,
+                    static function ($sum, $item) use ($calculateLineTotal) {
+                        return $sum + $calculateLineTotal($item);
+                    },
+                    0
+                );
+                $vat = $subTotal * 0.21;
+                $total = $subTotal + $vat;
+                ?>
                 <p id="header-total">Total</p>
                 <br>
                 <p>Sub-total: €<?= number_format($subTotal, 2); ?></p>

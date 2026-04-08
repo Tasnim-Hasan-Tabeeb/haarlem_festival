@@ -14,6 +14,49 @@
     });
   }
 
+  function getLineTotal(item) {
+    if (item.reservation_date) {
+      const totalAdults = Number(item.total_adult || 0);
+      const totalChildren = Number(item.total_children || 0);
+      const costPerPerson = Number(item.cost_per_person || 0);
+
+      return costPerPerson * (totalAdults + totalChildren);
+    }
+
+    if (item.music_performance_id !== undefined) {
+      return Number(item.event_price || 0) * Number(item.quantity || 1);
+    }
+
+    if (item.passType) {
+      return Number(item.passPrice || item.cost || 0) * Number(item.quantity || 1);
+    }
+
+    return Number(item.cost || item.price || 0);
+  }
+
+  function formatPrice(amount) {
+    return `EUR ${Number(amount || 0).toFixed(2)}`;
+  }
+
+  function isAdjustableQuantityItem(item) {
+    return (
+      Object.prototype.hasOwnProperty.call(item, "quantity") ||
+      Boolean(item.ticketType)
+    );
+  }
+
+  function getAdjustableQuantity(item) {
+    if (Object.prototype.hasOwnProperty.call(item, "quantity")) {
+      return Number(item.quantity || 1);
+    }
+
+    if (item.ticketType) {
+      return Number(item.participants || 1);
+    }
+
+    return 1;
+  }
+
   function createListItem(item, index) {
     const listItem = document.createElement("div");
     listItem.className = "list-view__item";
@@ -21,33 +64,42 @@
     let itemTitle = "";
     let itemDetails = "";
     let itemQuantity = "";
-    let itemCost = "";
+    let itemCost = formatPrice(getLineTotal(item));
+    let quantityControls = "";
 
     if (item.reservation_date) {
       itemTitle = `${item.name} - ${item.reservation_date}`;
       itemQuantity = `${item.total_adult} adults & ${item.total_children} children`;
-      itemCost = `€${item.cost}`;
       listItem.setAttribute("data-type", "Reservation");
     } else if (item.ticketType) {
       itemTitle = `${item.start_location} - ${item.timeslot}`;
       itemDetails = `Ticket Type: ${item.ticketType.ticket_type}`;
       itemQuantity = `Participants: ${item.participants}`;
-      itemCost = `€${item.price}`;
       listItem.setAttribute("data-type", "History Ticket");
     } else if (item.music_performance_id !== undefined) {
       itemTitle = `${item.event_name} - ${item.event_date} - ${item.event_start_time}-${calculateEndTime(item.event_start_time, item.event_duration)}`;
       itemDetails = `Session Type: ${item.session_type}`;
       itemQuantity = `Quantity: ${item.quantity}`;
-      itemCost = `€${item.event_price}`;
       listItem.setAttribute("data-type", "Dance Ticket");
     } else if (item.passType) {
       itemTitle = `${item.passName} - ${item.passDescription}`;
       itemQuantity = `Quantity: ${item.quantity}`;
-      itemCost = `€${item.cost}`;
       listItem.setAttribute("data-type", "Dance Pass");
     } else {
       listItem.innerHTML = `<div class="empty-item-text">Event information missing or invalid.</div>`;
       return listItem;
+    }
+
+    if (isAdjustableQuantityItem(item)) {
+      const adjustableQuantity = getAdjustableQuantity(item);
+
+      quantityControls = `
+        <div class="quantity-controls">
+          <button class="quantity-btn" data-index="${index}" data-change="-1" type="button" ${adjustableQuantity <= 1 ? "disabled" : ""}>-</button>
+          <span class="quantity-value">${adjustableQuantity}</span>
+          <button class="quantity-btn" data-index="${index}" data-change="1" type="button">+</button>
+        </div>
+      `;
     }
 
     listItem.innerHTML = `
@@ -58,6 +110,7 @@
       </div>
       <div class="list-view__item__right">
         <div class="list-view__item__price">${itemCost}</div>
+        ${quantityControls}
         <button class="delete-btn" data-index="${index}" type="button">Delete</button>
       </div>
     `;
@@ -85,7 +138,42 @@
       listView.appendChild(listItem);
     });
 
+    $(".quantity-btn").off("click").on("click", updateQuantity);
     $(".delete-btn").off("click").on("click", deleteItem);
+  }
+
+  function updateQuantity() {
+    const button = $(this);
+    const index = Number(button.data("index"));
+    const change = Number(button.data("change"));
+    const item = reservations[index];
+
+    if (!item || !isAdjustableQuantityItem(item)) {
+      return;
+    }
+
+    const newQuantity = getAdjustableQuantity(item) + change;
+    if (newQuantity < 1) {
+      return;
+    }
+
+    $.ajax({
+      url: "/personalprogram/updateItemQuantity",
+      type: "POST",
+      data: { index: index, quantity: newQuantity },
+      success: function (response) {
+        if (response && response.success) {
+          reservations[index] = response.item;
+          populateListView();
+          return;
+        }
+
+        console.error("Error updating quantity:", response?.message || "Unknown error");
+      },
+      error: function (xhr) {
+        console.error("Error updating quantity:", xhr.responseText || xhr.statusText);
+      }
+    });
   }
 
   function deleteItem() {
