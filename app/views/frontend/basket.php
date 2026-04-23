@@ -126,8 +126,7 @@ $calculateLineTotal = static function(array $item): float {
                     <p>We accept:</p>
                     <img src="/images/ideal.png" alt="iDEAL">
                     <img src="/images/visa.png" alt="Visa">
-                    <img src="/images/master.png" alt="MasterCard">
-                    <img src="/images/paypal.png" alt="PayPal">
+                    <img src="/images/mastercard.png" alt="mastercard">
                 </div>
             </div>
 
