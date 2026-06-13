@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Interfaces\BasketItemInterface;
-use DateTime;
 
 class HistoryTicket implements BasketItemInterface
 {
@@ -22,11 +21,11 @@ class HistoryTicket implements BasketItemInterface
         int $participants
     )
     {
-        $this->ticketType = $ticketType;
-        $this->price = $price;
+        $this->ticketType     = $ticketType;
+        $this->price          = $price;
         $this->start_location = $start_location;
-        $this->timeslot = $timeslot;
-        $this->participants = $participants;
+        $this->timeslot       = $timeslot;
+        $this->participants   = $participants;
     }
     public function getHistoryTicketId(): int
     {
@@ -71,11 +70,11 @@ class HistoryTicket implements BasketItemInterface
     public function toArray()
     {
         return [
-            'participants'=> $this->participants,
-            'ticketType' => $this->ticketType->toArray(),
-            'price' => $this->price,
+            'participants'   => $this->participants,
+            'ticketType'     => $this->ticketType->toArray(),
+            'price'          => $this->price,
             'start_location' => $this->start_location,
-            'timeslot' => $this->timeslot
+            'timeslot'       => $this->timeslot
         ];
     }
 

@@ -6,19 +6,19 @@ class Ticket
 {
     private $customerName;
     private $eventName;
-    private $eventDate;
-    private $eventTime;
+    private $eventDate = null;
+    private $eventTime = null;
     private $qrCode;
     private $status;
 
     public function __construct($customerName, $eventName, $eventDate, $eventTime, $qrCode, $status = 'new')
     {
         $this->customerName = $customerName;
-        $this->eventName = $eventName;
-        $this->eventDate = $eventDate;
-        $this->eventTime = $eventTime;
-        $this->qrCode = $qrCode;
-        $this->status = $status;
+        $this->eventName    = $eventName;
+        $this->eventDate    = $eventDate;
+        $this->eventTime    = $eventTime;
+        $this->qrCode       = $qrCode;
+        $this->status       = $status;
     }
 
     public function getCustomerName()
@@ -60,11 +60,11 @@ class Ticket
     {
         return [
             'customerName' => $this->customerName,
-            'eventName' => $this->eventName,
-            'eventDate' => $this->eventDate,
-            'eventTime' => $this->eventTime,
-            'qrCode' => $this->qrCode,
-            'status' => $this->status,
+            'eventName'    => $this->eventName,
+            'eventDate'    => $this->eventDate,
+            'eventTime'    => $this->eventTime,
+            'qrCode'       => $this->qrCode,
+            'status'       => $this->status,
         ];
     }
 }

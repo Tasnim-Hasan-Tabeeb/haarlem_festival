@@ -1,30 +1,183 @@
 <?php include __DIR__ . '/../inc/header.php'; ?>
 
-    <div class="container mb-5">
-        <?php include __DIR__ . '/../inc/message.php'; ?>
+<div class="container mb-5">
 
-        <h1>Add Venue</h1>
-        <div class="mt-4">
-            <form action="/venue/store" method="POST" autocomplete="off" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="venue_image" class="form-label">Venue Image</label>
-                    <input type="file" class="form-control" id="venue_image" name="venue_image">
-                </div>
-                <div class="mb-3">
-                    <label for="location" class="form-label">Location</label>
-                    <input type="text" class="form-control" id="location" name="location" required>
-                </div>
-                <div class="mb-3">
-                    <label for="capacity" class="form-label">Capacity</label>
-                    <input type="text" class="form-control" id="capacity" name="capacity" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Create</button>
-            </form>
+    <?php include __DIR__ . '/../inc/message.php'; ?>
+
+    <h1 class="h3 mb-4">Create Dance Event</h1>
+
+    <form action="/dancemanagement/store"
+          method="POST"
+          enctype="multipart/form-data"
+          autocomplete="off">
+
+        <!-- EVENT -->
+        <div class="mb-3">
+            <label class="form-label">
+                Event <span class="text-danger">*</span>
+            </label>
+
+            <select name="event_id"
+                    class="form-select"
+                    required>
+                <option value="">Select event</option>
+
+                <?php foreach ($events as $event) : ?>
+                    <option value="<?= $event['event_id'] ?>">
+                        <?= htmlspecialchars($event['title']) ?>
+                    </option>
+                <?php endforeach; ?>
+
+            </select>
         </div>
-    </div>
+
+        <!-- TITLE -->
+        <div class="mb-3">
+            <label class="form-label">
+                Name <span class="text-danger">*</span>
+            </label>
+
+            <input type="text"
+                   name="event_name"
+                   class="form-control"
+                   placeholder="Enter event name"
+                   required>
+        </div>
+
+        <!-- DATE -->
+        <div class="mb-3">
+            <label class="form-label">
+                Event Date <span class="text-danger">*</span>
+            </label>
+
+            <input type="date"
+                   name="event_date"
+                   class="form-control"
+                   required>
+        </div>
+
+        <!-- START TIME -->
+        <div class="mb-3">
+            <label class="form-label">
+                Start Time <span class="text-danger">*</span>
+            </label>
+
+            <input type="time"
+                   name="event_start_time"
+                   class="form-control"
+                   required>
+        </div>
+
+        <!-- PRICE -->
+        <div class="mb-3">
+            <label class="form-label">
+                Price <span class="text-danger">*</span>
+            </label>
+
+            <input type="number"
+                   name="event_price"
+                   class="form-control"
+                   min="0"
+                   required
+                   step="any"
+                   placeholder="Enter price">
+        </div>
+
+        <!-- DURATION -->
+        <div class="mb-3">
+            <label class="form-label">
+                Duration (minutes)  <span class="text-danger">*</span>
+            </label>
+
+            <input type="number"
+                   name="event_duration"
+                   min="0"
+                   required
+                   class="form-control"
+                   placeholder="Enter duration">
+        </div>
+
+        <!-- SESSION TYPE -->
+        <div class="mb-3">
+            <label class="form-label">
+                Session Type <span class="text-danger">*</span>
+            </label>
+
+            <select name="session_type"
+                    class="form-select"
+                    required>
+                <option value="">Select session type</option>
+
+                <?php foreach ($sessionTypes as $type) : ?>
+                    <option value="<?= $type ?>">
+                        <?= $type ?>
+                    </option>
+                <?php endforeach; ?>
+
+            </select>
+        </div>
+
+        <!-- VENUE -->
+        <div class="mb-3">
+            <label class="form-label">
+                Venue <span class="text-danger">*</span>
+            </label>
+
+            <select name="venue_id"
+                    class="form-select"
+                    required>
+                <option value="">Select venue</option>
+
+                <?php foreach ($venues as $venue) : ?>
+                    <option value="<?= $venue['venue_id'] ?>">
+                        <?= htmlspecialchars($venue['venue_name']) ?>
+                    </option>
+                <?php endforeach; ?>
+
+            </select>
+        </div>
+
+        <!-- ARTISTS (MULTI SELECT) -->
+        <div class="mb-3">
+            <label class="form-label">
+                Artists <span class="text-danger">*</span>
+            </label>
+
+            <select name="artist_id[]"
+                    multiple
+                    class="form-select"
+                    required>
+
+                <?php foreach ($artists as $artist) : ?>
+                    <option value="<?= $artist['artist_id'] ?>">
+                        <?= htmlspecialchars($artist['artist_name']) ?>
+                    </option>
+                <?php endforeach; ?>
+
+            </select>
+        </div>
+
+        <!-- IMAGE -->
+        <div class="mb-4">
+            <label class="form-label">
+                Event Image  <span class="text-danger">*</span>
+            </label>
+
+            <input type="file"
+                   name="music_event_image"
+                   class="form-control"
+                   required
+                   accept="image/*">
+        </div>
+
+        <!-- SUBMIT -->
+        <button type="submit"
+                class="btn btn-success px-4">
+            Create Event
+        </button>
+
+    </form>
+
+</div>
 
 <?php include __DIR__ . '/../inc/footer.php'; ?>

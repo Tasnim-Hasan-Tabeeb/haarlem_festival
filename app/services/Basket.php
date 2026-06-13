@@ -12,7 +12,7 @@ class Basket
             $_SESSION['basket'] = [];
         }
 
-        $itemArray = $item->toArray();
+        $itemArray         = $item->toArray();
         $itemArray['cost'] = $item->getCost();
 
         $_SESSION['basket'][] = $itemArray;
@@ -41,7 +41,7 @@ class Basket
     {
         if (isset($_SESSION['basket'][$index])) {
             unset($_SESSION['basket'][$index]);
-            $_SESSION['basket'] = array_values($_SESSION['basket']); // Re-index array
+            $_SESSION['basket'] = array_values($_SESSION['basket']);
         }
     }
 }

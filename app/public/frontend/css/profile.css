@@ -1,0 +1,497 @@
+/* ============================================================
+   PROFILE PAGE — SHADCN STYLE
+   Matches yummy.css / artist.css / basket.css
+============================================================ */
+
+/* ── PAGE ──────────────────────────────────────────────────── */
+.profile-page {
+    min-height: 100vh;
+    padding: 48px 0 80px;
+    background: var(--bg, #ffffff);
+}
+
+.profile-container {
+    width: min(860px, 92%);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ── PAGE HEADER ───────────────────────────────────────────── */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+}
+
+.profile-avatar {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+.profile-avatar img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--border, #e5e7eb);
+    display: block;
+}
+
+/* camera overlay on avatar */
+.profile-avatar__change {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, .45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity .2s;
+    font-size: 18px;
+}
+
+.profile-avatar:hover .profile-avatar__change {
+    opacity: 1;
+}
+
+.profile-avatar input[type="file"] {
+    display: none;
+}
+
+.profile-header__info h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--fg, #09090b);
+    margin: 0 0 4px;
+}
+
+.profile-header__info p {
+    font-size: 13px;
+    color: var(--muted, #6b7280);
+    margin: 0;
+}
+
+.profile-header__badge {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    height: 26px;
+    padding: 0 10px;
+    background: var(--bg-subtle, #fafafa);
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted, #6b7280);
+}
+
+/* ── TABS ──────────────────────────────────────────────────── */
+.profile-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+    margin-bottom: 28px;
+    gap: 0;
+}
+
+.profile-tab {
+    padding: 12px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted, #6b7280);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color .2s, border-color .2s;
+    white-space: nowrap;
+}
+
+.profile-tab:hover {
+    color: var(--fg, #09090b);
+}
+
+.profile-tab.active {
+    color: var(--fg, #09090b);
+    border-bottom-color: var(--accent, #18181b);
+}
+
+/* ── TAB PANELS ────────────────────────────────────────────── */
+.profile-panel {
+    display: none;
+}
+
+.profile-panel.active {
+    display: block;
+    animation: panel-in .2s ease;
+}
+
+@keyframes panel-in {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── CARD ──────────────────────────────────────────────────── */
+.profile-card {
+    background: var(--bg, #fff);
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: var(--r-lg, 10px);
+    overflow: hidden;
+}
+
+.profile-card__header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+    background: var(--bg-subtle, #fafafa);
+}
+
+.profile-card__header h2 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--fg, #09090b);
+    margin: 0 0 2px;
+}
+
+.profile-card__header p {
+    font-size: 12px;
+    color: var(--muted, #6b7280);
+    margin: 0;
+}
+
+.profile-card__body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* ── FORM ELEMENTS ─────────────────────────────────────────── */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--fg, #09090b);
+}
+
+.form-label span {
+    color: var(--muted, #6b7280);
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.form-control {
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: var(--r-sm, 6px);
+    background: var(--bg, #ffffff);
+    color: var(--fg, #09090b);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.form-control:focus {
+    border-color: var(--accent, #18181b);
+    box-shadow: 0 0 0 3px rgba(24, 24, 27, .08);
+}
+
+.form-control:disabled {
+    background: var(--bg-subtle, #fafafa);
+    color: var(--muted, #6b7280);
+    cursor: not-allowed;
+}
+
+/* password input wrapper (show/hide toggle) */
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper .form-control {
+    padding-right: 42px;
+}
+
+.input-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted, #6b7280);
+    font-size: 14px;
+    padding: 0;
+    line-height: 1;
+}
+
+.input-toggle:hover {
+    color: var(--fg, #09090b);
+}
+
+/* strength meter */
+.password-strength {
+    height: 4px;
+    border-radius: 99px;
+    background: var(--border, #e5e7eb);
+    overflow: hidden;
+    margin-top: 2px;
+}
+
+.password-strength__bar {
+    height: 100%;
+    border-radius: 99px;
+    width: 0%;
+    transition: width .3s, background .3s;
+}
+
+.strength-text {
+    font-size: 11px;
+    color: var(--muted, #6b7280);
+    margin-top: 4px;
+}
+
+/* hint text */
+.form-hint {
+    font-size: 11px;
+    color: var(--muted, #6b7280);
+    margin-top: 2px;
+}
+
+/* ── CARD FOOTER (actions) ─────────────────────────────────── */
+.profile-card__footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border, #e5e7eb);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.profile-card__footer p {
+    font-size: 12px;
+    color: var(--muted, #6b7280);
+    margin: 0;
+}
+
+/* ── BUTTONS ───────────────────────────────────────────────── */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 20px;
+    background: var(--accent, #18181b);
+    color: var(--accent-fg, #fff);
+    border: 1px solid var(--accent, #18181b);
+    border-radius: var(--r-sm, 6px);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover, #27272a);
+    transform: translateY(-1px);
+}
+
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 20px;
+    background: transparent;
+    color: var(--fg, #09090b);
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: var(--r-sm, 6px);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+    text-decoration: none;
+}
+
+.btn-outline:hover {
+    background: var(--bg-muted, #f3f4f6);
+    border-color: var(--fg, #09090b);
+}
+
+.btn-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 20px;
+    background: transparent;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    border-radius: var(--r-sm, 6px);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+}
+
+.btn-danger:hover {
+    background: #fef2f2;
+    border-color: #ef4444;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+/* ── AVATAR UPLOAD PREVIEW ─────────────────────────────────── */
+.avatar-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+}
+
+.avatar-preview {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--border, #e5e7eb);
+}
+
+.avatar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.avatar-actions p {
+    font-size: 12px;
+    color: var(--muted, #6b7280);
+    margin: 0;
+}
+
+/* ── TOAST ─────────────────────────────────────────────────── */
+.profile-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 2000;
+    padding: 12px 20px;
+    border-radius: var(--r-sm, 6px);
+    font-size: 13px;
+    font-weight: 600;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .25s, transform .25s;
+    min-width: 200px;
+}
+
+.profile-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.profile-toast.success {
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+
+.profile-toast.error {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+/* ── MEMBER SINCE INFO BOX ─────────────────────────────────── */
+.info-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg-subtle, #fafafa);
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: var(--r-lg, 10px);
+    font-size: 13px;
+    color: var(--muted, #6b7280);
+}
+
+.info-box strong {
+    color: var(--fg, #09090b);
+}
+
+
+.btn-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-header {
+        flex-wrap: wrap;
+    }
+
+    .profile-header__badge {
+        margin-left: 0;
+    }
+
+    .profile-card__footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .profile-card__footer .btn-primary,
+    .profile-card__footer .btn-outline {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .profile-tabs {
+        overflow-x: auto;
+    }
+}

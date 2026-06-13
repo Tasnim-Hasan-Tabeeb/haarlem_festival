@@ -1,398 +1,630 @@
+/* ============================================================
+   DANCE PAGE
+   Uses the shared Haarlem Festival design system from main.css
+============================================================ */
 
-@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Jomhuria&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Caladea&display=swap');
-
-/* Common styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.dance-page {
+    --dance-accent: #ff7a68;
+    --dance-accent-dark: #e96756;
+    background: linear-gradient(180deg, #fff 0, #fff 520px, var(--bg-subtle) 520px);
+    padding-bottom: 72px;
 }
 
-body {
-    background-color: #240B43;
-    background-attachment: fixed;
-    min-height: 100%;
-    font-family: "Jomhuria", serif;
-    color: white;
+#section-dance,
+.section-2,
+.section-3,
+.dance-tickets {
+    width: min(calc(100% - 32px), var(--max-w, 1100px));
+    margin-inline: auto;
 }
 
-/* Dance section styles */
 #section-dance {
+    padding-top: 32px;
+}
+
+.dance-image {
     position: relative;
+    min-height: 460px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow-md);
+    isolation: isolate;
+}
+
+.dance-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, rgba(9, 9, 11, .78) 0%, rgba(9, 9, 11, .38) 50%, rgba(9, 9, 11, .08) 100%);
 }
 
 .dance-image img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
     width: 100%;
-    display: block;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dance-image__content {
+    display: flex;
+    min-height: 460px;
+    max-width: 620px;
+    padding: clamp(32px, 7vw, 72px);
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
 }
 
 .dance-image h1 {
-    position: absolute;
-    bottom: -2vw;
-    left: 0.2em;
-    font-size: 10vw;
+    margin: 0;
+    color: #fff;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 800;
+    letter-spacing: -.06em;
 }
 
-.artist-list {
-    font-size: 8vw;
-    width: fit-content;
-    padding: 10px;
-    margin: 0 auto;
-    font-weight: 400;
+.dance-image p {
+    max-width: 520px;
+    margin: 12px 0 24px;
+    color: rgba(255, 255, 255, .88);
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.65;
 }
 
-/* Section 2 styles */
-.section-2 {
-    width: 100%;
-    margin-top: 20px;
-}
-
-.artist {
-    flex: 0 0 calc(33.33% - 10px);
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.artist-image {
-    height: 400px;
-    width: 400px;
-    overflow: hidden;
-    border-radius: 50%;
-    object-fit: cover;
-    display: flex;
+.dance-image a,
+.buy-pass-button,
+.buy-button {
+    display: inline-flex;
     align-items: center;
-    margin: 0 auto;
-
-}
-
-.artist-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-.artist-name {
-    font-size: 30px;
-    margin-top: 10px;
-    color: white;
+    justify-content: center;
+    border: 1px solid var(--accent);
+    border-radius: var(--r-sm);
+    background: var(--accent);
+    color: var(--accent-fg);
+    font-weight: 600;
     text-decoration: none;
-    font-family: 'Caladea', serif;
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.dance-image a {
+    min-height: 42px;
+    padding: 0 20px;
+}
+
+.dance-image a:hover,
+.buy-pass-button:hover,
+.buy-button:hover {
+    background: var(--accent-hover);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.section-2,
+.section-3 {
+    padding-top: 64px;
+}
+
+.artist-list,
+.venue-list,
+.dance-tickets__heading h2 {
+    margin: 0 0 8px;
+    color: var(--ink);
+    font-size: clamp(1.7rem, 3vw, 2.15rem);
+    font-weight: 700;
+    letter-spacing: -.035em;
+}
+
+.artist-list::after,
+.venue-list::after,
+.dance-tickets__heading h2::after {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 4px;
+    margin-top: 12px;
+    border-radius: 999px;
+    background: var(--dance-accent);
 }
 
 .artists-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-top: 20px;
-    position: relative;
-}
-
-.artist-containers {
-    position: relative;
-    width: 33.33%;
-    text-align: center;
-    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 28px;
 }
 
 .artist {
-    position: relative;
-}
-
-.background-rectangle {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: linear-gradient(180deg, rgba(217, 217, 217, 0) 25.52%, #016F96 41.67%, #016F96 66.84%, rgba(217, 217, 217, 0) 91.32%);
-    z-index: -1;
-}
-
-@media (max-width: 1200px) {
-    .artist-containers {
-        width: 50%;
-    }
-}
-
-@media (max-width: 768px) {
-    .artist-containers {
-        width: 100%;
-    }
-}
-
-/* Section 3 styles */
-.section-3 {
-    width: 100%;
-}
-
-.venue-list {
-    font-size: 8vw;
-    width: fit-content;
-    padding: 10px;
-    margin: 0 auto;
-    font-weight: 400;
-}
-.venue {
-    width: 224px;
-    height: 224px;
-    text-align: center;
-    margin-bottom: 60px;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-.venues-container {
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 20px;
-    flex-wrap: wrap;
-}
-
-.venue-image {
-    width: 100%;
-    height: 100%;
     overflow: hidden;
-    object-fit: cover;
-    display: flex;
-    align-items: center;
-    margin: 0 auto;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-xs);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
 
+.artist a {
+    display: block;
+}
+
+.artist:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+}
+
+.artist-image {
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--bg-muted);
+}
+
+.artist-image img,
 .venue-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-.venue-name {
-    font-size: 24px;
-    margin-top: 10px;
-    color: white;
-    text-decoration: none;
-    font-family: 'Caladea', serif;
+    transition: transform .35s ease;
 }
 
-@media (max-width: 1200px) {
-    .venue {
-        width: 100%;
-        height: 100%;
-        margin-bottom: 10px;
-    }
+.artist:hover img,
+.venue:hover img {
+    transform: scale(1.045);
 }
 
-@media (max-width: 768px) {
-    .venue {
-        width: 100%;
-        height: 100%;
-        margin-bottom: 10px;
-
-    }
-}
-
-/* Section 4 styles */
-.section-4a, .section-4b, .section-4c {
-    position: relative;
+.artist-name {
+    padding: 16px;
+    color: var(--ink);
+    font-size: .95rem;
+    font-weight: 650;
     text-align: center;
 }
 
-.ticket-list {
-    font-size: 8vw;
-    width: fit-content;
-    padding: 10px;
-    margin: 0 auto;
-    font-weight: 400;
+.venues-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 28px;
 }
-.passes-container {
+
+.venue {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-xs);
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.venue:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+}
+
+.venue-image {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--bg-muted);
+}
+
+.venue-name {
+    position: relative;
+    padding: 17px 44px 17px 18px;
+    color: var(--ink);
+    font-size: 1rem;
+    font-weight: 650;
+}
+
+.venue-name::after {
+    content: "View";
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    color: var(--muted);
+    font-size: .75rem;
+    font-weight: 500;
+    transform: translateY(-50%);
+}
+
+.dance-tickets {
+    padding-top: 72px;
+}
+
+.dance-tickets__heading {
+    margin-bottom: 28px;
+}
+
+.dance-tickets__heading p {
+    max-width: 580px;
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 1rem;
+}
+
+.dance-day {
+    margin-bottom: 24px;
+    padding: clamp(20px, 4vw, 32px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: var(--shadow-xs);
+}
+
+.ticket-list {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0 0 22px;
+    color: var(--ink);
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.ticket-list span {
+    color: var(--muted);
+    font-size: .9rem;
+    font-weight: 500;
+}
+
+.passes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
 }
 
 .pass-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    align-items: center;
-    padding: 10px;
-    width: 40%;
-    max-width: 45%;
-    margin: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    background: var(--bg-subtle);
 }
-
 
 .top-section {
-    width: 70%;
-    height: 40%;
-    background: #4A9BAA;
-    opacity: 0.9;
-    border-radius: 8px 8px 0 0;
-    box-sizing: border-box;
-}
-
-.bottom-section {
-    width: 70%;
-    height: 100%;
-    background: #227195;
-    border-radius: 0 0 8px 8px;
-    padding: 10px;
-    box-sizing: border-box;
+    padding: 14px 16px 10px;
 }
 
 .pass-name {
-    color: #fff;
-    font-size: 30px;
     margin: 0;
-    font-family: Calibri, sans-serif;
-
+    color: var(--ink);
+    font-size: .95rem;
+    font-weight: 700;
 }
 
-.pass-description-price {
-    color: #fff;
-    font-size: 30px;
-    margin: 5px 0;
-    font-family: Calibri, sans-serif;
-
-}
-
-.buy-button, .buy-pass-button {
-    background-color: #FF7A68;
-    color: #000;
-    font-size: 24px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-weight: bold;
-}
-
-.buy-button:hover, .buy-pass-button:hover {
-    background-color: #ff3e29;
-}
-
-@media (max-width: 768px) {
-    .pass-container {
-        width: 100%;
-        max-width: 100%;
-    }
-}
-@media (max-width: 1200px) {
-    .pass-container {
-        width: 100%;
-        max-width: 100%;
-    }
-}
-.tickets-container {
+.bottom-section {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 16px 16px;
 }
 
-.ticket-container {
-    width: calc(33.33% - 20px);
-    margin-bottom: 20px;
-    box-sizing: border-box;
+.pass-description,
+.pass-price {
+    margin: 0;
+}
+
+.pass-description {
+    color: var(--muted);
+    font-size: .8rem;
+    line-height: 1.45;
+}
+
+.pass-price {
+    margin-top: 5px;
+    color: var(--ink);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.buy-pass-button {
+    min-height: 34px;
+    padding: 0 13px;
+    white-space: nowrap;
+    font-size: .76rem;
+}
+
+.tickets-container {
+    display: grid;
+    gap: 14px;
 }
 
 .ticket {
-    width: 90%;
-    background-color: #FFFFFF;
-    border: 4px solid #FF415C;
-    color: #000000;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    font-size: 18px;
-    font-family: Calibri, serif;
+    display: grid;
+    grid-template-columns: 170px minmax(0, 1fr) auto;
+    gap: 20px;
+    align-items: center;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.ticket:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-sm);
 }
 
 .ticket-image {
-    width: 100px; 
-    height: 100px; 
+    width: 170px;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
-    position: absolute;
-    top: 0; 
-    left: 0;
-    z-index: 1; 
-    border-radius: 50%; 
+    border-radius: 8px;
+    background: var(--bg-muted);
 }
 
 .ticket-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 50%;
-}
-
-.ticket-details {
-    padding: 20px 20px 20px 100px;
-    text-align: left; 
 }
 
 .ticket-details h2 {
-    font-weight: bold;
-    margin-bottom: 10px;
+    margin: 0 0 10px;
+    color: var(--ink);
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.ticket-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px 18px;
 }
 
 .ticket-info p {
-    margin: 5px 0;
+    margin: 0;
+    color: var(--muted);
+    font-size: .8rem;
+}
+
+.ticket-info strong {
+    color: var(--ink);
+    font-weight: 600;
 }
 
 .ticket-buttons {
-    position: absolute; 
-    bottom: 10px; 
-    right: 10px; 
-}
-
-.favorite-button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
+    min-width: 108px;
 }
 
 .buy-button {
-    background-color: #FF7A68;
-    border: none;
-    border-radius: 10px;
-    color: #FFFFFF;
-    cursor: pointer;
-    padding: 10px 20px;
+    width: 100%;
+    min-height: 38px;
+    padding: 0 14px;
+    font-size: .8rem;
 }
 
-.favorite-button img {
-    width: 20px;
-    height: 20px;
+.no-data {
+    padding: 20px;
+    border: 1px dashed var(--border);
+    border-radius: var(--r-lg);
+    background: var(--bg-subtle);
+    text-align: center;
 }
 
-@media (max-width: 768px) {
-    .ticket-container {
-        width: 80%; 
-        max-width: 80%;
+.venue-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(17, 24, 39, .58);
+    backdrop-filter: blur(5px);
+}
 
+.venue-modal-overlay.open {
+    display: flex;
+}
+
+.venue-modal {
+    width: min(640px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, .22);
+    animation: venue-modal-in .2s ease;
+}
+
+@keyframes venue-modal-in {
+    from { opacity: 0; transform: translateY(12px) scale(.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.venue-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+.venue-modal__header h5 {
+    margin: 0;
+    color: var(--muted);
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.venue-modal__close {
+    display: inline-flex;
+    width: 34px;
+    height: 34px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    background: var(--bg-subtle);
+    color: var(--ink);
+}
+
+.venue-modal__close:hover {
+    background: var(--bg-muted);
+}
+
+.venue-modal__body {
+    padding: 22px;
+}
+
+.venue-modal__body h2 {
+    margin: 0 0 6px;
+    font-size: 1.4rem;
+}
+
+.venue-modal__body p {
+    margin: 0 0 18px;
+    color: var(--muted);
+}
+
+.venue-modal__body iframe {
+    display: block;
+    width: 100%;
+    height: 360px;
+    border: 0;
+    border-radius: var(--r-lg);
+}
+
+.dance-toast {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 2000;
+    padding: 12px 20px;
+    border-radius: var(--r-sm);
+    font-size: .85rem;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity .25s ease, transform .25s ease;
+}
+
+.dance-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dance-toast.success {
+    border: 1px solid #bbf7d0;
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.dance-toast.error {
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+@media (max-width: 800px) {
+    .dance-page {
+        background: var(--bg-subtle);
+    }
+
+    .dance-image,
+    .dance-image__content {
+        min-height: 400px;
+    }
+
+    .ticket {
+        grid-template-columns: 130px minmax(0, 1fr);
+    }
+
+    .ticket-image {
+        width: 130px;
+    }
+
+    .ticket-buttons {
+        grid-column: 1 / -1;
     }
 }
 
-/* venue modal */
-#venueModalLabel{
-    font-family: "Helvetica Neue",Helvetica,Arial;
-    font-size: 40px;
+@media (max-width: 560px) {
+    #section-dance {
+        padding-top: 16px;
+    }
+
+    .dance-image,
+    .dance-image__content {
+        min-height: 360px;
+    }
+
+    .dance-image__content {
+        padding: 28px 24px;
+    }
+
+    .dance-image p {
+        font-size: .95rem;
+    }
+
+    .section-2,
+    .section-3 {
+        padding-top: 48px;
+    }
+
+    .dance-tickets {
+        padding-top: 56px;
+    }
+
+    .artists-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .venues-container,
+    .passes-container {
+        grid-template-columns: 1fr;
+    }
+
+    .dance-day {
+        padding: 18px;
+    }
+
+    .ticket {
+        grid-template-columns: 1fr;
+    }
+
+    .ticket-image {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+    }
+
+    .ticket-info {
+        grid-template-columns: 1fr;
+    }
+
+    .ticket-buttons {
+        grid-column: auto;
+    }
+
+    .bottom-section {
+        align-items: center;
+    }
+
+    .venue-modal__body iframe {
+        height: 280px;
+    }
 }
-#venue-detail-name, #venue-detail-location{
-    font-family: "Helvetica Neue",Helvetica,Arial;
-    font-size: 20px;
-}
-.btn-close{
-    background-color: #FF7A68;
-    color: #000;
-    font-size: 20px;
-    padding: 5px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-.btn-close:hover {
-    background-color: #ff3e29;
+
+@media (prefers-reduced-motion: reduce) {
+    .artist,
+    .venue,
+    .artist img,
+    .venue img,
+    .dance-image a,
+    .buy-pass-button,
+    .buy-button {
+        transition: none;
+    }
 }

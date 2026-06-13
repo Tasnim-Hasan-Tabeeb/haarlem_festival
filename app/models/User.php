@@ -18,55 +18,55 @@ class User
     {
         return $this->userid;
     }
-    public function setuserid(int $userid):void
+    public function setuserid(int $userid): void
     {
         $this->userid = $userid;
     }
-    public function getname():string
+    public function getname(): string
     {
         return $this->name;
     }
-    public function setname(string $name):void
+    public function setname(string $name): void
     {
         $this->name = $name;
     }
-    public function getprofilepicture():string
+    public function getprofilepicture(): string
     {
         return $this->profilepicture;
     }
-    public function setprofilepicture(string $profilepicture):void
+    public function setprofilepicture(string $profilepicture): void
     {
         $this->profilepicture = $profilepicture;
     }
-    public function getemail():string
+    public function getemail(): string
     {
         return $this->email;
     }
-    public function setemail(string $email):void
+    public function setemail(string $email): void
     {
         $this->email = $email;
     }
-    public function getrole():string
+    public function getrole(): string
     {
         return $this->role;
     }
-    public function setrole(string $role):void
+    public function setrole(string $role): void
     {
         $this->role = $role;
     }
-    public function getpassword():string
+    public function getpassword(): string
     {
         return $this->password;
     }
-    public function setpassword(string $password):void
+    public function setpassword(string $password): void
     {
         $this->password = $password;
     }
-    public function getregistration_date():DateTime
+    public function getregistration_date(): DateTime
     {
         return $this->registration_date;
     }
-    public function setregistration_date(DateTime $registration_date):void
+    public function setregistration_date(DateTime $registration_date): void
     {
         $this->registration_date = $registration_date;
     }

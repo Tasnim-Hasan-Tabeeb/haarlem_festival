@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Models;
-use InvalidArgumentException;
+
 use JsonSerializable;
-use ReflectionClass;
 
 class SessionType implements jsonSerializable
 {
-    const CLUB = 'Club';
-    const BACK2BACK = 'Back2Back';
+    const CLUB        = 'Club';
+    const BACK2BACK   = 'Back2Back';
     const TIESTOWORLD = 'TiëstoWorld';
 
     public static function getAll()

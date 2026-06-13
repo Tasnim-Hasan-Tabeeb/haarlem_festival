@@ -11,9 +11,9 @@ class Page
 
     public function __construct(string $title, ?int $active = 1, ?string $slug = null, ?int $page_id = null)
     {
-        $this->title = $title;
-        $this->active = $active !== null ? $active : 1;
-        $this->slug = $slug;
+        $this->title   = $title;
+        $this->active  = $active !== null ? $active : 1;
+        $this->slug    = $slug;
         $this->page_id = $page_id;
     }
 

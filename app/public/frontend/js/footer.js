@@ -13,17 +13,17 @@ document.addEventListener("DOMContentLoaded", function () {
         const email = emailInput.value.trim();
 
         if (!email) {
-            alert("Please enter a valid email address.");
+            toastr.error("Please enter an email address.");
             return;
         }
 
         axios.post("/api/sendmail/sendemail", { email: email })
             .then(function (response) {
-                alert("Success! You have been registered to our newsletter successfully.");
+                toastr.success("Success! You have been registered to our newsletter successfully.");
                 signupForm.reset();
             })
             .catch(function (error) {
-                alert("An error occurred while sending the email.");
+                toastr.error("An error occurred while sending the email.");
                 console.error(error);
             });
     }

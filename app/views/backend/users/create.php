@@ -4,36 +4,89 @@
 
     <?php include __DIR__ . '/../inc/message.php'; ?>
 
-    <h1>Create User</h1>
-    <div class="mt-4">
-        <form action="/user/store" method="POST" autocomplete="off" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="profile_picture" class="form-label">Profile Picture</label>
-                <input type="file" class="form-control" id="profile_picture" name="profile_picture">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <div class="mb-3">
-                <label for="role" class="form-label">Role</label>
-                <select class="form-select" id="role" name="role" required>
-                    <?php foreach ($roles as $role) : ?>
-                        <option value="<?= $role ?>"><?= $role ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Create</button>
-        </form>
-    </div>
+    <h1 class="mb-4">Create User</h1>
+
+    <form action="/user/store"
+          method="POST"
+          autocomplete="off"
+          enctype="multipart/form-data">
+
+        <!-- NAME -->
+        <div class="mb-3">
+            <label class="form-label">
+                Name <span class="text-danger">*</span>
+            </label>
+
+            <input type="text"
+                   class="form-control"
+                   name="name"
+                   placeholder="Enter full name"
+                   required>
+        </div>
+
+        <!-- PROFILE IMAGE -->
+        <div class="mb-3">
+            <label class="form-label">Profile Picture</label>
+
+            <input type="file"
+                   class="form-control"
+                   name="profile_picture"
+                   accept="image/*">
+        </div>
+
+        <!-- EMAIL -->
+        <div class="mb-3">
+            <label class="form-label">
+                Email <span class="text-danger">*</span>
+            </label>
+
+            <input type="email"
+                   class="form-control"
+                   name="email"
+                   placeholder="Enter email address"
+                   required>
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="mb-3">
+            <label class="form-label">
+                Password <span class="text-danger">*</span>
+            </label>
+
+            <input type="password"
+                   class="form-control"
+                   name="password"
+                   placeholder="Enter password"
+                   required>
+        </div>
+
+        <!-- ROLE -->
+        <div class="mb-4">
+            <label class="form-label">
+                Role <span class="text-danger">*</span>
+            </label>
+
+            <select class="form-select"
+                    name="role"
+                    required>
+
+                <option value="">Select role</option>
+
+                <?php foreach ($roles as $role) : ?>
+                    <option value="<?= htmlspecialchars($role) ?>">
+                        <?= htmlspecialchars($role) ?>
+                    </option>
+                <?php endforeach; ?>
+
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Create
+        </button>
+
+    </form>
+
 </div>
 
 <?php include __DIR__ . '/../inc/footer.php'; ?>

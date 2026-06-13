@@ -1,0 +1,183 @@
+/* ============================================================
+   main.css — Haarlem Festival · Global Design Tokens
+   shadcn/ui style · clean · professional · no decoration
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Typography */
+    --font: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Colours */
+    --bg: #ffffff;
+    --bg-subtle: #f9fafb;
+    --bg-muted: #f3f4f6;
+    --surface: #ffffff;
+    --border: #e5e7eb;
+    --border-hover: #d1d5db;
+    --ink: #111827;
+    --muted: #6b7280;
+    --muted-2: #9ca3af;
+
+    /* Accent — single, used sparingly */
+    --accent: #111827;
+    --accent-fg: #ffffff;
+    --accent-hover: #1f2937;
+    --ring: rgba(17, 24, 39, .08);
+
+    /* Radii */
+    --r: 8px;
+    --r-sm: 6px;
+    --r-lg: 12px;
+
+    /* Shadows */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, .05);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, .07), 0 1px 2px rgba(0, 0, 0, .04);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, .07), 0 2px 4px -1px rgba(0, 0, 0, .04);
+
+    /* Layout */
+    --nav-h: 60px;
+    --max-w: 1100px;
+}
+
+/* ── Reset ────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: var(--font);
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+video {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font-family: var(--font);
+    cursor: pointer;
+}
+
+input,
+textarea,
+select {
+    font-family: var(--font);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--ink);
+    letter-spacing: -0.2px;
+}
+
+/* ── Layout helpers ───────────────────────────────────────── */
+.hf-container {
+    width: min(100% - 32px, var(--max-w));
+    margin-inline: auto;
+}
+
+.hf-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.hf-main {
+    flex: 1;
+}
+
+.hf-section-heading {
+    padding-block: 40px 16px;
+}
+
+.hf-section-heading__title {
+    font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.hf-divider {
+    height: 1px;
+    background: var(--border);
+}
+
+.white-space {
+    height: 32px;
+}
+
+
+/* ============================================================
+   GLOBAL MEDIA SYSTEM FIX (IMPORTANT)
+   ============================================================ */
+
+.media-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.media-frame {
+    overflow: hidden;
+    border-radius: var(--r-lg);
+}
+
+/* Prevent image breaking anywhere */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ============================================================
+   PAGE SPACING SYSTEM (replace white-space hacks)
+   ============================================================ */
+
+.page-spacer {
+    height: 32px;
+}
+
+.page-section {
+    padding: 40px 0;
+}
+
+.d-none {
+    display: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.no-data {
+    color: var(--muted, #6b7280);
+    font-size: 14px;
+}

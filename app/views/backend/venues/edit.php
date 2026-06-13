@@ -1,38 +1,101 @@
 <?php include __DIR__ . '/../inc/header.php'; ?>
 
 <div class="container mb-5">
-    <h1>Edit Venue</h1>
-    <div class="mt-4">
-        <form action="/venue/update" method="post" autocomplete="off" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="<?= $venue['venue_name'] ?>"
-                       required>
-            </div>
-            <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
-                <input type="text" class="form-control" id="location" name="location" value="<?= $venue['venue_location'] ?>"
-                       required>
-            </div>
-            <div class="mb-3">
-                <label for="capacity" class="form-label">Capacity</label>
-                <input type="text" class="form-control" id="capacity" name="capacity" value="<?= $venue['capacity'] ?>"
-                       required>
-            </div>
-            <div class="mb-3">
-                <label for="map_url" class="form-label">Map URL</label>
-                <input type="text" class="form-control" id="map_url" name="map_url" value="<?= $venue['map_url'] ?>"
-                       required>
-            </div>
-            <div class="mb-5">
-                <label for="venue_image" class="form-label">Venue Image</label>
-                <input type="file" class="form-control" id="venue_image" name="venue_image">
-                <img src="<?= '/images/' . $venue['venue_image'] ?>" class="mt-2" width="100" height="100" alt="Venue Image">
-            </div>
-            <input type="hidden" name="venue_id" value="<?= $venue['venue_id'] ?>">
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
-    </div>
+     <?php include __DIR__ . '/../inc/message.php'; ?>
+
+
+    <h1 class="mb-4">Edit Venue</h1>
+
+    <form action="/venue/update"
+          method="post"
+          autocomplete="off"
+          enctype="multipart/form-data">
+
+        <input type="hidden"
+               name="venue_id"
+               value="<?= htmlspecialchars($venue['venue_id']) ?>">
+
+        <!-- NAME -->
+        <div class="mb-3">
+            <label class="form-label">
+                Name <span class="text-danger">*</span>
+            </label>
+            <input type="text"
+                   class="form-control"
+                   name="name"
+                   value="<?= htmlspecialchars($venue['venue_name']) ?>"
+                   placeholder="Enter venue name"
+                   required
+                   >
+        </div>
+
+        <!-- LOCATION -->
+        <div class="mb-3">
+            <label class="form-label">
+                Location <span class="text-danger">*</span>
+            </label>
+            <input type="text"
+                   class="form-control"
+                   name="location"
+                   value="<?= htmlspecialchars($venue['venue_location']) ?>"
+                   placeholder="Enter venue location"
+                   required>
+        </div>
+
+        <!-- CAPACITY -->
+        <div class="mb-3">
+            <label class="form-label">
+                Capacity <span class="text-danger">*</span>
+            </label>
+            <input type="number"
+                   class="form-control"
+                   name="capacity"
+                   value="<?= htmlspecialchars($venue['capacity']) ?>"
+                   placeholder="Enter capacity"
+                   min="1"
+                   required>
+        </div>
+
+        <!-- MAP -->
+        <div class="mb-3">
+            <label class="form-label">
+                Map URL <span class="text-danger">*</span>
+            </label>
+            <input type="text"
+                   class="form-control"
+                   name="map_url"
+                   value="<?= htmlspecialchars($venue['map_url']) ?>"
+                   placeholder="Paste Google Maps URL"
+                   required>
+        </div>
+
+        <!-- IMAGE -->
+        <div class="mb-4">
+            <label class="form-label">Venue Image</label>
+
+            <input type="file"
+                   class="form-control"
+                   name="venue_image"
+                   accept="image/*"
+                   >
+
+            <?php if (!empty($venue['venue_image'])) : ?>
+                <div class="mt-2">
+                    <img src="<?=  $venue['venue_image'] ?>"
+                         alt="Venue Image"
+                         class="img-thumbnail"
+                         width="100"
+                         height="100">
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Update Venue
+        </button>
+
+    </form>
+
 </div>
 
 <?php include __DIR__ . '/../inc/footer.php'; ?>

@@ -2,40 +2,50 @@
 
 namespace App\Controllers;
 
-use App\Helpers\Helper;
+use App\Controllers\Core\Controller;
+use App\Helpers\Validator;
 use App\Models\HistoryTicket;
 use App\Models\TicketType;
 use App\Services\Basket;
-use App\Services\HistoryService;
-use DateTime;
 use Exception;
 
-class HistoryTicketController
+class HistoryTicketController extends Controller
 {
-    private $historyService;
-    private $basketService;
+    private Basket $basketService;
 
     public function __construct()
     {
-        $this->historyService = new HistoryService();
         $this->basketService = new Basket();
     }
+
+    /**
+     * Summary of create
+     * @throws Exception
+     * @return void
+     */
     public function create()
     {
         try {
             $input = json_decode(file_get_contents('php://input'), true);
-            $ticketTypeStr = isset($input['ticketType']) ? htmlspecialchars(trim($input['ticketType']), ENT_QUOTES, 'UTF-8') : null;
-            $price = isset($input['price']) ? floatval($input['price']) : null;
-            $start_location = isset($input['start_location']) ? htmlspecialchars(trim($input['start_location']), ENT_QUOTES, 'UTF-8') : null;
-            $timeslot = isset($input['timeslot']) ? htmlspecialchars(trim($input['timeslot']), ENT_QUOTES, 'UTF-8') : null;
-            $participants = isset($input['participants']) ? intval($input['participants']) : null;
 
-            var_dump($ticketTypeStr, $price, $start_location, $timeslot, $participants); // Debugging line
+            $rules = [
+                'ticketType'     => 'required|string',
+                'price'          => 'required|numeric|min:0',
+                'start_location' => 'required|string',
+                'timeslot'       => 'required|string',
+                'participants'   => 'required|numeric|min:1|max:10000',
+            ];
 
-//            if (empty($ticketTypeStr) || empty($price) || empty($start_location) || empty($timeslotStr)) {
-//                throw new Exception('Incomplete data received.');
-//            }
+            Validator::validate($input, $rules);
+
+            $ticketTypeStr  = htmlspecialchars(trim($input['ticketType']), ENT_QUOTES, 'UTF-8');
+            $price          = floatval($input['price']);
+            $start_location = htmlspecialchars(trim($input['start_location']), ENT_QUOTES, 'UTF-8');
+            $timeslot       = htmlspecialchars(trim($input['timeslot']), ENT_QUOTES, 'UTF-8');
+            $participants   = intval($input['participants']);
+
             $ticketType = TicketType::createFrom($ticketTypeStr);
+
             if (!$ticketType) {
                 throw new Exception('Invalid ticket type.');
             }
@@ -44,10 +54,8 @@ class HistoryTicketController
             $this->basketService->addItem($historyTicket);
 
             echo json_encode(['success' => true]);
-            exit();
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
-            exit();
         }
     }
 }

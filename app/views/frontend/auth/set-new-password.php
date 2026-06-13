@@ -1,45 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Set New Password</title>
     <link rel="icon" type="image/x-icon" href="/images/fav.png">
-    <style>
-        <?php include __DIR__ . '/../../../public/frontend/css/style.css'; ?>
-    </style>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/frontend/css/login.css">
+
+    <title>Reset Password</title>
 </head>
-<body class="password-body">
-<img src="/images/logo.png" alt="Logo" class="logo">
 
-<div class="container-password">
-    <h1>Set New Password</h1>
-    <form id="resetPasswordForm" method="post">
-        <label for="password">New Password:</label>
-        <input type="password" id="password" name="password" required><br>
-        <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required><br>
-        <span id="passwordMismatchMessage" class="password-mismatch-message"></span>
+<body class="login-page">
 
-        <div class="button-container">
-            <button type="submit">Submit</button>
-        </div>
+<div class="login-wrapper">
+    <div class="login-card">
 
-    </form>
+        <h3 class="login-title">Set New Password</h3>
+        <p class="login-subtitle">Create a new secure password</p>
+
+        <?php include __DIR__ . '/../inc/message.php'; ?>
+
+        <form id="resetPasswordForm" method="POST" autocomplete="off">
+
+            <!-- New Password -->
+            <div class="form-group">
+                <label>New Password</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-lock"></i>
+                    </span>
+                    <input type="password" class="form-control" name="password" id="password" required>
+                </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group mt-3">
+                <label>Confirm Password</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-lock-fill"></i>
+                    </span>
+                    <input type="password" class="form-control" name="confirm_password" id="confirmPassword" required>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <small id="passwordMismatchMessage" class="text-danger d-block mt-2"></small>
+
+            <!-- Submit -->
+            <button type="submit" class="btn login-btn mt-4 w-100">
+                Update Password
+            </button>
+
+            <!-- Back -->
+            <div class="login-links mt-3">
+                <a href="/login/login">Back to Login ?</a>
+            </div>
+
+        </form>
+
+    </div>
 </div>
+
+<footer class="login-footer">
+    <p>&copy; <?= date('Y') ?> The Festival. All rights reserved.</p>
+</footer>
+
+<script>
+document.getElementById('resetPasswordForm').addEventListener('submit', function(e) {
+
+    let pass = document.getElementById('password').value;
+    let confirm = document.getElementById('confirmPassword').value;
+    let msg = document.getElementById('passwordMismatchMessage');
+
+    if (pass !== confirm) {
+        e.preventDefault();
+        msg.textContent = "Passwords do not match";
+    } else {
+        msg.textContent = "";
+    }
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
-<script>
-    document.getElementById('resetPasswordForm').addEventListener('submit', function(event) {
-        var password = document.getElementById('password').value;
-        var confirmPassword = document.getElementById('confirmPassword').value;
-        var passwordMismatchMessage = document.getElementById('passwordMismatchMessage');
-
-        if (password !== confirmPassword) {
-            passwordMismatchMessage.textContent = 'Error: Passwords do not match';
-            event.preventDefault();
-        } else {
-            passwordMismatchMessage.textContent = '';
-        }
-    });
-</script>

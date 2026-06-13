@@ -2,15 +2,18 @@
 
 namespace App\Controllers;
 
-class ErrorController
+use App\Controllers\Core\Controller;
+use App\Helpers\View;
+use Exception;
+
+class ErrorController extends Controller
 {
     public function index($errorMessage = null)
     {
-        if (isset($_GET['message'])) {
-            $errorMessage = $_GET['message'];
-            require_once __DIR__ .'/../views/backend/errors/error.php';
-        } else {
-            $errorMessage = "Error message not provided.";
+        try {
+            return View::make('errors.500');
+        } catch (Exception $e) {
+            return $this->error($e);
         }
     }
 }

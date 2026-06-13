@@ -10,8 +10,6 @@ use PDOException;
 
 class HistoryRepository extends Repository
 {
-    private $db;
-
     public function getAllTourLocations()
     {
         try {
@@ -24,43 +22,59 @@ class HistoryRepository extends Repository
         }
     }
 
+    /**
+     * Summary of addTour
+     * @param mixed $timetable_id
+     * @param mixed $language_id
+     * @param mixed $available_guides
+     * @throws Exception
+     * @return bool
+     */
     public function addTour($timetable_id, $language_id, $available_guides)
-{
-    try {
+    {
+        try {
+            $stmt = $this->connection->prepare('
+                INSERT INTO history_tours (timetable_id, language_id, available_guides)
+                VALUES (:timetable_id, :language_id, :available_guides)
+            ');
+
+            $stmt->execute([
+                ':timetable_id'     => $timetable_id,
+                ':language_id'      => $language_id,
+                ':available_guides' => $available_guides
+            ]);
+
+            return true;
+        } catch (PDOException $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * Summary of updateTour
+     * @param mixed $id
+     * @param mixed $timetable_id
+     * @param mixed $language_id
+     * @param mixed $available_guides
+     * @return bool
+     */
+    public function updateTour($id, $timetable_id, $language_id, $available_guides)
+    {
         $stmt = $this->connection->prepare('
-            INSERT INTO history_tours (timetable_id, language_id, available_guides)
-            VALUES (:timetable_id, :language_id, :available_guides)
+            UPDATE history_tours 
+            SET timetable_id = :timetable_id,
+                language_id = :language_id,
+                available_guides = :available_guides
+            WHERE tour_id = :id
         ');
 
-        $stmt->execute([
+        return $stmt->execute([
             ':timetable_id'     => $timetable_id,
             ':language_id'      => $language_id,
-            ':available_guides' => $available_guides
+            ':available_guides' => $available_guides,
+            ':id'               => $id
         ]);
-
-        return true;
-    } catch (PDOException $e) {
-        throw new Exception($e->getMessage());
     }
-}
-
-public function updateTour($id, $timetable_id, $language_id, $available_guides)
-{
-    $stmt = $this->connection->prepare('
-        UPDATE history_tours 
-        SET timetable_id = :timetable_id,
-            language_id = :language_id,
-            available_guides = :available_guides
-        WHERE tour_id = :id
-    ');
-
-    return $stmt->execute([
-        ':timetable_id'     => $timetable_id,
-        ':language_id'      => $language_id,
-        ':available_guides' => $available_guides,
-        ':id'               => $id
-    ]);
-}
 
     public function getAllLanguages()
     {
@@ -83,6 +97,12 @@ public function updateTour($id, $timetable_id, $language_id, $available_guides)
             throw new Exception('Error: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Summary of getTourLocationById
+     * @param mixed $id
+     * @throws Exception
+     */
     public function getTourLocationById($id)
     {
         try {
@@ -112,12 +132,22 @@ public function updateTour($id, $timetable_id, $language_id, $available_guides)
         }
     }
 
+    /**
+     * Summary of deleteTour
+     * @param mixed $id
+     * @return bool
+     */
     public function deleteTour($id)
     {
         $stmt = $this->connection->prepare('DELETE FROM history_tours WHERE tour_id = :id');
         return $stmt->execute([':id' => $id]);
     }
 
+    /**
+     * Summary of getTourById
+     * @param mixed $id
+     * @throws Exception
+     */
     public function getTourById($id)
     {
         try {
@@ -131,6 +161,13 @@ public function updateTour($id, $timetable_id, $language_id, $available_guides)
         }
     }
 
+    /**
+     * Summary of updateLocation
+     * @param location $location
+     * @param mixed $id
+     * @throws Exception
+     * @return bool
+     */
     public function updateLocation(Location $location, $id): bool
     {
         try {
@@ -149,6 +186,12 @@ public function updateTour($id, $timetable_id, $language_id, $available_guides)
         }
     }
 
+    /**
+     * Summary of deleteLocation
+     * @param mixed $id
+     * @throws Exception
+     * @return bool
+     */
     public function deleteLocation($id)
     {
         try {
@@ -173,6 +216,11 @@ public function updateTour($id, $timetable_id, $language_id, $available_guides)
         }
     }
 
+    /**
+     * Summary of getContentById
+     * @param mixed $id
+     * @throws Exception
+     */
     public function getContentById($id)
     {
         try {
@@ -185,6 +233,12 @@ public function updateTour($id, $timetable_id, $language_id, $available_guides)
         }
     }
 
+    /**
+     * Summary of deleteContent
+     * @param mixed $id
+     * @throws Exception
+     * @return bool
+     */
     public function deleteContent($id)
     {
         try {
@@ -214,6 +268,13 @@ public function updateTour($id, $timetable_id, $language_id, $available_guides)
         }
     }
 
+    /**
+     * Summary of updateContent
+     * @param HistoryContent $content
+     * @param mixed $id
+     * @throws Exception
+     * @return bool
+     */
     public function updateContent(HistoryContent $content, $id)
     {
         try {
@@ -254,7 +315,6 @@ public function updateTour($id, $timetable_id, $language_id, $available_guides)
             $info = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             error_log('Database query result: ' . print_r($info, true));
-            // var_dump($sectionType);
             return $info;
         } catch (PDOException $e) {
             error_log('Database error: ' . $e->getMessage());
@@ -264,11 +324,11 @@ public function updateTour($id, $timetable_id, $language_id, $available_guides)
     public function getFilteredTours($language = null, $availableGuides = false)
     {
         try {
-            $sql = 'SELECT ht.date, ht.start_time, ht.end_time, tl.name, tl.flag_image, htour.available_guides, htour.tour_id
-                FROM history_timeslots ht
-                JOIN history_tours htour ON htour.timetable_id = ht.timetable_id
-                JOIN  tl ON tl.language_id = htour.language_id
-                WHERE 1 = 1'; // Start building the SQL query
+           $sql = 'SELECT ht.date, ht.start_time, ht.end_time, tl.name, tl.flag_image, htour.available_guides, htour.tour_id
+                    FROM history_timeslots ht
+                    JOIN history_tours htour ON htour.timetable_id = ht.timetable_id
+                    JOIN tour_language tl ON tl.language_id = htour.language_id
+                    WHERE 1 = 1';
 
             $params = [];
 

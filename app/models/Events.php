@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-class Events{
-
+class Events
+{
     private ?int $event_id;
     private string $title;
     private string $event_type;
@@ -27,15 +27,15 @@ class Events{
         string $primary_theme_color,
         string $secondary_theme_color
     ) {
-        $this->event_id = $event_id;
-        $this->event_type = $event_type;
-        $this->title = $title;
-        $this->event_image = $event_image;
-        $this->description = $description;
-        $this->event_status = $event_status;
-        $this->event_start_date = $event_start_date;
-        $this->event_end_date = $event_end_date;
-        $this->primary_theme_color = $primary_theme_color;
+        $this->event_id              = $event_id;
+        $this->event_type            = $event_type;
+        $this->title                 = $title;
+        $this->event_image           = $event_image;
+        $this->description           = $description;
+        $this->event_status          = $event_status;
+        $this->event_start_date      = $event_start_date;
+        $this->event_end_date        = $event_end_date;
+        $this->primary_theme_color   = $primary_theme_color;
         $this->secondary_theme_color = $secondary_theme_color;
     }
 
@@ -133,5 +133,4 @@ class Events{
     {
         $this->secondary_theme_color = $secondary_theme_color;
     }
-
 }

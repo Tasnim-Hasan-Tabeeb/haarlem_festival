@@ -2,247 +2,160 @@
 
 namespace App\Controllers;
 
-use App\Helpers\Helper;
+use App\Controllers\Core\Controller;
+use App\Helpers\View;
 use App\Services\FeatureService;
 use App\Services\RestaurantService;
 use App\Services\SessionService;
 use Exception;
 
-class RestaurantController
+class RestaurantController extends Controller
 {
-    private $restaurantService;
-    private $sessionService;
-    private $featureService;
-
+    private RestaurantService $restaurantService;
+    private SessionService $sessionService;
+    private FeatureService $featureService;
     public function __construct()
     {
         $this->restaurantService = new RestaurantService();
-        $this->sessionService = new SessionService();
-        $this->featureService = new FeatureService();
+        $this->sessionService    = new SessionService();
+        $this->featureService    = new FeatureService();
     }
 
+    /**
+     * Summary of index
+     */
     public function index()
     {
         try {
             $restaurants = $this->restaurantService->getAllRestaurants();
-            require __DIR__ . '/../views/backend/restaurants/index.php';
+            return View::make('backend.restaurants.index', compact('restaurants'));
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/restaurant');
         }
     }
 
+    /**
+     * Summary of create
+     * @return void
+     */
     public function create()
     {
-        $events = $this->sessionService->getAllEvents();
-        $features = $this->featureService->getAllFeatures();
-        require __DIR__ . '/../views/backend/restaurants/create.php';
+        try {
+            $events   = $this->sessionService->getAllEvents();
+            $features = $this->featureService->getAllFeatures();
+            return View::make('backend.restaurants.create', compact('events', 'features'));
+        } catch (Exception $e) {
+            return $this->handleException($e, '/restaurant');
+        }
     }
 
+    /**
+     * Summary of store
+     */
     public function store()
     {
         try {
-            $validateData = Helper::validate($_POST);
+            $restaurantId     = $this->restaurantService->createRestaurant();
             $selectedFeatures = isset($_POST['features']) ? $_POST['features'] : [];
-
-            $title = $validateData['title'];
-
-            $imageUrl = '';
-
-            if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
-                $file = $_FILES['image_url'];
-                $imageUrl = Helper::uploadFile($file);
-            }
-
-            $description = $validateData['description'];
-            $ratings = $validateData['ratings'];
-            $cuisines = $validateData['cuisines'];
-            $event_id = $validateData['event_id'];
-            $location = $validateData['location'];
-            $number_of_seats = $validateData['number_of_seats'];
-            $contact_email = $validateData['contact_email'];
-            $contact_phone = $validateData['contact_phone'];
-
-            $galleryImages = [];
-
-            if (!empty($_FILES['gallery_image_url']['name'])) {
-                foreach ($_FILES['gallery_image_url']['name'] as $key => $name) {
-                    if ($_FILES['gallery_image_url']['error'][$key] === UPLOAD_ERR_OK) {
-
-                        $fileName = $_FILES['gallery_image_url']['name'][$key];
-                        $tmpFilePath = $_FILES['gallery_image_url']['tmp_name'][$key];
-                        $uploadDir = __DIR__ . '/../public/images/';
-
-                        $newFileName = uniqid('', true) . '_' . $fileName;
-
-                        $uploadPath = $uploadDir . $newFileName;
-
-                        if (!move_uploaded_file($tmpFilePath, $uploadPath)) {
-                            $_SESSION['isError'] = 1;
-                            $_SESSION['flash_message'] = "Error uploading file: $fileName";
-                            header("Location: /restaurant");
-                            exit();
-                        }
-
-                        $uploadedImageUrl = '/images/' . $newFileName;
-
-                        $galleryImages[] = $uploadedImageUrl;
-                    }
-                }
-            }
-
-            $galleryImagesJson = json_encode($galleryImages);
-
-            $restaurantId = $this->restaurantService->createRestaurant($title, $imageUrl, $description, $ratings, $cuisines, $event_id, $location, $number_of_seats, $contact_email, $contact_phone, $galleryImagesJson);
-
             $this->restaurantService->associateFeaturesWithRestaurant($restaurantId, $selectedFeatures);
 
-            Helper::setMessage(false, "Restaurant added successfully!");
-            header("Location: /restaurant");
-            exit();
+           return $this->success('Restaurant created successfully', '/restaurant');
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+           return $this->handleException($e, '/restaurant');
         }
     }
 
+    /**
+     * Summary of view
+     */
     public function view()
     {
-        $id = $_GET['id'];
-        if (isset($id) && $id > 0) {
+        try {
+            $id         = $_GET['id'];
             $restaurant = $this->restaurantService->getRestaurant($id);
-            $sessions = $this->sessionService->getSessionsByRestaurantId($id);
-            require __DIR__ . '/../views/backend/restaurants/view.php';
-        } else {
-            header("Location: /error?message=Something went wrong with this restaurant data!");
-            exit();
+            $sessions   = $this->sessionService->getSessionsByRestaurantId($id);
+            return View::make('backend.restaurants.view', compact('restaurant', 'sessions'));
+        } catch (Exception $e) {
+            return $this->handleException($e, '/restaurant');
         }
     }
 
+    /**
+     * Summary of edit
+     */
     public function edit()
     {
-        $id = $_GET['id'];
-        if (isset($id) && $id > 0) {
-            $events = $this->sessionService->getAllEvents();
-            $features = $this->featureService->getAllFeatures();
+        try {
+            $id               = $_GET['id'];
+            $events           = $this->sessionService->getAllEvents();
+            $features         = $this->featureService->getAllFeatures();
             $selectedFeatures = $this->featureService->getAllFeaturesByRestaurantId($id);
-            $restaurant = $this->restaurantService->getRestaurant($id);
-            require __DIR__ . '/../views/backend/restaurants/edit.php';
-        } else {
-            header("Location: /error?message=Something went wrong with this restaurant data!");
-            exit();
+            $restaurant       = $this->restaurantService->getRestaurant($id);
+
+            return View::make('backend.restaurants.edit', compact('events', 'features', 'selectedFeatures', 'restaurant'));
+        } catch (Exception $e) {
+            return $this->handleException($e, '/restaurant');
         }
     }
 
+    /**
+     * Summary of update
+     */
     public function update()
     {
         try {
-            $id = $_POST['id'] ?? null;
-            if (!$id || $id <= 0) {
-                throw new Exception("Invalid restaurant ID provided.");
-            }
-
-            $validateData = Helper::validate($_POST);
+            $id               = $_POST['id'];
             $selectedFeatures = isset($_POST['features']) ? $_POST['features'] : [];
-            $existingRestaurant = $this->restaurantService->getRestaurant($id);
-            $existingImageUrl = $existingRestaurant['image_url'];
-            $imageUrl = $existingImageUrl;
-
-            $restaurant = $this->restaurantService->getRestaurant($id);
-
-            $title = $validateData['title'];
-
-            if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
-                $file = $_FILES['image_url'];
-                $imageUrl = Helper::uploadFile($file);
-                Helper::unlinkImage($existingImageUrl);
-            }
-
-            $description = $validateData['description'];
-            $ratings = $validateData['ratings'];
-            $cuisines = $validateData['cuisines'];
-            $event_id = $validateData['event_id'];
-            $location = $validateData['location'];
-            $number_of_seats = $validateData['number_of_seats'];
-            $contact_email = $validateData['contact_email'];
-            $contact_phone = $validateData['contact_phone'];
-
-            $galleryImages = [];
-
-            $previousGalleryImages = json_decode($restaurant['gallery_images'], true);
-
-            if (!empty($previousGalleryImages)) {
-                $galleryImages = $previousGalleryImages;
-            }
-
-            if (!empty($_FILES['gallery_image_url']['name'])) {
-                foreach ($_FILES['gallery_image_url']['name'] as $key => $name) {
-                    if ($_FILES['gallery_image_url']['error'][$key] === UPLOAD_ERR_OK) {
-                        $fileName = $_FILES['gallery_image_url']['name'][$key];
-                        $tmpFilePath = $_FILES['gallery_image_url']['tmp_name'][$key];
-                        $uploadDir = __DIR__ . '/../public/images/';
-
-                        $newFileName = uniqid('', true) . '_' . $fileName;
-                        $uploadPath = $uploadDir . $newFileName;
-
-                        if (!move_uploaded_file($tmpFilePath, $uploadPath)) {
-                            throw new Exception("Error uploading file: $fileName");
-                        }
-
-                        $uploadedImageUrl = '/images/' . $newFileName;
-                        $galleryImages[] = $uploadedImageUrl;
-                    }
-                }
-            }
-
-            $galleryImagesJson = json_encode($galleryImages);
-
-
-            $galleryImagesJson = json_encode($galleryImages);
-
-            $this->restaurantService->updateRestaurant($id, $title, $imageUrl, $description, $ratings, $cuisines, $event_id, $location, $number_of_seats, $contact_email, $contact_phone, $galleryImagesJson);
-
+            $this->restaurantService->updateRestaurant();
             $this->featureService->deleteFeatureByRestaurantId($id);
             $this->restaurantService->associateFeaturesWithRestaurant($id, $selectedFeatures);
 
-            Helper::setMessage(false, "Restaurant updated successfully!");
-            header("Location: /restaurant");
-            exit();
+            return $this->success('Restaurant updated successfully!', '/restaurant');
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+           return $this->handleException($e, '/restaurant');
         }
     }
 
+    /**
+     * Summary of delete
+     */
     public function delete()
     {
-        $id = $_GET['id'];
-        $existingRestaurant = $this->restaurantService->getRestaurant($id);
-        $existingImageUrl = $existingRestaurant['image_url'];
-        $existingGalleryImages = json_decode($existingRestaurant['gallery_images'], true);
-        if (isset($id) && $id > 0) {
-            Helper::unlinkImage($existingImageUrl);
-
-            foreach ($existingGalleryImages as $galleryImage) {
-                Helper::unlinkImage($galleryImage);
-            }
-
+        try {
+            $id = $_GET['id'];
             $this->restaurantService->deleteRestaurant($id);
-            Helper::setMessage(false, "Restaurant deleted successfully!");
-            header("Location: /restaurant");
-            exit();
-        } else {
-            header("Location: /error?message=Something went wrong with this restaurant data!");
-            exit();
+            return $this->success('Restaurant deleted successfully!', '/restaurant');
+        }  catch (Exception $e) {
+            return $this->handleException($e, '/restaurant');
         }
     }
 
+    /**
+     * Summary of details
+     */
     public function details()
     {
-        $id = $_GET['id'];
-        $restaurant = $this->restaurantService->getRestaurant($id);
-        $sessions = $this->sessionService->getSessionsByRestaurantId($id);
-        require '../views/frontend/yummy/details.php';
-        exit();
+        try {
+            $id         = $_GET['id'];
+            $restaurant = $this->restaurantService->getRestaurant($id);
+            $sessions   = $this->sessionService->getSessionsByRestaurantId($id);
+            return View::make('frontend.yummy.details', compact('restaurant', 'sessions'));
+        } catch (Exception $e) {
+            return $this->handleException($e, '/');
+        }
+    }
+
+    /**
+     * Summary of unlinkGalleryImage
+     */
+    public function unlinkGalleryImage()
+    {
+        try {
+            $id = $_GET['id'];
+            $this->restaurantService->unlinkGalleryImage($id);
+            return $this->redirectBack();
+        } catch (Exception $e) {
+            return $this->handleException($e, '/restaurant');
+        }
     }
 }

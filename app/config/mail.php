@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'host' => 'smtp.gmail.com',
-    'port' => 465,
+    'host'       => 'smtp.hostinger.com',
+    'port'       => 465,
     'SMTPSecure' => 'ssl',
-    'SMTPAuth' => true,
-    'username' => 'thefestival918@gmail.com',
-    'password' => 'nvopyclvyukcdzww',
-    'from_email' => 'thefestival918@gmail.com',
-    'from_name' => 'The Festival',
+    'SMTPAuth'   => true,
+    'username'   => 'haarlem-festival@qtechit.dev',
+    'password'   => '2zL4lft!',
+    'from_email' => 'haarlem-festival@qtechit.dev',
+    'from_name'  => 'Haarlem Festaival',
 ];

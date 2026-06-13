@@ -2,117 +2,96 @@
 
 namespace App\Controllers;
 
-use App\Helpers\Helper;
+use App\Controllers\Core\Controller;
+use App\Helpers\View;
 use App\Services\FeatureService;
 use Exception;
 
-class FeatureController
+class FeatureController extends Controller
 {
-    private $featureService;
+    private FeatureService $featureService;
 
     public function __construct()
     {
         $this->featureService = new FeatureService();
     }
 
+    /**
+     * Summary of index
+     */
     public function index()
     {
         try {
             $features = $this->featureService->getAllFeatures();
-            require __DIR__ . '/../views/backend/features/index.php';
+            return View::make('backend.features.index', compact('features'));
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+           return $this->handleException($e, '/feature');
         }
     }
 
+    /**
+     * Summary of create
+     */
     public function create()
     {
-        require __DIR__ . '/../views/backend/features/create.php';
+        try {
+            return View::make('backend.features.create');
+        } catch (Exception $e) {
+            return $this->handleException($e, '/feature');
+        }
     }
 
+    /**
+     * Summary of store
+     */
     public function store()
     {
         try {
-            $validatedData = Helper::validate($_POST);
-
-            $name = $validatedData['name'];
-            $imageUrl = '';
-
-            if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
-                $file = $_FILES['image_url'];
-                $imageUrl = Helper::uploadFile($file);
-            }
-
-            $this->featureService->createFeature($imageUrl, $name);
-
-            Helper::setMessage(false, "Feature added successfully!");
-            header("Location: /feature");
-            exit();
+            $this->featureService->createFeature();
+            return $this->success('Feature saved successfully!', '/feature');
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/feature');
         }
     }
 
+    /**
+     * Summary of edit
+     */
     public function edit()
     {
-        $id = $_GET['id'];
-        if (isset($id) && $id > 0) {
-            $feature = $this->featureService->getFeature($id);
-            require __DIR__ . '/../views/backend/features/edit.php';
-        } else {
-            header("Location: /error?message=something went wrong with this feature data!");
-            exit();
+        try {
+           $id      = $_GET['id'];
+           $feature = $this->featureService->getFeature($id);
+           return View::make('backend.features.edit', compact('feature'));
+        } catch (Exception $e) {
+            return $this->handleException($e, '/feature');
         }
     }
 
+    /**
+     * Summary of update
+     */
     public function update()
     {
         try {
-            $validatedData = Helper::validate($_POST);
-
-            $id = $_POST['id'];
-            $name = $validatedData['name'];
-            $existingFeature = $this->featureService->getFeature($id);
-            $existingImageUrl = $existingFeature['image_url'];
-
-            if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
-                $file = $_FILES['image_url'];
-
-                $imageUrl = Helper::uploadFile($file);
-
-                Helper::unlinkImage($existingImageUrl);
-
-                $this->featureService->updateFeature($id, $imageUrl, $name);
-              
-            } else {
-                $this->featureService->updateFeature($id, $existingImageUrl, $name);
-            }
-
-            Helper::setMessage(false, "Feature updated successfully!");
-            header("Location: /feature");
-            exit();
+            $this->featureService->updateFeature();
+            return $this->success('Feature updated successfully!', '/feature');
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+           return $this->handleException($e, '/feature');
         }
     }
 
+    /**
+     * Summary of delete
+     */
     public function delete()
     {
-        $id = $_GET['id'];
-        $existingFeature = $this->featureService->getFeature($id);
-        $existingImageUrl = $existingFeature['image_url'];
-        if (isset($id) && $id > 0) {
-            Helper::unlinkImage($existingImageUrl);
+        try {
+            $id = $_GET['id'];
             $this->featureService->deleteFeature($id);
-            Helper::setMessage(false, "Feature deleted successfully!");
-            header("Location: /feature");
-            exit();
-        } else {
-            header("Location: /error?message=something went wrong with this feature data!");
-            exit();
+            return $this->success('Feature deleted successfully!', '/feature');
+        } catch (Exception $e) {
+           return $this->handleException($e, '/feature');
         }
     }
 }

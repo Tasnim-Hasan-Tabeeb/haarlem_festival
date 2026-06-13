@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
+use App\Controllers\Core\Controller;
 use App\Services\OrderService;
 
-class ScanTicketController
+class ScanTicketController extends Controller
 {
-    private $orderService;
+    private OrderService $orderService;
 
     public function __construct()
     {
@@ -16,15 +17,21 @@ class ScanTicketController
 
     public function scanTicket(): void
     {
+        // try {
+        //     //code...
+        // } catch (Exception $e) {
+        //     return $this->handleException($e, '/session');
+        // }
+
         require_once __DIR__ . '/../views/frontend/scan-ticket.php';
     }
 
     public function verifyTicket(): void
     {
         try {
-            $postData = file_get_contents('php://input');
+            $postData      = file_get_contents('php://input');
             $postDataArray = json_decode($postData, true);
-            
+
             if (isset($postDataArray['code'])) {
                 $qrCode = $postDataArray['code'];
                 $ticket = $this->orderService->getTicketWithQRCode($qrCode);
