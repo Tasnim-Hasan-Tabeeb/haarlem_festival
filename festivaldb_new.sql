@@ -880,18 +880,20 @@ CREATE TABLE `ticket_pass` (
   `passName` varchar(255) DEFAULT NULL,
   `passDescription` text DEFAULT NULL,
   `passPrice` decimal(10,2) DEFAULT NULL,
-  `passType` varchar(100) DEFAULT NULL
+  `passType` varchar(100) DEFAULT NULL,
+  `event_date` date DEFAULT NULL,
+  `pass_scope` enum('day','all_dates') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `ticket_pass`
 --
 
-INSERT INTO `ticket_pass` (`pass_id`, `passName`, `passDescription`, `passPrice`, `passType`) VALUES
-(1, 'Saturday Dance Pass', 'Access to all Haarlem Festival dance events on Saturday 27 July 2024.', 79.00, 'Day Pass'),
-(2, 'Sunday Dance Pass', 'Access to all Haarlem Festival dance events on Sunday 28 July 2024.', 79.00, 'Day Pass'),
-(3, 'Weekend Dance Pass', 'Full access to all Haarlem Festival dance events from 27 to 29 July 2024.', 199.00, 'Weekend Pass'),
-(4, 'Friday Dance Pass', 'Access to all Haarlem Festival dance events on Friday 26 July 2024.', 79.00, 'Day Pass');
+INSERT INTO `ticket_pass` (`pass_id`, `passName`, `passDescription`, `passPrice`, `passType`, `event_date`, `pass_scope`) VALUES
+(1, 'Saturday Dance Pass', 'Access to all Haarlem Festival dance events on Saturday 27 June 2026.', 79.00, 'Day Pass', '2026-06-27', 'day'),
+(2, 'Sunday Dance Pass', 'Access to all Haarlem Festival dance events on Sunday 2 August 2026.', 79.00, 'Day Pass', '2026-08-02', 'day'),
+(3, 'All-Round Dance Pass', 'Access to every date that currently has a Haarlem Festival dance performance.', 199.00, 'All-Round Pass', NULL, 'all_dates'),
+(4, 'Friday Dance Pass', 'Access to all Haarlem Festival dance events on Friday 31 July 2026.', 79.00, 'Day Pass', '2026-07-31', 'day');
 
 -- --------------------------------------------------------
 

@@ -10,7 +10,7 @@
         <img src="/images/overview/dance.webp" alt="DANCE!">
         <div class="dance-image__content">
             <h1>DANCE!</h1>
-            <p>Three days of live sets, unforgettable artists and Haarlem's best dance venues.</p>
+            <p>Live sets, unforgettable artists and Haarlem's best dance venues.</p>
             <a href="#dance-tickets">View tickets</a>
         </div>
     </div>
@@ -70,135 +70,13 @@
     </div>
 </div>
 
-<!-- ── DAY 1 ──────────────────────────────────────────────── -->
-<section class="dance-tickets" id="dance-tickets">
-<div class="dance-tickets__heading">
-    <h2>Tickets</h2>
-    <p>Choose a day pass or reserve a spot for an individual performance.</p>
-</div>
-
-<div class="section-4a dance-day">
-    <h3 class="ticket-list">Day 1 <span>Friday</span></h3>
-
-    <div class="passes-container">
-        <?php foreach ($allAccessPass as $pass): ?>
-            <?= renderPass($pass) ?>
-        <?php endforeach; ?>
-        <?php foreach ($fridayPass as $pass): ?>
-            <?= renderPass($pass) ?>
-        <?php endforeach; ?>
-    </div>
-
-    <div class="tickets-container">
-        <?php foreach ($fridayTickets as $ticket): ?>
-            <?= renderTicket($ticket) ?>
-        <?php endforeach; ?>
-        <?php if (empty($fridayTickets)): ?>
-            <p class="no-data">No tickets available for Day 1.</p>
-        <?php endif; ?>
-    </div>
-</div>
-
-<!-- ── DAY 2 ──────────────────────────────────────────────── -->
-<div class="section-4b dance-day">
-    <h3 class="ticket-list">Day 2 <span>Saturday</span></h3>
-
-    <div class="passes-container">
-        <?php foreach ($allAccessPass as $pass): ?>
-            <?= renderPass($pass) ?>
-        <?php endforeach; ?>
-        <?php foreach ($saturdayPass as $pass): ?>
-            <?= renderPass($pass) ?>
-        <?php endforeach; ?>
-    </div>
-
-    <div class="tickets-container">
-        <?php foreach ($saturdayTickets as $ticket): ?>
-            <?= renderTicket($ticket) ?>
-        <?php endforeach; ?>
-        <?php if (empty($saturdayTickets)): ?>
-            <p class="no-data">No tickets available for Day 2.</p>
-        <?php endif; ?>
-    </div>
-</div>
-
-<!-- ── DAY 3 ──────────────────────────────────────────────── -->
-<div class="section-4c dance-day">
-    <h3 class="ticket-list">Day 3 <span>Sunday</span></h3>
-
-    <div class="passes-container">
-        <?php foreach ($allAccessPass as $pass): ?>
-            <?= renderPass($pass) ?>
-        <?php endforeach; ?>
-        <?php foreach ($sundayPass as $pass): ?>
-            <?= renderPass($pass) ?>
-        <?php endforeach; ?>
-    </div>
-
-    <div class="tickets-container">
-        <?php foreach ($sundayTickets as $ticket): ?>
-            <?= renderTicket($ticket) ?>
-        <?php endforeach; ?>
-        <?php if (empty($sundayTickets)): ?>
-            <p class="no-data">No tickets available for Day 3.</p>
-        <?php endif; ?>
-    </div>
-</div>
-</section>
+<?php require __DIR__ . '/tickets.php'; ?>
 </main>
 
 <!-- ── TOAST ──────────────────────────────────────────────── -->
 <div class="dance-toast" id="danceToast"></div>
 
 <?php include __DIR__ . '/../inc/footer.php'; ?>
-
-<?php
-/* ── PHP HELPERS ─────────────────────────────────────────── */
-function renderPass(array $pass): string {
-    return '
-    <div class="pass-container">
-        <div class="top-section">
-            <p class="pass-name">' . htmlspecialchars($pass['passName']) . '</p>
-        </div>
-        <div class="bottom-section">
-            <div class="pass-details">
-                <p class="pass-description">' . htmlspecialchars($pass['passDescription']) . '</p>
-                <p class="pass-price">€' . htmlspecialchars($pass['passPrice']) . '</p>
-            </div>
-            <button class="buy-pass-button" data-passtype="' . htmlspecialchars($pass['passType']) . '">Add to cart</button>
-        </div>
-    </div>';
-}
-
-function renderTicket(array $ticket): string {
-    $imgSrc = strpos($ticket['music_event_image'], '/') === 0
-        ? $ticket['music_event_image']
-        :  $ticket['music_event_image'];
-
-    return '
-    <div class="ticket-container">
-        <div class="ticket">
-            <div class="ticket-image">
-                <img src="' . htmlspecialchars($imgSrc) . '" alt="' . htmlspecialchars($ticket['event_name']) . '" />
-            </div>
-            <div class="ticket-details">
-                <h2>' . htmlspecialchars($ticket['event_name']) . '</h2>
-                <div class="ticket-info">
-                    <p><strong>Location:</strong> ' . htmlspecialchars($ticket['venue_name']) . '</p>
-                    <p><strong>Duration:</strong> ' . htmlspecialchars($ticket['event_duration']) . ' min</p>
-                    <p><strong>Date &amp; Time:</strong> ' . htmlspecialchars($ticket['event_date']) . ' ' . htmlspecialchars($ticket['event_start_time']) . '</p>
-                    <p><strong>Session:</strong> ' . htmlspecialchars($ticket['session_type']) . '</p>
-                    <p><strong>Price:</strong> €' . htmlspecialchars($ticket['event_price']) . '</p>
-                </div>
-            </div>
-            <input type="hidden" class="music-performance-id" value="' . htmlspecialchars($ticket['music_performance_id']) . '" />
-            <div class="ticket-buttons">
-                <button class="buy-button">Add To Cart</button>
-            </div>
-        </div>
-    </div>';
-}
-?>
 
 <script>
 $(document).ready(function () {
@@ -266,12 +144,12 @@ $(document).ready(function () {
     /* ── BUY PASS ─────────────────────────────────────────── */
     $(document).on('click', '.buy-pass-button', function (e) {
         e.preventDefault();
-        const passType = $(this).data('passtype');
+        const passId = $(this).data('pass-id');
 
         $.ajax({
             url: '/dance/addpasstobasket',
             method: 'POST',
-            data: { pass_type: passType },
+            data: { pass_id: passId },
             success: function () {
                 $('.cart-counter').removeClass('d-none');
                 let counter = $('.cart-counter').text() || 0;

@@ -111,7 +111,7 @@
                     <p class="hf-event-card__desc"><?= htmlspecialchars($yummyEvent['description']) ?></p>
 
                     <div class="hf-event-card__footer">
-                        <a href="/home/page?slug=yummy&id=7" class="hf-event-card__cta">
+                        <a href="/home/page?slug=yummy&id=6" class="hf-event-card__cta">
                             View Event →
                         </a>
                     </div>
@@ -127,4 +127,3 @@
 
 <script src="/frontend/js/home.js"></script>
 <?php include __DIR__ . '/inc/footer.php'; ?>
-

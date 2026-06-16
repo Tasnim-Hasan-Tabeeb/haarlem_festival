@@ -90,80 +90,13 @@ class DanceRepository extends Repository
     {
         try {
             $sql = $this->baseEventQuery() . '
+                WHERE me.event_date = :event_date
                 GROUP BY mp.music_event_id
+                ORDER BY me.event_start_time ASC
             ';
 
             $stmt = $this->connection->prepare($sql);
             $stmt->bindParam(':event_date', $date);
-            $stmt->execute();
-
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
-
-    /**
-     * Summary of getFridayEvents
-     * @throws Exception
-     * @return array
-     */
-    public function getFridayEvents()
-    {
-        try {
-            $sql = $this->baseEventQuery() . '
-                WHERE me.event_date >= CURDATE()
-                AND DAYNAME(me.event_date) = "Friday"
-                GROUP BY mp.music_event_id
-            ';
-
-            $stmt = $this->connection->prepare($sql);
-            $stmt->execute();
-
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
-
-    /**
-     * Summary of getSaturdayEvents
-     * @throws Exception
-     * @return array
-     */
-    public function getSaturdayEvents()
-    {
-        try {
-            $sql = $this->baseEventQuery() . '
-                WHERE me.event_date >= CURDATE()
-                AND DAYNAME(me.event_date) = "Saturday"
-                GROUP BY mp.music_event_id
-            ';
-
-            $stmt = $this->connection->prepare($sql);
-            $stmt->execute();
-
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
-
-    /**
-     * Summary of getSundayEvents
-     * @throws Exception
-     * @return array
-     */
-   public function getSundayEvents()
-    {
-        try {
-            $sql = $this->baseEventQuery() . '
-                WHERE me.event_date >= CURDATE()
-                AND DAYNAME(me.event_date) = "Sunday"
-                GROUP BY mp.music_event_id
-            ';
-
-            $stmt = $this->connection->prepare($sql);
             $stmt->execute();
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -183,6 +116,7 @@ class DanceRepository extends Repository
             $sql = $this->baseEventQuery() . '
                 WHERE me.event_date >= CURDATE()
                 GROUP BY mp.music_event_id
+                ORDER BY me.event_date ASC, me.event_start_time ASC
             ';
 
             $stmt = $this->connection->prepare($sql);
@@ -463,15 +397,15 @@ class DanceRepository extends Repository
     {
     }
 
-    public function getPassDetailsByType(string $passType)
+    public function getPassDetailsById(int $passId)
     {
         $stmt = $this->connection->prepare('
-            SELECT pass_id, passName, passDescription, passPrice, passType
+            SELECT pass_id, passName, passDescription, passPrice, passType, event_date, pass_scope
             FROM ticket_pass
-            WHERE passType = :type
+            WHERE pass_id = :pass_id
         ');
 
-        $stmt->bindParam(':type', $passType);
+        $stmt->bindParam(':pass_id', $passId, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);

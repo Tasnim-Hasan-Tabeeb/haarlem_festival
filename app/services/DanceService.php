@@ -13,10 +13,14 @@ class DanceService
 {
     use Fileable;
     private DanceRepository $danceRepository;
+    private DancePageDataBuilder $pageDataBuilder;
 
-    public function __construct()
-    {
-        $this->danceRepository = new DanceRepository();
+    public function __construct(
+        ?DanceRepository $danceRepository = null,
+        ?DancePageDataBuilder $pageDataBuilder = null
+    ) {
+        $this->danceRepository = $danceRepository ?? new DanceRepository();
+        $this->pageDataBuilder = $pageDataBuilder ?? new DancePageDataBuilder();
     }
 
     public function getAllEvents()
@@ -28,28 +32,13 @@ class DanceService
         }
     }
 
-    public function getFridayEvents()
+    public function getDancePageData(): array
     {
         try {
-            return $this->danceRepository->getFridayEvents();
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
-    }
-
-    public function getSaturdayEvents()
-    {
-        try {
-            return $this->danceRepository->getSaturdayEvents();
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
-    }
-
-    public function getSundayEvents()
-    {
-        try {
-            return $this->danceRepository->getSundayEvents();
+            return $this->pageDataBuilder->build(
+                $this->danceRepository->getActiveEvents(),
+                $this->danceRepository->getAllPasses()
+            );
         } catch (Exception $e) {
             throw new Exception('Error: ' . $e->getMessage());
         }
@@ -223,10 +212,10 @@ class DanceService
             throw new Exception('Error: ' . $e->getMessage());
         }
     }
-    public function getPassDetailsByType(string $passType)
+    public function getPassDetailsById(int $passId)
     {
         try {
-            return $this->danceRepository->getPassDetailsByType($passType);
+            return $this->danceRepository->getPassDetailsById($passId);
         } catch (Exception $e) {
             throw new Exception('Error: ' . $e->getMessage());
         }
@@ -235,24 +224,22 @@ class DanceService
     public function createPass()
     {
         try {
-            Validator::validate(
-                $_POST,
-                ['pass_type' => 'required']
-            );
+            Validator::validate($_POST, ['pass_id' => 'required|numeric']);
 
-            $passType = $_POST['pass_type'];
-
-            $passDetails = $this->getPassDetailsByType($passType);
+            $passId = (int) $_POST['pass_id'];
+            $passDetails = $this->getPassDetailsById($passId);
             if (!$passDetails) {
                 throw new Exception('Pass not found');
             }
 
             $pass = new TicketPass(
-                $passDetails['pass_id'],
+                (int) $passDetails['pass_id'],
                 $passDetails['passName'],
                 $passDetails['passDescription'],
-                $passDetails['passPrice'],
+                (int) $passDetails['passPrice'],
                 $passDetails['passType'],
+                $passDetails['pass_scope'],
+                $passDetails['event_date'],
                 1
             );
 

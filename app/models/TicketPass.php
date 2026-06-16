@@ -11,6 +11,8 @@ class TicketPass implements BasketItemInterface
     private string $passDescription;
     private int $passPrice;
     private string $passType;
+    private string $passScope;
+    private ?string $eventDate;
     private string $quantity;
 
     public function __construct(
@@ -19,7 +21,9 @@ class TicketPass implements BasketItemInterface
         string $passDescription,
         int    $passPrice,
         string $passType,
-        int   $quantity
+        string $passScope,
+        ?string $eventDate,
+        int $quantity
     )
     {
         $this->pass_id         = $pass_id;
@@ -27,6 +31,8 @@ class TicketPass implements BasketItemInterface
         $this->passDescription = $passDescription;
         $this->passPrice       = $passPrice;
         $this->passType        = $passType;
+        $this->passScope       = $passScope;
+        $this->eventDate       = $eventDate;
         $this->quantity        = $quantity;
     }
 
@@ -80,6 +86,16 @@ class TicketPass implements BasketItemInterface
         $this->passType = $passType;
     }
 
+    public function getPassScope()
+    {
+        return $this->passScope;
+    }
+
+    public function getEventDate()
+    {
+        return $this->eventDate;
+    }
+
     public function getQuantity()
     {
         return $this->quantity;
@@ -93,10 +109,13 @@ class TicketPass implements BasketItemInterface
     public function toArray()
     {
         return [
+            'pass_id'         => $this->pass_id,
             'passName'        => $this->passName,
             'passDescription' => $this->passDescription,
             'passPrice'       => $this->passPrice,
             'passType'        => $this->passType,
+            'passScope'       => $this->passScope,
+            'eventDate'       => $this->eventDate,
             'quantity'        => $this->quantity
         ];
     }

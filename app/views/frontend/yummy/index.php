@@ -1,6 +1,7 @@
 <?php include __DIR__ . '/../inc/header.php'; ?>
 
-<link rel="stylesheet" href="/frontend/css/yummy.css" />
+<?php $yummyCssVersion = filemtime(__DIR__ . '/../../../public/frontend/css/yummy.css'); ?>
+<link rel="stylesheet" href="/frontend/css/yummy.css?v=<?= $yummyCssVersion ?>" />
 
 <div class="yf-container">
 

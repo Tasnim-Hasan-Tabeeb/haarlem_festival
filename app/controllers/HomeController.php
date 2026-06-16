@@ -209,44 +209,15 @@ class HomeController extends Controller
      */
     private function loadDancePage()
     {
-        $passes = $this->danceService->getAllPasses();
+        $dancePageData = $this->danceService->getDancePageData();
 
         return View::make('frontend/dance/index', [
-            'artists'         => $this->artistService->getAllArtists(),
-            'venues'          => $this->venueService->getAllVenues(),
-            'fridayTickets'   => $this->danceService->getFridayEvents(),
-            'saturdayTickets' => $this->danceService->getSaturdayEvents(),
-            'sundayTickets'   => $this->danceService->getSundayEvents(),
-            'title'           => 'Dance',
-            ...$this->groupPasses($passes)
+            'artists' => $this->artistService->getAllArtists(),
+            'venues' => $this->venueService->getAllVenues(),
+            'danceDays' => $dancePageData['danceDays'],
+            'allDatesPass' => $dancePageData['allDatesPass'],
+            'title' => 'Dance',
         ]);
-    }
-
-    /**
-     * Summary of groupPasses
-     * @param array $passes
-     * @return array[]|array{allAccessPass: array, fridayPass: array, saturdayPass: array, sundayPass: array}
-     */
-    private function groupPasses(array $passes): array
-    {
-        $grouped = [
-            'fridayPass'    => [],
-            'saturdayPass'  => [],
-            'sundayPass'    => [],
-            'allAccessPass' => [],
-        ];
-
-        foreach ($passes as $pass) {
-            match ($pass['passType']) {
-                'One-Day Pass (Friday)' => $grouped['fridayPass'][]    = $pass,
-                'Day Pass (Saturday)'   => $grouped['saturdayPass'][]  = $pass,
-                'One-Day Pass (Sunday)' => $grouped['sundayPass'][]    = $pass,
-                'All-Access Pass'       => $grouped['allAccessPass'][] = $pass,
-                default                 => null
-            };
-        }
-
-        return $grouped;
     }
 
     /**
