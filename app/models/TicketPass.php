@@ -6,15 +6,14 @@ use App\Interfaces\BasketItemInterface;
 
 class TicketPass implements BasketItemInterface
 {
-
     private int $pass_id;
     private string $passName;
     private string $passDescription;
     private int $passPrice;
     private string $passType;
+    private string $passScope;
+    private ?string $eventDate;
     private string $quantity;
-
-
 
     public function __construct(
         int    $pass_id,
@@ -22,15 +21,19 @@ class TicketPass implements BasketItemInterface
         string $passDescription,
         int    $passPrice,
         string $passType,
-        int   $quantity
+        string $passScope,
+        ?string $eventDate,
+        int $quantity
     )
     {
-        $this->pass_id = $pass_id;
-        $this->passName = $passName;
+        $this->pass_id         = $pass_id;
+        $this->passName        = $passName;
         $this->passDescription = $passDescription;
-        $this->passPrice = $passPrice;
-        $this->passType = $passType;
-        $this->quantity = $quantity;
+        $this->passPrice       = $passPrice;
+        $this->passType        = $passType;
+        $this->passScope       = $passScope;
+        $this->eventDate       = $eventDate;
+        $this->quantity        = $quantity;
     }
 
     public function getPassId()
@@ -73,7 +76,6 @@ class TicketPass implements BasketItemInterface
         $this->passPrice = $passPrice;
     }
 
-
     public function getPassType()
     {
         return $this->passType;
@@ -82,6 +84,16 @@ class TicketPass implements BasketItemInterface
     public function setPassType($passType)
     {
         $this->passType = $passType;
+    }
+
+    public function getPassScope()
+    {
+        return $this->passScope;
+    }
+
+    public function getEventDate()
+    {
+        return $this->eventDate;
     }
 
     public function getQuantity()
@@ -94,15 +106,17 @@ class TicketPass implements BasketItemInterface
         $this->quantity = $quantity;
     }
 
-
     public function toArray()
     {
         return [
-            'passName' => $this->passName,
+            'pass_id'         => $this->pass_id,
+            'passName'        => $this->passName,
             'passDescription' => $this->passDescription,
-            'passPrice' => $this->passPrice,
-            'passType' => $this->passType,
-            'quantity' => $this->quantity
+            'passPrice'       => $this->passPrice,
+            'passType'        => $this->passType,
+            'passScope'       => $this->passScope,
+            'eventDate'       => $this->eventDate,
+            'quantity'        => $this->quantity
         ];
     }
 

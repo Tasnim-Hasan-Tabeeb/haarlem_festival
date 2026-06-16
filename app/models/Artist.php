@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Models;
+
 class Artist
 {
-
     public ?int $artist_id;
     public string $artist_name;
     public string $artist_real_name;
@@ -11,20 +11,20 @@ class Artist
     public string $nationality;
     public string $genre;
     public string $about;
-    public string $image_url;
-    public string $detail_image;
+    public string | null $image_url;
+    public string | null $detail_image;
 
-    public function __construct(?int $artist_id, string $artist_name, string $artist_real_name, string $age, string $nationality, string $genre, string $about, string $image_url, string $detail_image)
+    public function __construct(?int $artist_id, string $artist_name, string $artist_real_name, string $age, string $nationality, string $genre, string $about, ?string $image_url = null, ?string $detail_image = null)
     {
-        $this->artist_id = $artist_id;
-        $this->artist_name = $artist_name;
-        $this->age = $age;
-        $this->nationality = $nationality;
-        $this->genre = $genre;
-        $this->about = $about;
-        $this->image_url = $image_url;
+        $this->artist_id        = $artist_id;
+        $this->artist_name      = $artist_name;
+        $this->age              = $age;
+        $this->nationality      = $nationality;
+        $this->genre            = $genre;
+        $this->about            = $about;
+        $this->image_url        = $image_url;
         $this->artist_real_name = $artist_real_name;
-        $this->detail_image = $detail_image;
+        $this->detail_image     = $detail_image;
     }
 
     public function getArtist_id(): int
@@ -71,11 +71,11 @@ class Artist
     {
         $this->artist_real_name = $artist_real_name;
     }
-    public function getDetail_image(): string
+    public function getDetail_image(): string | null
     {
         return $this->detail_image;
     }
-    public function setDetail_image(string $detail_image): void
+    public function setDetail_image(? string $detail_image = null): void
     {
         $this->detail_image = $detail_image;
     }
@@ -91,13 +91,12 @@ class Artist
     {
         $this->about = $about;
     }
-    public function getImage_url(): string
+    public function getImage_url(): string | null
     {
         return $this->image_url;
     }
-    public function setImage_url(string $image_url): void
+    public function setImage_url(?string $image_url = null): void
     {
         $this->image_url = $image_url;
     }
-
 }

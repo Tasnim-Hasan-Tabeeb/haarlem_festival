@@ -3,25 +3,23 @@
 namespace App\Repositories;
 
 use App\Models\Role;
-use App\Repositories\Repository;
 use App\Models\User;
+use App\Repositories\Repository;
 use Exception;
 use PDO;
 use PDOException;
 
 class UserRepository extends Repository
 {
-    private $db;
-
     public function getAllUsers()
     {
         try {
-            $stmt = $this->connection->prepare("SELECT * FROM users");
+            $stmt = $this->connection->prepare('SELECT * FROM users');
             $stmt->execute();
             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $users;
         } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
+            echo 'Error: ' . $e->getMessage();
         }
     }
 
@@ -38,14 +36,20 @@ class UserRepository extends Repository
             $user->setregistration_date($user['registration_date']);
             return $user;
         } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
+            echo 'Error: ' . $e->getMessage();
         }
     }
 
+    /**
+     * Summary of authenticateUser
+     * @param mixed $email
+     * @param mixed $password
+     * @throws Exception
+     */
     public function authenticateUser($email, $password)
     {
         try {
-            $stmt = $this->connection->prepare("SELECT * FROM users WHERE email = :email");
+            $stmt = $this->connection->prepare('SELECT * FROM users WHERE email = :email');
             $stmt->bindParam(':email', $email);
             $stmt->execute();
             $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -56,15 +60,21 @@ class UserRepository extends Repository
             }
             return null;
         } catch (PDOException $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
+    /**
+     * Summary of registerUser
+     * @param mixed $newUser
+     * @throws Exception
+     * @return bool
+     */
     public function registerUser($newUser): bool
     {
         try {
-            $sql = "INSERT INTO users (name, email, password, role, profile_picture) 
-                VALUES (:name, :email, :password, :role, :profile_picture)";
+            $sql = 'INSERT INTO users (name, email, password, role, profile_picture) 
+                VALUES (:name, :email, :password, :role, :profile_picture)';
             $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(':name', $newUser['name']);
             $stmt->bindValue(':email', $newUser['email']);
@@ -74,10 +84,15 @@ class UserRepository extends Repository
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
+    /**
+     * Summary of checkUserExistence
+     * @param mixed $stmt
+     * @return bool
+     */
     private function checkUserExistence($stmt): bool
     {
         try {
@@ -92,10 +107,14 @@ class UserRepository extends Repository
         }
     }
 
+    /**
+     * Summary of checkUserExistenceByEmail
+     * @param mixed $email
+     */
     public function checkUserExistenceByEmail($email)
     {
         try {
-            $stmt = $this->connection->prepare("SELECT user_id From users WHERE email= :email");
+            $stmt = $this->connection->prepare('SELECT user_id From users WHERE email= :email');
             $stmt->bindValue(':email', $email);
             if ($this->checkUserExistence($stmt)) {
                 $stmt->execute();
@@ -110,24 +129,29 @@ class UserRepository extends Repository
     public function storeUser(User $user)
     {
         try {
-            $stmt = $this->connection->prepare("INSERT INTO users (name, email, password, role, profile_picture) VALUES (:name, :email, :password, :role, :profile_picture)");
+            $stmt = $this->connection->prepare('INSERT INTO users (name, email, password, role, profile_picture) VALUES (:name, :email, :password, :role, :profile_picture)');
             $stmt->execute([
-                ':name' => $user->getname(),
-                ':email' => $user->getemail(),
-                ':password' => $user->getpassword(),
-                ':role' => $user->getrole(),
+                ':name'            => $user->getname(),
+                ':email'           => $user->getemail(),
+                ':password'        => $user->getpassword(),
+                ':role'            => $user->getrole(),
                 ':profile_picture' => $user->getprofilepicture(),
             ]);
             return true;
         } catch (PDOException $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
+    /**
+     * Summary of getUserById
+     * @param mixed $userId
+     * @throws Exception
+     */
     public function getUserById($userId)
     {
         try {
-            $stmt = $this->connection->prepare("SELECT * FROM users WHERE user_id = :userid");
+            $stmt = $this->connection->prepare('SELECT * FROM users WHERE user_id = :userid');
             $stmt->bindParam(':userid', $userId);
             $stmt->execute();
             $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -136,43 +160,60 @@ class UserRepository extends Repository
             }
             return null;
         } catch (PDOException $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
+    /**
+     * Summary of updateUser
+     * @param mixed $user
+     * @throws Exception
+     * @return bool
+     */
     public function updateUser($user)
     {
         try {
-            $stmt = $this->connection->prepare("UPDATE users SET name = :name, email = :email, role = :role, profile_picture = :profile_picture WHERE user_id = :userid");
+            $stmt = $this->connection->prepare('UPDATE users SET name = :name, email = :email, role = :role, profile_picture = :profile_picture WHERE user_id = :userid');
             $stmt->execute([
-                ':userid' => $user['user_id'],
-                ':name' => $user['name'],
-                ':email' => $user['email'],
-                ':role' => $user['role'],
+                ':userid'          => $user['user_id'],
+                ':name'            => $user['name'],
+                ':email'           => $user['email'],
+                ':role'            => $user['role'],
                 ':profile_picture' => $user['profile_picture'],
             ]);
             return true;
         } catch (PDOException $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
+    /**
+     * Summary of deleteUser
+     * @param mixed $userId
+     * @throws Exception
+     * @return bool
+     */
     public function deleteUser($userId)
     {
         try {
-            $stmt = $this->connection->prepare("DELETE FROM users WHERE user_id = :userid");
+            $stmt = $this->connection->prepare('DELETE FROM users WHERE user_id = :userid');
             $stmt->bindParam(':userid', $userId);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
+    /**
+     * Summary of getUserByEmail
+     * @param mixed $email
+     * @throws Exception
+     */
     public function getUserByEmail($email)
     {
         try {
-            $stmt = $this->connection->prepare("SELECT * FROM users WHERE email = :email");
+            $stmt = $this->connection->prepare('SELECT * FROM users WHERE email = :email');
             $stmt->bindParam(':email', $email);
             $stmt->execute();
             $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -183,18 +224,23 @@ class UserRepository extends Repository
 
             return null;
         } catch (PDOException $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
-
-
+    /**
+     * Summary of resetPassword
+     * @param mixed $email
+     * @param mixed $password
+     * @throws Exception
+     * @return bool
+     */
     public function resetPassword($email, $password)
     {
         try {
-            $stmt = $this->connection->prepare("UPDATE users SET password = :password WHERE email = :email");
+            $stmt = $this->connection->prepare('UPDATE users SET password = :password WHERE email = :email');
             $stmt->execute([
-                ':email' => $email,
+                ':email'    => $email,
                 ':password' => $password,
             ]);
             unset($_SESSION['password_reset_token']);
@@ -202,8 +248,49 @@ class UserRepository extends Repository
 
             return true;
         } catch (PDOException $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
+    /**
+     * Summary of updateProfile
+     * @param mixed $user
+     * @throws Exception
+     * @return bool
+     */
+    public function updateProfile($user)
+    {
+        try {
+            $stmt = $this->connection->prepare('UPDATE users SET name = :name, profile_picture = :profile_picture WHERE user_id = :userid');
+            $stmt->execute([
+                ':userid'          => $user['user_id'],
+                ':name'            => $user['name'],
+                ':profile_picture' => $user['profile_picture'],
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            throw new Exception('Error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Summary of updatePassword
+     * @param mixed $userId
+     * @param mixed $password
+     * @throws Exception
+     * @return bool
+     */
+    public function updatePassword($userId, $password)
+    {
+        try {
+            $stmt = $this->connection->prepare('UPDATE users SET password = :password WHERE user_id = :userid');
+            $stmt->execute([
+                ':userid'   => $userId,
+                ':password' => $password,
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            throw new Exception('Error: ' . $e->getMessage());
+        }
+    }
 }

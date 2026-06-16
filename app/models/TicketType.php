@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-enum TicketType:string
+enum TicketType: string
 {
     case REGULAR = 'Regular';
-    case FAMILY = 'Family';
+    case FAMILY  = 'Family';
 
     public static function getTicketType(self $value): string
     {
         return match ($value) {
             self::REGULAR => 'Regular',
-            self::FAMILY => 'Family',
+            self::FAMILY  => 'Family',
         };
     }
     public static function createFrom(string $value)

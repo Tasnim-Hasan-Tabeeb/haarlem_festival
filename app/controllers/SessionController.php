@@ -2,130 +2,103 @@
 
 namespace App\Controllers;
 
-use App\Helpers\Helper;
-use App\Services\SessionService;
+use App\Controllers\Core\Controller;
+use App\Helpers\View;
 use App\Services\RestaurantService;
+use App\Services\SessionService;
 use Exception;
 
-class SessionController
+class SessionController extends Controller
 {
-    private $sessionService;
-    private $restaurantService;
+    private SessionService $sessionService;
+    private RestaurantService $restaurantService;
 
     public function __construct()
     {
-        $this->sessionService = new SessionService();
+        $this->sessionService    = new SessionService();
         $this->restaurantService = new RestaurantService();
     }
 
+    /**
+     * Summary of index
+     */
     public function index()
     {
         try {
             $sessions = $this->sessionService->getAllSessions();
-            require __DIR__ . '/../views/backend/sessions/index.php';
+            return View::make('backend.sessions.index', compact('sessions'));
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+           return $this->handleException($e, '/session');
         }
     }
 
+    /**
+     * Summary of create
+     */
     public function create()
     {
         try {
             $restaurants = $this->restaurantService->getAllRestaurants();
-            require __DIR__ . '/../views/backend/sessions/create.php';
+            $events      = $this->sessionService->getAllEvents();
+            return View::make('backend.sessions.create', compact('restaurants', 'events'));
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/session');
         }
     }
 
+    /**
+     * Summary of store
+     */
     public function store()
     {
         try {
-            $validatedData = Helper::validate($_POST);
-
-            $restaurant_id = $validatedData['restaurant_id'];
-            $event_id = $validatedData['event_id'];
-            $start_time = $validatedData['start_time'];
-            $duration = $validatedData['duration'];
-            $sessions_per_day = $validatedData['sessions_per_day'];
-
-            $this->sessionService->createSession($restaurant_id, $event_id, $start_time, $duration, $sessions_per_day);
-
-            Helper::setMessage(false, "Session added successfully!");
-            header("Location: /session");
-            exit();
+            $this->sessionService->createSession();
+            return $this->success('Session added successfully!', '/session');
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/session');
         }
     }
 
+   /**
+    * Summary of edit
+    */
    public function edit()
     {
         try {
-            $id = $_GET['id'] ?? null;
-
-            if ($id && (int)$id > 0) {
-                $session = $this->sessionService->getSession((int)$id);
-                $restaurants = $this->restaurantService->getAllRestaurants();
-
-                if (!$session) {
-                    header("Location: /error?message=" . urlencode("Session not found."));
-                    exit();
-                }
-
-                require __DIR__ . '/../views/backend/sessions/edit.php';
-                return;
-            }
-
-            header("Location: /error?message=" . urlencode("Something went wrong with this session data."));
-            exit();
+            $id          = $_GET['id'];
+            $session     = $this->sessionService->getSession((int) $id);
+            $restaurants = $this->restaurantService->getAllRestaurants();
+            $events      = $this->sessionService->getAllEvents();
+            return View::make('backend.sessions.edit', compact('session', 'restaurants', 'events'));
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+           return $this->handleException($e, '/session');
         }
     }
+
+    /**
+     * Summary of update
+     */
     public function update()
     {
         try {
-            $validatedData = Helper::validate($_POST);
-
-            $sessionId = $_POST['id'];
-
-            $restaurant_id = $validatedData['restaurant_id'];
-            $event_id = $validatedData['event_id'];
-            $start_time = $validatedData['start_time'];
-            $duration = $validatedData['duration'];
-            $sessions_per_day = $validatedData['sessions_per_day'];
-
-            $this->sessionService->updateSession($sessionId, $restaurant_id, $event_id, $start_time, $duration, $sessions_per_day);
-
-            Helper::setMessage(false, "Session updated successfully!");
-            header("Location: /session");
-            exit();
+            $this->sessionService->updateSession();
+            return $this->success('Session updated successfully!', '/session');
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/session');
         }
     }
+
+    /**
+     * Summary of delete
+     */
     public function delete()
     {
         try {
             $id = $_GET['id'];
-            if (isset($id) && $id > 0) {
-                $this->sessionService->deleteSession($id);
-                Helper::setMessage(false, "Session deleted successfully!");
-                header("Location: /session");
-                exit();
-            } else {
-                header("Location: /error?message=something went wrong with this session data!");
-                exit();
-            }
+            $this->sessionService->deleteSession($id);
+            return $this->success('Session deleted successfully!', '/session');
         } catch (Exception $e) {
-            header("Location: /error?message=" . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/session');
         }
     }
 }

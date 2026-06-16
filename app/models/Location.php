@@ -10,7 +10,7 @@ class Location
     public string $address;
     public string $contact_info;
     public ? string $image_url;
-public function __construct(?int $tour_location_id, string $location_name, string $description, string $address, string $contact_info, ?string $image_url)
+    public function __construct(?int $tour_location_id, string $location_name, string $description, string $address, string $contact_info, ?string $image_url)
     {
         $this->tour_location_id = $tour_location_id;
         $this->location_name    = $location_name;
@@ -60,11 +60,11 @@ public function __construct(?int $tour_location_id, string $location_name, strin
         $this->contact_info = $contact_info;
     }
     public function getImage_url(): ?string
-        {
-            return $this->image_url;
-        }
-        public function setImage_url(string $image_url): void
-        {
-            $this->image_url = $image_url;
-        }
+    {
+        return $this->image_url;
     }
+    public function setImage_url(string $image_url): void
+    {
+        $this->image_url = $image_url;
+    }
+ }

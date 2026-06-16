@@ -8,9 +8,9 @@ use ReflectionClass;
 
 class Role implements jsonSerializable
 {
-    const Customer = 'Customer';
-    const Employee = 'Employee';
-    const Administrator = 'Administrator';
+    const Customer      = 'Customer';
+    const Employee      = 'Employee';
+    const Administrator = 'Admin';
 
     private $value;
     public function __construct($value)
@@ -33,18 +33,18 @@ class Role implements jsonSerializable
     {
         return match ($value->value) {
             self::Administrator => 'Administrator',
-            self::Employee => 'Employee',
-            self::Customer => 'Customer',
-            default => throw new InvalidArgumentException("Invalid status value: $value"),
+            self::Employee      => 'Employee',
+            self::Customer      => 'Customer',
+            default             => throw new InvalidArgumentException("Invalid status value: $value"),
         };
     }
     public static function fromString(string $value): self
     {
         return match ($value) {
             self::Administrator => self::Administrator(),
-            self::Employee => self::Employee(),
-            self::Customer => self::Customer(),
-            default => throw new InvalidArgumentException("Invalid status value: $value"),
+            self::Employee      => self::Employee(),
+            self::Customer      => self::Customer(),
+            default             => throw new InvalidArgumentException("Invalid status value: $value"),
         };
     }
 
@@ -55,7 +55,7 @@ class Role implements jsonSerializable
     public static function getEnumValues(): array
     {
         $reflectionClass = new ReflectionClass(__CLASS__);
-        $constants = $reflectionClass->getConstants();
+        $constants       = $reflectionClass->getConstants();
         return array_values($constants);
     }
 }

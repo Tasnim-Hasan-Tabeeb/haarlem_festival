@@ -4,69 +4,196 @@
 
     <?php include __DIR__ . '/../inc/message.php'; ?>
 
+    <h1 class="h3 mb-4">Edit Dance Event</h1>
 
-    <h1>Edit Venue</h1>
-    <div class="mt-4">
-        <form action="/dancemanagement/update" method="post" autocomplete="off" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" value="<?= $dance['event_name'] ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="event_date" class="form-label">Event Date</label>
-                <input type="date" class="form-control" id="event_date" name="event_date" value="<?= $dance['event_date'] ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="event_start_time" class="form-label">Start Time</label>
-                <input type="time" class="form-control" id="event_start_time" name="event_start_time" value="<?= $dance['event_start_time'] ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="event_price" class="form-label">Price</label>
-                <input type="text" class="form-control" id="event_price" name="event_price" value="<?= $dance['event_price'] ?>">
-            </div>
-            <div class="mb-3">
-                <label for="event_duration" class="form-label">Duration</label>
-                <input type="text" class="form-control" id="event_duration" name="event_duration" value="<?= $dance['event_duration'] ?>">
-            </div>
-            <div class="mb-3">
-                <label for="session_type" class="form-label">Session Type</label>
-                <select class="form-select" id="session_type" name="session_type" required>
-                    <?php foreach ($sessionTypes as $type) : ?>
-                        <option value="<?= $type ?>" <?= ($type == $dance['session_type']) ? 'selected' : '' ?>><?= $type ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="venue_name" class="form-label">Venue</label>
-                <select class="form-select" id="venue_name" name="venue_name" required>
-                    <?php foreach ($venues as $venue) : ?>
-                        <option value="<?= $venue['venue_id'] ?>" <?= ($venue['venue_id'] == $dance['venue_id']) ? 'selected' : '' ?>><?= $venue['venue_name'] ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="artist_id" class="form-label">Artist</label>
-                <select class="form-select" id="artist_id" name="artist_id[]" multiple>
-                    <?php foreach ($artists as $artist) : ?>
-                        <option value="<?= $artist['artist_id'] ?>" <?php if (in_array($artist['artist_id'], $selectedArtistIds)) echo 'selected'; ?>>
-                            <?= $artist['artist_name'] ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+    <form action="/dancemanagement/update"
+          method="POST"
+          enctype="multipart/form-data"
+          autocomplete="off">
+
+        <input type="hidden"
+               name="music_performance_id"
+               value="<?= $dance['music_performance_id'] ?>">
+
+            <input type="hidden"
+        name="music_event_id"
+        value="<?= $dance['music_event_id'] ?>">
 
 
+        <div class="mb-3">
 
-            <div class="mb-5">
-                <label for="venue_image" class="form-label">Venue Image</label>
-                <input type="file" class="form-control" id="venue_image" name="venue_image">
-                <img src="<?= '/images/' . $dance['music_event_image'] ?>" class="mt-2" width="100" height="100" alt="Venue Image">
-            </div>
-            <input type="hidden" name="music_performance_id" value="<?= $dance['music_performance_id'] ?>">
-            <button type="submit" class="btn btn-primary">Update</button>
+            <label class="form-label">
+                Event <span class="text-danger">*</span>
+            </label>
+            <select name="event_id"
+                    class="form-select"
+                    required>
+                <option value="">Select event</option>
+                <?php foreach ($events as $event) : ?>
+                    <option value="<?= $event['event_id'] ?>"
+                            <?= $dance['event_id'] == $event['event_id'] ? 'selected' : '' ?>>
+                        <?= $event['title'] ?>
+                    </option>
+                <?php endforeach; ?>
+                
+            </select>
 
-        </form>
-    </div>
+
+        </div>
+
+        <!-- TITLE -->
+        <div class="mb-3">
+            <label class="form-label">
+                Name <span class="text-danger">*</span>
+            </label>
+            <input type="text"
+                   name="event_name"
+                   class="form-control"
+                   value="<?= htmlspecialchars($dance['event_name']) ?>"
+                   placeholder="Enter event title"
+                   required>
+        </div>
+
+        <!-- DATE -->
+        <div class="mb-3">
+            <label class="form-label">
+                Event Date <span class="text-danger">*</span>
+            </label>
+            <input type="date"
+                   name="event_date"
+                   class="form-control"
+                   value="<?= htmlspecialchars($dance['event_date']) ?>"
+                   required>
+        </div>
+
+        <!-- TIME -->
+        <div class="mb-3">
+            <label class="form-label">
+                Start Time <span class="text-danger">*</span>
+            </label>
+            <input type="time"
+                   name="event_start_time"
+                   class="form-control"
+                   value="<?= htmlspecialchars($dance['event_start_time']) ?>"
+                   required>
+        </div>
+
+        <!-- PRICE -->
+        <div class="mb-3">
+            <label class="form-label">
+                Price <span class="text-danger">*</span>
+            </label>
+            <input type="number"
+                   name="event_price"
+                   class="form-control"
+                   step="any"
+                   min="0"
+                   required
+                   value="<?= htmlspecialchars($dance['event_price']) ?>"
+                   placeholder="Enter price (e.g. 500)">
+        </div>
+
+        <!-- DURATION -->
+        <div class="mb-3">
+            <label class="form-label">
+                Duration (minutes) <span class="text-danger">*</span>
+            </label>
+            <input type="number"
+                   name="event_duration"
+                   class="form-control"
+                   step="any"
+                   min="0"
+                   required
+                   value="<?= htmlspecialchars($dance['event_duration']) ?>"
+                   placeholder="Enter duration (e.g. 60)">
+        </div>
+
+        <!-- SESSION TYPE -->
+        <div class="mb-3">
+            <label class="form-label">
+                Session Type <span class="text-danger">*</span>
+            </label>
+            <select name="session_type"
+                    class="form-select"
+                    required>
+                <option value="">Select session type</option>
+                <?php foreach ($sessionTypes as $type) : ?>
+                    <option value="<?= $type ?>"
+                        <?= ($type == $dance['session_type']) ? 'selected' : '' ?>>
+                        <?= $type ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <!-- VENUE -->
+        <div class="mb-3">
+            <label class="form-label">
+                Venue <span class="text-danger">*</span>
+            </label>
+            <select name="venue_id"
+                    class="form-select"
+                    required>
+                <option value="">Select venue</option>
+                <?php foreach ($venues as $venue) : ?>
+                    <option value="<?= $venue['venue_id'] ?>"
+                        <?= ($venue['venue_id'] == $dance['venue_id']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($venue['venue_name']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <!-- ARTISTS -->
+        <div class="mb-3">
+            <label class="form-label">
+                Artists <span class="text-danger">*</span>
+            </label>
+            <select name="artist_id[]"
+                    multiple
+                    class="form-select"
+                    required
+                >
+                <?php foreach ($artists as $artist) : ?>
+
+                    <option value="<?= $artist['artist_id'] ?>"
+                        <?= in_array($artist['artist_id'], $selectedArtistIds) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($artist['artist_name']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <!-- IMAGE -->
+        <div class="mb-4">
+            <label class="form-label">
+                Event Image
+            </label>
+
+            <input type="file"
+                   name="music_event_image"
+                   class="form-control"
+                   accept="image/*">
+
+            <?php if (!empty($dance['music_event_image'])) : ?>
+                <div class="mt-2">
+                    <img src="<?= htmlspecialchars($dance['music_event_image']) ?>"
+                         class="img-thumbnail"
+                         width="100"
+                         height="100"
+                         alt="Event Image">
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- SUBMIT -->
+        <button type="submit"
+                class="btn btn-primary px-4">
+            Update Event
+        </button>
+
+    </form>
+
 </div>
 
 <?php include __DIR__ . '/../inc/footer.php'; ?>

@@ -2,26 +2,62 @@
 
 namespace App\Controllers;
 
+use App\Controllers\Core\Controller;
+use App\Helpers\View;
 use App\Services\HistoryService;
 use Exception;
 
-class HistoryTourController
+class HistoryTourController extends Controller
 {
     private HistoryService $historyService;
     public function __construct()
     {
         $this->historyService = new HistoryService();
     }
+
+    /**
+     * Summary of index
+     */
     public function index()
     {
         try{
             $tours = $this->historyService->getAllTours();
-            require_once __DIR__ . '/../views/backend/historytours/index.php';
+            return View::make('backend.historytours.index', compact('tours'));
         }catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/historytour');
         }
     }
+
+    /**
+     * Summary of create
+     */
+    public function create()
+    {
+        try {
+            $timeslots = $this->historyService->getAllTimeSlots();
+            $languages = $this->historyService->getAllLanguages();
+            return View::make('backend.historytours.create', compact('timeslots', 'languages'));
+        } catch (Exception $e) {
+            return $this->handleException($e, '/historytour');
+        }
+    }
+
+    /**
+     * Summary of store
+     */
+    public function store()
+    {
+        try {
+            $this->historyService->addTour();
+            return $this->success('Tour created successfully!', '/historytour');
+        } catch (Exception $e) {
+           return $this->handleException($e, '/historytour');
+        }
+    }
+
+    /**
+     * Summary of edit
+     */
     public function edit()
     {
         try {
@@ -31,73 +67,35 @@ class HistoryTourController
             $timeslots = $this->historyService->getAllTimeSlots();
             $languages = $this->historyService->getAllLanguages();
 
-            require_once __DIR__ . '/../views/backend/historytours/edit.php';
+            return View::make('backend.historytours.edit', compact('tour', 'timeslots', 'languages'));
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
-        }
-    }
-    public function create()
-    {
-        try {
-            $timeslots = $this->historyService->getAllTimeSlots();
-            $languages = $this->historyService->getAllLanguages();
-
-            require_once __DIR__ . '/../views/backend/historytours/create.php';
-        } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+          return $this->handleException($e, '/historytour');
         }
     }
 
-    public function add()
-    {
-        try {
-            $this->historyService->addTour(
-                $_POST['timetable_id'],
-                $_POST['language_id'],
-                $_POST['available_guides']
-            );
-
-            $_SESSION['flash_message'] = 'Tour created!';
-            header('Location: /historytour');
-            exit();
-        } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
-        }
-    }
-
+    /**
+     * Summary of update
+     */
     public function update()
     {
         try {
-            $this->historyService->updateTour(
-                $_POST['tour_id'],
-                $_POST['timetable_id'],
-                $_POST['language_id'],
-                $_POST['available_guides']
-            );
-
-            $_SESSION['flash_message'] = 'Tour updated!';
-            header('Location: /historytour');
-            exit();
+           $this->historyService->updateTour();
+           return $this->success('Tour updated successfully!', '/historytour');
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/historytour');
         }
     }
 
+    /**
+     * Summary of delete
+     */
     public function delete()
     {
         try {
             $this->historyService->deleteTour($_GET['id']);
-
-            $_SESSION['flash_message'] = 'Tour deleted!';
-            header('Location: /historytour');
-            exit();
+            return $this->success('Tour deleted successfully!', '/historytour');
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/historytour');
         }
     }
 }

@@ -1,149 +1,347 @@
-@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap");
+/* ============================================================
+   BASKET / SHOPPING CART PAGE — SHADCN STYLE
+   Matches yummy.css / yummy-details.css / PersonalProgram.css
+============================================================ */
 
-body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+/* ── PAGE WRAPPER ──────────────────────────────────────────── */
+.basket-page {
+    min-height: 60vh;
+    padding: 48px 0 64px;
+    background: var(--bg, #ffffff);
 }
 
+/* ── OUTER LAYOUT: cart + summary side-by-side ─────────────── */
 .basket-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: #8A8E95;
-    flex-wrap: wrap;
+    width: min(1200px, 92%);
+    padding: 40px 1.5rem;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 28px;
+    align-items: start;
+    background-color: transparent !important;
+    /* override inline style */
 }
-h2 {
-    color: white;
-    margin-top: 60px;
-    font-size: 3em;
+
+/* ── CART PANEL ────────────────────────────────────────────── */
+.basket {
+    background: var(--bg, #ffffff);
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: var(--r-lg, 10px);
+    overflow: hidden;
 }
-.basket, .summary {
-    flex: 1 1 45%;
-    margin: 10px;
-    box-sizing: border-box;
+
+.basket h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--fg, #09090b);
+    padding: 20px 24px 16px;
+    margin: 0;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+}
+
+/* ── TABLE ─────────────────────────────────────────────────── */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+thead tr {
+    background: var(--bg-subtle, #fafafa);
+    border-bottom: 1px solid var(--border, #e5e7eb);
+}
+
+thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted, #6b7280);
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--border, #e5e7eb);
+    transition: background .15s;
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: var(--bg-subtle, #fafafa);
 }
 
 .item-box {
-    background-color: #007589;
-    padding: 10px;
-    color: white;
-    margin-bottom: 5px;
-    font-size: 1.2em;
+    padding: 14px 16px;
+    color: var(--fg, #09090b);
+    vertical-align: middle;
 }
 
+/* Type cell — pill badge */
+tbody tr td.item-box:first-child {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted, #6b7280);
+}
+
+/* Remove button */
 .remove-btn {
-    background-color: #FF7A68;
-    border: none;
-    color: white;
-    padding: 5px 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    padding: 0 12px;
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+    border-radius: var(--r-sm, 6px);
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
     cursor: pointer;
-    border-radius: 5px;
+    transition: background .2s, border-color .2s;
+    white-space: nowrap;
 }
 
 .remove-btn:hover {
-    background-color: #cc634e;
+    background: #fef2f2;
+    border-color: #ef4444;
 }
 
-.total-box {
-    margin-top: 60px;
-    background: linear-gradient(90deg, rgba(255, 122, 104, 1) 0%, rgba(128, 128, 128, 1) 100%);
-    border: 1px solid black;
-    padding: 20px;
-    color: white;
-    margin-bottom: 20px;
-    width: 60%;
-    margin-left: auto;
-    border-radius: 5px;
-}
-
-.total-box p {
-    margin: 5px 0;
-    padding-bottom: 5px;
-    font-size: 1.5em;
-}
-
-.total-box p strong {
-    font-size: 1.2em;
-}
-#header-total{
-    font-weight: bold;
-    font-size: 2em;
-    border-bottom: 1px solid white;
-
-}
-.checkout-btn {
-    background-color: black;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-top: 10px;
-    width: 100%;
-    border-radius: 5px;
-}
-
-.checkout-btn:hover {
-    background-color: #333;
-}
-
-.accepted-payments {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.accepted-payments img {
-    height: 30px;
-}
-
-.create-account-box {
-    background-color: #FF7A68;
-    border: 1px solid black;
-    padding: 20px;
-    text-align: center;
-    color: white;
-    width: 66%;
-    margin-left: auto;
-    box-sizing: border-box;
-    border-radius: 5px;
-}
-
-.create-account-btn {
-    background-color: black;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-top: 10px;
-    width: 100%;
-    border-radius: 5px;
-
-}
-
-.create-account-btn:hover {
-    background-color: #333;
-}
+/* ── EMPTY CART STATE ──────────────────────────────────────── */
 .cart {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 56px 24px;
+    text-align: center;
 }
 
 .cartText {
-    font-size: 30px;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-size: 15px;
+    color: var(--muted, #6b7280);
+    margin: 0;
 }
 
 .buy-btn {
-    background-color: #ff7a68;
-    color: black;
-    padding: 10px 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 20px;
+    background: var(--accent, #18181b);
+    color: var(--accent-fg, #ffffff);
+    border: 1px solid var(--accent, #18181b);
+    border-radius: var(--r-sm, 6px);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .2s, transform .15s;
+}
+
+.buy-btn:hover {
+    background: var(--accent-hover, #27272a);
+    transform: translateY(-1px);
+}
+
+/* ── SUMMARY PANEL ─────────────────────────────────────────── */
+.summary {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: sticky;
+    top: 72px;
+    /* clears sticky nav */
+}
+
+/* Total box */
+.total-box {
+    background: var(--bg, #ffffff);
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: var(--r-lg, 10px);
+    padding: 20px 24px;
+}
+
+#header-total {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--fg, #09090b);
+    margin: 0 0 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+}
+
+.total-box p {
+    font-size: 14px;
+    color: var(--muted, #6b7280);
+    margin: 6px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.total-box p strong {
+    color: var(--fg, #09090b);
+    font-size: 15px;
+}
+
+/* Checkout button */
+.checkout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 42px;
+    margin-top: 16px;
+    background: var(--accent, #18181b);
+    color: var(--accent-fg, #ffffff);
+    border: 1px solid var(--accent, #18181b);
+    border-radius: var(--r-sm, 6px);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
     cursor: pointer;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    font-size: 24px;
-    border: 2px solid #000;
-    font-weight: bold;
+    transition: background .2s, transform .15s;
+}
+
+.checkout-btn:hover {
+    background: var(--accent-hover, #27272a);
+    transform: translateY(-1px);
+}
+
+.checkout-btn:active {
+    transform: translateY(0);
+}
+
+/* Accepted payments */
+.accepted-payments {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border, #e5e7eb);
+    text-align: center;
+}
+
+.accepted-payments p {
+    font-size: 11px;
+    color: var(--muted, #6b7280);
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    justify-content: center;
+}
+
+.accepted-payments img {
+    max-height: 35px;
+    object-fit: contain;
+    opacity: 0.75;
+    margin: auto;
+}
+
+/* Create account box */
+.create-account-box {
+    background: var(--bg-subtle, #fafafa);
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: var(--r-lg, 10px);
+    padding: 20px 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.create-account-box p {
+    font-size: 13px;
+    color: var(--muted, #6b7280);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.create-account-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    padding: 0 18px;
+    background: transparent;
+    color: var(--fg, #09090b);
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: var(--r-sm, 6px);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+    width: 100%;
+}
+
+.create-account-btn:hover {
+    background: var(--bg-muted, #f3f4f6);
+    border-color: var(--fg, #09090b);
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .basket-container {
+        grid-template-columns: 1fr;
+    }
+
+    .summary {
+        position: static;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    thead th,
+    .item-box {
+        padding: 10px 10px;
+    }
+
+    /* stack table on very small screens */
+    @media (max-width: 480px) {
+
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+            display: block;
+        }
+
+        thead tr {
+            display: none;
+        }
+
+        tbody tr {
+            border: 1px solid var(--border, #e5e7eb);
+            border-radius: var(--r-lg, 10px);
+            margin-bottom: 12px;
+            padding: 12px;
+        }
+
+        .item-box {
+            padding: 4px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-box::before {
+            content: attr(data-label);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--muted, #6b7280);
+            letter-spacing: 0.05em;
+        }
+    }
 }

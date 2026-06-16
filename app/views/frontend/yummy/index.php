@@ -1,116 +1,113 @@
-<?php include __DIR__ . '/../inc/header.php' ?>
+<?php include __DIR__ . '/../inc/header.php'; ?>
 
-<link rel="stylesheet" href="/frontend/css/yummy.css" />
+<?php $yummyCssVersion = filemtime(__DIR__ . '/../../../public/frontend/css/yummy.css'); ?>
+<link rel="stylesheet" href="/frontend/css/yummy.css?v=<?= $yummyCssVersion ?>" />
 
-<div class="white-space"></div>
-<?php foreach ($sections as $section) : ?>
-    <?php if ($section->getSectionType() === 'header') : ?>
-        <div class="intro">
-            <div class="text">
-                <h1><?= $section->getSectionTitle() ?></h1>
-                <p class=""><?= $section->getSubSectionTitle() ?></p>
-                <?= $section->getContent() ?>
-                <br>
-                <a class="intro-button" href="#restaurants-section">Check out Restaurants</a>
-            </div>
-            <div class="img-wrap">
-                <img src="<?= $section->getImageUrl() ?>" />
-            </div>
-        </div>
-    <?php endif; ?>
-    <div id="restaurants-section" class="restaurants-section">
-        <div class="restaurant-top-line">
-            <h2>Restaurants</h2>
-            <!-- <div class="filter">
-                <p>Filter by</p>
-                <a id="active" href="">All restaurants</a>
-                <a href="">French</a>
-                <a href="">Dutch</a>
-                <a href="">European</a>
-                <a href="">International</a>
-            </div> -->
-        </div>
-        <h3 class="text">Explore the Restaurants</h3>
-        <p class="description">Check out the awesome restaurants joining the fun below! From creative street food to refined culinary dishes, each restaurant brings its own unique flavors to the festival. Pick your favorites, discover new tastes, and get ready for a delicious adventure in the heart of Haarlem.
+<div class="yf-container">
 
-During the festival, talented chefs and popular local spots come together to serve bite-sized dishes, signature specialties, and exciting new creations for you to enjoy. It’s the perfect chance to sample dishes from multiple restaurants in one place and experience the vibrant food scene that makes Haarlem so special.</p>
+    <?php foreach ($sections as $section) : ?>
+        <?php if ($section->getSectionType() === 'header') : ?>
 
-        <div class="restaurants-list">
-            <?php foreach ($restaurants as $restaurant) : ?>
-                <p><?= $restaurant['restaurant_id'] ?></p>
-                <div class="restaurants-list-item">
-                    <a href="/restaurant/details?id=<?= $restaurant['restaurant_id'] ?>">
-                        <div class="image" style="background-image: url('<?php echo $restaurant['image_url']; ?>');"></div>
+            <!-- HERO / INTRO -->
+            <section class="yf-hero">
+                <div class="yf-hero__content">
+                    <h1><?= $section->getSectionTitle() ?></h1>
+                    <p class="yf-hero__subtitle"><?= $section->getSubSectionTitle() ?></p>
+                    <div class="yf-hero__text"><?= $section->getContent() ?></div>
+
+                    <a href="#restaurants-section" class="yf-btn">
+                        Explore Restaurants →
                     </a>
-                    <p><?php echo htmlspecialchars($restaurant['title']); ?></p>
-                    <div class="review">
-                        <?php for ($i = 0; $i < 5; $i++): ?>
-                            <?php if ($i < $restaurant['ratings']): ?>
-                                ★
-                            <?php else: ?>
-                                ☆
-                            <?php endif; ?>
-                        <?php endfor; ?>
-                    </div>
-                    <span class="line"></span>
-                    <div class="restaurant-feature">
-                        <img src="/images/food-type.png" alt="" height="20" width="20"/>
-                        <p>Food Type: <?php echo htmlspecialchars($restaurant['cuisines']); ?></p>
-                    </div>
-                    <div class="restaurant-feature">
-                        <img src="/images/seats.png" alt="" height="20" width="20"/>
-                        <p>Available Seats: <?php echo $restaurant['number_of_seats']; ?></p>
-                    </div>
-                    <span class="line"></span>
-                    <div class="features-list">
-                        <?php foreach ($restaurant['features'] as $feature) : ?>
-                            <div class="feature">
-                                <img src="<?php echo $feature['image_url']; ?>" width="40" height="40" />
-                                <span><?= $feature['name'] ?></span>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    <span class="line"></span>
-                    <div class="restaurant-information">
-                        <div class="info-item">
-                            <img src="/images/location-marker.png" />
-                            <p><?php echo htmlspecialchars($restaurant['location']); ?></p>
-                        </div>
-                        <div class="info-item">
-                            <img src="/images/telephone.png" />
-                            <p><?php echo htmlspecialchars($restaurant['contact_phone']); ?></p>
-                        </div>
-                        <div class="info-item">
-                            <?php if (!empty($restaurant['sessions'])): ?>
-                                <img src="/images/time.png" />
-                                <p>
-                                    <?php echo htmlspecialchars($restaurant['start_time']); ?> - <?php echo htmlspecialchars($restaurant['end_time']); ?>
-                                </p>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                     <a href="/restaurant/details?id=<?= $restaurant['restaurant_id'] ?>">
-                         <button>Book Now</button>
-                    </a>
-                   
                 </div>
-            <?php endforeach; ?>
+
+                <div class="yf-hero__image">
+                    <img src="<?= $section->getImageUrl() ?>" alt="">
+                </div>
+            </section>
+
+        <?php endif; ?>
+    <?php endforeach; ?>
+
+
+    <!-- RESTAURANTS -->
+    <section id="restaurants-section" class="yf-section">
+
+        <div class="yf-section__header">
+            <h2>Restaurants</h2>
+            <p>
+                Discover top restaurants, explore cuisines, and book your experience.
+            </p>
         </div>
-    </div>
-  
-<?php endforeach; ?>
+
+        <div class="yf-grid">
+
+            <?php foreach ($restaurants as $restaurant) : ?>
+                <article class="yf-card">
+
+                    <!-- IMAGE -->
+                    <a href="/restaurant/details?id=<?= $restaurant['restaurant_id'] ?>" class="yf-card__image">
+                        <img src="<?= $restaurant['image_url'] ?>" alt="">
+                    </a>
+
+                    <!-- BODY -->
+                    <div class="yf-card__body">
+
+                        <h3><?= htmlspecialchars($restaurant['title']); ?></h3>
+
+                        <!-- rating -->
+                        <div class="yf-rating">
+                            <?php for ($i = 0; $i < 5; $i++): ?>
+                                <?= $i < $restaurant['ratings'] ? '★' : '☆'; ?>
+                            <?php endfor; ?>
+                        </div>
+
+                        <p class="yf-meta">
+                            <?= htmlspecialchars($restaurant['cuisines']); ?>
+                        </p>
+
+                        <!-- FEATURES -->
+                        <div class="yf-features">
+                            <?php foreach ($restaurant['features'] as $feature) : ?>
+                                <span>
+                                    <img src="<?= $feature['image_url'] ?>" alt="">
+                                    <?= $feature['name'] ?>
+                                </span>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <!-- INFO -->
+                        <div class="yf-info">
+                            <p>📍 <?= htmlspecialchars($restaurant['location']); ?></p>
+                            <p>📞 <?= htmlspecialchars($restaurant['contact_phone']); ?></p>
+                            <?php if (!empty($restaurant['sessions'])): ?>
+                                <p>⏰ <?= $restaurant['start_time']; ?> - <?= $restaurant['end_time']; ?></p>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- PRICE -->
+                        <div class="yf-price">
+                            <div>
+                                <span>Child</span>
+                                <strong>€<?= number_format($restaurant['price_for_child'], 2) ?></strong>
+                            </div>
+                            <div>
+                                <span>Adult</span>
+                                <strong>€<?= number_format($restaurant['price_for_adult'], 2) ?></strong>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <a href="/restaurant/details?id=<?= $restaurant['restaurant_id'] ?>" class="yf-btn yf-btn--full">
+                            Book Now →
+                        </a>
+
+                    </div>
+                </article>
+            <?php endforeach; ?>
+
+        </div>
+    </section>
+
+</div>
 
 <?php include __DIR__ . '/../inc/footer.php'; ?>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    });
-</script>

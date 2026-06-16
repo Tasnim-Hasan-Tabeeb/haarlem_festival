@@ -3,102 +3,136 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Signup</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/frontend/css/signup.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
 </head>
 
-<body class="bg-dark p-5 text-white">
-    <div class="container pt-5">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-lg-12 col-xl-11">
-                <div class="card text-black h-100" style="border-radius: 25px;">
-                    <div class="card-body p-md-5">
-                        <div class="row justify-content-center">
-                            <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+<body class="signup-page">
 
-                                <?php if (isset($_SESSION['flash_message'])) : ?>
-                                    <div class="alert alert-danger" role="alert">
-                                        <?= $_SESSION['flash_message'] ?>
-                                    </div>
-                                    <?php unset($_SESSION['flash_message']); ?>
-                                <?php endif; ?>
+<div class="signup-wrapper">
+    <div class="signup-card">
 
-                                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4">Sign up</p>
-                                <form id="registerUserForm" class="mx-1 mx-md-4" method="POST" enctype="multipart/form-data">
-                                    <div class="text-center">
-                                        <div class="d-flex justify-content-center">
-                                            <div class="position-relative">
-                                                <div class="avatar-upload">
-                                                    <div class="avatar-edit">
-                                                        <input type='file' name="profile_picture" id="profile_picture" accept=".png, .jpg, .jpeg" onchange="previewImage(this)" />
-                                                        <label for="imageUpload"><i class="fas fa-edit"></i></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-row align-items-center mb-4">
-                                        <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="form3Example4c">Name</label>
-                                            <input type="text" name="name" id="name" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-row align-items-center mb-4">
-                                        <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="form3Example4c">Email</label>
-                                            <input type="email" name="email" id="email" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-row align-items-center mb-4">
-                                        <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="password">Password</label>
-                                            <input type="password" name="password" id="password" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-row align-items-center mb-4">
-                                        <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="confirmPassword">Confirm
-                                                Password</label>
-                                            <input type="password" name="confirm_password" id="confirm_password" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
-                                    <br />
-                                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                        <button type="submit" name="signup-button" class="btn btn-primary btn-lg">
-                                            Register
-                                        </button>
-                                    </div>
+        <h3 class="signup-title">Create Account</h3>
+        <p class="signup-subtitle">Join with us today</p>
 
-                                    <div class="d-flex justify-content-evenly mt-3">
-                                        <div>
-                                            <p>Already have an account? <a href="/login/login">Login</a> from here.</p>
-                                        </div>
-                                    </div>
+        <?php include __DIR__ . '/../inc/message.php'; ?>
 
-                                </form>
-                            </div>
-                        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            <!-- Avatar Upload -->
+            <div class="avatar-box">
+                <div class="avatar-preview-wrapper">
+                    <img src="" id="imagePreview" class="avatar-preview d-none">
+                    <div id="avatarPlaceholder" class="avatar-placeholder">
+                        <i class="bi bi-person"></i>
                     </div>
                 </div>
+
+                <label for="profile_picture" class="avatar-upload-btn">
+                    <i class="bi bi-pencil"></i>
+                </label>
+
+                <input type="file" name="profile_picture" id="profile_picture"
+                    accept=".png, .jpg, .jpeg .webp"
+                    hidden onchange="previewImage(this)">
             </div>
-        </div>
+
+            <!-- Name -->
+            <div class="form-group">
+                <label>Name</label>
+                <input required type="text" name="name" class="form-control" placeholder="Enter your full name">
+            </div>
+
+            <!-- Email -->
+            <div class="form-group mt-3">
+                <label>Email</label>
+                <input required type="email" name="email" class="form-control" placeholder="Enter your email address">
+            </div>
+
+            <!-- Password -->
+            <div class="form-group mt-3">
+                <label>Password</label>
+                <input required type="password" name="password" class="form-control" placeholder="Enter password">
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group mt-3">
+                <label>Confirm Password</label>
+                <input required type="password" name="confirm_password" class="form-control" placeholder="Confirm your password">
+            </div>
+
+            <!-- Captcha -->
+            <div class="mt-3">
+                <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+            </div>
+
+            <!-- Button -->
+            <button type="submit" name="signup-button" class="btn signup-btn w-100 mt-4">
+                Register
+            </button>
+
+            <!-- Login Link -->
+            <div class="signup-links">
+                <p>Already have an account? <a href="/login/login">Login</a></p>
+            </div>
+
+        </form>
+
     </div>
-</body>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+
 <script>
-    function previewImage(input) {
-        if (input.files && input.files[0]) {
-            let reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('imagePreview').src = e.target.result;
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
+
+
+document.querySelector("form").addEventListener("submit", function(e) {
+    const captcha = grecaptcha.getResponse();
+
+    if (captcha.length === 0) {
+        e.preventDefault();
+        toastr.error('Please confirm you are not a robot');
     }
+});
+function previewImage(input) {
+    const preview = document.getElementById('imagePreview');
+    const placeholder = document.getElementById('avatarPlaceholder');
+
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('d-none');
+            placeholder.classList.add('d-none');
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 </script>
+
+
+</body>
+</html>

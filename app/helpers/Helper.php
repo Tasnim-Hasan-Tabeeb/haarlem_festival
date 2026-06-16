@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Role;
 use Exception;
 
 class Helper
@@ -28,30 +29,30 @@ class Helper
 
     public static function debug($data)
     {
-        echo "<pre>";
+        echo '<pre>';
         var_dump($data);
-        echo "</pre>";
+        echo '</pre>';
         exit;
     }
 
     public static function baseUrl()
     {
-        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
-        $host = $_SERVER['HTTP_HOST'];
-        $base_url = $protocol . "://" . $host;
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $host     = $_SERVER['HTTP_HOST'];
+        $base_url = $protocol . '://' . $host;
 
         return $base_url;
     }
 
     public static function uploadFile($file)
     {
-        $fileName = $file['name'];
+        $fileName    = $file['name'];
         $fileTmpName = $file['tmp_name'];
-        $fileError = $file['error'];
+        $fileError   = $file['error'];
 
         if ($fileError === UPLOAD_ERR_OK) {
             $newFileName = uniqid('', true) . '_' . $fileName;
-            $uploadPath =  __DIR__ . '/../public/images/' . $newFileName;
+            $uploadPath  = __DIR__ . '/../public/images/' . $newFileName;
             if (move_uploaded_file($fileTmpName, $uploadPath)) {
                 return '/images/' . $newFileName;
             } else {
@@ -68,7 +69,6 @@ class Helper
         unset($fields['id']);
 
         foreach ($fields as $key => $value) {
-
             if ($key === 'remarks') {
                 continue;
             }
@@ -78,8 +78,8 @@ class Helper
             }
 
             if (empty($value) || !isset($value)) {
-                $fieldName = str_replace('_', ' ', $key);
-                $fieldName = ucwords($fieldName);
+                $fieldName    = str_replace('_', ' ', $key);
+                $fieldName    = ucwords($fieldName);
                 $errors[$key] = "$fieldName is required.";
             } else {
                 $fields[$key] = htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
@@ -109,7 +109,26 @@ class Helper
      */
     public static function setMessage($isError, $message)
     {
-        $_SESSION['isError'] = $isError;
+        $_SESSION['isError']       = $isError;
         $_SESSION['flash_message'] = $message;
+    }
+
+    /**
+     * Check if the user is an admin.
+     *
+     * @return bool True if the user is an admin, false otherwise.
+     */
+    public static function isAdmin()
+    {
+        return @$_SESSION['role'] === Role::Administrator;
+    }
+
+    /**
+     * Summary of getStripeApiKey
+     * @return string
+     */
+    public static function getStripeApiKey()
+    {
+        return 'sk_test_51PS8HHF7UbSXoXFVQFRcOjx7b6nffHvGpqbNQngGmuaiOmyqxRA3IywweJclE1X0bTwFEkDBXUEwvkj0haSUPPfP00JhIdhACj';
     }
 }

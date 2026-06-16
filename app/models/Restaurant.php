@@ -17,11 +17,14 @@ class Restaurant
     private string $contactPhone;
     private string $galleryImages;
 
+    private mixed $priceForAdult;
+    private mixed $priceForChild;
+
     public function getRestaurantId(): int
     {
         return $this->restaurantId;
     }
-    
+
     public function setRestaurantId(int $restaurantId): void
     {
         $this->restaurantId = $restaurantId;
@@ -135,5 +138,25 @@ class Restaurant
     public function setGalleryImages(string $galleryImages): void
     {
         $this->galleryImages = $galleryImages;
+    }
+
+    public function getPriceForAdult()
+    {
+        return $this->priceForAdult;
+    }
+
+    public function setPriceForAdult($priceForAdult)
+    {
+        $this->priceForAdult = $priceForAdult;
+    }
+
+    public function getPriceForChild()
+    {
+        return $this->priceForChild;
+    }
+
+    public function setPriceForChild($priceForChild)
+    {
+        $this->priceForChild = $priceForChild;
     }
 }

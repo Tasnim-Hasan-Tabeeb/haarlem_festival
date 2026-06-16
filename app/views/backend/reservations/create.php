@@ -4,86 +4,171 @@
 
     <?php include __DIR__ . '/../inc/message.php'; ?>
 
-    <h1>Create Reservation</h1>
-    <div class="mt-4">
-        <form action="/reservation/store" method="POST" autocomplete="off" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="reservation_date" class="form-label">Reservation Date</label>
-                <input type="date" class="form-control" id="reservation_date" name="reservation_date" required>
-            </div>
-            <div class="mb-3">
-                <label for="total_adult" class="form-label">Total Adults</label>
-                <input type="number" min="1" class="form-control" id="total_adult" name="total_adult" required>
-            </div>
-            <div class="mb-3">
-                <label for="total_children" class="form-label">Total Children</label>
-                <input type="number" min="0" class="form-control" id="total_children" name="total_children" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="mb-3">
-                <label for="phone" class="form-label">Phone</label>
-                <input type="text" class="form-control" id="phone" name="phone" required>
-            </div>
-            <div class="mb-3">
-                <label for="restaurant_id" class="form-label">Restaurant</label>
-                <select id="restaurant_id" name="restaurant_id" class="form-control" required>
-                    <option value="">Select Restaurant</option>
-                    <?php foreach ($restaurants as $restaurant) : ?>
-                        <option value="<?= $restaurant['restaurant_id'] ?>"><?= $restaurant['title'] ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="session_id" class="form-label">Session</label>
-                <select id="session_id" name="session_id" class="form-control" required>
-                    <option value="">Select Session</option>
-                    <!-- Sessions will be dynamically populated based on restaurant selection -->
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="remarks" class="form-label">Remarks</label>
-                <textarea id="remarks" name="remarks" class="form-control"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Create</button>
-        </form>
-    </div>
+    <h1 class="mb-4">Create Reservation</h1>
+
+    <form action="/reservation/store" method="POST" autocomplete="off">
+
+        <!-- NAME -->
+        <div class="mb-3">
+            <label for="name" class="form-label">
+                Name <span class="text-danger">*</span>
+            </label>
+            <input type="text"
+                   class="form-control"
+                   id="name"
+                   name="name"
+                   placeholder="Enter customer name"
+                   required>
+        </div>
+
+        <!-- DATE -->
+        <div class="mb-3">
+            <label for="reservation_date" class="form-label">
+                Reservation Date <span class="text-danger">*</span>
+            </label>
+            <input type="date"
+                   class="form-control"
+                   id="reservation_date"
+                   name="reservation_date"
+                   required>
+        </div>
+
+        <!-- ADULT -->
+        <div class="mb-3">
+            <label for="total_adult" class="form-label">
+                Total Adults <span class="text-danger">*</span>
+            </label>
+            <input type="number"
+                   min="0"
+                   class="form-control"
+                   id="total_adult"
+                   name="total_adult"
+                   placeholder="e.g. 2"
+                   max="1000"
+
+                   required>
+        </div>
+
+        <!-- CHILD -->
+        <div class="mb-3">
+            <label for="total_children" class="form-label">
+                Total Children <span class="text-danger">*</span>
+            </label>
+            <input type="number"
+                   min="0"
+                   class="form-control"
+                   id="total_children"
+                   name="total_children"
+                   max="10000"
+                   placeholder="e.g. 1">
+        </div>
+
+        <!-- EMAIL -->
+        <div class="mb-3">
+            <label for="email" class="form-label">
+                Email <span class="text-danger">*</span>
+            </label>
+            <input type="email"
+                   class="form-control"
+                   id="email"
+                   name="email"
+                   placeholder="example@email.com"
+                   required>
+        </div>
+
+        <!-- PHONE -->
+        <div class="mb-3">
+            <label for="phone" class="form-label">
+                Phone <span class="text-danger">*</span>
+            </label>
+            <input type="text"
+                   class="form-control"
+                   id="phone"
+                   name="phone"
+                   placeholder="+8801XXXXXXXXX"
+                   required>
+        </div>
+
+        <!-- RESTAURANT -->
+        <div class="mb-3">
+            <label for="restaurant_id" class="form-label">
+                Restaurant <span class="text-danger">*</span>
+            </label>
+            <select id="restaurant_id"
+                    name="restaurant_id"
+                    class="form-select"
+                    required>
+                <option value="">Select Restaurant</option>
+                <?php foreach ($restaurants as $restaurant) : ?>
+                    <option value="<?= $restaurant['restaurant_id'] ?>">
+                        <?= htmlspecialchars($restaurant['title']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <!-- SESSION -->
+        <div class="mb-3">
+            <label for="session_id" class="form-label">
+                Session <span class="text-danger">*</span>
+            </label>
+            <select id="session_id"
+                    name="session_id"
+                    class="form-select"
+                    required>
+                <option value="">Select restaurant first</option>
+            </select>
+        </div>
+
+        <!-- REMARKS -->
+        <div class="mb-4">
+            <label for="remarks" class="form-label">Remarks</label>
+            <textarea id="remarks"
+                      name="remarks"
+                      class="form-control"
+                      rows="3"
+                      placeholder="Optional notes"></textarea>
+        </div>
+
+        <!-- BUTTON -->
+        <button type="submit" class="btn btn-primary">
+            Create Reservation
+        </button>
+
+    </form>
 </div>
 
 <?php include __DIR__ . '/../inc/footer.php'; ?>
 
 <script>
-    $(document).ready(function() {
-        $('#restaurant_id').change(function() {
-            var restaurantId = $(this).val();
-            if (restaurantId) {
-                $.ajax({
-                    url: '/reservation/getByRestaurant?id=' + restaurantId,
-                    method: 'GET',
-                    success: function(data) {
-                        var sessions = JSON.parse(data);
-                        $('#session_id').empty().append('<option value="">Select Session</option>');
-                        if (!sessions.error) {
-                            $.each(sessions, function(index, session) {
-                                $('#session_id').append('<option value="' + session.session_id + '">' + session.start_time + ' (' + session.duration + ' hours)</option>');
-                            });
-                        } else {
-                            alert(sessions.error);
-                        }
-                    },
-                    error: function() {
-                        alert('Failed to fetch sessions. Please try again.');
-                    }
+$(function () {
+    $('#restaurant_id').on('change', function () {
+        let id = $(this).val();
+
+        if (!id) {
+            $('#session_id').html('<option value="">Select restaurant first</option>');
+            return;
+        }
+
+        $('#session_id').html('<option>Loading...</option>');
+
+        $.get('/reservation/getByRestaurant?id=' + id, function (res) {
+            let data = JSON.parse(res);
+
+            $('#session_id').empty().append('<option value="">Select Session</option>');
+
+            if (!data.error) {
+                data.forEach(s => {
+                    $('#session_id').append(
+                        `<option value="${s.session_id}">
+                            ${s.start_time} (${s.duration} hrs)
+                        </option>`
+                    );
                 });
-            } else {
-                $('#session_id').empty().append('<option value="">Select Session</option>');
-            }
+            } 
+        }).fail(() => {
+            
         });
     });
+});
 </script>

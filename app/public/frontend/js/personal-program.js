@@ -1,12 +1,17 @@
 (function () {
+
+
+
   const reservations = Array.isArray(window.personalProgramReservations)
     ? window.personalProgramReservations
     : [];
 
+
+
+  /* ── helpers ──────────────────────────────────────────────── */
   function calculateEndTime(startTime, duration) {
     const start = new Date(`2000-01-01T${startTime}`);
     const end = new Date(start.getTime() + duration * 60000);
-
     return end.toLocaleTimeString("en-GB", {
       hour: "2-digit",
       minute: "2-digit",
@@ -14,6 +19,7 @@
     });
   }
 
+  /* ── build one list item ──────────────────────────────────── */
   function createListItem(item, index) {
     const listItem = document.createElement("div");
     listItem.className = "list-view__item";
@@ -24,27 +30,36 @@
     let itemCost = "";
 
     if (item.reservation_date) {
-      itemTitle = `${item.name} - ${item.reservation_date}`;
+      /* ── Restaurant Reservation ── */
+      itemTitle = `${item.restaurant_name} — ${item.reservation_date}`;
       itemQuantity = `${item.total_adult} adults & ${item.total_children} children`;
       itemCost = `€${item.cost}`;
       listItem.setAttribute("data-type", "Reservation");
+
     } else if (item.ticketType) {
-      itemTitle = `${item.start_location} - ${item.timeslot}`;
+      /* ── History Ticket ── */
+      itemTitle = `${item.start_location} — ${item.timeslot}`;
       itemDetails = `Ticket Type: ${item.ticketType.ticket_type}`;
       itemQuantity = `Participants: ${item.participants}`;
       itemCost = `€${item.price}`;
       listItem.setAttribute("data-type", "History Ticket");
+
     } else if (item.music_performance_id !== undefined) {
-      itemTitle = `${item.event_name} - ${item.event_date} - ${item.event_start_time}-${calculateEndTime(item.event_start_time, item.event_duration)}`;
+      /* ── Dance / Music Ticket ── */
+      const endTime = calculateEndTime(item.event_start_time, item.event_duration);
+      itemTitle = `${item.event_name} — ${item.event_date} — ${item.event_start_time}–${endTime}`;
       itemDetails = `Session Type: ${item.session_type}`;
       itemQuantity = `Quantity: ${item.quantity}`;
       itemCost = `€${item.event_price}`;
       listItem.setAttribute("data-type", "Dance Ticket");
+
     } else if (item.passType) {
-      itemTitle = `${item.passName} - ${item.passDescription}`;
+      /* ── Dance Pass ── */
+      itemTitle = `${item.passName} — ${item.passDescription}`;
       itemQuantity = `Quantity: ${item.quantity}`;
       itemCost = `€${item.cost}`;
       listItem.setAttribute("data-type", "Dance Pass");
+
     } else {
       listItem.innerHTML = `<div class="empty-item-text">Event information missing or invalid.</div>`;
       return listItem;
@@ -65,6 +80,7 @@
     return listItem;
   }
 
+  /* ── render ───────────────────────────────────────────────── */
   function populateListView() {
     const listView = document.getElementById("list-view");
     if (!listView) return;
@@ -82,21 +98,26 @@
 
     reservations.forEach((item, index) => {
       const listItem = createListItem(item, index);
+      // staggered animation delay
+      listItem.style.animationDelay = `${index * 60}ms`;
       listView.appendChild(listItem);
     });
 
     $(".delete-btn").off("click").on("click", deleteItem);
   }
 
+  /* ── delete ───────────────────────────────────────────────── */
   function deleteItem() {
-    const button = $(this);
-    const index = button.data("index");
+    const index = $(this).data("index");
 
     $.ajax({
       url: "/personalprogram/removeItem",
       type: "GET",
-      data: { index: index },
+      data: { index },
       success: function () {
+        let counter = parseInt($('.cart-counter').text());
+        counter -= 1;
+        $('.cart-counter').text(counter < 0 ? 0 : counter);
         reservations.splice(index, 1);
         populateListView();
       },
@@ -104,9 +125,9 @@
         console.error("Error deleting item:", error);
       }
     });
+
   }
 
-  $(document).ready(function () {
-    populateListView();
-  });
+  /* ── init ─────────────────────────────────────────────────── */
+  $(document).ready(populateListView);
 })();

@@ -1,32 +1,82 @@
 <?php include __DIR__ . '/../inc/header.php'; ?>
 
-    <div class="container mb-5">
-        <h1>Add Venue</h1>
-        <div class="mt-4">
-            <form action="/venue/store" method="POST" autocomplete="off" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="venue_image" class="form-label">Venue Image</label>
-                    <input type="file" class="form-control" id="venue_image" name="venue_image">
-                </div>
-                <div class="mb-3">
-                    <label for="location" class="form-label">Location</label>
-                    <input type="text" class="form-control" id="location" name="location" required>
-                </div>
-                <div class="mb-3">
-                    <label for="capacity" class="form-label">Capacity</label>
-                    <input type="text" class="form-control" id="capacity" name="capacity" required>
-                </div>
-                <div class="mb-3">
-                    <label for="map_url" class="form-label">Map URL</label>
-                    <input type="text" class="form-control" id="map_url" name="map_url" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Create</button>
-            </form>
+<div class="container mb-5">
+
+  <?php include __DIR__ . '/../inc/message.php'; ?>
+
+
+    <h1 class="mb-4">Add Venue</h1>
+
+    <form action="/venue/store"
+          method="POST"
+          autocomplete="off"
+          enctype="multipart/form-data">
+
+        <!-- NAME -->
+        <div class="mb-3">
+            <label class="form-label">
+                Name <span class="text-danger">*</span>
+            </label>
+            <input type="text"
+                   class="form-control"
+                   name="name"
+                   placeholder="Enter venue name"
+                   required>
         </div>
-    </div>
+
+        <!-- IMAGE -->
+        <div class="mb-3">
+            <label class="form-label">Venue Image <span class="text-danger">*</span></label>
+            <input type="file"
+                   class="form-control"
+                   name="venue_image"
+                   required
+                   accept="image/*">
+        </div>
+
+        <!-- LOCATION -->
+        <div class="mb-3">
+            <label class="form-label">
+                Location <span class="text-danger">*</span>
+            </label>
+            <input type="text"
+                   class="form-control"
+                   name="location"
+                   placeholder="Enter venue location"
+                   required>
+        </div>
+
+        <!-- CAPACITY -->
+        <div class="mb-3">
+            <label class="form-label">
+                Capacity <span class="text-danger">*</span>
+            </label>
+            <input type="number"
+                   class="form-control"
+                   name="capacity"
+                   placeholder="Enter capacity (e.g. 500)"
+                   min="1"
+                   required>
+        </div>
+
+        <!-- MAP -->
+        <div class="mb-3">
+            <label class="form-label">
+                Map URL <span class="text-danger">*</span>
+            </label>
+            <input type="text"
+                   class="form-control"
+                   name="map_url"
+                   placeholder="Paste Google Maps URL"
+                   required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Create Venue
+        </button>
+
+    </form>
+
+</div>
 
 <?php include __DIR__ . '/../inc/footer.php'; ?>

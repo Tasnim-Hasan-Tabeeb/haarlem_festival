@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Models;
-class Venue{
 
+class Venue
+{
     public ?int $venue_id;
     public string $venue_name;
     public string $venue_location;
@@ -10,15 +11,14 @@ class Venue{
     public string $venue_image;
     public string $map_url;
 
-
     public function __construct(?int $venue_id, string $venue_name, string $venue_location, int $capacity, string $venue_image, string $map)
     {
-        $this->venue_id = $venue_id;
-        $this->venue_name = $venue_name;
+        $this->venue_id       = $venue_id;
+        $this->venue_name     = $venue_name;
         $this->venue_location = $venue_location;
-        $this->capacity = $capacity;
-        $this->venue_image = $venue_image;
-        $this->map_url = $map;
+        $this->capacity       = $capacity;
+        $this->venue_image    = $venue_image;
+        $this->map_url        = $map;
     }
     public function getVenue_id(): int
     {

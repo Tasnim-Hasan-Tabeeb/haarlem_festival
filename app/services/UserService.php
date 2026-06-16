@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
+use App\Helpers\Validator;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Traits\Fileable;
 use Exception;
-use PDOException;
-
-require_once __DIR__ . '/../utils/const.php';
 
 class UserService
 {
+    use Fileable;
     private UserRepository $userRepository;
 
     public function __construct()
@@ -18,156 +18,220 @@ class UserService
         $this->userRepository = new UserRepository();
     }
 
-    public function authenticateUser($username, $password)
-    {
-        $user = $this->userRepository->authenticateUser($username, $password);
-        if ($user) {
-            return $user;
-        }
-        return null;
-    }
-
-    public function hashPassword($password): string
-    {
-        return password_hash($password, PASSWORD_BCRYPT);
-    }
-
     /**
+     * Summary of getAllUsers
      * @throws Exception
+     * @return array
      */
-    public function handleUserImage($image)
-    {
-        try {
-            $ext = pathinfo($image['name'], PATHINFO_EXTENSION);
-            $newImageName = uniqid() . '.' . $ext;
-            $upload_dir = __DIR__ . '/../public/images/';
-            if (!move_uploaded_file($image['tmp_name'], $upload_dir . $newImageName)) {
-                throw new Exception("Failed to move uploaded file.");
-            }
-            return $newImageName;
-
-        } catch (Exception $exception) {
-            echo $exception->getMessage();
-        }
-    }
-
-    public function registerUser($newUser): bool
-    {
-        $plainPassword = $newUser['password'];
-        $newUser['password'] = $this->hashPassword($plainPassword);
-        $image = $newUser['profile_picture'];
-        if (!empty($image['name'])) {
-            $newUser['profile_picture'] = $this->handleUserImage($image);
-        } else {
-            $newUser['profile_picture'] = DEFAULT_PROFILE_PICTURE;
-        }
-        return $this->userRepository->registerUser($newUser);
-    }
-
-    public function checkIfUserExists($email)
-    {
-        return $this->userRepository->checkUserExistenceByEmail($email);
-    }
-
-    public function captchaVerification(&$systemMessage)
-    {
-        $secret = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe";
-        $response = $_POST['g-recaptcha-response'];
-        $remoteip = $_SERVER['REMOTE_ADDR'];
-        $url = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
-        $data = file_get_contents($url);
-        $row = json_decode($data);
-        if ($row->success == "true") {
-            return true;
-        } else {
-            $systemMessage = "you are a robot";
-            return false;
-        }
-    }
-
     public function getAllUsers()
     {
         try {
             return $this->userRepository->getAllUsers();
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
-    public function storeUser(User $user)
+    /**
+     * Summary of storeUser
+     * @param mixed $user
+     * @throws Exception
+     * @return bool
+     */
+    public function storeUser(?User $user = null)
     {
         try {
+            if ($user) {
+                return $this->userRepository->storeUser($user);
+            }
+
+            $rules = [
+                'name'            => 'required|string|min:2|max:100',
+                'email'           => 'required|email|unique:users',
+                'password'        => 'required|string|min:6|max:255',
+                'role'            => 'required',
+                'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            ];
+
+            $email = $_POST['email'];
+
+            $existingUser = $this->getUserByEmail($email);
+
+            if($existingUser) {
+                throw new Exception('Email already exists');
+            }
+
+            Validator::validate($_POST, $rules);
+
+            $imageUrl = '/images/default.webp';
+
+            if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+                $imageUrl = $this->uploadImage($_FILES['profile_picture']);
+            }
+
+            $user = new User();
+            $user->setName($_POST['name']);
+            $user->setEmail($_POST['email']);
+            $user->setPassword(password_hash($_POST['password'], PASSWORD_DEFAULT));
+            $user->setRole($_POST['role']);
+            $user->setProfilePicture($imageUrl);
+
             return $this->userRepository->storeUser($user);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
+    /**
+     * Summary of getUserById
+     * @param mixed $userId
+     * @throws Exception
+     */
     public function getUserById($userId)
     {
         try {
             return $this->userRepository->getUserById($userId);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
+    /**
+     * Summary of getUserByEmail
+     * @param mixed $email
+     * @throws Exception
+     */
     public function getUserByEmail($email)
     {
         try {
             return $this->userRepository->getUserByEmail($email);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
-    public function updateUser($user)
+    /**
+     * Summary of updateUser
+     * @throws Exception
+     * @return bool
+     */
+    public function updateUser()
     {
         try {
-            return $this->userRepository->updateUser($user);
+             $rules = [
+                'user_id'         => 'required|integer',
+                'name'            => 'required|string|min:2|max:100',
+                'email'           => 'required|email|unique:users',
+                'role'            => 'required',
+                'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            ];
+
+            Validator::validate($_POST, $rules);
+
+            $user = $this->getUserById($_POST['user_id']);
+
+            $profileImg = isset($user['profile_picture']) ? $user['profile_picture'] : '/images/default.webp';
+
+            $email = $_POST['email'];
+
+            $existingUser = $this->getUserByEmail($email);
+
+            if($existingUser && $existingUser['user_id'] != $_POST['user_id']) {
+                throw new Exception('Email already exists');
+            }
+
+            if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+                $this->unlinkImage($profileImg);
+                $file       = $_FILES['profile_picture'];
+                $profileImg = $this->uploadImage($file);
+            }
+
+            $userData = [
+                'user_id'         => $_POST['user_id'],
+                'name'            => $_POST['name'],
+                'email'           => $_POST['email'],
+                'role'            => $_POST['role'],
+                'profile_picture' => $profileImg,
+            ];
+
+            return $this->userRepository->updateUser($userData);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
+    /**
+     * Summary of deleteUser
+     * @param mixed $userId
+     * @throws Exception
+     * @return bool
+     */
     public function deleteUser($userId)
     {
         try {
+            $this->unlinkImage($this->getUserById($userId)['profile_picture']);
             return $this->userRepository->deleteUser($userId);
         } catch (Exception $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
-
-    public function resetPassword($email, $password, $token)
-
+    /**
+     * Summary of updateProfile
+     * @throws Exception
+     * @return bool
+     */
+    public function updateProfile()
     {
-        if ($token !== $_SESSION['password_reset_token']) {
-            throw new Exception("Invalid token.");
-        }
         try {
-            $result = $this->userRepository->resetPassword($email, $password); // Remove $token parameter
-            unset($_SESSION['password_reset_token']);
-            unset($_SESSION['email']);
+            Validator::validate($_POST, [
+                'name'            => 'required|max:255',
+                'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            ]);
 
-            return true;
-        } catch (PDOException $e) {
-            throw new Exception("Error: " . $e->getMessage());
+            $user = $_SESSION['user'];
+
+            $profileImg = $user['profile_picture'];
+
+            if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+                $this->unlinkImage($profileImg);
+                $file       = $_FILES['profile_picture'];
+                $profileImg = $this->uploadImage($file);
+            }
+
+            $userData = [
+                'user_id'         => $user['user_id'],
+                'name'            => $_POST['name'],
+                'profile_picture' => $profileImg,
+            ];
+            return $this->userRepository->updateProfile($userData);
+        } catch (Exception $e) {
+            throw new Exception('Error: ' . $e->getMessage());
         }
     }
 
+    public  function updatePassword()
+    {
+        try {
+            $rules = [
+                'new_password' => 'required|string|min:6|confirmed',
+            ];
+            Validator::validate($_POST, $rules);
+            $user     = $_SESSION['user'];
+            $password = password_hash($_POST['new_password'], PASSWORD_BCRYPT);
+            return $this->userRepository->updatePassword($user['user_id'], $password);
+        } catch (Exception $e) {
+            throw new Exception('Error: ' . $e->getMessage());
+        }
+    }
 
+    /**
+     * Summary of isValidEmail
+     * @param mixed $email
+     * @return bool
+     */
     public function isValidEmail($email): bool
     {
-//        var_dump($email);
-//        die();
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
-    public function isStrongPassword($password)
-    {
-        $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/';
-        return preg_match($pattern, $password);
-    }
-
-}
+ }

@@ -1,37 +1,96 @@
 <?php include __DIR__ . '/../inc/header.php'; ?>
 
+<style>
+.user-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+</style>
+
 <div class="container mb-5">
 
     <?php include __DIR__ . '/../inc/message.php'; ?>
 
-    <h1>Edit User</h1>
-    <div class="mt-4">
-        <form action="/user/update" method="post" autocomplete="off" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="<?= $user['name'] ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" value="<?= $user['email'] ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="role" class="form-label">Role</label>
-                <input type="text" class="form-control" id="role" name="role" value="<?= $user['role'] ?>" readonly>
-            </div>
-            <div class="mb-5">
-                <label for="profile_picture" class="form-label">Profile Picture</label>
-                <input type="file" class="form-control" id="profile_picture" name="profile_picture">
-                <?php if (empty($user['profile_picture'])) : ?>
-                    <img src="/images/default.jpg" class="mt-2" width="100" height="100" alt="Default Profile Picture">
+    <h1 class="mb-4">Edit User</h1>
+
+    <form action="/user/update"
+          method="post"
+          autocomplete="off"
+          enctype="multipart/form-data">
+
+        <!-- NAME -->
+        <div class="mb-3">
+            <label class="form-label">
+                Name <span class="text-danger">*</span>
+            </label>
+
+            <input type="text"
+                   class="form-control"
+                   name="name"
+                   value="<?= htmlspecialchars($user['name']) ?>"
+                   placeholder="Enter full name"
+                   required>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="mb-3">
+            <label class="form-label">
+                Email <span class="text-danger">*</span>
+            </label>
+
+            <input type="email"
+                   class="form-control"
+                   name="email"
+                   value="<?= htmlspecialchars($user['email']) ?>"
+                   placeholder="Enter email address"
+                   required>
+        </div>
+
+        <!-- ROLE -->
+        <div class="mb-3">
+            <label class="form-label">Role</label>
+
+            <input type="text"
+                   class="form-control"
+                   name="role"
+                   value="<?= htmlspecialchars($user['role']) ?>"
+                   readonly>
+        </div>
+
+        <!-- PROFILE IMAGE -->
+        <div class="mb-4">
+            <label class="form-label">Profile Picture</label>
+
+            <input type="file"
+                   class="form-control"
+                   name="profile_picture"
+                   accept="image/*">
+
+            <div class="mt-2">
+                <?php if (!empty($user['profile_picture'])) : ?>
+                    <img src="<?= htmlspecialchars($user['profile_picture']) ?>"
+                         alt="Profile Picture"
+                         class="img-thumbnail user-preview">
                 <?php else : ?>
-                    <img src="<?= $user['profile_picture'] ?>" class="mt-2" width="100" height="100" alt="Profile Picture">
+                    <img src="/images/default.jpg"
+                         alt="Default Profile Picture"
+                         class="img-thumbnail user-preview">
                 <?php endif; ?>
             </div>
-            <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>">
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
-    </div>
+        </div>
+
+        <!-- HIDDEN ID -->
+        <input type="hidden"
+               name="user_id"
+               value="<?= htmlspecialchars($user['user_id']) ?>">
+
+        <button type="submit" class="btn btn-primary">
+            Update
+        </button>
+
+    </form>
+
 </div>
 
 <?php include __DIR__ . '/../inc/footer.php'; ?>

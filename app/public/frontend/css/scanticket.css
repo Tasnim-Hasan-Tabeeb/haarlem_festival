@@ -1,20 +1,392 @@
-@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap");
+/* ============================================================
+   SCAN TICKET PAGE — SHADCN STYLE
+   Matches the full design system
+============================================================ */
 
-body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color:#8b8c93 ;
+/* ── PAGE ──────────────────────────────────────────────────── */
+.scan-page {
+    min-height: 100vh;
+    padding: 48px 0 80px;
+    background: var(--bg, #ffffff);
 }
 
+.scan-container {
+    width: min(520px, 92%);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
 
-h1 {
-    font-family: "Baloo Bhaijaan 2", sans-serif;
-    font-size: 3em;
-    color: #000;
-    margin-top: 100px;
-    margin-bottom: -20px;
+/* ── PAGE HEADER ───────────────────────────────────────────── */
+.scan-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.scan-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--fg, #09090b);
+    margin: 0 0 6px;
+}
+
+.scan-header p {
+    font-size: 13px;
+    color: var(--muted, #6b7280);
+    margin: 0;
+}
+
+/* ── CAMERA CARD ───────────────────────────────────────────── */
+.scan-card {
+    background: var(--bg, #fff);
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: var(--r-lg, 10px);
+    overflow: hidden;
+}
+
+.scan-card__header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+    background: var(--bg-subtle, #fafafa);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.scan-card__header h2 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--fg, #09090b);
+    margin: 0;
+}
+
+/* live indicator dot */
+.scan-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted, #6b7280);
+}
+
+.scan-indicator__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border, #e5e7eb);
+    transition: background .3s;
+}
+
+.scan-indicator__dot.live {
+    background: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, .2);
+    animation: pulse 1.5s infinite;
+}
+
+.scan-indicator__dot.error {
+    background: #ef4444;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 3px rgba(22, 163, 74, .2);
+    }
+
+    50% {
+        box-shadow: 0 0 0 6px rgba(22, 163, 74, .08);
+    }
+}
+
+/* ── VIDEO WRAPPER ─────────────────────────────────────────── */
+.scan-video-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #0a0a0a;
+    overflow: hidden;
+}
+
+#camera-feed {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* QR corner brackets overlay */
+.scan-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.scan-frame {
+    width: 55%;
+    aspect-ratio: 1 / 1;
+    position: relative;
+}
+
+.scan-frame::before,
+.scan-frame::after,
+.scan-frame__bl,
+.scan-frame__br {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-color: #fff;
+    border-style: solid;
+    opacity: .85;
+}
+
+/* top-left */
+.scan-frame::before {
+    top: 0;
+    left: 0;
+    border-width: 3px 0 0 3px;
+    border-radius: 4px 0 0 0;
+}
+
+/* top-right */
+.scan-frame::after {
+    top: 0;
+    right: 0;
+    border-width: 3px 3px 0 0;
+    border-radius: 0 4px 0 0;
+}
+
+/* bottom-left */
+.scan-frame__bl {
+    bottom: 0;
+    left: 0;
+    border-width: 0 0 3px 3px;
+    border-radius: 0 0 0 4px;
+}
+
+/* bottom-right */
+.scan-frame__br {
+    bottom: 0;
+    right: 0;
+    border-width: 0 3px 3px 0;
+    border-radius: 0 0 4px 0;
+}
+
+/* scanning line animation */
+.scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #16a34a, transparent);
+    animation: scan-sweep 2s linear infinite;
+    top: 0;
+}
+
+@keyframes scan-sweep {
+    0% {
+        top: 0%;
+    }
+
+    100% {
+        top: 100%;
+    }
+}
+
+/* camera off / permission denied state */
+.scan-video-wrapper.no-camera {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 300px;
+}
+
+.scan-video-wrapper.no-camera .no-camera-icon {
+    font-size: 48px;
+    opacity: .4;
+}
+
+.scan-video-wrapper.no-camera p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, .5);
+    text-align: center;
+    max-width: 240px;
+}
+
+/* ── CARD FOOTER ───────────────────────────────────────────── */
+.scan-card__footer {
+    padding: 14px 20px;
+    border-top: 1px solid var(--border, #e5e7eb);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.scan-status {
+    font-size: 13px;
+    color: var(--muted, #6b7280);
+}
+
+.scan-status strong {
+    color: var(--fg, #09090b);
+}
+
+.btn-restart {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 0 16px;
+    background: transparent;
+    color: var(--fg, #09090b);
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: var(--r-sm, 6px);
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+}
+
+.btn-restart:hover {
+    background: var(--bg-muted, #f3f4f6);
+    border-color: var(--fg, #09090b);
+}
+
+/* ── RESULT BANNER ─────────────────────────────────────────── */
+#alert-message {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: var(--r-lg, 10px);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    animation: slide-in .2s ease;
+    display: none;
+}
+
+#alert-message.success {
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+
+#alert-message.error {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── SCAN COUNT / HISTORY ──────────────────────────────────── */
+.scan-log {
+    margin-top: 20px;
+    background: var(--bg, #fff);
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: var(--r-lg, 10px);
+    overflow: hidden;
+}
+
+.scan-log__header {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+    background: var(--bg-subtle, #fafafa);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted, #6b7280);
+}
+
+.scan-log__body {
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.scan-log__empty {
+    padding: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted, #6b7280);
+}
+
+.scan-log__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+    font-size: 13px;
+    animation: slide-in .2s ease;
+}
+
+.scan-log__item:last-child {
+    border-bottom: none;
+}
+
+.scan-log__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 11px;
+    flex-shrink: 0;
+}
+
+.scan-log__badge.ok {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.scan-log__badge.err {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.scan-log__text {
+    flex: 1;
+    color: var(--fg, #09090b);
+}
+
+.scan-log__time {
+    font-size: 11px;
+    color: var(--muted, #6b7280);
+    white-space: nowrap;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .scan-card__footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-restart {
+        width: 100%;
+        justify-content: center;
+    }
 }

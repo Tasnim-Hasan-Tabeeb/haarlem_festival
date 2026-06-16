@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Controllers\Core\Controller;
 use App\Helpers\Helper;
+use App\Helpers\View;
 use App\Models\SectionType;
 use App\Services\ArtistService;
 use App\Services\DanceService;
@@ -17,20 +19,19 @@ use App\Services\UserService;
 use App\Services\VenueService;
 use Exception;
 
-class HomeController
+class HomeController extends Controller
 {
-    protected $pageService;
-    protected $sectionService;
-    protected $sessionService;
-    protected $restaurantService;
-    protected $eventService;
-
-    protected $artistService;
-    protected $venueService;
-    protected $danceService;
-    protected $historyService;
-    private $userService;
-    private $orderService;
+    protected PageService $pageService;
+    protected SectionService $sectionService;
+    protected SessionService $sessionService;
+    protected RestaurantService $restaurantService;
+    protected EventService $eventService;
+    protected ArtistService $artistService;
+    protected VenueService $venueService;
+    protected DanceService$danceService;
+    protected HistoryService  $historyService;
+    private  UserService $userService;
+    private OrderService $orderService;
 
     public function __construct()
     {
@@ -47,20 +48,23 @@ class HomeController
         $this->orderService      = new OrderService();
     }
 
+    /**
+     * Summary of index
+     */
     public function index()
     {
         try {
-            // Fetch all events
-            $eventsData = $this->eventService->getAll();
-
-            // Initialize arrays to store data for each enum
+            $eventsData    = $this->eventService->getAll();
             $danceEvents   = [];
             $historyEvents = [];
             $yummyEvents   = [];
 
-            // Iterate through the events data
+            $page                = $this->pageService->getPageBySlug('home');
+            $sections            = $this->sectionService->getSectionByPageId((int) $page->getPageId());
+            $section             = array_first($sections);
+            $instrucationSection = array_last($sections);
+
             foreach ($eventsData as $event) {
-                // Check the value of the 'event_type' enum
                 switch ($event['event_type']) {
                     case 'Dance':
                         $danceEvents[] = $event;
@@ -75,149 +79,191 @@ class HomeController
                         break;
                 }
             }
-            require __DIR__ . '/../views/frontend/home.php';
+            return View::make('frontend/home', compact('danceEvents', 'historyEvents', 'yummyEvents', 'section', 'instrucationSection'));
         } catch (Exception $e) {
-            // Handle exceptions
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            return $this->error($e->getMessage());
         }
-    }
-
-    public function dashboard()
-    {
-        if (isset($_SESSION['role']) && $_SESSION['role'] == 'Admin') {
-            $users     = $this->userService->getAllUsers();
-            $userCount = count($users);
-
-            $pages     = $this->pageService->getAllActive();
-            $pageCount = count($pages);
-
-            $events     = $this->eventService->getAll();
-            $eventCount = count($events);
-
-            $restaurants     = $this->restaurantService->getAllRestaurants();
-            $restaurantCount = count($restaurants);
-
-            $danceEvents     = $this->danceService->getAllEvents();
-            $danceEventCount = count($danceEvents);
-
-            $artists     = $this->artistService->getAllArtists();
-            $artistCount = count($artists);
-
-            $venues     = $this->venueService->getAllVenues();
-            $venueCount = count($venues);
-
-            $historyLocations     = $this->historyService->getAllTourLocations();
-            $historyLocationCount = count($historyLocations);
-
-            $historytimetable      = $this->historyService->getAllTours();
-            $historytimetableCount = count($historytimetable);
-
-            $orders     = $this->orderService->getAllOrders();
-            $orderCount = count($orders);
-
-            require __DIR__ . '/../views/backend/home.php';
-        } else {
-            require __DIR__ . '/../views/frontend/home.php';
-        }
-    }
-
-    public function overview()
-    {
-        require __DIR__ . '/../views/frontend/overview.php';
-    }
-
-    public function create()
-    {
-        require '../views/backend/users/create.php';
     }
 
     /**
-     * @throws Exception
+     * Summary of dashboard
      */
+    public function dashboard()
+    {
+        try {
+            if (Helper::isAdmin()) {
+                return $this->loadDashboardView();
+            }
+            return View::make('frontend/home');
+        } catch (Exception $ex) {
+            return $this->error($ex->getMessage());
+        }
+    }
+
+    /**
+     * Summary of overview
+     */
+    public function overview()
+    {
+        return View::make('frontend/overview');
+    }
+
     public function page()
     {
-        $id       = $_GET['id'];
-        $slug     = $_GET['slug'];
-        $sections = $this->sectionService->getSectionByPageId($id);
-        switch ($slug) {
-            case 'history':
-                $headers        = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Header);
-                $introduction   = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Introduction);
-                $information    = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Information);
-                $regularTickets = $this->historyService->getHistoryPageInfoBySectionType(SectionType::RegularTicket);
-                $familyTickets  = $this->historyService->getHistoryPageInfoBySectionType(SectionType::FamilyTicket);
-                $routes         = $this->historyService->getHistoryPageInfoBySectionType(SectionType::Routes);
-                $tours          = $this->historyService->getOrderedTours();
-                $locations      = $this->historyService->getAllTourLocations();
-                require '../views/frontend/history/index.php';
-                break;
-            case 'yummy':
-                $restaurants = $this->restaurantService->getAllRestaurants();
-                foreach ($restaurants as &$restaurant) {
-                    if (!empty($restaurant['sessions'])) {
-                        $latestStartTime = null;
-                        $latestSession   = null;
+        try {
+            $id   = $_GET['id']   ?? null;
+            $slug = $_GET['slug'] ?? null;
 
-                        foreach ($restaurant['sessions'] as $session) {
-                            $sessionStartTime = new \DateTime($session['start_time']);
-                            if ($latestStartTime === null || $sessionStartTime > $latestStartTime) {
-                                $latestStartTime = $sessionStartTime;
-                                $latestSession   = $session;
-                            }
-                        }
+            if (!$id || !$slug) {
+                throw new Exception('Invalid page request');
+            }
 
-                        if ($latestSession !== null) {
-                            $end_time = clone $latestStartTime;
-                            $end_time->add(new \DateInterval('PT' . ($latestSession['duration'] * 60) . 'M'));
-                            $restaurant['start_time'] = $latestStartTime->format('H:i');
-                            $restaurant['end_time']   = $end_time->format('H:i');
-                        }
-                    } else {
-                        $restaurant['start_time'] = null;
-                        $restaurant['end_time']   = null;
-                    }
-                }
-                unset($restaurant);
-//                Helper::debug($restaurants);
-                require '../views/frontend/yummy/index.php';
-                break;
-            case 'dance':
-                $artists         = $this->artistService->getAllArtists();
-                $venues          = $this->venueService->getAllVenues();
-                $passes          = $this->danceService->getAllPasses();
-                $fridayTickets   = $this->danceService->getfridayEvents();
-                $saturdayTickets = $this->danceService->getSaturdayEvents();
-                $SundayTickets   = $this->danceService->getSundayEvents();
-
-                $fridayPass    = [];
-                $saturdayPass  = [];
-                $sundayPass    = [];
-                $allAccessPass = [];
-
-                foreach ($passes as $pass) {
-                    switch ($pass['passType']) {
-                        case 'One-Day Pass (Friday)':
-                            $fridayPass[] = $pass;
-                            break;
-                        case 'One-Day Pass (Saturday)':
-                            $saturdayPass[] = $pass;
-                            break;
-                        case 'One-Day Pass (Sunday)':
-                            $sundayPass[] = $pass;
-                            break;
-                        case 'All-Access Pass':
-                            $allAccessPass[] = $pass;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                require __DIR__ . '/../views/frontend/dance/index.php';
-                break;
-            default:
-                require '../views/frontend/custom.php';
-                break;
+            return match ($slug) {
+                'history' => $this->loadHistoryPage(),
+                'yummy'   => $this->loadYummyPage($id),
+                'dance'   => $this->loadDancePage(),
+                default   => View::make('frontend/custom', [
+                                            'sections' => $this->sectionService->getSectionByPageId($id),
+                                            'title'    => ucfirst($slug)
+                                        ])
+            };
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
         }
+    }
+
+    /**
+     * Summary of loadHistoryPage
+     *
+     */
+    private function loadHistoryPage()
+    {
+        return View::make('frontend/history/index', [
+            'title'          => 'History',
+            'headers'        => $this->historyService->getHistoryPageInfoBySectionType(SectionType::Header),
+            'introduction'   => $this->historyService->getHistoryPageInfoBySectionType(SectionType::Introduction),
+            'information'    => $this->historyService->getHistoryPageInfoBySectionType(SectionType::Information),
+            'regularTickets' => $this->historyService->getHistoryPageInfoBySectionType(SectionType::RegularTicket),
+            'familyTickets'  => $this->historyService->getHistoryPageInfoBySectionType(SectionType::FamilyTicket),
+            'routes'         => $this->historyService->getHistoryPageInfoBySectionType(SectionType::Routes),
+            'tours'          => $this->historyService->getOrderedTours(),
+            'locations'      => $this->historyService->getAllTourLocations(),
+        ]);
+    }
+
+    /**
+     * Summary of loadYummyPage
+     * @param mixed $id
+     */
+    private function loadYummyPage($id)
+    {
+        $restaurants = $this->restaurantService->getAllRestaurants();
+        $title       = 'Yummy';
+        foreach ($restaurants as &$restaurant) {
+            $this->attachRestaurantTiming($restaurant);
+        }
+
+        $sections = $this->sectionService->getSectionByPageId($id);
+
+        return View::make('frontend/yummy/index', compact('restaurants', 'sections', 'title'));
+    }
+
+    /**
+     * Summary of attachRestaurantTiming
+     * @param array $restaurant
+     * @return void
+     */
+    private function attachRestaurantTiming(array &$restaurant): void
+    {
+        if (empty($restaurant['sessions'])) {
+            $restaurant['start_time'] = null;
+            $restaurant['end_time']   = null;
+            return;
+        }
+
+        $latestSession = null;
+        $latestTime    = null;
+
+        foreach ($restaurant['sessions'] as $session) {
+            $currentTime = strtotime($session['start_time']);
+
+            if ($latestTime === null || $currentTime > $latestTime) {
+                $latestTime    = $currentTime;
+                $latestSession = $session;
+            }
+        }
+
+        if ($latestSession) {
+            $start = new \DateTime($latestSession['start_time']);
+            $end   = (clone $start)->add(
+                new \DateInterval('PT' . ($latestSession['duration'] * 60) . 'M')
+            );
+
+            $restaurant['start_time'] = $start->format('H:i');
+            $restaurant['end_time']   = $end->format('H:i');
+        }
+    }
+
+    /**
+     * Summary of loadDancePage
+     */
+    private function loadDancePage()
+    {
+        $dancePageData = $this->danceService->getDancePageData();
+
+        return View::make('frontend/dance/index', [
+            'artists' => $this->artistService->getAllArtists(),
+            'venues' => $this->venueService->getAllVenues(),
+            'danceDays' => $dancePageData['danceDays'],
+            'allDatesPass' => $dancePageData['allDatesPass'],
+            'title' => 'Dance',
+        ]);
+    }
+
+    /**
+     * Summary of getDashboardData
+     */
+    private function loadDashboardView()
+    {
+        $userCount             = count($this->userService->getAllUsers());
+        $pageCount             = count($this->pageService->getAllActive());
+        $eventCount            = count($this->eventService->getAll());
+        $restaurantCount       = count($this->restaurantService->getAllRestaurants());
+        $danceEventCount       = count($this->danceService->getAllEvents());
+        $artistCount           = count($this->artistService->getAllArtists());
+        $venueCount            = count($this->venueService->getAllVenues());
+        $historyLocationCount  = count($this->historyService->getAllTourLocations());
+        $historytimetableCount = count($this->historyService->getAllTours());
+        $orderCount            = count($this->orderService->getAllOrders());
+
+        $dashboardStats = [
+            'Users'             => $userCount,
+            'Pages'             => $pageCount,
+            'Events'            => $eventCount,
+            'Orders'            => $orderCount,
+            'Restaurants'       => $restaurantCount,
+            'Dance Events'      => $danceEventCount,
+            'Artists'           => $artistCount,
+            'Venues'            => $venueCount,
+            'History Locations' => $historyLocationCount,
+            'History Tours'     => $historytimetableCount,
+        ];
+
+        return View::make(
+            'backend/home',
+            compact(
+                'dashboardStats',
+                'userCount',
+                'pageCount',
+                'eventCount',
+                'orderCount',
+                'restaurantCount',
+                'danceEventCount',
+                'artistCount',
+                'venueCount',
+                'historyLocationCount',
+                'historytimetableCount'
+            )
+        );
     }
 }

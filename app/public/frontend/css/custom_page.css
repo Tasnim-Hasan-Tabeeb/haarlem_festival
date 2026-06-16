@@ -1,66 +1,169 @@
-.custom-page {
-    font-family: Arial, sans-serif;
+/* ============================================================
+   custom_page.css — SHADCN SAFE IMAGE SYSTEM (FIXED)
+   ============================================================ */
+
+/* ─────────────────────────────
+   BASE
+──────────────────────────── */
+body {
+    margin: 0;
+
 }
 
-.section {
-    margin-bottom: 40px;
-    padding: 20px;
-    border-bottom: 1px solid #ddd;
+/* spacing safety */
+.white-space {
+    height: 40px;
 }
 
-.section h2 {
-    font-size: 24px;
-    color: #333;
+/* ─────────────────────────────
+   INTRO LAYOUT
+──────────────────────────── */
+.intro {
+    /* max-width: 1100px; */
+    width: min(1200px, 92%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 40px;
+    align-items: center;
+    /* padding: 70px 20px; */
+}
+
+.intro .text h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -1px;
     margin-bottom: 10px;
 }
 
+.intro .text>p {
+    font-size: 15px;
+    color: rgba(0, 0, 0, .65);
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.intro .text .content {
+    font-size: 14px;
+    color: rgba(0, 0, 0, .6);
+    line-height: 1.8;
+}
+
+/* ─────────────────────────────
+   SAFE IMAGE CONTAINER (IMPORTANT FIX)
+──────────────────────────── */
+.img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    /* 🔥 prevents height explosion */
+    overflow: hidden;
+
+    border-radius: 18px;
+    border: 1px solid rgba(0, 0, 0, .06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .06);
+    background: #f4f4f5;
+}
+
+.img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 🔥 crop instead of stretch */
+    object-position: center;
+    display: block;
+}
+
+/* ─────────────────────────────
+   SECTION CARD SYSTEM
+──────────────────────────── */
+.section {
+    width: min(1200px, 92%);
+    margin: 0 auto 18px auto;
+
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .06);
+    border-radius: 18px;
+
+    padding: 28px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .04);
+}
+
+.section h2 {
+    font-size: 18px;
+    font-weight: 750;
+    margin-bottom: 8px;
+}
+
 .section h3 {
-    font-size: 20px;
-    color: #666;
-    margin-bottom: 15px;
+    font-size: 13px;
+    color: rgba(0, 0, 0, .55);
+    margin-bottom: 12px;
 }
 
 .section .content {
-    font-size: 16px;
-    color: #444;
-    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(0, 0, 0, .65);
+}
+
+/* ─────────────────────────────
+   🔥 FIXED IMAGE BLOCK (MAIN FIX HERE)
+──────────────────────────── */
+.section .image {
+    margin-top: 18px;
+
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    /* 🔥 prevents giant images */
+    max-height: 420px;
+
+    overflow: hidden;
+    border-radius: 14px;
+
+    border: 1px solid rgba(0, 0, 0, .06);
+    background: #f4f4f5;
 }
 
 .section .image img {
-    max-width: 100%;
-    height: auto;
-    border: 1px solid #ddd;
-    margin-top: 20px;
-}
-
-.section .map iframe {
     width: 100%;
-    height: 450px;
-    border: none;
-    margin-top: 20px;
+    height: 100%;
+    object-fit: cover;
+    /* crop instead of stretch */
+    object-position: center;
+    display: block;
 }
 
-.intro {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
+/* ─────────────────────────────
+   MAP FIX
+──────────────────────────── */
+.location.section .map {
+    margin-top: 16px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, .06);
 }
 
-.intro .text {
-    flex: 1;
-    padding: 20px;
+.location.section .map iframe {
+    width: 100%;
+    height: 380px;
+    border: 0;
 }
 
-.intro .img-wrap {
-    flex: 1;
-    text-align: center;
-}
+/* ─────────────────────────────
+   RESPONSIVE
+──────────────────────────── */
+@media (max-width: 900px) {
+    .intro {
+        grid-template-columns: 1fr;
+        padding: 40px 16px;
+    }
 
-.intro .img-wrap img {
-    max-width: 95%;
-    height: auto;
-    border: 1px solid #ddd;
-    margin: 0 auto;
-    margin-top: 30px;
-    border-radius:20px;
+    .intro .img-wrap {
+        order: -1;
+    }
+
+    .location.section .map iframe {
+        height: 260px;
+    }
 }

@@ -17,4 +17,4 @@
 .vscode/
 
 # Include specific image file
-!/app/public/images/default.jpg
+!/app/public/images/default.jpgvendor/

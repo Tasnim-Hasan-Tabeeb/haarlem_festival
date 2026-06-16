@@ -2,14 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Controllers\Core\Controller;
 use App\Helpers\Helper;
-use App\Models\Page;
-use App\Models\Section;
+use App\Helpers\View;
 use App\Services\PageService;
 use App\Services\SectionService;
 use Exception;
 
-class PageController
+class PageController extends Controller
 {
     private PageService $pageService;
     private SectionService $sectionService;
@@ -20,220 +20,168 @@ class PageController
         $this->sectionService = new SectionService();
     }
 
+    /**
+     * Summary of index
+     */
     public function index()
     {
         try {
             $pages = $this->pageService->getAllPages();
-            require_once __DIR__ . '/../views/backend/pages/index.php';
+            return View::make('backend.pages.index', compact('pages'));
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/page');
         }
     }
 
+    /**
+     * Summary of create
+     */
     public function create()
     {
         try {
-            require_once __DIR__ . '/../views/backend/pages/create.php';
+            return View::make('backend.pages.create');
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+           return $this->handleException($e, '/page');
         }
     }
 
+    /**
+     * Summary of store
+     * @throws Exception
+     */
     public function store()
     {
         try {
-            if (!isset($_POST['title'])) {
-                throw new Exception('Title is required for the page.');
+            $pageId        = $this->pageService->createPage();
+            $sectionTitles = isset($_POST['section_title']) ? $_POST['section_title'] : [];
+
+            foreach ($sectionTitles as $index => $sectionTitle) {
+                $data = $this->buildSectionData($index);
+                $this->sectionService->saveOrUpdateSection($data, $pageId);
             }
-
-            $slug   = Helper::slug($_POST['title']);
-            $page   = new Page($_POST['title'], 1, $slug);
-            $pageId = $this->pageService->createPage($page);
-
-            if (isset($_POST['section_title'])) {
-                $sectionTitles = $_POST['section_title'];
-
-                foreach ($sectionTitles as $index => $sectionTitle) {
-                    if (empty($sectionTitle)) {
-                        continue;
-                    }
-
-                    $sectionType = isset($_POST['section_type'][$index]) ? $_POST['section_type'][$index] : '';
-                    if (empty($sectionType)) {
-                        throw new Exception('Section type is required for each section.');
-                    }
-
-                    $sectionContent  = isset($_POST['section_content'][$index]) ? $_POST['section_content'][$index] : null;
-                    $sectionSubTitle = isset($_POST['section_sub_title'][$index]) ? $_POST['section_sub_title'][$index] : null;
-                    $mapUrl          = isset($_POST['map_url'][$index]) ? $_POST['map_url'][$index] : null;
-
-                    $imageUrl = '';
-                    if (isset($_FILES['image_url']['name'][$index], $_FILES['image_url']['tmp_name'][$index]) && $_FILES['image_url']['name'][$index] != '' && $_FILES['image_url']['tmp_name'][$index]) {
-                        $fileName    = $_FILES['image_url']['name'][$index];
-                        $tmpFilePath = $_FILES['image_url']['tmp_name'][$index];
-
-                        $uploadDir   = __DIR__ . '/../public/images/';
-                        $newFileName = uniqid('', true) . '_' . $fileName;
-                        $uploadPath  = $uploadDir . $newFileName;
-
-                        if (!move_uploaded_file($tmpFilePath, $uploadPath)) {
-                            throw new Exception("Error uploading file: $fileName");
-                        }
-
-                        $imageUrl = '/images/' . $newFileName;
-                    }
-
-                    $section = new Section($sectionTitle, $sectionSubTitle, $sectionContent, $imageUrl, $mapUrl, $sectionType, $pageId);
-                    $this->sectionService->createSection($section);
-                }
-            } else {
-                $_SESSION['isError']       = 1;
-                $_SESSION['flash_message'] = 'Please provide at least a title for each section!';
-                header('Location: /page');
-                exit();
-            }
-
-            $_SESSION['isError']       = 0;
-            $_SESSION['flash_message'] = 'Page and sections created successfully!';
-            header('Location: /page');
-            exit();
+           return $this->success('Page and sections created successfully!', '/page');
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/page');
         }
     }
 
+    /**
+     * Summary of edit
+     */
     public function edit()
     {
         try {
-            $page_id  = $_GET['id'];
-            $page     = $this->pageService->getPageById($page_id);
-            $sections = $this->sectionService->getSectionByPageId($page_id);
-            require_once __DIR__ . '/../views/backend/pages/edit.php';
+            $pageId   = $_GET['id'];
+            $page     = $this->pageService->getPageById($pageId);
+            $sections = $this->sectionService->getSectionByPageId($pageId);
+            return View::make('backend.pages.edit', compact('page', 'sections'));
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/page');
         }
     }
 
+    /**
+     * Summary of update
+     * @throws Exception
+     */
     public function update()
     {
         try {
-            if (!isset($_POST['page_id']) || !is_numeric($_POST['page_id'])) {
-                throw new Exception('Invalid page ID provided.');
+            $this->pageService->updatePage();
+
+            $sectionTitles = isset($_POST['section_title']) ? $_POST['section_title'] : [];
+
+            foreach ($sectionTitles as $index => $sectionTitle) {
+                $data = $this->buildSectionData($index);
+                $this->sectionService->saveOrUpdateSection($data, $_POST['page_id']);
             }
-
-            $pageId    = $_POST['page_id'];
-            $page      = $this->pageService->getPageById($pageId);
-            $pageTitle = $_POST['title'] ?? '';
-
-            if (empty($pageTitle)) {
-                throw new Exception('Title is required for the page.');
-            }
-
-            $slug = Helper::slug($pageTitle);
-            $page = new Page($pageTitle, 1, $slug, $pageId);
-            $this->pageService->updatePage($page, $pageId);
-
-            $sections = $this->sectionService->getSectionByPageId($pageId);
-
-            if (isset($_POST['section_title'])) {
-                $sectionTitles = $_POST['section_title'];
-
-                foreach ($sectionTitles as $index => $sectionTitle) {
-                    if (empty($sectionTitle)) {
-                        continue;
-                    }
-
-                    $sectionType = $_POST['section_type'][$index] ?? '';
-                    if (empty($sectionType)) {
-                        throw new Exception('Section type is required for each section.');
-                    }
-
-                    $sectionContent  = $_POST['section_content'][$index]   ?? null;
-                    $sectionSubTitle = $_POST['section_sub_title'][$index] ?? null;
-                    $mapUrl          = $_POST['map_url'][$index]           ?? null;
-
-                    $imageUrl = '';
-                    if (isset($_FILES['image_url']['name'][$index], $_FILES['image_url']['tmp_name'][$index]) && $_FILES['image_url']['name'][$index] != '' && $_FILES['image_url']['tmp_name'][$index]) {
-                        $fileName    = $_FILES['image_url']['name'][$index];
-                        $tmpFilePath = $_FILES['image_url']['tmp_name'][$index];
-
-                        $uploadDir   = __DIR__ . '/../public/images/';
-                        $newFileName = uniqid('', true) . '_' . $fileName;
-                        $uploadPath  = $uploadDir . $newFileName;
-
-                        if (!move_uploaded_file($tmpFilePath, $uploadPath)) {
-                            throw new Exception("Error uploading file: $fileName");
-                        }
-
-                        $imageUrl = '/images/' . $newFileName;
-                    }
-
-                    if (isset($_POST['section_id'][$index]) && is_numeric($_POST['section_id'][$index])) {
-                        $sectionId = $_POST['section_id'][$index];
-                        $imageUrl  = $imageUrl == '' ? $this->sectionService->getSectionById($sectionId)->getImageUrl() : $imageUrl;
-
-                        $section = new Section($sectionTitle, $sectionSubTitle, $sectionContent, $imageUrl, $mapUrl, $sectionType, $pageId, $sectionId);
-                        $this->sectionService->updateSection($section);
-                    } else {
-                        $section = new Section($sectionTitle, $sectionSubTitle, $sectionContent, $imageUrl, $mapUrl, $sectionType, $pageId);
-                        $this->sectionService->createSection($section);
-                    }
-                }
-            } else {
-                Helper::setMessage(1, 'Please provide at least a title for each section!');
-            }
-
-            $_SESSION['isError']       = 0;
-            $_SESSION['flash_message'] = 'Page and sections updated successfully!';
-            header('Location: /page');
-            exit();
+            return $this->success('Page and sections update successfully!', '/page');
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/page');
         }
     }
 
+    /**
+     * Summary of delete
+     */
     public function delete()
     {
         try {
-            $page_id = $_GET['id'];
-            $this->pageService->deletePage($page_id);
-            $_SESSION['isError']       = 1;
-            $_SESSION['flash_message'] = 'Page deleted successfully!';
-            header('Location: /page');
-            exit();
+            $pageId = $_GET['id'];
+            $this->pageService->deletePage($pageId);
+            return $this->success('Page deleted successfully!', '/page');
         } catch (Exception $e) {
-            // Handle error appropriately, e.g., redirect to error page
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            return $this->handleException($e, '/page');
         }
     }
 
+    /**
+     * Summary of deleteSection
+     */
     public function deleteSection()
     {
         try {
             $sectionid = $_GET['id'];
+
+            $existingService = $this->sectionService->getSectionById($sectionid);
+
+            if (!$existingService) {
+                // this will cause exception and return as error message in catch block
+                throw new Exception('Section not found');
+            }
+
+            $existingImageUrl = $existingService->getImageUrl();
+
+            if (!empty($existingImageUrl)) {
+                Helper::unlinkImage($existingImageUrl);
+            }
+
             $this->sectionService->deleteSection($sectionid);
-            $existingService  = $this->sectionService->getSectionById($sectionid);
-            $existingImageUrl = $existingService['image_url'];
-            Helper::unlinkImage($existingImageUrl);
             echo 'success';
         } catch (Exception $e) {
-            header('Location: /error?message=' . urlencode($e->getMessage()));
-            exit();
+            return json_encode(['error' => $e->getMessage()]);
         }
     }
 
+    /**
+     * Summary of status
+     */
     public function status()
     {
-        $id       = $_GET['id'];
-        $isActive = $_POST['active'];
-        $page     = $this->pageService->getPageById($id);
-        $newPage  = new Page($page['title'], $isActive, $page['slug']);
-        $this->pageService->updatePage($newPage, $id);
+        try {
+            $this->pageService->updatePageStatus();
+        } catch (Exception $e) {
+            return $this->handleException($e, '/page');
+        }
+    }
+
+    /**
+     * Summary of buildSectionData
+     * @param int $index
+     * @return array{content: mixed, image_file: mixed, image_tmp: mixed, map_url: mixed, section_id: mixed, sub_title: mixed, title: mixed, type: mixed}
+     */
+    private function buildSectionData(int $index): array
+    {
+        $imageFile = null;
+
+        if (isset($_FILES['image_url']['name'][$index]) && $_FILES['image_url']['error'][$index] === UPLOAD_ERR_OK) {
+            $imageFile = [
+                'name'     => $_FILES['image_url']['name'][$index],
+                'type'     => $_FILES['image_url']['type'][$index],
+                'tmp_name' => $_FILES['image_url']['tmp_name'][$index],
+                'error'    => $_FILES['image_url']['error'][$index],
+                'size'     => $_FILES['image_url']['size'][$index],
+            ];
+        }
+
+        return [
+            'title'      => $_POST['section_title'][$index]     ?? '',
+            'type'       => $_POST['section_type'][$index]      ?? '',
+            'content'    => $_POST['section_content'][$index]   ?? null,
+            'sub_title'  => $_POST['section_sub_title'][$index] ?? null,
+            'map_url'    => $_POST['map_url'][$index]           ?? null,
+            'image_file' => $imageFile,
+            'section_id' => $_POST['section_id'][$index] ?? null,
+        ];
     }
 }

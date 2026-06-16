@@ -8,9 +8,10 @@ use ReflectionClass;
 
 class EventTypes implements jsonSerializable
 {
-    const Dance = 'Dance';
-    const History = 'History';
-    const Yummy = 'Yummy';
+    const Dance         = 'Dance';
+    const History       = 'History';
+    const Yummy         = 'Yummy';
+    const Administrator = 'Administrator';
 
     private $value;
     public function __construct($value)
@@ -32,19 +33,25 @@ class EventTypes implements jsonSerializable
     public static function getLabel(self $value): string
     {
         return match ($value->value) {
-            self::Dance => 'Dance',
+            self::Dance   => 'Dance',
             self::History => 'History',
-            self::Yummy => 'Customer',
-            default => throw new InvalidArgumentException("Invalid status value: $value"),
+            self::Yummy   => 'Customer',
+            default       => throw new InvalidArgumentException("Invalid status value: $value"),
         };
     }
+
+    public static function Administrator(): self
+    {
+        return new self(self::Administrator);
+    }
+
     public static function fromString(string $value): self
     {
         return match ($value) {
             self::Administrator => self::Administrator(),
-            self::History => self::History(),
-            self::Yummy => self::Yummy(),
-            default => throw new InvalidArgumentException("Invalid status value: $value"),
+            self::History       => self::History(),
+            self::Yummy         => self::Yummy(),
+            default             => throw new InvalidArgumentException("Invalid status value: $value"),
         };
     }
 
@@ -55,7 +62,7 @@ class EventTypes implements jsonSerializable
     public static function getEnumValues(): array
     {
         $reflectionClass = new ReflectionClass(__CLASS__);
-        $constants = $reflectionClass->getConstants();
+        $constants       = $reflectionClass->getConstants();
         return array_values($constants);
     }
 }

@@ -15,7 +15,10 @@ class Dance implements BasketItemInterface
     private string $event_start_time;
     private int $event_duration;
     private string $title;
-private int $quantity;
+    private ?string $music_event_image = null;
+    private int $quantity;
+
+    private  int $venue_id;
 
     public function __construct(
         int $music_performance_id,
@@ -28,17 +31,21 @@ private int $quantity;
         string $title,
         int $event_id,
         int $quantity,
+        int $venue_id,
+        ?string $music_event_image = null
     ) {
         $this->music_performance_id = $music_performance_id;
-        $this->music_event_id = $music_event_id;
-        $this->event_price = $event_price;
-        $this->session_type = $session_type;
-        $this->start_date = $start_date;
-        $this->event_start_time = $event_start_time;
-        $this->event_duration = $event_duration;
-        $this->title = $title;
-        $this->event_id = $event_id;
-        $this->quantity = $quantity;
+        $this->music_event_id       = $music_event_id;
+        $this->event_price          = $event_price;
+        $this->session_type         = $session_type;
+        $this->start_date           = $start_date;
+        $this->event_start_time     = $event_start_time;
+        $this->event_duration       = $event_duration;
+        $this->title                = $title;
+        $this->event_id             = $event_id;
+        $this->quantity             = $quantity;
+        $this->venue_id             = $venue_id;
+        $this->music_event_image    = $music_event_image;
     }
 
     public function getMusicPerformanceId(): int
@@ -125,19 +132,40 @@ private int $quantity;
         $this->quantity = $quantity;
     }
 
+    public function getMusicEventImage(): string
+    {
+        return $this->music_event_image;
+    }
+
+    public function setMusicEventImage(?string $music_event_image = null): void
+    {
+        $this->music_event_image = $music_event_image;
+    }
+
+    public function getVenueId(): int
+    {
+        return $this->venue_id;
+    }
+
+    public function setVenueId(int $venue_id): void
+    {
+        $this->venue_id = $venue_id;
+    }
+
     public function toArray()
     {
         return [
             'music_performance_id' => $this->music_performance_id,
-            'music_event_id' => $this->music_event_id,
-            'event_price' => $this->event_price,
-            'session_type' => $this->session_type,
-            'event_date' => $this->start_date,
-            'event_start_time' => $this->event_start_time,
-            'event_duration' => $this->event_duration,
-            'event_id' => $this->event_id,
-            'event_name' => $this->title,
-            'quantity' => $this->quantity,
+            'music_event_id'       => $this->music_event_id,
+            'event_price'          => $this->event_price,
+            'session_type'         => $this->session_type,
+            'event_date'           => $this->start_date,
+            'event_start_time'     => $this->event_start_time,
+            'event_duration'       => $this->event_duration,
+            'event_id'             => $this->event_id,
+            'event_name'           => $this->title,
+            'quantity'             => $this->quantity,
+            'music_event_image'    => $this->music_event_image
         ];
     }
 
