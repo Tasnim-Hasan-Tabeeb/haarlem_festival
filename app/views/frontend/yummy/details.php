@@ -107,13 +107,13 @@
                 <div class="form-group row">
                     <div class="form-group col">
                         <label for="adults" class="form-label">Persons (Adults) *</label>
-                        <input type="number" class="form-control" min="0" max="1000" id="adults" name="total_adult"  />
+                        <input type="number" class="form-control" min="0" max="1000" id="adults" name="total_adult" required  />
                         <small class="input-error" id="adults-error"></small>
 
                     </div>
                     <div class="form-group col">
                         <label for="children" class="form-label">Persons (Children) *</label>
-                        <input type="number" class="form-control" min="0" max="1000" id="children" name="total_children"  />
+                        <input type="number" class="form-control" min="0" max="1000" id="children" name="total_children" required />
                         <small class="input-error" id="children-error"></small>
 
                     </div>
