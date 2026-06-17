@@ -24,7 +24,7 @@ class DanceController extends Controller
 
     public function index(): void
     {
-        header('Location: /home/page?slug=dance&id=5');
+        return $this->redirect('/home/page?slug=dance&id=5');
     }
 
     /**

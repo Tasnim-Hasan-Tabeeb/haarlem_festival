@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use App\Controllers\Core\Controller;
+use App\Helpers\View;
 use App\Services\OrderService;
+use Exception;
 
 class ScanTicketController extends Controller
 {
@@ -17,13 +19,11 @@ class ScanTicketController extends Controller
 
     public function scanTicket(): void
     {
-        // try {
-        //     //code...
-        // } catch (Exception $e) {
-        //     return $this->handleException($e, '/session');
-        // }
-
-        require_once __DIR__ . '/../views/frontend/scan-ticket.php';
+        try {
+            return View::make('frontend.scan-ticket');
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
     }
 
     public function verifyTicket(): void

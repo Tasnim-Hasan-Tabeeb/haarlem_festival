@@ -93,7 +93,6 @@ class Controller
     {
         $date = new DateTime();
 
-        // move to start of week (Monday)
         $date->modify('monday this week');
 
         return match ($day) {

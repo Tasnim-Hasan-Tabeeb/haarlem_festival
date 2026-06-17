@@ -164,11 +164,7 @@ class AuthService
      */
     public function getUserByEmail($email)
     {
-        try {
-            return $this->userRepository->getUserByEmail($email);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+       return $this->userRepository->getUserByEmail($email);
     }
 
     /**
@@ -184,15 +180,12 @@ class AuthService
         if ($token !== $_SESSION['password_reset_token']) {
             throw new Exception('Invalid token.');
         }
-        try {
-            $result = $this->userRepository->resetPassword($email, $password);
-            unset($_SESSION['password_reset_token']);
-            unset($_SESSION['email']);
 
-            return true;
-        } catch (PDOException $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        $result = $this->userRepository->resetPassword($email, $password);
+        unset($_SESSION['password_reset_token']);
+        unset($_SESSION['email']);
+
+        return true;
     }
 
     /**
@@ -280,15 +273,12 @@ class AuthService
         if ($token !== $_SESSION['password_reset_token']) {
             throw new Exception('Invalid token.');
         }
-        try {
-            $this->userRepository->resetPassword($email, $password);
-            unset($_SESSION['password_reset_token']);
-            unset($_SESSION['email']);
 
-            return true;
-        } catch (PDOException $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        $this->userRepository->resetPassword($email, $password);
+        unset($_SESSION['password_reset_token']);
+        unset($_SESSION['email']);
+
+        return true;
     }
 
     /**

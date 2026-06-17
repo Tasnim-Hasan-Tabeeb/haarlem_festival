@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Helpers\Helper;
 use App\Models\Reservation;
 use App\Models\Ticket;
-use App\Models\TicketType;
 use App\Repositories\OrderRepository;
 
 use Endroid\QrCode\Builder\Builder;
@@ -262,41 +261,37 @@ class OrderService
      */
     public function getQR($orderId)
     {
-       try {
-            $tickets          = $this->getTicketsByOrderId($orderId);
-            $qrCodeImagePaths = [];
+        $tickets          = $this->getTicketsByOrderId($orderId);
+        $qrCodeImagePaths = [];
 
-            foreach ($tickets as $ticket) {
-                // Generate a unique QR code for each ticket
-                $qrCodeData = $ticket['qr_code'];
+        foreach ($tickets as $ticket) {
+            // Generate a unique QR code for each ticket
+            $qrCodeData = $ticket['qr_code'];
 
-                // Create QR code builder with ticket data
-                $qrCodeBuilder = Builder::create()
-                    ->writer(new PngWriter())
-                    ->data($qrCodeData)
-                    ->encoding(new Encoding('UTF-8'))
-                    ->errorCorrectionLevel(ErrorCorrectionLevel::High)
-                    ->size(300)
-                    ->margin(10)
-                    ->roundBlockSizeMode(RoundBlockSizeMode::Margin);
+            // Create QR code builder with ticket data
+            $qrCodeBuilder = Builder::create()
+                ->writer(new PngWriter())
+                ->data($qrCodeData)
+                ->encoding(new Encoding('UTF-8'))
+                ->errorCorrectionLevel(ErrorCorrectionLevel::High)
+                ->size(300)
+                ->margin(10)
+                ->roundBlockSizeMode(RoundBlockSizeMode::Margin);
 
-                // Generate QR code image in PNG format
-                $qrCodeImage = $qrCodeBuilder->build();
+            // Generate QR code image in PNG format
+            $qrCodeImage = $qrCodeBuilder->build();
 
-                // Define the path to save the QR code image
-                $qrCodeImagePath = __DIR__ . '/../public/images/qrCodes/' . $qrCodeData . '.png';
+            // Define the path to save the QR code image
+            $qrCodeImagePath = __DIR__ . '/../public/images/qrCodes/' . $qrCodeData . '.png';
 
-                // Save the QR code image to the specified path
-                file_put_contents($qrCodeImagePath, $qrCodeImage->getString());
+            // Save the QR code image to the specified path
+            file_put_contents($qrCodeImagePath, $qrCodeImage->getString());
 
-                // Add the path to the array
-                $qrCodeImagePaths[] = $qrCodeImagePath;
-            }
+            // Add the path to the array
+            $qrCodeImagePaths[] = $qrCodeImagePath;
+        }
 
-            return $qrCodeImagePaths;
-       } catch (\Throwable $th) {
-           throw $th;
-       }
+        return $qrCodeImagePaths;
     }
 
     /**

@@ -24,23 +24,19 @@ class PageService
      */
     public function createPage(): int
     {
-        try {
-            $rules = [
-                'title'             => 'required|string|min:3|max:500',
-                'section_title'     => 'required_array|string|min:3|max:500',
-                'section_type'      => 'required_array|string',
-                'section_content'   => 'array|string',
-                'section_sub_title' => 'array|string|max:150',
-                'map_url'           => 'array|string',
-            ];
-            Validator::validate($_POST, $rules);
-            $slug = Helper::slug($_POST['title']);
-            $page = new Page($_POST['title'], 1, $slug);
+        $rules = [
+            'title'             => 'required|string|min:3|max:500',
+            'section_title'     => 'required_array|string|min:3|max:500',
+            'section_type'      => 'required_array|string',
+            'section_content'   => 'array|string',
+            'section_sub_title' => 'array|string|max:150',
+            'map_url'           => 'array|string',
+        ];
+        Validator::validate($_POST, $rules);
+        $slug = Helper::slug($_POST['title']);
+        $page = new Page($_POST['title'], 1, $slug);
 
-            return $this->pageRepository->create($page);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->pageRepository->create($page);
     }
 
     /**
@@ -50,29 +46,25 @@ class PageService
      */
     public function updatePage(): bool
     {
-        try {
-            $rules = [
-                'page_id'           => 'required|numeric',
-                'title'             => 'required|string|min:3|max:500',
-                'section_title'     => 'required_array|string|min:3|max:500',
-                'section_type'      => 'required_array|string',
-                'section_content'   => 'array|string',
-                'section_sub_title' => 'array|string|max:150',
-                'map_url'           => 'array|string',
-            ];
+        $rules = [
+            'page_id'           => 'required|numeric',
+            'title'             => 'required|string|min:3|max:500',
+            'section_title'     => 'required_array|string|min:3|max:500',
+            'section_type'      => 'required_array|string',
+            'section_content'   => 'array|string',
+            'section_sub_title' => 'array|string|max:150',
+            'map_url'           => 'array|string',
+        ];
 
-            Validator::validate($_POST, $rules);
+        Validator::validate($_POST, $rules);
 
-            $pageId    = $_POST['page_id'];
-            $page      = $this->getPageById($pageId);
-            $pageTitle = $_POST['title'];
-            $slug      = ($page['slug'] == 'home') ? 'home' : Helper::slug($pageTitle);
-            $page      = new Page($pageTitle, 1, $slug, $pageId);
+        $pageId    = $_POST['page_id'];
+        $page      = $this->getPageById($pageId);
+        $pageTitle = $_POST['title'];
+        $slug      = ($page['slug'] == 'home') ? 'home' : Helper::slug($pageTitle);
+        $page      = new Page($pageTitle, 1, $slug, $pageId);
 
-            return $this->pageRepository->update($page, $pageId);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->pageRepository->update($page, $pageId);
     }
 
     public function getPageBySlug(string $slug)
@@ -101,11 +93,7 @@ class PageService
      */
     public function deletePage(int $page_id): bool
     {
-        try {
-            return $this->pageRepository->delete($page_id);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->pageRepository->delete($page_id);
     }
 
     /**
@@ -115,11 +103,7 @@ class PageService
      */
     public function getPageById(int $page_id)
     {
-        try {
-            return $this->pageRepository->getById($page_id);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->pageRepository->getById($page_id);
     }
 
     /**
@@ -129,11 +113,7 @@ class PageService
      */
     public function getAllActive()
     {
-        try {
-            return $this->pageRepository->getAllActive();
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->pageRepository->getAllActive();
     }
 
     /**
@@ -143,10 +123,6 @@ class PageService
      */
     public function getAllPages()
     {
-        try {
-            return $this->pageRepository->getAllPages();
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->pageRepository->getAllPages();
     }
   }

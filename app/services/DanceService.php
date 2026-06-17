@@ -25,49 +25,29 @@ class DanceService
 
     public function getAllEvents()
     {
-        try {
-            return $this->danceRepository->getAll();
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+       return $this->danceRepository->getAll();
     }
 
     public function getDancePageData(): array
     {
-        try {
-            return $this->pageDataBuilder->build(
-                $this->danceRepository->getActiveEvents(),
-                $this->danceRepository->getAllPasses()
-            );
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->pageDataBuilder->build(
+            $this->danceRepository->getActiveEvents(),
+            $this->danceRepository->getAllPasses()
+        );
     }
 
     public function getEventsByDate(string $date)
     {
-        try {
-            return $this->danceRepository->getEventsByDate($date);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+       return $this->danceRepository->getEventsByDate($date);
     }
 
     public function getArtistIdsByEventId(int $music_event_id){
-        try {
-            return $this->danceRepository->getArtistIdsByEventId($music_event_id);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->danceRepository->getArtistIdsByEventId($music_event_id);
     }
 
     public function getEventById(int $music_performance_id)
     {
-        try {
-            return $this->danceRepository->getDanceEventById($music_performance_id);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->danceRepository->getDanceEventById($music_performance_id);
     }
 
     /**
@@ -162,7 +142,6 @@ class DanceService
             $imageUrl = $this->uploadImage($file);
         }
 
-      
         $artistIds = $_POST['artist_id'] ?? [];
 
         if (empty($artistIds)) {
@@ -189,97 +168,73 @@ class DanceService
 
     public function deleteDance(int $music_performance_id)
     {
-        try {
-            return $this->danceRepository->delete($music_performance_id);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->danceRepository->delete($music_performance_id);
     }
 
     public function getAllPasses()
     {
-        try {
-            return $this->danceRepository->getAllPasses();
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->danceRepository->getAllPasses();
     }
     public function getEventsByArtistId(int $artistId)
     {
-        try {
-            return $this->danceRepository->getEventsByArtistId($artistId);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->danceRepository->getEventsByArtistId($artistId);
     }
     public function getPassDetailsById(int $passId)
     {
-        try {
-            return $this->danceRepository->getPassDetailsById($passId);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->danceRepository->getPassDetailsById($passId);
     }
 
     public function createPass()
     {
-        try {
-            Validator::validate($_POST, ['pass_id' => 'required|numeric']);
+        Validator::validate($_POST, ['pass_id' => 'required|numeric']);
 
-            $passId = (int) $_POST['pass_id'];
-            $passDetails = $this->getPassDetailsById($passId);
-            if (!$passDetails) {
-                throw new Exception('Pass not found');
-            }
-
-            $pass = new TicketPass(
-                (int) $passDetails['pass_id'],
-                $passDetails['passName'],
-                $passDetails['passDescription'],
-                (int) $passDetails['passPrice'],
-                $passDetails['passType'],
-                $passDetails['pass_scope'],
-                $passDetails['event_date'],
-                1
-            );
-
-            return $pass;
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
+        $passId      = (int) $_POST['pass_id'];
+        $passDetails = $this->getPassDetailsById($passId);
+        if (!$passDetails) {
+            throw new Exception('Pass not found');
         }
+
+        $pass = new TicketPass(
+            (int) $passDetails['pass_id'],
+            $passDetails['passName'],
+            $passDetails['passDescription'],
+            (int) $passDetails['passPrice'],
+            $passDetails['passType'],
+            $passDetails['pass_scope'],
+            $passDetails['event_date'],
+            1
+        );
+
+        return $pass;
     }
 
     public function createDanceForCart(){
-        try {
-            Validator::validate(
-                $_POST,
-                ['music_performance_id' => 'required']
-            );
-            $musicPerformanceId = $_POST['music_performance_id'] ?? null;
+        Validator::validate(
+            $_POST,
+            ['music_performance_id' => 'required']
+        );
+        $musicPerformanceId = $_POST['music_performance_id'] ?? null;
 
-            $event = $this->getEventById($musicPerformanceId);
+        $event = $this->getEventById($musicPerformanceId);
 
-            if (!$event) {
-                throw new Exception('Event not found');
-            }
-
-            $dance = new Dance(
-                $event['music_performance_id'],
-                $event['music_event_id'],
-                $event['event_price'],
-                $event['session_type'],
-                $event['event_date'],
-                $event['event_start_time'],
-                $event['event_duration'],
-                $event['event_name'],
-                $event['event_id'],
-                1,
-                $event['venue_id'],
-            );
-
-            return $dance;
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
+        if (!$event) {
+            throw new Exception('Event not found');
         }
+
+        $dance = new Dance(
+            $event['music_performance_id'],
+            $event['music_event_id'],
+            $event['event_price'],
+            $event['session_type'],
+            $event['event_date'],
+            $event['event_start_time'],
+            $event['event_duration'],
+            $event['event_name'],
+            $event['event_id'],
+            1,
+            $event['venue_id'],
+        );
+
+        return $dance;
     }
 }

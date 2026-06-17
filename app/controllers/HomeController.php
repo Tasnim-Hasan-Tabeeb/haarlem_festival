@@ -212,11 +212,11 @@ class HomeController extends Controller
         $dancePageData = $this->danceService->getDancePageData();
 
         return View::make('frontend/dance/index', [
-            'artists' => $this->artistService->getAllArtists(),
-            'venues' => $this->venueService->getAllVenues(),
-            'danceDays' => $dancePageData['danceDays'],
+            'artists'      => $this->artistService->getAllArtists(),
+            'venues'       => $this->venueService->getAllVenues(),
+            'danceDays'    => $dancePageData['danceDays'],
             'allDatesPass' => $dancePageData['allDatesPass'],
-            'title' => 'Dance',
+            'title'        => 'Dance',
         ]);
     }
 

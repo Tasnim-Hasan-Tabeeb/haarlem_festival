@@ -18,11 +18,7 @@ class SessionService
 
     public function getAllSessions()
     {
-        try {
-            return $this->sessionRepository->getAllSessions();
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->sessionRepository->getAllSessions();
     }
 
     /**
@@ -33,20 +29,12 @@ class SessionService
      */
     public function getSessionsByRestaurantId($restaurantId)
     {
-        try {
-            return $this->sessionRepository->getSessionsByRestaurantId($restaurantId);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->sessionRepository->getSessionsByRestaurantId($restaurantId);
     }
 
     public function getAllEvents()
     {
-        try {
-            return $this->sessionRepository->getAllEvents();
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->sessionRepository->getAllEvents();
     }
 
     /**
@@ -56,28 +44,24 @@ class SessionService
      */
     public function createSession()
     {
-        try {
-            $rules = [
-                'restaurant_id'    => 'required|numeric',
-                'event_id'         => 'required|numeric',
-                'start_time'       => 'required',
-                'duration'         => 'required|numeric|min:0.1|max:10000',
-                'sessions_per_day' => 'required|numeric|min:1|max:10000',
-            ];
+        $rules = [
+            'restaurant_id'    => 'required|numeric',
+            'event_id'         => 'required|numeric',
+            'start_time'       => 'required',
+            'duration'         => 'required|numeric|min:0.1|max:10000',
+            'sessions_per_day' => 'required|numeric|min:1|max:10000',
+        ];
 
-            Validator::validate($_POST, $rules);
+        Validator::validate($_POST, $rules);
 
-            $restaurantId   = $_POST['restaurant_id'];
-            $eventId        = $_POST['event_id'];
-            $startTime      = $_POST['start_time'];
-            $duration       = $_POST['duration'];
-            $sessionsPerDay = $_POST['sessions_per_day'];
+        $restaurantId   = $_POST['restaurant_id'];
+        $eventId        = $_POST['event_id'];
+        $startTime      = $_POST['start_time'];
+        $duration       = $_POST['duration'];
+        $sessionsPerDay = $_POST['sessions_per_day'];
 
-            $session = new Session($restaurantId, $eventId, $startTime, $duration, $sessionsPerDay);
-            return $this->sessionRepository->createSession($session);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        $session = new Session($restaurantId, $eventId, $startTime, $duration, $sessionsPerDay);
+        return $this->sessionRepository->createSession($session);
     }
 
     /**
@@ -87,11 +71,7 @@ class SessionService
      */
     public function getSession($sessionId)
     {
-        try {
-            return $this->sessionRepository->getSession($sessionId);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+      return $this->sessionRepository->getSession($sessionId);
     }
 
     /**
@@ -101,29 +81,25 @@ class SessionService
      */
     public function updateSession()
     {
-        try {
-            $rules = [
-                'session_id'       => 'required|numeric',
-                'restaurant_id'    => 'required|numeric',
-                'event_id'         => 'required|numeric',
-                'start_time'       => 'required',
-                'duration'         => 'required|numeric|min:0.1|max:10000',
-                'sessions_per_day' => 'required|numeric|min:1|max:10000',
-            ];
+        $rules = [
+            'session_id'       => 'required|numeric',
+            'restaurant_id'    => 'required|numeric',
+            'event_id'         => 'required|numeric',
+            'start_time'       => 'required',
+            'duration'         => 'required|numeric|min:0.1|max:10000',
+            'sessions_per_day' => 'required|numeric|min:1|max:10000',
+        ];
 
-            Validator::validate($_POST, $rules);
-            $sessionId      = $_POST['session_id'];
-            $restaurantId   = $_POST['restaurant_id'];
-            $eventId        = $_POST['event_id'];
-            $startTime      = $_POST['start_time'];
-            $duration       = $_POST['duration'];
-            $sessionsPerDay = $_POST['sessions_per_day'];
-            $session        = new Session($restaurantId, $eventId, $startTime, $duration, $sessionsPerDay);
-            $session->setSessionId($sessionId);
-            return $this->sessionRepository->updateSession($session);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        Validator::validate($_POST, $rules);
+        $sessionId      = $_POST['session_id'];
+        $restaurantId   = $_POST['restaurant_id'];
+        $eventId        = $_POST['event_id'];
+        $startTime      = $_POST['start_time'];
+        $duration       = $_POST['duration'];
+        $sessionsPerDay = $_POST['sessions_per_day'];
+        $session        = new Session($restaurantId, $eventId, $startTime, $duration, $sessionsPerDay);
+        $session->setSessionId($sessionId);
+        return $this->sessionRepository->updateSession($session);
     }
 
     /**
@@ -134,10 +110,6 @@ class SessionService
      */
     public function deleteSession($sessionId)
     {
-        try {
-            return $this->sessionRepository->deleteSession($sessionId);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+       return $this->sessionRepository->deleteSession($sessionId);
     }
 }

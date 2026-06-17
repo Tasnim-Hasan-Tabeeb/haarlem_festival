@@ -14,8 +14,6 @@ use App\Services\SessionService;
 use App\Services\UserService;
 use Exception;
 
-use function PHPSTORM_META\type;
-
 class ReservationController extends Controller
 {
     private ReservationService $reservationService;
@@ -41,73 +39,26 @@ class ReservationController extends Controller
     public function makeReservation()
     {
         try {
-            $rules = [
-                'reservation_date' => 'required|date:Y-m-d',
-                'total_adult'      => 'nullable|numeric|min:0|max:10000',
-                'total_children'   => 'nullable|numeric|min:0|max:10000',
-                'session_id'       => 'required',
-                'restaurant_id'    => 'required|numeric',
-                'phone'            => 'required|string',
-            ];
-
-            // Call our new validator
-            $validatedData = Validator::validate($_POST, $rules);
-
-            $userId = null;
-            $email  = null;
-            $name   = null;
-            $phone  = $_POST['phone'];
-
-            $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
-
-            if(!empty($user)){
-                $userId = $user['user_id'];
-                $email  = $user['email'];
-                $name   = $user['name'];
-            }
-
-            $reservationDate = $validatedData['reservation_date'];
-            $totalAdult      = $validatedData['total_adult']    ?? 0;
-            $totalChildren   = $validatedData['total_children'] ?? 0;
-            $sessionId       = $validatedData['session_id'];
-            $restaurantId    = $validatedData['restaurant_id'];
-            $remarks         = $_POST['remarks'];
-
-            $totalAdult    = is_numeric($totalAdult) ? $totalAdult : 0;
-            $totalChildren = is_numeric($totalChildren) ? $totalChildren : 0;
-
-            if($totalAdult == 0 && $totalChildren == 0){
-                throw new Exception('Please enter at least one person.');
-            }
-
-            $restaurant = $this->restaurantService->getRestaurant($restaurantId);
-
-            if($restaurant['number_of_seats'] < $totalAdult + $totalChildren){
-                throw new Exception('Maximum number of people is ' . $restaurant['number_of_seats'] . '. Please reduce the number of people.');
-            }
-
-            $priceForAdult = $restaurant['price_for_adult'];
-            $priceForChild = $restaurant['price_for_child'];
-            $totalCost     = ($priceForAdult * $totalAdult) + ($priceForChild * $totalChildren);
-            $totalPersons  = $totalAdult                    + $totalChildren;
-            $costPerPerson = $totalPersons > 0 ? $totalCost / $totalPersons : 0;
-
-            $reservation = new Reservation(
-                $name,
-                $reservationDate,
-                $totalAdult,
-                $totalChildren,
-                $email,
-                $phone,
-                $userId,
-                $sessionId,
-                $restaurantId,
-                $remarks,
-                $costPerPerson,
-                $restaurant['title'],
+            $data     = $this->reservationService->validateReservationRequest();
+            $userData = $this->reservationService->getReservationUserData();
+            $this->reservationService->validatePersonCount(
+                $data['total_adult']    ?? 0,
+                $data['total_children'] ?? 0
             );
-            $this->basket->addItem($reservation);
 
+            $restaurant = $this->getValidatedRestaurant(
+                $data['restaurant_id'],
+                $data['total_adult']    ?? 0,
+                $data['total_children'] ?? 0
+            );
+
+            $reservation = $this->reservationService->buildReservation(
+                $data,
+                $userData,
+                $restaurant
+            );
+
+            $this->basket->addItem($reservation);
             return $this->success('Reservation added to basket successfully!', '/personalprogram/basket');
         } catch (Exception $e) {
             return $this->error($e->getMessage());
@@ -190,7 +141,7 @@ class ReservationController extends Controller
     public function store()
     {
         try {
-            $this->validate();
+            $this->reservationService->validate();
             $this->reservationService->createReservation($this->prepPostData());
             return $this->success('Reservation created successfully!', '/reservation');
         } catch (Exception $e) {
@@ -223,7 +174,7 @@ class ReservationController extends Controller
     public function update()
     {
         try {
-            $this->validate(false);
+            $this->reservationService->validate(false);
             $reservationId = $_POST['id'];
             $reservation   = $this->prepPostData();
             $reservation->setReservationId($reservationId);
@@ -262,31 +213,6 @@ class ReservationController extends Controller
         } catch (Exception $e) {
             return $this->handleException($e, '/reservation');
         }
-    }
-
-    /**
-     * Summary of validate
-     * @param bool $create
-     * @return void
-     */
-    private function validate(bool $create = true)
-    {
-        $rules = [
-            'name'             => 'required|string|min:3|max:100',
-            'reservation_date' => 'required|date:Y-m-d',
-            'total_adult'      => 'required|numeric',
-            'total_children'   => 'required|numeric',
-            'email'            => 'required|email',
-            'phone'            => 'required|string|min:6|max:20',
-            'session_id'       => 'required',
-            'restaurant_id'    => 'required',
-        ];
-
-        if (!$create) {
-            $rules['id'] = 'required|numeric';
-        }
-
-        Validator::validate($_POST, $rules);
     }
 
     /**
@@ -347,5 +273,25 @@ class ReservationController extends Controller
         );
 
         return $reservation;
+    }
+
+    private function getValidatedRestaurant(
+        int $restaurantId,
+        int $totalAdult,
+        int $totalChildren
+    ): array {
+        $restaurant = $this->restaurantService->getRestaurant($restaurantId);
+
+        $totalPersons = $totalAdult + $totalChildren;
+
+        if ($restaurant['number_of_seats'] < $totalPersons) {
+            throw new Exception(
+                'Maximum number of people is ' .
+                $restaurant['number_of_seats'] .
+                '. Please reduce the number of people.'
+            );
+        }
+
+        return $restaurant;
     }
 }

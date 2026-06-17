@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Helpers\Validator;
 use App\Models\Reservation;
 use App\Repositories\ReservationRepository;
+use Exception;
 
 class ReservationService
 {
@@ -82,5 +84,89 @@ class ReservationService
     public function deleteReservation($reservation_id)
     {
         return $this->reservationRepository->deleteReservation($reservation_id);
+    }
+
+    public function validate(bool $create = true)
+    {
+        $rules = [
+            'name'             => 'required|string|min:3|max:100',
+            'reservation_date' => 'required|date:Y-m-d',
+            'total_adult'      => 'required|numeric',
+            'total_children'   => 'required|numeric',
+            'email'            => 'required|email',
+            'phone'            => 'required|string|min:6|max:20',
+            'session_id'       => 'required',
+            'restaurant_id'    => 'required',
+        ];
+
+        if (!$create) {
+            $rules['id'] = 'required|numeric';
+        }
+
+        Validator::validate($_POST, $rules);
+    }
+
+    public function validateReservationRequest(): array
+    {
+        return Validator::validate($_POST, [
+            'reservation_date' => 'required|date:Y-m-d',
+            'total_adult'      => 'nullable|numeric|min:0|max:10000',
+            'total_children'   => 'nullable|numeric|min:0|max:10000',
+            'session_id'       => 'required',
+            'restaurant_id'    => 'required|numeric',
+            'phone'            => 'required|string',
+        ]);
+    }
+
+    public function getReservationUserData(): array
+    {
+        $user = $_SESSION['user'] ?? null;
+
+        return [
+            'user_id' => $user ? $user['user_id'] : null,
+            'email'   => $user ? $user['email'] : null,
+            'name'    => $user ? $user['name']  : null,
+        ];
+    }
+
+    public function validatePersonCount(
+        int|float $totalAdult,
+        int|float $totalChildren
+    ): void {
+        if ((int) $totalAdult === 0 && (int) $totalChildren === 0) {
+            throw new Exception('Please enter at least one person.');
+        }
+    }
+
+    public function buildReservation(
+        array $data,
+        array $userData,
+        array $restaurant
+    ): Reservation {
+        $totalAdult    = (int) ($data['total_adult'] ?? 0);
+        $totalChildren = (int) ($data['total_children'] ?? 0);
+
+        $totalCost = ($restaurant['price_for_adult'] * $totalAdult) + ($restaurant['price_for_child'] * $totalChildren);
+
+        $totalPersons = $totalAdult + $totalChildren;
+
+        $costPerPerson = $totalPersons > 0
+            ? $totalCost / $totalPersons
+            : 0;
+
+        return new Reservation(
+            $userData['name'],
+            $data['reservation_date'],
+            $totalAdult,
+            $totalChildren,
+            $userData['email'],
+            $data['phone'],
+            $userData['user_id'],
+            $data['session_id'],
+            $data['restaurant_id'],
+            $_POST['remarks'] ?? '',
+            $costPerPerson,
+            $restaurant['title']
+        );
     }
 }

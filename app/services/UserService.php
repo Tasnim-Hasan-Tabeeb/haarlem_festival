@@ -25,11 +25,7 @@ class UserService
      */
     public function getAllUsers()
     {
-        try {
-            return $this->userRepository->getAllUsers();
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+       return $this->userRepository->getAllUsers();
     }
 
     /**
@@ -40,46 +36,42 @@ class UserService
      */
     public function storeUser(?User $user = null)
     {
-        try {
-            if ($user) {
-                return $this->userRepository->storeUser($user);
-            }
-
-            $rules = [
-                'name'            => 'required|string|min:2|max:100',
-                'email'           => 'required|email|unique:users',
-                'password'        => 'required|string|min:6|max:255',
-                'role'            => 'required',
-                'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            ];
-
-            $email = $_POST['email'];
-
-            $existingUser = $this->getUserByEmail($email);
-
-            if($existingUser) {
-                throw new Exception('Email already exists');
-            }
-
-            Validator::validate($_POST, $rules);
-
-            $imageUrl = '/images/default.webp';
-
-            if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-                $imageUrl = $this->uploadImage($_FILES['profile_picture']);
-            }
-
-            $user = new User();
-            $user->setName($_POST['name']);
-            $user->setEmail($_POST['email']);
-            $user->setPassword(password_hash($_POST['password'], PASSWORD_DEFAULT));
-            $user->setRole($_POST['role']);
-            $user->setProfilePicture($imageUrl);
-
+        if ($user) {
             return $this->userRepository->storeUser($user);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
         }
+
+        $rules = [
+            'name'            => 'required|string|min:2|max:100',
+            'email'           => 'required|email|unique:users',
+            'password'        => 'required|string|min:6|max:255',
+            'role'            => 'required',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ];
+
+        $email = $_POST['email'];
+
+        $existingUser = $this->getUserByEmail($email);
+
+        if($existingUser) {
+            throw new Exception('Email already exists');
+        }
+
+        Validator::validate($_POST, $rules);
+
+        $imageUrl = '/images/default.webp';
+
+        if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+            $imageUrl = $this->uploadImage($_FILES['profile_picture']);
+        }
+
+        $user = new User();
+        $user->setName($_POST['name']);
+        $user->setEmail($_POST['email']);
+        $user->setPassword(password_hash($_POST['password'], PASSWORD_DEFAULT));
+        $user->setRole($_POST['role']);
+        $user->setProfilePicture($imageUrl);
+
+        return $this->userRepository->storeUser($user);
     }
 
     /**
@@ -89,11 +81,7 @@ class UserService
      */
     public function getUserById($userId)
     {
-        try {
-            return $this->userRepository->getUserById($userId);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->userRepository->getUserById($userId);
     }
 
     /**
@@ -103,11 +91,7 @@ class UserService
      */
     public function getUserByEmail($email)
     {
-        try {
-            return $this->userRepository->getUserByEmail($email);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->userRepository->getUserByEmail($email);
     }
 
     /**
@@ -117,47 +101,43 @@ class UserService
      */
     public function updateUser()
     {
-        try {
-             $rules = [
-                'user_id'         => 'required|integer',
-                'name'            => 'required|string|min:2|max:100',
-                'email'           => 'required|email|unique:users',
-                'role'            => 'required',
-                'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            ];
+        $rules = [
+            'user_id'         => 'required|integer',
+            'name'            => 'required|string|min:2|max:100',
+            'email'           => 'required|email|unique:users',
+            'role'            => 'required',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ];
 
-            Validator::validate($_POST, $rules);
+        Validator::validate($_POST, $rules);
 
-            $user = $this->getUserById($_POST['user_id']);
+        $user = $this->getUserById($_POST['user_id']);
 
-            $profileImg = isset($user['profile_picture']) ? $user['profile_picture'] : '/images/default.webp';
+        $profileImg = isset($user['profile_picture']) ? $user['profile_picture'] : '/images/default.webp';
 
-            $email = $_POST['email'];
+        $email = $_POST['email'];
 
-            $existingUser = $this->getUserByEmail($email);
+        $existingUser = $this->getUserByEmail($email);
 
-            if($existingUser && $existingUser['user_id'] != $_POST['user_id']) {
-                throw new Exception('Email already exists');
-            }
-
-            if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-                $this->unlinkImage($profileImg);
-                $file       = $_FILES['profile_picture'];
-                $profileImg = $this->uploadImage($file);
-            }
-
-            $userData = [
-                'user_id'         => $_POST['user_id'],
-                'name'            => $_POST['name'],
-                'email'           => $_POST['email'],
-                'role'            => $_POST['role'],
-                'profile_picture' => $profileImg,
-            ];
-
-            return $this->userRepository->updateUser($userData);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
+        if($existingUser && $existingUser['user_id'] != $_POST['user_id']) {
+            throw new Exception('Email already exists');
         }
+
+        if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+            $this->unlinkImage($profileImg);
+            $file       = $_FILES['profile_picture'];
+            $profileImg = $this->uploadImage($file);
+        }
+
+        $userData = [
+            'user_id'         => $_POST['user_id'],
+            'name'            => $_POST['name'],
+            'email'           => $_POST['email'],
+            'role'            => $_POST['role'],
+            'profile_picture' => $profileImg,
+        ];
+
+        return $this->userRepository->updateUser($userData);
     }
 
     /**
@@ -168,12 +148,8 @@ class UserService
      */
     public function deleteUser($userId)
     {
-        try {
-            $this->unlinkImage($this->getUserById($userId)['profile_picture']);
-            return $this->userRepository->deleteUser($userId);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        $this->unlinkImage($this->getUserById($userId)['profile_picture']);
+        return $this->userRepository->deleteUser($userId);
     }
 
     /**
@@ -183,46 +159,38 @@ class UserService
      */
     public function updateProfile()
     {
-        try {
-            Validator::validate($_POST, [
-                'name'            => 'required|max:255',
-                'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            ]);
+        Validator::validate($_POST, [
+            'name'            => 'required|max:255',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
 
-            $user = $_SESSION['user'];
+        $user = $_SESSION['user'];
 
-            $profileImg = $user['profile_picture'];
+        $profileImg = $user['profile_picture'];
 
-            if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-                $this->unlinkImage($profileImg);
-                $file       = $_FILES['profile_picture'];
-                $profileImg = $this->uploadImage($file);
-            }
-
-            $userData = [
-                'user_id'         => $user['user_id'],
-                'name'            => $_POST['name'],
-                'profile_picture' => $profileImg,
-            ];
-            return $this->userRepository->updateProfile($userData);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
+        if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+            $this->unlinkImage($profileImg);
+            $file       = $_FILES['profile_picture'];
+            $profileImg = $this->uploadImage($file);
         }
+
+        $userData = [
+            'user_id'         => $user['user_id'],
+            'name'            => $_POST['name'],
+            'profile_picture' => $profileImg,
+        ];
+        return $this->userRepository->updateProfile($userData);
     }
 
     public  function updatePassword()
     {
-        try {
-            $rules = [
-                'new_password' => 'required|string|min:6|confirmed',
-            ];
-            Validator::validate($_POST, $rules);
-            $user     = $_SESSION['user'];
-            $password = password_hash($_POST['new_password'], PASSWORD_BCRYPT);
-            return $this->userRepository->updatePassword($user['user_id'], $password);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        $rules = [
+            'new_password' => 'required|string|min:6|confirmed',
+        ];
+        Validator::validate($_POST, $rules);
+        $user     = $_SESSION['user'];
+        $password = password_hash($_POST['new_password'], PASSWORD_BCRYPT);
+        return $this->userRepository->updatePassword($user['user_id'], $password);
     }
 
     /**

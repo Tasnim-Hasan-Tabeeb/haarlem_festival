@@ -26,11 +26,7 @@ class FeatureService
      */
     public function getAllFeaturesByRestaurantId($restaurantId)
     {
-        try {
-            return $this->featureRepository->getAllFeaturesByRestaurantId($restaurantId);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+      return $this->featureRepository->getAllFeaturesByRestaurantId($restaurantId);
     }
 
     /**
@@ -41,20 +37,12 @@ class FeatureService
      */
     public function deleteFeatureByRestaurantId($restaurantId)
     {
-        try {
-            return $this->featureRepository->deleteFeatureByRestaurantId($restaurantId);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+       return $this->featureRepository->deleteFeatureByRestaurantId($restaurantId);
     }
 
     public function getAllFeatures()
     {
-        try {
-            return $this->featureRepository->getAllFeatures();
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->featureRepository->getAllFeatures();
     }
 
     /**
@@ -64,29 +52,25 @@ class FeatureService
      */
     public function createFeature()
     {
-        try {
-            $rules = [
-                'name'      => 'required|string',
-                'image_url' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            ];
+        $rules = [
+            'name'      => 'required|string',
+            'image_url' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ];
 
-            Validator::validate($_POST, $rules);
+        Validator::validate($_POST, $rules);
 
-            $name     = $_POST['name'] ;
-            $imageUrl = '/images/default.webp';
+        $name     = $_POST['name'] ;
+        $imageUrl = '/images/default.webp';
 
-            if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
-                $file     = $_FILES['image_url'];
-                $imageUrl = $this->uploadImage($file);
-            }
-
-            $feature = new Feature();
-            $feature->setImageUrl($imageUrl);
-            $feature->setName($name);
-            return $this->featureRepository->createFeature($feature);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
+        if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
+            $file     = $_FILES['image_url'];
+            $imageUrl = $this->uploadImage($file);
         }
+
+        $feature = new Feature();
+        $feature->setImageUrl($imageUrl);
+        $feature->setName($name);
+        return $this->featureRepository->createFeature($feature);
     }
 
     /**
@@ -96,11 +80,7 @@ class FeatureService
      */
     public function getFeature($featureId)
     {
-        try {
-            return $this->featureRepository->getFeature($featureId);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        return $this->featureRepository->getFeature($featureId);
     }
 
     /**
@@ -110,34 +90,30 @@ class FeatureService
      */
     public function updateFeature()
     {
-        try {
-            $rules = [
-                'id'        => 'required|numeric',
-                'name'      => 'required|string',
-                'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            ];
+        $rules = [
+            'id'        => 'required|numeric',
+            'name'      => 'required|string',
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ];
 
-            Validator::validate($_POST, $rules);
+        Validator::validate($_POST, $rules);
 
-            $id              = $_POST['id'];
-            $name            = $_POST['name'];
-            $existingFeature = $this->getFeature($id);
-            $imageUrl        = $existingFeature['image_url'];
+        $id              = $_POST['id'];
+        $name            = $_POST['name'];
+        $existingFeature = $this->getFeature($id);
+        $imageUrl        = $existingFeature['image_url'];
 
-            if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
-                $file = $_FILES['image_url'];
-                $this->unlinkImage($imageUrl);
-                $imageUrl = $this->uploadImage($file);
-            }
-
-            $feature = new Feature();
-            $feature->setFeatureId($id);
-            $feature->setImageUrl($imageUrl);
-            $feature->setName($name);
-            return $this->featureRepository->updateFeature($feature);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
+        if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
+            $file = $_FILES['image_url'];
+            $this->unlinkImage($imageUrl);
+            $imageUrl = $this->uploadImage($file);
         }
+
+        $feature = new Feature();
+        $feature->setFeatureId($id);
+        $feature->setImageUrl($imageUrl);
+        $feature->setName($name);
+        return $this->featureRepository->updateFeature($feature);
     }
 
     /**
@@ -148,13 +124,9 @@ class FeatureService
      */
     public function deleteFeature($featureId)
     {
-        try {
-            $existingFeature  = $this->getFeature($featureId);
-            $existingImageUrl = $existingFeature['image_url'];
-            $this->unlinkImage($existingImageUrl);
-            return $this->featureRepository->deleteFeature($featureId);
-        } catch (Exception $e) {
-            throw new Exception('Error: ' . $e->getMessage());
-        }
+        $existingFeature  = $this->getFeature($featureId);
+        $existingImageUrl = $existingFeature['image_url'];
+        $this->unlinkImage($existingImageUrl);
+        return $this->featureRepository->deleteFeature($featureId);
     }
 }
