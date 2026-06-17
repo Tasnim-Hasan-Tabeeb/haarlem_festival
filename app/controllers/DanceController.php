@@ -22,7 +22,7 @@ class DanceController extends Controller
         $this->basket        = new Basket();
     }
 
-    public function index(): void
+    public function index()
     {
         return $this->redirect('/home/page?slug=dance&id=5');
     }

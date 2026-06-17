@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: May 10, 2026 at 03:19 PM
--- Server version: 12.2.2-MariaDB-ubu2404
+-- Generation Time: Jun 17, 2026 at 09:12 PM
+-- Server version: 12.3.2-MariaDB-ubu2404
 -- PHP Version: 8.3.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -58,12 +58,12 @@ CREATE TABLE `artists` (
 --
 
 INSERT INTO `artists` (`artist_id`, `artist_name`, `artist_real_name`, `age`, `nationality`, `genre`, `about`, `image_url`, `detail_image`) VALUES
-(1, 'Hardwell', 'test', '11', 'Dutch', 'dance and house', 'Hardwell, a two-time DJ Mag #1 DJ in the World, is renowned for his explosive sets and anthems like Spaceman. Headlining Tomorrowland and Ultra, he’s a trailblazer in electronic music, known for pushing boundaries with his festival hits and groundbreaking performances.', '/images/69ef54407b5ac7.25796308_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg', '/images/69ef54407d7189.03796798_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg'),
-(2, 'Armin van Buuren', 'Ar', '49', 'Dutch', 'trance and techno', 'Armin van Buuren, a five-time DJ Mag #1 DJ, is a global trance legend. Known for his iconic A State of Trance radio show, he has headlined every major festival, earned Grammy nominations, and captivated millions with hits like This Is What It Feels Like.', '/images/69ef544a376f15.32451323_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg', '/images/69ef544a381389.89115683_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg'),
-(3, 'Martin Garrix', 'Mat', '29', 'Dutch', 'dance / electronic', 'Martin Garrix rose to global stardom with his smash hit Animals and has since headlined festivals like Coachella and Tomorrowland. A three-time winner of DJ Mag’s #1 DJ in the World title, he’s collaborated with icons like Dua Lipa, Usher, and David Guetta, solidifying his place as a trailblazer in EDM.', '/images/69ef545ca77922.36506155_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg', '/images/69ef545ca7d478.79993914_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg'),
-(4, 'Tiësto', 'Tiësto', '57', 'Dutch', 'trance, techno, minimal, house, electro', 'Tiësto, a Grammy-winning DJ and producer, has shaped electronic music for decades. With legendary tracks like Adagio for Strings and The Business, he’s headlined festivals worldwide, from Tomorrowland to Coachella, solidifying his status as a global dance music icon.', '/images/69ef547444b216.46688367_69cd5753edbbb5.83085371_IMG_8670-scaled.jpg', '/images/69ef5474457054.24371226_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg'),
-(5, 'Nicky Romero', 'Romero', '37', 'Dutch', 'electrohouse / progressive house', 'Nicky Romero, a chart-topping DJ and producer, gained global fame with hits like Toulouse and I Could Be the One with Avicii. A festival favorite at Tomorrowland and Ultra, he’s also the founder of Protocol Recordings, nurturing the next generation of electronic music talent.', '/images/69ef547e48cb06.07489775_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg', '/images/69ef547e4a1400.90013039_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg'),
-(6, 'Afrojack', 'test', '37', 'Dutch', 'house', 'Afrojack, a global EDM icon, has headlined the world’s biggest festivals, including Tomorrowland and Ultra Music Festival. Known for chart-topping hits like Take Over Control and collaborations with stars like Beyoncé, David Guetta, and Pitbull, he continues to redefine the electronic music scene.', '/images/69ef546a165996.60544035_69cd5753edbbb5.83085371_IMG_8670-scaled.jpg', '/images/69ef546a16fec7.70209575_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg');
+(1, 'Hardwell', 'test', '11', 'Dutch', 'dance and house', 'Hardwell, a two-time DJ Mag #1 DJ in the World, is renowned for his explosive sets and anthems like Spaceman. Headlining Tomorrowland and Ultra, he’s a trailblazer in electronic music, known for pushing boundaries with his festival hits and groundbreaking performances.', '/images/6a32f9eb5f93c6.93125060_hardwell.jpg', '/images/69ef54407d7189.03796798_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg'),
+(2, 'Armin van Buuren', 'Ar', '49', 'Dutch', 'trance and techno', 'Armin van Buuren, a five-time DJ Mag #1 DJ, is a global trance legend. Known for his iconic A State of Trance radio show, he has headlined every major festival, earned Grammy nominations, and captivated millions with hits like This Is What It Feels Like.', '/images/6a32f9f5a6c218.82431933_Armin.jpg', '/images/69ef544a381389.89115683_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg'),
+(3, 'Martin Garrix', 'Mat', '29', 'Dutch', 'dance / electronic', 'Martin Garrix rose to global stardom with his smash hit Animals and has since headlined festivals like Coachella and Tomorrowland. A three-time winner of DJ Mag’s #1 DJ in the World title, he’s collaborated with icons like Dua Lipa, Usher, and David Guetta, solidifying his place as a trailblazer in EDM.', '/images/6a32f9fc9cfce7.83423358_Martin.jpg', '/images/69ef545ca7d478.79993914_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg'),
+(4, 'Tiësto', 'Tiësto', '57', 'Dutch', 'trance, techno, minimal, house, electro', 'Tiësto, a Grammy-winning DJ and producer, has shaped electronic music for decades. With legendary tracks like Adagio for Strings and The Business, he’s headlined festivals worldwide, from Tomorrowland to Coachella, solidifying his status as a global dance music icon.', '/images/6a32fa0508cb35.80556608_Tiesto.jpg', '/images/69ef5474457054.24371226_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg'),
+(5, 'Nicky Romero', 'Romero', '37', 'Dutch', 'electrohouse / progressive house', 'Nicky Romero, a chart-topping DJ and producer, gained global fame with hits like Toulouse and I Could Be the One with Avicii. A festival favorite at Tomorrowland and Ultra, he’s also the founder of Protocol Recordings, nurturing the next generation of electronic music talent.', '/images/6a32fa0d980a06.51533280_Nicky.jpg', '/images/69ef547e4a1400.90013039_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg'),
+(6, 'Afrojack', 'test', '37', 'Dutch', 'house', 'Afrojack, a global EDM icon, has headlined the world’s biggest festivals, including Tomorrowland and Ultra Music Festival. Known for chart-topping hits like Take Over Control and collaborations with stars like Beyoncé, David Guetta, and Pitbull, he continues to redefine the electronic music scene.', '/images/6a32fa1bf12d88.57073902_Afrojack_2015.jpg', '/images/69ef546a16fec7.70209575_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg');
 
 -- --------------------------------------------------------
 
@@ -114,14 +114,12 @@ CREATE TABLE `dance_venues` (
 --
 
 INSERT INTO `dance_venues` (`venue_id`, `venue_name`, `venue_location`, `capacity`, `venue_image`, `map_url`) VALUES
-(1, 'Lichtfabriek', 'Minckelersweg 2, 2031 EM Haarlem', 1000, '/images/69ef51838d6920.32273940_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3649.854549424699!2d90.41544072594415!3d23.823770685954532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c65a3d9b9649%3A0xff4da0194c977480!2sNikunja%201%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1777867782993!5m2!1sen!2sbd'),
-(2, 'Sachthuis', 'Rockplein 6, 2033 KK Haarlem', 100, '/images/69ef518c4fa5a0.11539655_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d78594.0812315488!2d5.8141987924267555!3d52.00569278058103!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c7ba91ce9b2273%3A0x161c5ae0f973cad7!2sArnhem%2C%20Netherlands!5e0!3m2!1sen!2sbd!4v1777868562643!5m2!1sen!2sbd'),
-(3, 'Jopenkerk', 'Gedempte Voldersgracht 2, 2011 WD Haarlem', 100, '/images/69ef51920b26c2.61390898_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d78594.0812315488!2d5.8141987924267555!3d52.00569278058103!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c7ba91ce9b2273%3A0x161c5ae0f973cad7!2sArnhem%2C%20Netherlands!5e0!3m2!1sen!2sbd!4v1777868562643!5m2!1sen!2sbd'),
-(4, 'XO the Club', 'Grote Markt 8, 2011 RD Haarlem', 100, '/images/69ef51998bf968.95682664_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3649.854549424699!2d90.41544072594415!3d23.823770685954532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c65a3d9b9649%3A0xff4da0194c977480!2sNikunja%201%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1777867782993!5m2!1sen!2sbd'),
-(5, 'Puncher comedy club', 'Grote Markt 10, 2011 RD Haarlem', 100, '/images/69ef519fc2f0e9.78443441_69cd5753edbbb5.83085371_IMG_8670-scaled.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3649.854549424699!2d90.41544072594415!3d23.823770685954532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c65a3d9b9649%3A0xff4da0194c977480!2sNikunja%201%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1777867782993!5m2!1sen!2sbd'),
-(6, 'Caprera Openluchttheater', 'Hoge Duin en Daalseweg 2, 2061 AG Bloemendaal', 10, '/images/69ef51a6421be6.04145138_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3649.854549424699!2d90.41544072594415!3d23.823770685954532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c65a3d9b9649%3A0xff4da0194c977480!2sNikunja%201%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1777867782993!5m2!1sen!2sbd'),
-(9, 'Iona Hudson', 'Deserunt ut sit inci', 66, '/images/69ef51aec19bc3.16692325_69cd5753edbbb5.83085371_IMG_8670-scaled.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d78594.0812315488!2d5.8141987924267555!3d52.00569278058103!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c7ba91ce9b2273%3A0x161c5ae0f973cad7!2sArnhem%2C%20Netherlands!5e0!3m2!1sen!2sbd!4v1777868562643!5m2!1sen!2sbd'),
-(13, 'Alexa Wilder', 'Id illum vitae cupi', 54, '/images/69f09ed3502a95.34982477_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3649.854549424699!2d90.41544072594415!3d23.823770685954532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c65a3d9b9649%3A0xff4da0194c977480!2sNikunja%201%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1777867782993!5m2!1sen!2sbd');
+(1, 'Lichtfabriek', 'Minckelersweg 2, 2031 EM Haarlem', 1000, '/images/6a32fab4e7a279.57205592_Lichtfabriek.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2435.1115475338047!2d4.6491592742282375!3d52.38652814610591!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5ef64b076482b%3A0x7baf87bc704c5b47!2sMinckelersweg%202%2C%202031%20TC%20Haarlem!5e0!3m2!1sen!2snl!4v1781726242863!5m2!1sen!2snl'),
+(2, 'Sachthuis', 'Rockplein 6, 2033 KK Haarlem', 100, '/images/6a32fabb7e0790.97441639_Sachthuis.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2435.83723426582!2d4.645765788527047!3d52.37337129988675!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5ef67998a2033%3A0x70e72125409378cb!2sSlachthuis%20Haarlem!5e0!3m2!1sen!2snl!4v1781726302168!5m2!1sen!2snl'),
+(3, 'Jopenkerk', 'Gedempte Voldersgracht 2, 2011 WD Haarlem', 100, '/images/6a32fac15624f2.34360965_Jopenkerk.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2435.4046471194188!2d4.627156576406148!3d52.38121447202506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5ef14ed768603%3A0x5ff6ab7a87061c90!2sJopen!5e0!3m2!1sen!2snl!4v1781726356991!5m2!1sen!2snl'),
+(4, 'XO the Club', 'Grote Markt 8, 2011 RD Haarlem', 100, '/images/6a32fac6b2f224.68174397_XO the Club.webp', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2435.4046471194188!2d4.627156576406148!3d52.38121447202506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5ef6b7544b863%3A0x2c30c30bcd58e92f!2zQ2Fmw6kgWE8!5e0!3m2!1sen!2snl!4v1781726388119!5m2!1sen!2snl'),
+(5, 'Puncher comedy club', 'Grote Markt 10, 2011 RD Haarlem', 100, '/images/6a32facd7da770.82412485_Puncher comedy club.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2435.4046636666744!2d4.632680176406136!3d52.381214172025096!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5effb7e82034d%3A0xd3bfae70dd4a57b6!2sPuncher%20Comedy%20Club!5e0!3m2!1sen!2snl!4v1781726427557!5m2!1sen!2snl'),
+(6, 'Caprera Openluchttheater', 'Hoge Duin en Daalseweg 2, 2061 AG Bloemendaal', 10, '/images/6a32fad56bb702.02134125_Caprera Openluchttheater.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2433.7531466887162!2d4.605706076408157!3d52.4111499720329!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5ee4d7202058f%3A0xe045c5b6e4ee44e4!2sCaprera%20Open%20Air%20Theatre!5e0!3m2!1sen!2snl!4v1781726459902!5m2!1sen!2snl');
 
 -- --------------------------------------------------------
 
@@ -318,12 +316,12 @@ CREATE TABLE `music_events` (
 --
 
 INSERT INTO `music_events` (`music_event_id`, `event_id`, `artist_id`, `venue_id`, `event_date`, `event_name`, `event_price`, `session_type`, `event_start_time`, `event_duration`, `music_event_image`) VALUES
-(101, 2, 1, 3, '2026-06-27', 'Hardwell Livex', 65.00, 'Club', '20:01:00', 90, '/images/69f3a0ce9556b5.13618613_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg'),
-(102, 2, 2, 4, '2026-07-31', 'Armin After Dark', 55.00, 'Club', '23:00:00', 120, '/images/69f3a5f6b3c695.98634933_Crypto.webp'),
-(103, 2, 3, 1, '2026-08-02', 'Martin Garrix Festival Set', 70.00, 'Club', '21:00:00', 90, '/images/69f3a60a79f7d5.36507443_audience-1853662_1280.jpg'),
-(104, 2, 6, 4, '2026-07-31', 'Afrojack Midnight Session', 60.00, 'Club', '23:30:00', 90, '/images/69fa2027bc1a98.43406018_69cd5753edbbb5.83085371_IMG_8670-scaled.jpg'),
-(105, 2, 4, 6, '2026-07-31', 'Tiësto Closing Show', 85.00, 'Club', '20:30:00', 120, '/images/69fa204ec50b22.50648610_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg'),
-(106, 2, 5, 1, '2024-07-29', 'Nicky Romero Finale', 58.00, 'Club', '22:30:00', 90, '/images/69f3a62ba7ad85.01613420_69cd5753edbbb5.83085371_IMG_8670-scaled.jpg');
+(101, 2, 1, 3, '2026-06-27', 'Hardwell Livex', 65.00, 'Club', '20:01:00', 90, '/images/6a330d4a9e6463.66060629_img1.jpg'),
+(102, 2, 2, 4, '2026-07-31', 'Armin After Dark', 55.00, 'Club', '23:00:00', 120, '/images/6a330d536a2c47.90790943_img2.jpg'),
+(103, 2, 3, 1, '2026-08-02', 'Martin Garrix Festival Set', 70.00, 'Club', '21:00:00', 90, '/images/6a330d5c210147.74236909_img3.jpg'),
+(104, 2, 6, 4, '2026-07-31', 'Afrojack Midnight Session', 60.00, 'Club', '23:30:00', 90, '/images/6a330d6248fd78.58784105_img4.jpg'),
+(105, 2, 4, 6, '2026-07-31', 'Tiësto Closing Show', 85.00, 'Club', '20:30:00', 120, '/images/6a330d6872bd24.51204897_img5.jpg'),
+(106, 2, 5, 1, '2024-07-29', 'Nicky Romero Finale', 58.00, 'Club', '22:30:00', 90, '/images/6a330d6e6f7f66.03693300_img6.jpg');
 
 -- --------------------------------------------------------
 
@@ -368,17 +366,17 @@ CREATE TABLE `music_performance` (
 --
 
 INSERT INTO `music_performance` (`music_performance_id`, `music_event_id`, `artist_id`, `event_id`, `title`, `session_type`, `start_date`, `event_start_time`, `event_duration`, `event_price`, `quantity`) VALUES
-(203, 103, 3, 2, 'Martin Garrix Festival Set', 'Club', '2024-07-28', '21:00:00', 90, 70.00, 500),
-(204, 104, 6, 2, 'Afrojack Midnight Session', 'Club', '2024-07-28', '23:30:00', 90, 60.00, 500),
-(205, 105, 4, 2, 'Tiësto Closing Show', 'Club', '2024-07-29', '20:30:00', 120, 85.00, 500),
-(206, 106, 5, 2, 'Nicky Romero Finale', 'Club', '2024-07-29', '22:30:00', 90, 58.00, 500),
-(210, 102, 2, 2, 'Armin After Dark', 'Club', '2024-07-27', '23:00:00', 120, 55.00, 1),
-(211, 102, 3, 2, 'Armin After Dark', 'Club', '2024-07-27', '23:00:00', 120, 55.00, 1),
-(212, 102, 4, 2, 'Armin After Dark', 'Club', '2024-07-27', '23:00:00', 120, 55.00, 1),
-(348, 101, 3, 2, 'Hardwell Livex', 'Club', '2026-06-27', '20:01:00', 90, 65.00, 1),
-(349, 101, 4, 2, 'Hardwell Livex', 'Club', '2026-06-27', '20:01:00', 90, 65.00, 1),
-(350, 101, 5, 2, 'Hardwell Livex', 'Club', '2026-06-27', '20:01:00', 90, 65.00, 1),
-(351, 101, 6, 2, 'Hardwell Livex', 'Club', '2026-06-27', '20:01:00', 90, 65.00, 1);
+(359, 101, 3, 2, 'Hardwell Livex', 'Club', '2026-06-27', '20:01:00', 90, 65.00, 1),
+(360, 101, 4, 2, 'Hardwell Livex', 'Club', '2026-06-27', '20:01:00', 90, 65.00, 1),
+(361, 101, 5, 2, 'Hardwell Livex', 'Club', '2026-06-27', '20:01:00', 90, 65.00, 1),
+(362, 101, 6, 2, 'Hardwell Livex', 'Club', '2026-06-27', '20:01:00', 90, 65.00, 1),
+(363, 102, 2, 2, 'Armin After Dark', 'Club', '2026-07-31', '23:00:00', 120, 55.00, 1),
+(364, 102, 3, 2, 'Armin After Dark', 'Club', '2026-07-31', '23:00:00', 120, 55.00, 1),
+(365, 102, 4, 2, 'Armin After Dark', 'Club', '2026-07-31', '23:00:00', 120, 55.00, 1),
+(366, 103, 3, 2, 'Martin Garrix Festival Set', 'Club', '2026-08-02', '21:00:00', 90, 70.00, 1),
+(367, 104, 6, 2, 'Afrojack Midnight Session', 'Club', '2026-07-31', '23:30:00', 90, 60.00, 1),
+(368, 105, 4, 2, 'Tiësto Closing Show', 'Club', '2026-07-31', '20:30:00', 120, 85.00, 1),
+(369, 106, 5, 2, 'Nicky Romero Finale', 'Club', '2024-07-29', '22:30:00', 90, 58.00, 1);
 
 -- --------------------------------------------------------
 
@@ -980,6 +978,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `profile_picture`, `registration_date`, `role`) VALUES
+(1, 'Admin', 'admin@example.com', '$2y$10$beDIFBAcgRMPmCCqdApyJeZx6tarAEkjieONMOMPnDrWKM2DSV.6O', NULL, '2026-06-13 19:12:33', 'Admin'),
 (5, 'Ahsanul Rabbi Khan', 'admin@gmail.com', '$2y$12$TX96VFo68b5e92WKIaQGG.slu.Qbsrc5sascfOTeXUwbTZmr7dlw.', '/images/69ef54db0a4db4.63335257_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg', '2026-03-02 21:49:06', 'Admin'),
 (6, 'Ahasanul Rabbi Khan', 'ahsan@gmail.com', '$2y$12$TnGSKXJmH0IYI1TzVWsPFunSDnlbU0XEcTblb8J0fNLrIDUryA5Aa', '/images/69ef55362cd362.02888171_69cd5753edbbb5.83085371_IMG_8670-scaled.jpg', '2026-03-06 20:03:12', 'Admin'),
 (7, 'Ahsanul Rabbi Khan', 'me.ahsanul01@gmail.com', '$2y$12$x6juwndsZypeVtoKPTZWaOCsRD9s6ml1X4QBlmUx9DEAxlGSikGLi', '/images/69ef552f4db507.60842714_69cd5753edbbb5.83085371_IMG_8670-scaled.jpg', '2026-03-08 00:06:16', 'Customer'),
@@ -991,7 +990,8 @@ INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `profile_picture`, 
 (22, 'Octavius Eaton', 'liqeba@mailinator.com', '$2y$12$0xC2MfRkg9o7tYld9GEoVO5Hg9dfZaINw8YJ40APv/xOfjJVV8vvO', '/images/default.php', '2026-05-05 04:46:07', 'Customer'),
 (23, 'Alex', 'nafiz0khan1@gmail.com', '$2y$12$8JrNR04OenwF1B9GY/gxY.KSmhvlbrC7I7/WaI2XuYMZx8FvvXCE2', '/images/69fade1c0684d1.62826879_carbone.jpg', '2026-05-05 06:47:34', 'Customer'),
 (24, 'Dylan Cervantes', 'dori@mailinator.com1', '$2y$12$mQ9QR/tZnTDoQjB4P8SfVenMXzPBZsrwuvRE3Jh2z5cDXD.gAiPKC', '/images/default.webp', '2026-05-06 04:20:19', 'Customer'),
-(25, 'Alisa Garza', 'hotoriqobi@mailinator.com', '$2y$12$h6xXulCNPmuEvi5nW/hjJuf0GnJUyAkDaB2ciK50IXSlFNMM/rBJq', '', '2026-05-06 07:36:00', 'Customer');
+(25, 'Alisa Garza', 'hotoriqobi@mailinator.com', '$2y$12$h6xXulCNPmuEvi5nW/hjJuf0GnJUyAkDaB2ciK50IXSlFNMM/rBJq', '', '2026-05-06 07:36:00', 'Customer'),
+(26, 'Tabeeb', 'tabeeb788@gmail.com', '$2y$10$beDIFBAcgRMPmCCqdApyJeZx6tarAEkjieONMOMPnDrWKM2DSV.6O', '/images/6a330cd61c8f42.82867105_Sachthuis.jpg', '2026-06-13 19:11:58', 'Customer');
 
 --
 -- Indexes for dumped tables
@@ -1307,7 +1307,7 @@ ALTER TABLE `music_events`
 -- AUTO_INCREMENT for table `music_performance`
 --
 ALTER TABLE `music_performance`
-  MODIFY `music_performance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=359;
+  MODIFY `music_performance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=370;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -1397,7 +1397,7 @@ ALTER TABLE `tour_timetable`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Constraints for dumped tables
