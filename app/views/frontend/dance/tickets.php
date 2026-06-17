@@ -47,11 +47,11 @@ $renderTicket = static function (array $ticket): string {
         <p>Choose a day pass or reserve a spot for an individual performance.</p>
     </div>
 
-    <?php if (empty($danceDays)): ?>
+    <?php if (empty($danceSchedule)): ?>
         <p class="no-data">No dance performances are currently available.</p>
     <?php endif; ?>
 
-    <?php foreach ($danceDays as $index => $day): ?>
+    <?php foreach ($danceSchedule as $index => $day): ?>
         <div class="dance-day">
             <h3 class="ticket-list">
                 Day <?= $index + 1 ?>

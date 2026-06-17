@@ -7,20 +7,18 @@ use App\Models\Dance;
 use App\Models\TicketPass;
 use App\Repositories\DanceRepository;
 use App\Traits\Fileable;
+use DateTimeImmutable;
 use Exception;
 
 class DanceService
 {
     use Fileable;
     private DanceRepository $danceRepository;
-    private DancePageDataBuilder $pageDataBuilder;
 
     public function __construct(
         ?DanceRepository $danceRepository = null,
-        ?DancePageDataBuilder $pageDataBuilder = null
     ) {
         $this->danceRepository = $danceRepository ?? new DanceRepository();
-        $this->pageDataBuilder = $pageDataBuilder ?? new DancePageDataBuilder();
     }
 
     public function getAllEvents()
@@ -30,10 +28,60 @@ class DanceService
 
     public function getDancePageData(): array
     {
-        return $this->pageDataBuilder->build(
-            $this->danceRepository->getActiveEvents(),
-            $this->danceRepository->getAllPasses()
-        );
+        try {
+            return $this->buildDancePageData(
+                $this->danceRepository->getActiveEvents(),
+                $this->danceRepository->getAllPasses()
+            );
+        } catch (Exception $e) {
+            throw new Exception('Error: ' . $e->getMessage());
+        }
+    }
+
+    private function buildDancePageData(array $events, array $passes): array
+    {
+        usort($events, static function (array $left, array $right): int {
+            return [$left['event_date'], $left['event_start_time']]
+                <=> [$right['event_date'], $right['event_start_time']];
+        });
+
+        $dayPasses = [];
+        $allDatesPass = null;
+
+        foreach ($passes as $pass) {
+            if ($pass['pass_scope'] === 'all_dates') {
+                $allDatesPass ??= $pass;
+                continue;
+            }
+
+            if ($pass['pass_scope'] === 'day' && !empty($pass['event_date'])) {
+                $dayPasses[$pass['event_date']] = $pass;
+            }
+        }
+
+        $days = [];
+
+        foreach ($events as $event) {
+            $date = $event['event_date'];
+
+            if (!isset($days[$date])) {
+                $dateValue = new DateTimeImmutable($date);
+                $days[$date] = [
+                    'date' => $date,
+                    'weekday' => $dateValue->format('l'),
+                    'formattedDate' => $dateValue->format('j F Y'),
+                    'dayPass' => $dayPasses[$date] ?? null,
+                    'tickets' => [],
+                ];
+            }
+
+            $days[$date]['tickets'][] = $event;
+        }
+
+        return [
+            'danceSchedule' => array_values($days),
+            'allDatesPass' => $allDatesPass,
+        ];
     }
 
     public function getEventsByDate(string $date)
