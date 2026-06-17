@@ -27,7 +27,16 @@ class Controller
      */
     protected function handleException(\Throwable $e, string $fallback = '/')
     {
-        $this->error($e->getMessage(), $fallback);
+        if (defined('APP_DEBUG') && APP_DEBUG === true) {
+            echo '<pre>';
+            echo 'Message: ' . $e->getMessage() . PHP_EOL;
+            echo 'File: ' . $e->getFile() . PHP_EOL;
+            echo 'Line: ' . $e->getLine() . PHP_EOL;
+            echo '</pre>';
+            exit;
+        }
+
+        return $this->error('Something went wrong. Please try again.', $fallback);
     }
 
     /**

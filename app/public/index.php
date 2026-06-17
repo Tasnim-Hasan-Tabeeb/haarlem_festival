@@ -7,6 +7,8 @@ ini_set('display_errors', 0);
 
 ini_set('log_errors', 1);
 
+define('APP_DEBUG', true);
+
 use App\Router;
 
 require '../vendor/autoload.php';
