@@ -261,18 +261,22 @@ class HistoryRepository extends Repository
         $sql = 'SELECT ht.date, ht.start_time, ht.end_time, tl.name, tl.flag_image, htour.available_guides, htour.tour_id
                 FROM history_timeslots ht
                 JOIN history_tours htour ON htour.timetable_id = ht.timetable_id
-                JOIN tour_language tl ON tl.language_id = htour.language_id
-                WHERE 1 = 1';
+                JOIN tour_language tl ON tl.language_id = htour.language_id';
 
+        $where = [];
         $params = [];
 
         if ($language) {
-            $sql .= ' AND tl.name = :language';
+            $where[] = 'tl.name = :language';
             $params[':language'] = $language;
         }
 
         if ($availableGuides) {
-            $sql .= ' AND htour.available_guides > 0';
+            $where[] = 'htour.available_guides > 0';
+        }
+
+        if (!empty($where)) {
+            $sql .= ' WHERE ' . implode(' AND ', $where);
         }
 
         $stmt = $this->connection->prepare($sql);
