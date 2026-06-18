@@ -74,22 +74,8 @@
     <p>&copy; <?= date('Y') ?> The Festival. All rights reserved.</p>
 </footer>
 
-<script>
-document.getElementById('resetPasswordForm').addEventListener('submit', function(e) {
-
-    let pass = document.getElementById('password').value;
-    let confirm = document.getElementById('confirmPassword').value;
-    let msg = document.getElementById('passwordMismatchMessage');
-
-    if (pass !== confirm) {
-        e.preventDefault();
-        msg.textContent = "Passwords do not match";
-    } else {
-        msg.textContent = "";
-    }
-});
-</script>
-
+<?php $setNewPasswordJsVersion = filemtime(__DIR__ . '/../../../public/frontend/js/set-new-password.js'); ?>
+<script src="/frontend/js/set-new-password.js?v=<?= $setNewPasswordJsVersion ?>"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

@@ -374,7 +374,7 @@ class OrderService
                     $ticket = new Ticket(
                         $name,
                         $cartItem['passName'],
-                        null,
+                        $cartItem['eventDate'] ?? null,
                         null,
                         $qrCode
                     );

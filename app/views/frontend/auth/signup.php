@@ -49,7 +49,7 @@
 
                 <input type="file" name="profile_picture" id="profile_picture"
                     accept=".png, .jpg, .jpeg .webp"
-                    hidden onchange="previewImage(this)">
+                    hidden>
             </div>
 
             <!-- Name -->
@@ -104,35 +104,8 @@
 
 
 
-<script>
-
-
-document.querySelector("form").addEventListener("submit", function(e) {
-    const captcha = grecaptcha.getResponse();
-
-    if (captcha.length === 0) {
-        e.preventDefault();
-        toastr.error('Please confirm you are not a robot');
-    }
-});
-function previewImage(input) {
-    const preview = document.getElementById('imagePreview');
-    const placeholder = document.getElementById('avatarPlaceholder');
-
-    if (input.files && input.files[0]) {
-        let reader = new FileReader();
-
-        reader.onload = function(e) {
-            preview.src = e.target.result;
-            preview.classList.remove('d-none');
-            placeholder.classList.add('d-none');
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-</script>
-
+<?php $signupJsVersion = filemtime(__DIR__ . '/../../../public/frontend/js/signup.js'); ?>
+<script src="/frontend/js/signup.js?v=<?= $signupJsVersion ?>"></script>
 
 </body>
 </html>
