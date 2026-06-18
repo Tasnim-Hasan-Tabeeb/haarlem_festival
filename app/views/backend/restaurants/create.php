@@ -113,7 +113,7 @@
             <input type="text"
                    name="location"
                    class="form-control"
-                   placeholder="e.g. Gulshan, Dhaka"
+                   placeholder="e.g. Spaarndamseweg 238, Haarlem"
                    required>
         </div>
 

@@ -68,7 +68,7 @@
 
                     <div class="hf-event-card__footer justify-content-center">
 
-                        <a href="/home/page?slug=history&id=6" class="hf-event-card__cta">
+                        <a href="<?= htmlspecialchars($pageLinks['history'] ?? '#') ?>" class="hf-event-card__cta">
                             View Event →
                         </a>
                     </div>
@@ -90,7 +90,7 @@
 
                     <div class="hf-event-card__footer">
                     
-                        <a href="/home/page?slug=dance&id=5" class="hf-event-card__cta">
+                        <a href="<?= htmlspecialchars($pageLinks['dance'] ?? '#') ?>" class="hf-event-card__cta">
                             View Event →
                         </a>
                     </div>
@@ -111,7 +111,7 @@
                     <p class="hf-event-card__desc"><?= htmlspecialchars($yummyEvent['description']) ?></p>
 
                     <div class="hf-event-card__footer">
-                        <a href="/home/page?slug=yummy&id=6" class="hf-event-card__cta">
+                        <a href="<?= htmlspecialchars($pageLinks['yummy'] ?? '#') ?>" class="hf-event-card__cta">
                             View Event →
                         </a>
                     </div>

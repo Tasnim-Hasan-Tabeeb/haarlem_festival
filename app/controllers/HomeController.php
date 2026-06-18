@@ -63,6 +63,7 @@ class HomeController extends Controller
             $sections            = $this->sectionService->getSectionByPageId((int) $page->getPageId());
             $section             = array_first($sections);
             $instrucationSection = array_last($sections);
+            $pageLinks           = $this->getActivePageLinks();
 
             foreach ($eventsData as $event) {
                 switch ($event['event_type']) {
@@ -79,10 +80,24 @@ class HomeController extends Controller
                         break;
                 }
             }
-            return View::make('frontend/home', compact('danceEvents', 'historyEvents', 'yummyEvents', 'section', 'instrucationSection'));
+            return View::make('frontend/home', compact('danceEvents', 'historyEvents', 'yummyEvents', 'section', 'instrucationSection', 'pageLinks'));
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
+    }
+
+    private function getActivePageLinks(): array
+    {
+        $pageLinks = [];
+
+        foreach ($this->pageService->getAllActive() as $page) {
+            $slug = strtolower($page['slug']);
+            $pageLinks[$slug] = $slug === 'home'
+                ? '/'
+                : '/home/page?slug=' . urlencode($slug) . '&id=' . (int) $page['page_id'];
+        }
+
+        return $pageLinks;
     }
 
     /**
