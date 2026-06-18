@@ -35,6 +35,18 @@ CREATE TABLE `albums` (
   `year` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `albums`
+--
+
+INSERT INTO `albums` (`album_id`, `artist_id`, `album_name`, `image_url`, `year`) VALUES
+(1, 1, 'Rebels Never Die', '/images/Rebels Never Die.jpg', 2022),
+(2, 2, 'Intense', '/images/Intense.jpg', 2013),
+(3, 3, 'Sentio', '/images/Sentio.jpg', 2022),
+(4, 4, 'Just Be', '/images/Justbealbum.jpg', 2004),
+(5, 5, 'Redefine', '/images/Redefine.webp', 2019),
+(6, 6, 'Forget the World', '/images/Forget the World.jpg', 2014);
+
 -- --------------------------------------------------------
 
 --
@@ -1229,7 +1241,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `albums`
 --
 ALTER TABLE `albums`
-  MODIFY `album_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `album_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `artists`
