@@ -17,7 +17,7 @@ class ScanTicketController extends Controller
         set_error_handler([$this, 'handleErrors']);
     }
 
-    public function scanTicket(): void
+    public function scanTicket()
     {
         try {
             return View::make('frontend.scan-ticket');
