@@ -21,12 +21,7 @@ class DanceController extends Controller
         $this->artistService = new ArtistService();
         $this->basket        = new Basket();
     }
-
-    public function index()
-    {
-        return $this->redirect('/home/page?slug=dance&id=5');
-    }
-
+    
     /**
      * Summary of artists
      */

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Jun 17, 2026 at 09:12 PM
+-- Generation Time: Jun 18, 2026 at 11:21 AM
 -- Server version: 12.3.2-MariaDB-ubu2404
 -- PHP Version: 8.3.26
 
@@ -159,7 +159,7 @@ CREATE TABLE `events` (
 INSERT INTO `events` (`event_id`, `event_type`, `title`, `image_url`, `description`, `status`, `start_date`, `end_date`, `primary_theme_color`, `secondary_theme_color`) VALUES
 (1, 'Yummy', 'Yummy', '/images/6a009efa557029.85583048_restaurant_events.jpg', 'Are you coming to the yummy event in Haarlem? For four days, you\'ll enjoy the most delicious dishes in Haarlem\'s Grote Markt. Don\'t miss out! Enjoy various tastings and live bands. Gather your group. Admission is free, so mark the dates in your calendar.\r\n', 1, '2026-07-26', '2026-07-31', 'D35472', 'F57B5F'),
 (2, 'Dance', 'Dance', '/images/69ef54be219a26.65227161_69cd5706c66428.02771746_Malersaal-Event-1024x682.jpg', 'Experience an unforgettable weekend of music, energy, and world-class DJs in Haarlem.', 1, '2024-07-27', '2024-07-29', 'D35472', 'F57B5F'),
-(3, 'History', 'Haarlem Veterans Day 2026', '/images/69ef54c5e88588.63359250_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg', 'Veterans Day Haarlem on Sunday, May 10 (1:00 PM–5:00 PM) brings past and present together with vehicles and stands on the Grote Markt. Free admission, an afternoon full of experiences for young and old.', 1, '2026-05-10', '2026-05-13', '3772FF', '080708');
+(3, 'History', 'History', '/images/69ef54c5e88588.63359250_69cd577a895885.60786419_premium_photo-1683140768507-fef7bb775f13.jpg', 'Veterans Day Haarlem on Sunday, May 10 (1:00 PM–5:00 PM) brings past and present together with vehicles and stands on the Grote Markt. Free admission, an afternoon full of experiences for young and old.', 1, '2026-05-10', '2026-05-13', '3772FF', '080708');
 
 -- --------------------------------------------------------
 
@@ -413,65 +413,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `user_id`, `total_amount`, `payment_method`, `payment_status`, `payment_date`, `order_date`, `created_at`, `updated_at`) VALUES
-(1, 7, 30.00, NULL, 'completed', NULL, '2026-03-08 00:07:34', '2026-03-08 00:07:34', '2026-03-08 00:07:34'),
-(2, 5, 40.00, NULL, 'completed', NULL, '2026-03-17 11:02:11', '2026-03-17 11:02:11', '2026-03-17 11:02:11'),
-(3, 5, 30.00, NULL, 'completed', NULL, '2026-03-17 11:41:27', '2026-03-17 11:41:27', '2026-03-17 11:41:27'),
-(4, 5, 410.00, NULL, 'completed', NULL, '2026-04-05 04:16:09', '2026-04-05 04:16:09', '2026-04-05 04:16:09'),
-(5, 5, 2290.00, NULL, 'completed', NULL, '2026-04-05 04:45:29', '2026-04-05 04:45:29', '2026-04-05 04:45:29'),
-(6, 5, 2290.00, NULL, 'completed', NULL, '2026-04-05 04:47:03', '2026-04-05 04:47:03', '2026-04-05 04:47:03'),
-(7, 5, 2290.00, NULL, 'completed', NULL, '2026-04-05 04:48:01', '2026-04-05 04:48:01', '2026-04-05 04:48:01'),
-(8, 5, 2290.00, NULL, 'completed', NULL, '2026-04-05 04:50:42', '2026-04-05 04:50:42', '2026-04-05 04:50:42'),
-(9, 5, 2290.00, NULL, 'completed', NULL, '2026-04-05 04:53:31', '2026-04-05 04:53:31', '2026-04-05 04:53:31'),
-(10, 5, 850.00, NULL, 'completed', NULL, '2026-04-05 05:03:12', '2026-04-05 05:03:12', '2026-04-05 05:03:12'),
-(11, 5, 1310.00, NULL, 'completed', NULL, '2026-04-05 05:07:17', '2026-04-05 05:07:17', '2026-04-05 05:07:17'),
-(12, 5, 1590.00, NULL, 'completed', NULL, '2026-04-05 05:14:04', '2026-04-05 05:14:04', '2026-04-05 05:14:04'),
-(13, 5, 0.00, NULL, 'completed', NULL, '2026-04-05 05:15:24', '2026-04-05 05:15:24', '2026-04-05 05:15:24'),
-(14, 5, 450.00, NULL, 'completed', NULL, '2026-04-05 05:18:35', '2026-04-05 05:18:35', '2026-04-05 05:18:35'),
-(15, 5, 450.00, NULL, 'completed', NULL, '2026-04-05 05:22:12', '2026-04-05 05:22:12', '2026-04-05 05:22:12'),
-(16, 5, 510.00, NULL, 'completed', NULL, '2026-04-05 05:25:04', '2026-04-05 05:25:04', '2026-04-05 05:25:04'),
-(17, 5, 370.00, NULL, 'completed', NULL, '2026-04-05 05:30:15', '2026-04-05 05:30:15', '2026-04-05 05:30:15'),
-(18, 5, 370.00, NULL, 'completed', NULL, '2026-04-05 05:33:42', '2026-04-05 05:33:42', '2026-04-05 05:33:42'),
-(19, 5, 940.00, NULL, 'completed', NULL, '2026-04-05 05:35:39', '2026-04-05 05:35:39', '2026-04-05 05:35:39'),
-(20, 5, 510.00, NULL, 'completed', NULL, '2026-04-05 05:37:31', '2026-04-05 05:37:31', '2026-04-05 05:37:31'),
-(21, 5, 900.00, NULL, 'completed', NULL, '2026-04-05 05:47:00', '2026-04-05 05:47:00', '2026-04-05 05:47:00'),
-(22, 5, 900.00, NULL, 'completed', NULL, '2026-04-05 05:52:32', '2026-04-05 05:52:32', '2026-04-05 05:52:32'),
-(23, 5, 2280.00, NULL, 'completed', NULL, '2026-04-05 05:53:20', '2026-04-05 05:53:20', '2026-04-05 05:53:20'),
-(24, 5, 2280.00, NULL, 'completed', NULL, '2026-04-05 05:53:51', '2026-04-05 05:53:51', '2026-04-05 05:53:51'),
-(25, 5, 2280.00, NULL, 'completed', NULL, '2026-04-05 05:57:57', '2026-04-05 05:57:57', '2026-04-05 05:57:57'),
-(26, 5, 35.00, NULL, 'completed', NULL, '2026-04-05 06:20:40', '2026-04-05 06:20:40', '2026-04-05 06:20:40'),
-(27, 5, 515.00, NULL, 'completed', NULL, '2026-04-05 06:26:52', '2026-04-05 06:26:52', '2026-04-05 06:26:52'),
-(28, 5, 590.00, NULL, 'completed', NULL, '2026-04-05 15:41:18', '2026-04-05 15:41:18', '2026-04-05 15:41:18'),
-(29, 5, 770.00, NULL, 'completed', NULL, '2026-04-06 04:27:39', '2026-04-06 04:27:39', '2026-04-06 04:27:39'),
-(30, 5, 1680.00, NULL, 'completed', NULL, '2026-04-06 04:37:32', '2026-04-06 04:37:32', '2026-04-06 04:37:32'),
-(31, 5, 60.00, NULL, 'completed', NULL, '2026-04-06 04:54:59', '2026-04-06 04:54:59', '2026-04-06 04:54:59'),
-(32, 5, 60.00, NULL, 'completed', NULL, '2026-04-06 04:58:34', '2026-04-06 04:58:34', '2026-04-06 04:58:34'),
-(33, 5, 35.00, NULL, 'completed', NULL, '2026-04-06 05:20:25', '2026-04-06 05:20:25', '2026-04-06 05:20:25'),
-(34, 5, 35.00, NULL, 'completed', NULL, '2026-04-06 05:41:07', '2026-04-06 05:41:07', '2026-04-06 05:41:07'),
-(35, 5, 940.00, NULL, 'completed', NULL, '2026-04-06 06:37:44', '2026-04-06 06:37:44', '2026-04-06 06:37:44'),
-(36, 5, 1220.00, NULL, 'completed', NULL, '2026-04-06 08:15:23', '2026-04-06 08:15:23', '2026-04-06 08:15:23'),
-(37, 5, 17.50, NULL, 'completed', NULL, '2026-04-07 19:34:44', '2026-04-07 19:34:44', '2026-04-07 19:34:44'),
-(38, 5, 127.50, NULL, 'completed', NULL, '2026-04-07 19:40:49', '2026-04-07 19:40:49', '2026-04-07 19:40:49'),
-(39, 7, 127.50, NULL, 'completed', NULL, '2026-04-07 20:02:16', '2026-04-07 20:02:16', '2026-04-07 20:02:16'),
-(42, 7, 112.50, NULL, 'completed', NULL, '2026-04-07 22:42:43', '2026-04-07 22:42:43', '2026-04-07 22:42:43'),
-(43, 7, 92.49, NULL, 'completed', NULL, '2026-04-07 23:07:19', '2026-04-07 23:07:19', '2026-04-07 23:07:19'),
-(44, 5, 35.00, NULL, 'completed', NULL, '2026-04-07 23:15:20', '2026-04-07 23:15:20', '2026-04-07 23:15:20'),
-(45, 7, 17.50, NULL, 'completed', NULL, '2026-04-07 23:18:01', '2026-04-07 23:18:01', '2026-04-07 23:18:01'),
-(46, 7, 92.49, NULL, 'completed', NULL, '2026-04-08 05:25:11', '2026-04-08 05:25:11', '2026-04-08 05:25:11'),
-(47, 7, 11616.89, NULL, 'completed', NULL, '2026-04-08 08:53:20', '2026-04-08 08:53:20', '2026-04-08 08:53:20'),
-(48, 7, 11616.89, NULL, 'completed', NULL, '2026-04-08 08:54:41', '2026-04-08 08:54:41', '2026-04-08 08:54:41'),
-(49, 7, 11581.89, NULL, 'completed', NULL, '2026-04-08 08:55:55', '2026-04-08 08:55:55', '2026-04-08 08:55:55'),
-(50, 7, 11382.89, NULL, 'completed', NULL, '2026-04-08 08:56:39', '2026-04-08 08:56:39', '2026-04-08 08:56:39'),
-(51, 23, 52.50, NULL, 'completed', NULL, '2026-05-05 06:48:18', '2026-05-05 06:48:18', '2026-05-05 06:48:18'),
-(52, 23, 105.00, NULL, 'completed', NULL, '2026-05-05 06:52:05', '2026-05-05 06:52:05', '2026-05-05 06:52:05'),
-(53, 5, 319.00, NULL, 'completed', NULL, '2026-05-05 18:07:01', '2026-05-05 18:07:01', '2026-05-05 18:07:01'),
-(54, 5, 384.00, NULL, 'completed', NULL, '2026-05-05 18:31:05', '2026-05-05 18:31:05', '2026-05-05 18:31:05'),
-(55, 23, 377.50, NULL, 'completed', NULL, '2026-05-06 04:22:00', '2026-05-06 04:22:00', '2026-05-06 04:22:00'),
-(56, 23, 312.50, NULL, 'completed', NULL, '2026-05-06 04:29:10', '2026-05-06 04:29:10', '2026-05-06 04:29:10'),
-(57, 23, 355.00, NULL, 'completed', NULL, '2026-05-06 04:57:38', '2026-05-06 04:57:38', '2026-05-06 04:57:38'),
-(58, 5, 275.00, NULL, 'completed', NULL, '2026-05-06 12:55:14', '2026-05-06 12:55:14', '2026-05-06 12:55:14'),
-(59, 7, 170.00, NULL, 'completed', NULL, '2026-05-06 15:26:02', '2026-05-06 15:26:02', '2026-05-06 15:26:02'),
-(60, 5, 167.50, NULL, 'completed', NULL, '2026-05-08 23:00:03', '2026-05-08 23:00:03', '2026-05-08 23:00:03'),
-(61, 5, 242.50, NULL, 'completed', NULL, '2026-05-09 16:08:18', '2026-05-09 16:08:18', '2026-05-09 16:08:18');
+(58, 5, 275.00, NULL, 'completed', NULL, '2026-05-06 12:55:14', '2026-05-06 12:55:14', '2026-05-06 12:55:14');
 
 -- --------------------------------------------------------
 
@@ -493,85 +435,11 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`order_item_id`, `order_id`, `item_type`, `item_id`, `event_id`, `quantity`) VALUES
-(1, 2, 'reservation', 1, NULL, 1),
-(2, 3, 'reservation', 2, NULL, 1),
-(3, 9, 'reservation', 3, NULL, 1),
-(4, 9, 'reservation', 4, NULL, 1),
-(5, 10, 'reservation', 5, NULL, 1),
-(6, 11, 'reservation', 6, NULL, 1),
-(7, 12, 'reservation', 7, NULL, 1),
-(8, 14, 'reservation', 8, NULL, 1),
-(9, 15, 'reservation', 9, NULL, 1),
-(10, 16, 'reservation', 10, NULL, 1),
-(11, 17, 'reservation', 11, NULL, 1),
-(12, 18, 'reservation', 12, NULL, 1),
-(13, 19, 'reservation', 13, NULL, 1),
-(14, 20, 'reservation', 14, NULL, 1),
-(15, 22, 'reservation', 15, NULL, 1),
-(16, 23, 'reservation', 16, NULL, 1),
-(17, 23, 'reservation', 17, NULL, 1),
-(18, 24, 'reservation', 18, NULL, 1),
-(19, 24, 'reservation', 19, NULL, 1),
-(20, 25, 'reservation', 20, NULL, 1),
-(21, 25, 'reservation', 21, NULL, 1),
-(22, 28, 'reservation', 22, NULL, 1),
-(23, 29, 'reservation', 23, NULL, 1),
-(24, 30, 'reservation', 24, NULL, 1),
-(25, 31, 'history_ticket', 1, NULL, 1),
-(26, 32, 'history_ticket', 2, NULL, 1),
-(27, 33, 'history_ticket', 3, NULL, 1),
-(28, 34, 'history_ticket', 4, NULL, 1),
-(29, 35, 'reservation', 25, NULL, 1),
-(30, 36, 'reservation', 27, NULL, 1),
-(31, 37, 'history_ticket', 5, NULL, 1),
-(32, 38, 'reservation', 28, NULL, 1),
-(33, 39, 'reservation', 29, NULL, 1),
-(40, 42, 'reservation', 30, NULL, 1),
-(41, 43, 'reservation', 31, NULL, 1),
-(42, 44, 'history_ticket', 12, NULL, 1),
-(43, 45, 'history_ticket', 13, NULL, 1),
-(44, 46, 'reservation', 32, NULL, 1),
-(45, 47, 'reservation', 33, NULL, 1),
-(46, 48, 'reservation', 34, NULL, 1),
-(47, 49, 'reservation', 35, NULL, 1),
-(48, 50, 'reservation', 36, NULL, 1),
-(49, 52, 'reservation', 38, NULL, 1),
-(50, 53, 'dance_ticket', 14, NULL, 1),
-(51, 53, 'history_ticket', 15, NULL, 1),
-(52, 53, 'dance_ticket', 16, NULL, 1),
-(53, 54, 'dance_ticket', 17, NULL, 1),
-(54, 54, 'history_ticket', 18, NULL, 1),
-(55, 54, 'dance_ticket', 19, NULL, 1),
-(56, 54, 'dance_pass', 20, NULL, 1),
-(57, 54, 'reservation', 39, NULL, 1),
-(58, 54, 'dance_ticket', 21, NULL, 1),
-(59, 55, 'history_ticket', 22, NULL, 1),
-(60, 55, 'dance_ticket', 23, NULL, 1),
-(61, 55, 'dance_ticket', 24, NULL, 1),
-(62, 55, 'reservation', 40, NULL, 1),
-(63, 56, 'history_ticket', 25, NULL, 1),
-(64, 56, 'dance_ticket', 26, NULL, 1),
-(65, 56, 'dance_ticket', 27, NULL, 1),
-(66, 56, 'reservation', 41, NULL, 1),
-(67, 57, 'history_ticket', 28, NULL, 1),
-(68, 57, 'dance_ticket', 29, NULL, 1),
-(69, 57, 'dance_ticket', 30, NULL, 1),
-(70, 57, 'dance_ticket', 31, NULL, 1),
-(71, 57, 'reservation', 42, NULL, 1),
 (72, 58, 'reservation', 44, NULL, 1),
 (73, 58, 'dance_ticket', 32, NULL, 1),
 (74, 58, 'dance_ticket', 33, NULL, 1),
 (75, 58, 'dance_ticket', 34, NULL, 1),
-(76, 58, 'history_ticket', 35, NULL, 1),
-(77, 59, 'history_ticket', 36, NULL, 1),
-(78, 59, 'dance_ticket', 37, NULL, 1),
-(79, 59, 'reservation', 45, NULL, 1),
-(80, 60, 'history_ticket', 38, NULL, 1),
-(81, 60, 'dance_ticket', 39, NULL, 1),
-(82, 60, 'reservation', 46, NULL, 1),
-(83, 61, 'history_ticket', 40, NULL, 1),
-(84, 61, 'dance_ticket', 41, NULL, 1),
-(85, 61, 'reservation', 47, NULL, 1);
+(76, 58, 'history_ticket', 35, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -645,48 +513,13 @@ CREATE TABLE `reservations` (
 
 INSERT INTO `reservations` (`reservation_id`, `name`, `reservation_date`, `total_adult`, `total_children`, `email`, `phone`, `user_id`, `session_id`, `restaurant_id`, `remarks`, `total_cost`, `payment_status`, `confirmation_code`, `is_paid`, `is_active`, `created_at`, `updated_at`) VALUES
 (1, 'Ahsanul Rabbi Khan', '2024-07-27', 3, 1, 'admin@gmail.com', '0630414048', 5, 3, 1, 'this is test ', 40.00, 'completed', 'CONF-69B934B33A211', 0, 1, '2026-03-17 11:02:11', '2026-04-29 15:40:12'),
-(2, 'Ahsanul Rabbi Khan', '2024-07-27', 2, 1, 'admin@gmail.com', '0630414048', 5, 3, 1, 'This is test', 30.00, 'completed', 'CONF-69B93DE7B5CAE', 0, 1, '2026-03-17 11:41:27', '2026-04-29 08:43:04'),
 (3, 'Shad Callahan', '2024-07-28', 11, 59, 'kuwudirif@mailinator.com', '+1 (972) 585-3399', 5, 3, 1, 'Eligendi qui placeat', 700.00, 'completed', 'CONF-69D1EACB89D39', 0, 1, '2026-04-05 04:53:31', '2026-04-05 04:53:31'),
-(4, 'Celeste Carver', '2024-07-27', 100, 59, 'fihoso@mailinator.com', '+1 (962) 379-3128', 5, 2, 1, 'Irure rerum quis ex ', 1590.00, 'completed', 'CONF-69D1EACB8AAA8', 0, 1, '2026-04-05 04:53:31', '2026-04-29 08:50:00'),
 (5, 'Breanna Thomas', '2024-07-29', 75, 10, 'qobyd@mailinator.com', '+1 (636) 974-8198', 5, 2, 1, 'Quia consectetur in ', 850.00, 'completed', 'CONF-69D1ED1044AE9', 0, 1, '2026-04-05 05:03:12', '2026-04-05 05:03:12'),
-(6, 'Kaitlin Dickerson', '2024-07-28', 47, 84, 'midahequ@mailinator.com', '+1 (811) 788-3686', 5, 3, 1, 'Et modi optio adipi', 1310.00, 'completed', 'CONF-69D1EE0545466', 0, 1, '2026-04-05 05:07:17', '2026-04-05 05:07:17'),
-(7, 'Xandra Gates', '2024-07-30', 66, 93, 'mewukux@mailinator.com', '+1 (532) 258-9938', 5, 2, 1, 'Amet sit molestias ', 1590.00, 'completed', 'CONF-69D1EF9C814EC', 0, 1, '2026-04-05 05:14:04', '2026-04-05 05:14:04'),
-(8, 'Tara Weber', '2024-07-27', 15, 30, 'juruxebav@mailinator.com', '+1 (333) 866-9565', 5, 3, 1, 'Quae quidem quia cup', 450.00, 'completed', 'CONF-69D1F0ABE848A', 0, 1, '2026-04-05 05:18:35', '2026-04-05 05:18:35'),
-(9, 'Tara Weber', '2024-07-27', 15, 30, 'juruxebav@mailinator.com', '+1 (333) 866-9565', 5, 3, 1, 'Quae quidem quia cup', 450.00, 'completed', 'CONF-69D1F18450824', 0, 1, '2026-04-05 05:22:12', '2026-04-05 05:22:12'),
-(10, 'Hermione Mcconnell', '2024-07-29', 45, 6, 'tyjenuq@mailinator.com', '+1 (214) 904-3301', 5, 3, 1, 'Mollitia eveniet el', 510.00, 'completed', 'CONF-69D1F23006C04', 0, 1, '2026-04-05 05:25:04', '2026-04-05 05:25:04'),
-(11, 'Sacha Stevenson', '2024-07-27', 17, 20, 'gobokywyba@mailinator.com', '+1 (179) 473-6266', 5, 2, 1, 'Iusto anim cumque si', 370.00, 'completed', 'CONF-69D1F367A2DC9', 0, 1, '2026-04-05 05:30:15', '2026-04-05 05:30:15'),
-(12, 'Sacha Stevenson', '2024-07-27', 17, 20, 'gobokywyba@mailinator.com', '+1 (179) 473-6266', 5, 2, 1, 'Iusto anim cumque si', 370.00, 'completed', 'CONF-69D1F436C720C', 0, 1, '2026-04-05 05:33:42', '2026-04-05 05:33:42'),
-(13, 'Lysandra Mitchell', '2024-07-28', 93, 1, 'pogovogap@mailinator.com', '+1 (929) 964-7742', 5, 3, 1, 'Vel hic quas id simi', 940.00, 'completed', 'CONF-69D1F4AB23CB6', 0, 1, '2026-04-05 05:35:39', '2026-04-05 05:35:39'),
-(14, 'Brett Greene', '2024-07-28', 28, 23, 'batizor@mailinator.com', '+1 (691) 607-4184', 5, 2, 1, 'Voluptate est autem', 510.00, 'completed', 'CONF-69D1F51B437C3', 0, 1, '2026-04-05 05:37:31', '2026-04-05 05:37:31'),
-(15, 'Moana Bradley', '2024-07-30', 67, 23, 'zitahyvyt@mailinator.com', '+1 (345) 725-5587', 5, 2, 1, 'Enim ab ab commodi N', 900.00, 'completed', 'CONF-69D1F8A02CDDC', 0, 1, '2026-04-05 05:52:32', '2026-04-05 05:52:32'),
-(16, 'Moana Bradley', '2024-07-30', 67, 23, 'zitahyvyt@mailinator.com', '+1 (345) 725-5587', 5, 2, 1, 'Enim ab ab commodi N', 900.00, 'completed', 'CONF-69D1F8D0476C8', 0, 1, '2026-04-05 05:53:20', '2026-04-05 05:53:20'),
-(17, 'Maxine Maynard', '2024-07-27', 58, 80, 'gunobonyd@mailinator.com', '+1 (955) 702-6217', 5, 3, 1, 'Sit perspiciatis re', 1380.00, 'completed', 'CONF-69D1F8D048247', 0, 1, '2026-04-05 05:53:20', '2026-04-05 05:53:20'),
-(18, 'Moana Bradley', '2024-07-30', 67, 23, 'zitahyvyt@mailinator.com', '+1 (345) 725-5587', 5, 2, 1, 'Enim ab ab commodi N', 900.00, 'completed', 'CONF-69D1F8EF0B840', 0, 1, '2026-04-05 05:53:51', '2026-04-05 05:53:51'),
-(19, 'Maxine Maynard', '2024-07-27', 58, 80, 'gunobonyd@mailinator.com', '+1 (955) 702-6217', 5, 3, 1, 'Sit perspiciatis re', 1380.00, 'completed', 'CONF-69D1F8EF0BFD8', 0, 1, '2026-04-05 05:53:51', '2026-04-05 05:53:51'),
-(20, 'Moana Bradley', '2024-07-30', 67, 23, 'zitahyvyt@mailinator.com', '+1 (345) 725-5587', 5, 2, 1, 'Enim ab ab commodi N', 900.00, 'completed', 'CONF-69D1F9E5A6FCD', 0, 1, '2026-04-05 05:57:57', '2026-04-05 05:57:57'),
-(21, 'Maxine Maynard', '2024-07-27', 58, 80, 'gunobonyd@mailinator.com', '+1 (955) 702-6217', 5, 3, 1, 'Sit perspiciatis re', 1380.00, 'completed', 'CONF-69D1F9E5A7A08', 0, 1, '2026-04-05 05:57:57', '2026-04-05 05:57:57'),
-(22, 'Garth Nolan', '2024-07-29', 12, 47, 'dycutelus@mailinator.com', '+1 (962) 701-2537', 5, 3, 1, 'Nesciunt explicabo', 590.00, 'completed', 'CONF-69D2829EA3DC0', 0, 1, '2026-04-05 15:41:18', '2026-04-05 15:41:18'),
-(23, 'Josephine Curtis', '2024-07-30', 72, 5, 'kubu@mailinator.com', '+1 (893) 194-9763', 5, 3, 1, 'Perferendis at recus', 770.00, 'completed', 'CONF-69D3363B352EF', 0, 1, '2026-04-06 04:27:39', '2026-04-06 04:27:39'),
-(24, 'Ann Barrett', '2024-07-29', 93, 75, 'wupa@mailinator.com', '+1 (494) 726-3682', 5, 2, 1, 'Aliqua Illum neces', 1680.00, 'completed', 'CONF-69D3388CD6D04', 0, 1, '2026-04-06 04:37:32', '2026-04-06 04:37:32'),
-(25, 'Eve Barr', '2024-07-27', 50, 44, 'kubu@mailinator.com', '+1 (462) 607-2089', 5, 3, 1, 'Aute et molestiae et', 940.00, 'completed', 'CONF-69D354B8DF858', 0, 1, '2026-04-06 06:37:44', '2026-04-06 06:37:44'),
-(27, 'Andrew Ballard', '2024-07-29', 52, 70, 'vidud@mailinator.com', '+1 (184) 338-4593', 5, 2, 1, 'Ad aliquid quia omni', 1220.00, 'completed', 'CONF-69D36B9C01DDC', 0, 1, '2026-04-06 08:15:24', '2026-04-06 08:15:24'),
-(28, 'Ahsanul Rabbi Khan', '2024-07-27', 3, 1, 'admin@gmail.com', '0630414048', 5, 4, 2, 'hi', 127.50, 'completed', 'CONF-69D55DC137028', 0, 1, '2026-04-07 19:40:49', '2026-04-07 19:40:49'),
-(29, 'Ahsanul Rabbi Khan', '2024-07-27', 3, 1, 'me.ahsanul01@gmail.com', '0630414048', 7, 4, 2, 'Looks ok for me', 127.50, 'completed', 'CONF-69D562C816538', 0, 1, '2026-04-07 20:02:16', '2026-04-07 20:02:16'),
-(30, 'Ahsanul Rabbi Khan', '2024-07-27', 2, 1, 'me.ahsanul01@gmail.com', '0630414048', 7, 7, 4, 'ok', 112.50, 'completed', 'CONF-69D588639A651', 0, 1, '2026-04-07 22:42:43', '2026-04-07 22:42:43'),
-(31, 'Ahsanul Rabbi Khan', '2024-07-27', 2, 1, 'me.ahsanul01@gmail.com', '0630414048', 7, 5, 2, 'look good to me', 92.49, 'completed', 'CONF-69D58E2798092', 0, 1, '2026-04-07 23:07:19', '2026-04-07 23:07:19'),
-(32, 'Ahsanul Rabbi Khan', '2024-07-27', 2, 1, 'me.ahsanul01@gmail.com', '0630414048', 7, 5, 2, 'This is ok', 92.49, 'completed', 'CONF-69D5E6B736D94', 0, 1, '2026-04-08 05:25:11', '2026-04-08 05:25:11'),
-(33, 'Ahsanul Rabbi Khan', '2024-07-27', 3, 500, 'me.ahsanul01@gmail.com', '0630414048', 7, 7, 4, '', 11382.89, 'completed', 'CONF-69D61780D2BB4', 0, 1, '2026-04-08 08:53:20', '2026-04-08 08:53:20'),
-(34, 'Ahsanul Rabbi Khan', '2024-07-27', 3, 500, 'me.ahsanul01@gmail.com', '0630414048', 7, 7, 4, '', 11382.89, 'completed', 'CONF-69D617D186936', 0, 1, '2026-04-08 08:54:41', '2026-04-08 08:54:41'),
-(38, 'Paul Jacobson', '2024-07-27', 2, 2, 'nafiz@gmail.com', 'sdasd', 23, 3, 1, 'sdasd', 105.00, 'completed', 'CONF-69F993958D851', 0, 1, '2026-05-05 06:52:05', '2026-05-05 06:52:05'),
-(39, 'Ahsanul Rabbi Khan', '2024-07-30', 2, 0, 'admin@gmail.com', '+1 (342) 486-8656', 5, 6, 2, 'Sint facere sunt ne', 70.00, 'completed', 'CONF-69FA37693866F', 0, 1, '2026-05-05 18:31:05', '2026-05-05 18:31:05'),
-(40, 'Paul Jacobson', '2024-07-27', 2, 5, 'nafiz0khan1@gmail.com', '+1 (789) 936-7629', 23, 5, 2, 'In quae sed sed qui ', 182.50, 'completed', 'CONF-69FAC1E8A2667', 0, 1, '2026-05-06 04:22:00', '2026-05-06 04:22:00'),
-(41, 'Paul Jacobson', '2024-07-27', 2, 3, 'nafiz0khan1@gmail.com', '3214234234', 23, 5, 2, 'dasd', 137.50, 'completed', 'CONF-69FAC3965200B', 0, 1, '2026-05-06 04:29:10', '2026-05-06 04:29:10'),
-(42, 'Paul Jacobson', '2024-07-27', 2, 2, 'nafiz0khan1@gmail.com', '213213', 23, 5, 2, 'sadads', 115.00, 'completed', 'CONF-69FACA421557F', 0, 1, '2026-05-06 04:57:38', '2026-05-06 04:57:38'),
-(43, 'Alisa Garza', '2019-02-15', 774, 5602, 'hotoriqobi@mailinator.com', '+1 (626) 883-7582', 25, 2, 1, 'Nisi velit non duis', 125125.00, 'pending', 'CONF-69FAEF607E629', 0, 1, '2026-05-06 07:36:00', '2026-05-06 07:38:46'),
-(44, 'Ahsanul Rabbi Khan', '2024-07-30', 0, 2, 'admin@gmail.com', '+1 (435) 589-5129', 5, 2, 1, 'Distinctio Officia ', 35.00, 'completed', 'CONF-69FB3A32C6029', 0, 1, '2026-05-06 12:55:14', '2026-05-06 12:55:14'),
-(45, 'Ahsanul Rabbi Khan', '2024-07-27', 2, 1, 'me.ahsanul01@gmail.com', '0630414048', 7, 4, 2, 'na', 92.50, 'completed', 'CONF-69FB5D8B0A61D', 0, 1, '2026-05-06 15:26:03', '2026-05-06 15:26:03'),
+(44, 'Ahsanul Rabbi Khan', '2024-07-30', 0, 2, 'admin@gmail.com', '+1 (435) 589-5129', 5, 2, 1, 'Distinctio Officia ', 35.00, 'completed', 'CONF-69FB3A32C6029', 0, 0, '2026-05-06 12:55:14', '2026-06-18 10:54:54'),
+(45, 'Ahsanul Rabbi Khan', '2024-07-27', 2, 1, 'me.ahsanul01@gmail.com', '0630414048', 7, 4, 2, 'na', 92.50, 'completed', 'CONF-69FB5D8B0A61D', 0, 0, '2026-05-06 15:26:03', '2026-06-18 10:54:53'),
 (46, 'Ahsanul Rabbi Khan', '2026-07-27', 1, 1, 'admin@gmail.com', '0630414048', 5, 2, 1, 'na', 52.50, 'completed', 'CONF-69FE6AF3B925B', 0, 1, '2026-05-08 23:00:03', '2026-05-08 23:00:03'),
-(47, 'Ahsanul Rabbi Khan', '2024-07-27', 3, 1, 'admin@gmail.com', '0630414048', 5, 2, 1, 'na', 122.50, 'completed', 'CONF-69FF5BF25C80C', 0, 1, '2026-05-09 16:08:18', '2026-05-09 16:08:18');
+(49, 'Tabeeb', '2026-07-28', 2, 1, 'tabeeb788@gmail.com', '0685807591', 26, 2, 1, '', 87.50, 'completed', 'CONF-6A33BF3D11824', 0, 1, '2026-06-18 09:49:49', '2026-06-18 09:49:49'),
+(50, 'Asif Iqbal', '2026-07-27', 2, 1, 'asif170391@gmail.com', '0685807591', 28, 2, 1, '', 87.50, 'completed', 'CONF-6A33CA05A91EB', 0, 0, '2026-06-18 10:35:49', '2026-06-18 10:54:48');
 
 -- --------------------------------------------------------
 
@@ -770,7 +603,7 @@ CREATE TABLE `sections` (
 
 INSERT INTO `sections` (`section_id`, `section_title`, `section_sub_title`, `content`, `image_url`, `map_url`, `section_type`, `page_id`) VALUES
 (1, 'Discover Food  & Drinks', '', '<p><span style=\"font-family: Arial;\">﻿</span>When you say Haarlem, you immediately think of culinary experiences. This vibrant city offers something for every taste, from chic restaurants where you can enjoy refined dining to cozy cafés and lively eateries perfect for a quick and delicious bite. Stroll through its charming streets and you’ll find inviting coffee bars serving expertly brewed drinks, welcoming tasting rooms where you can sample local flavors, and atmospheric breweries offering craft beers with character. Whether you’re looking for a relaxed lunch, an indulgent dinner, or simply a place to unwind with a drink, Haarlem’s diverse food and drink scene makes it a true destination for anyone who loves good taste and great atmosphere. 🍽️☕🍺</p>', '/images/6a00a0b3e516d6.35189906_Rucola-rooftop-dining.jpg', 'https://maps.app.goo.gl/o69KfbnbDv6tDm8q8', 'header', 6),
-(2, 'About Us', 'About our company', '<p>Our journey began at Inholland University of Applied Sciences, where we met as a team of students passionate about technology and problem-solving. With backgrounds in IT and a shared curiosity for how digital solutions could make life easier, we often found ourselves discussing real-world challenges and how software could solve them. It wasn’t long before the idea sparked: What if we started our own IT company—one that focused not on trends or hype, but on building useful, reliable tools that actually help businesses grow? That idea became our mission. We founded our company with one goal in mind: to build valuable digital products that solve real business problems. From the start, we’ve focused on clarity, practicality, and purpose—cutting through the noise to deliver solutions that truly support teams and organizations. Our vision is simple: empower businesses to scale and thrive through technology. We believe digital tools should feel like an extension of your goals, not a barrier. That means making digital less confusing, more helpful, and always aligned with your needs. We’re human-first, results-driven, and always collaborative. We listen before we build. We explain things clearly. We avoid shortcuts, respect your time, and treat every project like a partnership. With us, you’ll always know where things stand, and what’s coming next. This is our story—rooted in curiosity, grown through collaboration, and driven by a commitment to help businesses succeed with technology that works. #inholland hashtag #LearningTogether hashtag #InhollandUniversityofAppliedSciences</p>', '/images/69f09de0c990c9.09282870_69cd5753edbbb5.83085371_IMG_8670-scaled.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3649.854549424699!2d90.41544072594415!3d23.823770685954532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c65a3d9b9649%3A0xff4da0194c977480!2sNikunja%201%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1777867782993!5m2!1sen!2sbd', 'location', 7),
+(2, 'About Us', 'About our company', '<p>Our journey began at Inholland University of Applied Sciences, where we met as a team of students passionate about technology and problem-solving. With backgrounds in IT and a shared curiosity for how digital solutions could make life easier, we often found ourselves discussing real-world challenges and how software could solve them. It wasn’t long before the idea sparked: What if we started our own IT company—one that focused not on trends or hype, but on building useful, reliable tools that actually help businesses grow? That idea became our mission. We founded our company with one goal in mind: to build valuable digital products that solve real business problems. From the start, we’ve focused on clarity, practicality, and purpose—cutting through the noise to deliver solutions that truly support teams and organizations. Our vision is simple: empower businesses to scale and thrive through technology. We believe digital tools should feel like an extension of your goals, not a barrier. That means making digital less confusing, more helpful, and always aligned with your needs. We’re human-first, results-driven, and always collaborative. We listen before we build. We explain things clearly. We avoid shortcuts, respect your time, and treat every project like a partnership. With us, you’ll always know where things stand, and what’s coming next. This is our story—rooted in curiosity, grown through collaboration, and driven by a commitment to help businesses succeed with technology that works. #inholland hashtag #LearningTogether hashtag #InhollandUniversityofAppliedSciences</p>', '/images/69f09de0c990c9.09282870_69cd5753edbbb5.83085371_IMG_8670-scaled.jpg', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d77928.45010589875!2d4.5604782532059716!3d52.383763152369276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5ef6c60e1e9fb%3A0x8ae15680b8a17e39!2sHaarlem!5e0!3m2!1sen!2snl!4v1781778696321!5m2!1sen!2snl', 'location', 7),
 (3, 'You don\'t want to miss this', '', '<font color=\"#4a4a49\" face=\"WixMadeforText-VariableFont_wght, sans-serif\"><span style=\"font-size: 17px;\">From Dutch Masters to modern art, from arthouse films to children\'s theater, from pop concerts to city history: if you\'re looking for inspiration, art, and culture, Haarlem is sure to satisfy your cravings. Not only is Haarlem home to the oldest museum in the Netherlands, but its historic city center is also bustling with cultural hotspots, (art) history, and creative initiatives.</span></font>', '/images/69f09df0959509.33145692_69cd5753edbbb5.83085371_IMG_8670-scaled.jpg', '', 'tour_information', 2),
 (4, 'Art and Culture', '', '<p>Be amazed by Haarlem\'s rich art and culture. Will it be a museum, the theater, or a stroll past historic monuments?  Haarlem\'s artistic soul. Haarlem is a paradise for art lovers, with a wide range of museums, galleries, and cultural events. Immerse yourself in the city\'s artistic offerings and witness the interplay between tradition and innovation. Art and culture in Haarlem truly embrace and celebrate the spirit of creativity. Here\'s a glimpse of what this enchanting city has to offer</p>', '/images/69f73528762be6.73121083_69cd5753edbbb5.83085371_IMG_8670-scaled.jpg', '', 'header', 2),
 (15, 'Haarlem Festival', '', '<br>', '/images/69fafcd567a010.26327231_image9.png', '', 'header', 1),
@@ -877,7 +710,15 @@ INSERT INTO `tickets` (`ticket_id`, `event_id`, `customer_name`, `event_name`, `
 (38, NULL, 'Ahsanul Rabbi Khan', 'Dutch', '2026-05-17', '10:00:00', '1695293952b0933040eecd544aa75ee5', 'new', '2026-05-08 23:00:03', '2026-05-08 23:00:03'),
 (39, NULL, 'Ahsanul Rabbi Khan', 'Armin After Dark', '2026-07-31', '23:00:00', 'f69131815542c72d0d5ee9735fe26605', 'new', '2026-05-08 23:00:03', '2026-05-08 23:00:03'),
 (40, NULL, 'Ahsanul Rabbi Khan', 'Dutch', '2026-05-17', '10:00:00', '0330502846e454a72c6732e5b99bce3c', 'new', '2026-05-09 16:08:18', '2026-05-09 16:08:18'),
-(41, NULL, 'Ahsanul Rabbi Khan', 'Afrojack Midnight Session', '2026-07-31', '23:30:00', '33a7611e1cde4086784e218b0e5277c0', 'new', '2026-05-09 16:08:18', '2026-05-09 16:08:18');
+(41, NULL, 'Ahsanul Rabbi Khan', 'Afrojack Midnight Session', '2026-07-31', '23:30:00', '33a7611e1cde4086784e218b0e5277c0', 'new', '2026-05-09 16:08:18', '2026-05-09 16:08:18'),
+(42, NULL, 'Tabeeb', 'Hardwell Livex', '2026-06-27', '20:01:00', '0590c72db1fdb7c267d31e8ebb6b8cee', 'new', '2026-06-18 07:20:26', '2026-06-18 07:20:26'),
+(43, NULL, 'Tabeeb', 'Friday Dance Pass', NULL, NULL, '68cde654e7bff858e1347c5496edbf7b', 'new', '2026-06-18 07:20:26', '2026-06-18 07:20:26'),
+(44, NULL, 'Tabeeb', 'Dutch', '2026-05-17', '10:00:00', '71d0073cde9237c8a29585c05c17eb9a', 'new', '2026-06-18 07:20:26', '2026-06-18 07:20:26'),
+(45, NULL, 'Tabeeb', 'Mandarin', '2026-05-16', '10:00:00', 'd4bee333e018dc37eeb3b141d2025d21', 'used', '2026-06-18 09:49:49', '2026-06-18 09:51:57'),
+(46, NULL, 'Tabeeb', 'Saturday Dance Pass', '2026-06-27', NULL, 'ade946d26979875c909838ff8ab4e255', 'used', '2026-06-18 09:49:49', '2026-06-18 09:52:09'),
+(47, NULL, 'Tabeeb', 'Tiësto Closing Show', '2026-07-31', '20:30:00', 'a959f08bf3a68db821c6c6a675245dcd', 'used', '2026-06-18 09:49:49', '2026-06-18 09:52:22'),
+(48, NULL, 'Asif Iqbal', 'Mandarin', '2026-05-16', '10:00:00', '4affa3cfc24a7c188475c9f647bd8108', 'used', '2026-06-18 10:35:49', '2026-06-18 10:36:18'),
+(49, NULL, 'Asif Iqbal', 'Saturday Dance Pass', '2026-06-27', NULL, '361c2f828149aaa72232bb718d7afd18', 'used', '2026-06-18 10:35:49', '2026-06-18 10:36:32');
 
 -- --------------------------------------------------------
 
@@ -1003,7 +844,8 @@ INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `profile_picture`, 
 (23, 'Alex', 'nafiz0khan1@gmail.com', '$2y$12$8JrNR04OenwF1B9GY/gxY.KSmhvlbrC7I7/WaI2XuYMZx8FvvXCE2', '/images/69fade1c0684d1.62826879_carbone.jpg', '2026-05-05 06:47:34', 'Customer'),
 (24, 'Dylan Cervantes', 'dori@mailinator.com1', '$2y$12$mQ9QR/tZnTDoQjB4P8SfVenMXzPBZsrwuvRE3Jh2z5cDXD.gAiPKC', '/images/default.webp', '2026-05-06 04:20:19', 'Customer'),
 (25, 'Alisa Garza', 'hotoriqobi@mailinator.com', '$2y$12$h6xXulCNPmuEvi5nW/hjJuf0GnJUyAkDaB2ciK50IXSlFNMM/rBJq', '', '2026-05-06 07:36:00', 'Customer'),
-(26, 'Tabeeb', 'tabeeb788@gmail.com', '$2y$10$beDIFBAcgRMPmCCqdApyJeZx6tarAEkjieONMOMPnDrWKM2DSV.6O', '/images/6a330cd61c8f42.82867105_Sachthuis.jpg', '2026-06-13 19:11:58', 'Customer');
+(26, 'Tabeeb', 'tabeeb788@gmail.com', '$2y$10$beDIFBAcgRMPmCCqdApyJeZx6tarAEkjieONMOMPnDrWKM2DSV.6O', '/images/6a330cd61c8f42.82867105_Sachthuis.jpg', '2026-06-13 19:11:58', 'Customer'),
+(28, 'Asif Iqbal', 'asif170391@gmail.com', '$2y$12$/sEVjPR6gnbSCVvhKKgcMO90mFdqKag3lylSvJljaT.LJW2Zdg.Z2', '/images/default.php', '2026-06-18 10:33:00', 'Customer');
 
 --
 -- Indexes for dumped tables
@@ -1325,13 +1167,13 @@ ALTER TABLE `music_performance`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -1349,7 +1191,7 @@ ALTER TABLE `price_list`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `restaurants`
@@ -1379,7 +1221,7 @@ ALTER TABLE `sessions`
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `ticket_pass`
@@ -1409,7 +1251,7 @@ ALTER TABLE `tour_timetable`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
